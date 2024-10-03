@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "client.proto";
+import "company.proto";
+import "waste_pickup_point.proto";
+
+message WasteContract {
+    int64 id = 1;
+    google.protobuf.Timestamp created_at = 2;
+    google.protobuf.Timestamp sighed_at = 3;
+    google.protobuf.Timestamp paid_at = 4;
+    string contract_deal_number = 5;
+    string contract_period = 6;
+    Client client = 7;
+    Company company = 8;
+    repeated WastePickupPoint waste_pickup_points = 9;
+}

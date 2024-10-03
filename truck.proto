@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "company.proto";
+
+message Truck {
+    int64 id = 1;
+    google.protobuf.Timestamp created_at = 2;
+    string licence_plate = 3;
+    string VIN = 4;
+    string model = 5;
+    float engine_power = 6;
+    float collection_volume = 7;
+    Company company = 8;
+}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "bank_details.proto";
+
+message Company {
+    int64 id = 1;
+    google.protobuf.Timestamp created_at = 2;
+    string name = 3;
+    string phone_number = 4;
+    string email = 5;
+    string address = 6;
+    string city = 7;
+    BankDetails bank_details = 8;
+    string contact_name = 9;
+    string contact_phone_number = 10;
+}

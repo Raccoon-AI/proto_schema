@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+import "client.proto";
+
+enum WasteType {
+    NOT_DEFINED = 0;
+    CONSTRUCTION = 1;
+    HOUSEHOLD = 2;
+}
+
+message WastePickupPoint {
+    int64 id = 1;
+    WasteType type = 2;
+    int32 number_of_containers = 3;
+    string address = 4;
+    float latitude = 5;
+    float longitude = 6;
+    Client client = 7;
+}
