@@ -1,10 +1,14 @@
 syntax = "proto3";
+import "google/protobuf/timestamp.proto";
 
 message Client {
     int64 id = 1;
-    string name = 2;
-    string phone = 3;
-    string email = 4;
-    string contact_person_name = 5;
-    string contact_person_phone = 6;
+    google.protobuf.Timestamp created_at = 2;
+    string name = 3;
+    string email = 5;
+    string phone_number = 6;
+    string contact_name = 7;
+    string contact_phone_number = 8;
+    string telegram_id = 9;
+    string telegram_link = 10;
 }

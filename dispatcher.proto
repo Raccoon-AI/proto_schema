@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "company.proto";
+import "truck.proto";
+
+message Dispatcher {
+    int64 id = 1;
+    google.protobuf.Timestamp created_at = 2;
+    string phone_number = 3;
+    string email = 4;
+    string first_name = 6;
+    string last_name = 7;
+    string telegram_id = 8;
+    string telegram_link = 9;
+    Company company = 10;
+}

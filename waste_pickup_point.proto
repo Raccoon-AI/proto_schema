@@ -3,17 +3,22 @@ syntax = "proto3";
 import "client.proto";
 
 enum WasteType {
-    NOT_DEFINED = 0;
-    CONSTRUCTION = 1;
-    HOUSEHOLD = 2;
+    WASTE_TYPE_UNDEFINED = 0;
+    WASTE_TYPE_CONSTRUCTION = 1;
+    WASTE_TYPE_HOUSEHOLD = 2;
+}
+
+enum WasteStatus {
+    WASTE_STATUS_UNDEFINED = 0;
 }
 
 message WastePickupPoint {
     int64 id = 1;
     WasteType type = 2;
-    int32 number_of_containers = 3;
+    int32 num_of_containers = 3;
     string address = 4;
-    float latitude = 5;
-    float longitude = 6;
-    Client client = 7;
+    float lat = 5;
+    float lon = 6;
+    WasteStatus status = 7;
+    Client client = 8;
 }

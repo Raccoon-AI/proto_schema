@@ -4,12 +4,21 @@ import "google/protobuf/timestamp.proto";
 import "company.proto";
 import "truck.proto";
 
+enum DriverStatus {
+    DRIVER_STATUS_UNDEFINED = 0;
+    DRIVER_STATUS_OFFLINE = 1;
+    DRIVER_STATUS_ONLINE = 2;
+}
+
 message Driver {
     int64 id = 1;
     google.protobuf.Timestamp created_at = 2;
-    string phone = 3;
-    string name = 4;
-    string telegram_username = 5;
-    Company company = 6;
-    Truck truck = 7;
+    string phone_number = 3;
+    string first_name = 4;
+    string last_name = 5;
+    string telegram_id = 6;
+    string telegram_link = 7;
+    DriverStatus status= 8;
+    Company company = 9;
+    Truck truck = 10;
 }
