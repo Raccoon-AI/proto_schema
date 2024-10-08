@@ -8,6 +8,7 @@ enum DriverStatus {
     DRIVER_STATUS_UNDEFINED = 0;
     DRIVER_STATUS_OFFLINE = 1;
     DRIVER_STATUS_ONLINE = 2;
+    DRIVER_STATUS_ENROUTE = 3;
 }
 
 message Driver {
@@ -16,7 +17,7 @@ message Driver {
     string phone_number = 3;
     string first_name = 4;
     string last_name = 5;
-    string telegram_id = 6;
+    int64 telegram_id = 6;
     string telegram_link = 7;
     DriverStatus status= 8;
     Company company = 9;
