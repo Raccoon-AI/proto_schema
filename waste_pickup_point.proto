@@ -15,7 +15,7 @@ enum WasteStatus {
 message WastePickupPoint {
     int64 id = 1;
     WasteType type = 2;
-    int32 num_of_containers = 3;
+    int32 num_containers = 3;
     string address = 4;
     float lat = 5;
     float lon = 6;

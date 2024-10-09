@@ -2,6 +2,7 @@ syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
 import "bank_details.proto";
+import "depot.proto";
 
 message Company {
     int64 id = 1;
@@ -14,4 +15,5 @@ message Company {
     BankDetails bank_details = 8;
     string contact_name = 9;
     string contact_phone_number = 10;
+    repeated Depot depots = 11;
 }
