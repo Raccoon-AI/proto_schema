@@ -11,7 +11,7 @@ message Dispatcher {
     string email = 4;
     string first_name = 6;
     string last_name = 7;
-    string telegram_id = 8;
+    int64 telegram_id = 8;
     string telegram_link = 9;
     Company company = 10;
 }
