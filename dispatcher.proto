@@ -14,3 +14,14 @@ message Dispatcher {
   required int64 company_id = 10;
   optional string password = 11;
 }
+
+message DispatcherCreate {
+    required string email = 1;
+    required string password = 2;
+    optional string phone_number = 3;
+    optional string first_name = 4;
+    optional string last_name = 5;
+    optional string telegram_id = 6;
+    optional string telegram_link = 7;
+    optional string company_id = 8;
+}
