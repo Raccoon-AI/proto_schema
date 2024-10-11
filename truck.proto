@@ -18,3 +18,21 @@ message Truck {
     TruckStatus status = 8;
     Company company = 9;
 }
+
+message TruckCreate {
+    string licence_plate = 1;
+    string vin = 2;
+    string model = 3;
+    float engine_power = 4;
+    float capacity = 5;
+}
+
+message TruckUpdate {
+    int64 id = 1;
+    string licence_plate = 2;
+    string vin = 3;
+    string model = 4;
+    float engine_power = 5;
+    float capacity = 6;
+    TruckStatus status = 7;
+}
