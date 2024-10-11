@@ -25,19 +25,19 @@ message Truck {
 }
 
 message TruckCreate {
-    string licence_plate = 1;
-    string vin = 2;
-    string model = 3;
-    float engine_power = 4;
-    float capacity = 5;
+    required string licence_plate = 1;
+    required string vin = 2;
+    required string model = 3;
+    required float engine_power = 4;
+    required float capacity = 5;
 }
 
 message TruckUpdate {
-    int64 id = 1;
-    string licence_plate = 2;
-    string vin = 3;
-    string model = 4;
-    float engine_power = 5;
-    float capacity = 6;
-    TruckStatus status = 7;
+    optional int64 id = 1;
+    optional string licence_plate = 2;
+    optional string vin = 3;
+    optional string model = 4;
+    optional float engine_power = 5;
+    optional float capacity = 6;
+    optional TruckStatus status = 7;
 }
