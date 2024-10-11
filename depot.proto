@@ -1,12 +1,11 @@
-syntax = "proto3";
+syntax = "proto2";
 import "google/protobuf/timestamp.proto";
-//import "company.proto";
 
 message Depot {
-  int64 id = 1;
-  google.protobuf.Timestamp created_at = 2;
-  string name = 3;
-  float lat = 4;
-  float lon = 5;
-  //  Company company = 6;
+  required int64 id = 1;
+  optional google.protobuf.Timestamp created_at = 2;
+  required string name = 3;
+  required float lat = 4;
+  required float lon = 5;
+  required int64 company_id = 6;
 }

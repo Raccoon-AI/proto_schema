@@ -1,19 +1,27 @@
-syntax = "proto3";
+syntax = "proto2";
 
 import "google/protobuf/timestamp.proto";
 import "bank_details.proto";
 import "depot.proto";
+import "truck.proto";
+import "driver.proto";
+import "dispatcher.proto";
+import "waste_contract.proto";
 
 message Company {
-    int64 id = 1;
-    google.protobuf.Timestamp created_at = 2;
-    string name = 3;
-    string phone_number = 4;
-    string email = 5;
-    string address = 6;
-    string city = 7;
-    BankDetails bank_details = 8;
-    string contact_name = 9;
-    string contact_phone_number = 10;
-    repeated Depot depots = 11;
+  required int64 id = 1;
+  optional google.protobuf.Timestamp created_at = 2;
+  required string name = 3;
+  required string phone_number = 4;
+  required string email = 5;
+  required string address = 6;
+  required string city = 7;
+  required BankDetails bank_details = 8;
+  required string contact_name = 9;
+  required string contact_phone_number = 10;
+  repeated Depot depots = 11;
+  repeated Truck trucks = 12;
+  repeated Driver drivers = 13;
+  repeated Dispatcher dispatchers = 14;
+  repeated WasteContract waste_contracts = 15;
 }

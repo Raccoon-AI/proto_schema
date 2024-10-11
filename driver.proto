@@ -1,25 +1,23 @@
-syntax = "proto3";
+syntax = "proto2";
 
 import "google/protobuf/timestamp.proto";
-import "company.proto";
-import "truck.proto";
 
 enum DriverStatus {
-    DRIVER_STATUS_UNDEFINED = 0;
-    DRIVER_STATUS_OFFLINE = 1;
-    DRIVER_STATUS_ONLINE = 2;
-    DRIVER_STATUS_ENROUTE = 3;
+  DRIVER_STATUS_UNDEFINED = 0;
+  DRIVER_STATUS_OFFLINE = 1;
+  DRIVER_STATUS_ONLINE = 2;
+  DRIVER_STATUS_ENROUTE = 3;
 }
 
 message Driver {
-    int64 id = 1;
-    google.protobuf.Timestamp created_at = 2;
-    string phone_number = 3;
-    string first_name = 4;
-    string last_name = 5;
-    int64 telegram_id = 6;
-    string telegram_link = 7;
-    DriverStatus status= 8;
-    Company company = 9;
-    Truck truck = 10;
+  required int64 id = 1;
+  optional google.protobuf.Timestamp created_at = 2;
+  required string phone_number = 3;
+  required string first_name = 4;
+  optional string last_name = 5;
+  optional int64 telegram_id = 6;
+  optional string telegram_link = 7;
+  required DriverStatus status = 8;
+  required int64 company_id = 9;
+  required int64 truck_id = 10;
 }

@@ -1,14 +1,18 @@
-syntax = "proto3";
+syntax = "proto2";
 import "google/protobuf/timestamp.proto";
+import "bank_details.proto";
 
 message Client {
-    int64 id = 1;
-    google.protobuf.Timestamp created_at = 2;
-    string name = 3;
-    string email = 5;
-    string phone_number = 6;
-    string contact_name = 7;
-    string contact_phone_number = 8;
-    int64 telegram_id = 9;
-    string telegram_link = 10;
+  required int64 id = 1;
+  optional google.protobuf.Timestamp created_at = 2;
+  required string name = 3;
+  required string email = 5;
+  required string phone_number = 6;
+  required string contact_name = 7;
+  required string contact_phone_number = 8;
+  optional int64 telegram_id = 9;
+  optional string telegram_link = 10;
+  optional string address = 11;
+  optional BankDetails bank_details = 12;
+  required string city = 13;
 }
