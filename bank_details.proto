@@ -1,11 +1,11 @@
-syntax = "proto3";
+syntax = "proto2";
 
 import "google/protobuf/timestamp.proto";
 
 message BankDetails {
-    int64 id = 1;
-    google.protobuf.Timestamp created_at = 2;
-    string bank_name = 3;
-    string bank_code = 4;
-    string account_number = 5;
+    required int64 id = 1;
+    optional google.protobuf.Timestamp created_at = 2;
+    required string bank_name = 3;
+    required string bank_code = 4;
+    required string account_number = 5;
 }
