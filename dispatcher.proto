@@ -25,3 +25,14 @@ message DispatcherCreate {
     optional string telegram_link = 7;
     optional int64 company_id = 8;
 }
+
+message DispatcherUpdate {
+    optional string email = 1;
+    optional string password = 2;
+    optional string phone_number = 3;
+    optional string first_name = 4;
+    optional string last_name = 5;
+    optional int64 telegram_id = 6;
+    optional string telegram_link = 7;
+    optional int64 company_id = 8;
+}
