@@ -1,28 +1,75 @@
 syntax = "proto2";
 
 import "google/protobuf/timestamp.proto";
+import "company.proto";
+import "route.proto";
 
 enum JobStatus {
-  JOB_STATUS_CREATED = 0;
-  JOB_STATUS_ASSIGNED = 1;
-  JOB_STATUS_ENROUTE = 2;
-  JOB_STATUS_CANCELLED = 3;
+  JOB_STATUS_UNDEFINED = 0;
+  JOB_STATUS_CREATED = 1;
+  JOB_STATUS_ASSIGNED = 2;
+  JOB_STATUS_ENROUTE = 3;
   JOB_STATUS_COMPLETED = 4;
+  JOB_STATUS_CANCELLED = 5;
 }
 
+// GET => /v1/api/job/{id}
 message Job {
-  required int64 id = 1;
+  required uint64 id = 1;
+  optional google.protobuf.Timestamp created_at = 2;
 
-  required int32 num_containers = 2;
-  optional google.protobuf.Timestamp pickup_started_at = 6;
-  optional google.protobuf.Timestamp pickup_finished_at = 7;
-  required string created_by = 8;
+  required int32 num_containers = 3;
+  required JobStatus status = 4;
+  required uint64 waste_pickup_point_id = 5;
 
-  required JobStatus status = 9;
+  optional uint64 route_id = 6;
+  required uint64 client_id = 7;
 
-  required int64 waste_pickup_point_id = 3;
-  optional int64 route_id = 10;
-  required int64 client_id = 11;
+  optional google.protobuf.Timestamp pickup_started_at = 8;
+  optional google.protobuf.Timestamp pickup_finished_at = 9;
 
-  optional google.protobuf.Timestamp created_at = 5;
+  required string created_by = 10;
+  optional string modified_by = 11;
+}
+
+// POST => /v1/api/job/create
+message JobCreate {
+  required int32 num_containers = 1;
+  required uint64 waste_pickup_point_id = 2;
+  required uint64 client_id = 3;
+  repeated string created_by = 4;
+}
+
+// POST => /v1/api/job/status_update
+// Sent when the job status is updated.
+// if status is `JOB_STATUS_COMPLETED` then the system must update:
+// - `route[route_id].num_completed_jobs`
+message JobStatusUpdate {
+  required uint64 id = 1;
+  required JobStatus status = 2;
+}
+
+// POST => /v1/api/job/pickup_start
+// Sent when the driver arrives at the waste pickup point.
+// When the message arrived, updates:
+// - `pickup_started_at`
+message JobPickUpStart {
+  required uint64 id = 1;
+}
+
+// POST => /v1/api/job/pickup_finish
+// Sent when the driver finishes the waste pickup.
+// When the message arrived, updates:
+// - `pickup_finished_at`
+message JobPickUpFinish {
+  required uint64 id = 1;
+}
+
+// GET => /v1/api/job/list
+// Params:
+// - assigned : bool
+// - completed : bool
+// - cancelled : bool
+message JobList {
+  repeated Job jobs = 1;
 }
