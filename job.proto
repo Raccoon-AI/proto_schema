@@ -3,11 +3,12 @@ syntax = "proto2";
 import "google/protobuf/timestamp.proto";
 
 enum JobStatus {
-  JOB_STATUS_CREATED = 0;
-  JOB_STATUS_ASSIGNED = 1;
-  JOB_STATUS_ENROUTE = 2;
-  JOB_STATUS_CANCELLED = 3;
-  JOB_STATUS_COMPLETED = 4;
+  JOB_STATUS_UNDEFINED = 0;
+  JOB_STATUS_CREATED = 1;
+  JOB_STATUS_ASSIGNED = 2;
+  JOB_STATUS_ENROUTE = 3;
+  JOB_STATUS_CANCELLED = 4;
+  JOB_STATUS_COMPLETED = 5;
 }
 
 message Job {
