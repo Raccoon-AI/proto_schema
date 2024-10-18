@@ -1,8 +1,6 @@
 syntax = "proto2";
 
 import "google/protobuf/timestamp.proto";
-import "truck.proto";
-import "driver.proto";
 import "job.proto";
 
 enum RouteStatus {
@@ -16,8 +14,8 @@ enum RouteStatus {
 message Route {
   required int64 id = 1;
   optional google.protobuf.Timestamp created_at = 2;
-  required Driver driver = 3;
-  required Truck truck = 4;
+  required int64 driver_id = 3;
+  required int64 truck_id = 4;
   required int64 company_id = 5;
   optional google.protobuf.Timestamp started_at = 6;
   required string created_by = 7;
