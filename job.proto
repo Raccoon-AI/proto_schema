@@ -1,8 +1,6 @@
 syntax = "proto2";
 
 import "google/protobuf/timestamp.proto";
-import "company.proto";
-import "route.proto";
 
 enum JobStatus {
   JOB_STATUS_UNDEFINED = 0;

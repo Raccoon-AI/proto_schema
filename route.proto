@@ -1,10 +1,6 @@
 syntax = "proto2";
 
 import "google/protobuf/timestamp.proto";
-import "truck.proto";
-import "driver.proto";
-import "job.proto";
-import "company.proto";
 
 enum RouteStatus {
   ROUTE_STATUS_UNDEFINED = 0;
@@ -40,10 +36,10 @@ message Route {
 
 // POST => /v1/api/route/create
 message RouteCreate {
-    required uint64 driver_id = 1;
-    required uint64 truck_id = 2;
-    required uint64 company_id = 3;
-    repeated Job jobs = 4;
+  required uint64 driver_id = 1;
+  required uint64 truck_id = 2;
+  required uint64 company_id = 3;
+  repeated uint64 jobs = 4;
 }
 
 // POST => /v1/api/route/depot_in
@@ -52,8 +48,8 @@ message RouteCreate {
 // - `arrived_at_depot_at`
 // - `status` to `ROUTE_STATUS_DROPPING_OFF`
 message RouteDepotIn {
-    required uint64 id = 1;
-    required double total_weight = 2;
+  required uint64 id = 1;
+  required double total_weight = 2;
 }
 
 // POST => /v1/api/route/depot_out
@@ -62,8 +58,8 @@ message RouteDepotIn {
 // - `scaling_finished_at`
 // - `status` to `ROUTE_STATUS_COMPLETED`
 message RouteDepotOut {
-    required uint64 id = 1;
-    required double truck_weight = 2;
+  required uint64 id = 1;
+  required double truck_weight = 2;
 }
 
 // POST => /v1/api/route/cancel
@@ -72,13 +68,12 @@ message RouteDepotOut {
 // - `driver.status` to `DRIVER_STATUS_ONLINE`
 // - foreach `job.status != JOB_STATUS_COMPLETED` assign to `JOB_STATUS_CANCELLED`
 message RouteCancel {
-    required uint64 id = 1;
+  required uint64 id = 1;
 }
 
 // GET => /v1/api/route/list
 // Params:
 // - company_id : uint64
 message RouteList {
-    repeated Route routes = 1;
-    required Company company = 2;
+  repeated Route routes = 1;
 }
