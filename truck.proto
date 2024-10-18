@@ -7,13 +7,16 @@ enum TruckStatus {
   TRUCK_STATUS_ACTIVE = 1;
   TRUCK_STATUS_INACTIVE = 2;
 }
+
 //enum TruckType {
 //  TRUCK_TYPE_UNDEFINED = 0;
 //  TRUCK_TYPE_CONSTRUCTION = 1;
 //  TRUCK_TYPE_HOUSEHOLD = 2;
 //}
+
+// GET => /v1/api/truck/{id}
 message Truck {
-  required int64 id = 1;
+  required uint64 id = 1;
   optional google.protobuf.Timestamp created_at = 2;
   required string licence_plate = 3;
   required string vin = 4;
@@ -21,9 +24,10 @@ message Truck {
   optional float engine_power = 6;
   required float capacity = 7;
   required TruckStatus status = 8;
-  required int64 company_id = 9;
+  required uint64 company_id = 9;
 }
 
+// POST => /v1/api/truck/create
 message TruckCreate {
     required string licence_plate = 1;
     required string vin = 2;
@@ -32,12 +36,19 @@ message TruckCreate {
     required float capacity = 5;
 }
 
+// POST => /v1/api/truck/update
 message TruckUpdate {
-    optional int64 id = 1;
+    optional uint64 id = 1;
     optional string licence_plate = 2;
     optional string vin = 3;
     optional string model = 4;
     optional float engine_power = 5;
     optional float capacity = 6;
     optional TruckStatus status = 7;
+}
+
+// POST => /v1/api/truck/status_update
+message TruckStatusUpdate {
+    required uint64 id = 1;
+    required TruckStatus status = 2;
 }
