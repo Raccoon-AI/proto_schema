@@ -23,7 +23,7 @@ message Route {
   required string created_by = 7;
   optional string modified_by = 8;
   required RouteStatus status = 9;
-  required int32 num_completed_jobs = 10;
+  required int64 num_completed_jobs = 10;
   optional double total_weight = 11;
   optional google.protobuf.Timestamp arrived_at_depot_at = 12;
   optional double truck_weight = 13;

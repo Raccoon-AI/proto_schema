@@ -14,7 +14,7 @@ enum JobStatus {
 message Job {
   required int64 id = 1;
 
-  required int32 num_containers = 2;
+  required int64 num_containers = 2;
   optional google.protobuf.Timestamp pickup_started_at = 6;
   optional google.protobuf.Timestamp pickup_finished_at = 7;
   required string created_by = 8;
