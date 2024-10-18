@@ -23,7 +23,7 @@ message Route {
   required uint64 truck_id = 4;
   required uint64 company_id = 5;
   required RouteStatus status = 6;
-  required int32 num_completed_jobs = 7;
+  required uint64 num_completed_jobs = 7;
   optional double total_weight = 8;
   optional double truck_weight = 9;
   repeated uint64 jobs = 10;
