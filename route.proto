@@ -26,7 +26,7 @@ message Route {
   required int32 num_completed_jobs = 7;
   optional double total_weight = 8;
   optional double truck_weight = 9;
-  repeated Job jobs = 10;
+  repeated uint64 jobs = 10;
 
   optional google.protobuf.Timestamp started_at = 11;
   optional google.protobuf.Timestamp arrived_at_depot_at = 12;
