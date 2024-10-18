@@ -18,7 +18,7 @@ message Job {
   required uint64 id = 1;
   optional google.protobuf.Timestamp created_at = 2;
 
-  required int32 num_containers = 3;
+  required uint64 num_containers = 3;
   required JobStatus status = 4;
   required uint64 waste_pickup_point_id = 5;
 
@@ -34,7 +34,7 @@ message Job {
 
 // POST => /v1/api/job/create
 message JobCreate {
-  required int32 num_containers = 1;
+  required uint64 num_containers = 1;
   required uint64 waste_pickup_point_id = 2;
   required uint64 client_id = 3;
   repeated string created_by = 4;
