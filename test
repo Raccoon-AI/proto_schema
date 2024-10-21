@@ -1,0 +1,132 @@
+message BankDetails {
+    required int64 id = 1;
+    optional google.protobuf.Timestamp created_at = 2;
+    required string bank_name = 3;
+    required string bank_code = 4;
+    required string account_number = 5;
+}
+
+message Client {
+  required int64 id = 1;
+  optional google.protobuf.Timestamp created_at = 2;
+  required string name = 3;
+  required string email = 5;
+  required string phone_number = 6;
+  required string contact_name = 7;
+  required string contact_phone_number = 8;
+  optional int64 telegram_id = 9;
+  optional string telegram_link = 10;
+  optional string address = 11;
+  optional BankDetails bank_details = 12;
+  required string city = 13;
+}
+
+message Company {
+  required int64 id = 1;
+  optional google.protobuf.Timestamp created_at = 2;
+  required string name = 3;
+  required string phone_number = 4;
+  required string email = 5;
+  required string address = 6;
+  required string city = 7;
+  required BankDetails bank_details = 8;
+  required string contact_name = 9;
+  required string contact_phone_number = 10;
+  repeated Depot depots = 11;
+  repeated Truck trucks = 12;
+  repeated Driver drivers = 13;
+  repeated Dispatcher dispatchers = 14;
+  repeated WasteContract waste_contracts = 15;
+}
+
+message Depot {
+  required int64 id = 1;
+  optional google.protobuf.Timestamp created_at = 2;
+  required string name = 3;
+  required float lat = 4;
+  required float lon = 5;
+  required int64 company_id = 6;
+}
+
+message Dispatcher {
+  required int64 id = 1;
+  optional google.protobuf.Timestamp created_at = 2;
+  required string phone_number = 3;
+  required string email = 4;
+  required string first_name = 6;
+  optional string last_name = 7;
+  optional int64 telegram_id = 8;
+  optional string telegram_link = 9;
+  required int64 company_id = 10;
+  optional string password = 11;
+}
+
+enum DriverStatus {
+  DRIVER_STATUS_UNDEFINED = 0;
+  DRIVER_STATUS_OFFLINE = 1;
+  DRIVER_STATUS_ONLINE = 2;
+  DRIVER_STATUS_ENROUTE = 3;
+}
+
+message Driver {
+  required int64 id = 1;
+  optional google.protobuf.Timestamp created_at = 2;
+  required string phone_number = 3;
+  required string first_name = 4;
+  optional string last_name = 5;
+  optional int64 telegram_id = 6;
+  optional string telegram_link = 7;
+  required DriverStatus status = 8;
+  required int64 company_id = 9;
+  required int64 truck_id = 10;
+}
+
+enum TruckStatus {
+  TRUCK_STATUS_UNDEFINED = 0;
+  TRUCK_STATUS_ACTIVE = 1;
+  TRUCK_STATUS_INACTIVE = 2;
+}
+
+message Truck {
+  required int64 id = 1;
+  optional google.protobuf.Timestamp created_at = 2;
+  required string licence_plate = 3;
+  required string vin = 4;
+  required string model = 5;
+  optional float engine_power = 6;
+  required float capacity = 7;
+  required TruckStatus status = 8;
+  required int64 company_id = 9;
+}
+
+message WasteContract {
+  required int64 id = 1;
+  optional google.protobuf.Timestamp created_at = 2;
+  optional google.protobuf.Timestamp signed_at = 3;
+  optional google.protobuf.Timestamp paid_at = 4;
+  required string contract_deal_number = 5;
+  required string contract_period = 6;
+  required int64 client_id = 7;
+  required int64 company_id = 8;
+  repeated WastePickupPoint waste_pickup_points = 9;
+}
+
+enum WasteType {
+  WASTE_TYPE_UNDEFINED = 0;
+  WASTE_TYPE_CONSTRUCTION = 1;
+  WASTE_TYPE_HOUSEHOLD = 2;
+}
+
+enum WasteStatus {
+  WASTE_STATUS_UNDEFINED = 0;
+}
+
+message WastePickupPoint {
+  required int64 id = 1;
+  required WasteType type = 2;
+  required int32 num_containers = 3;
+  optional string address = 4;
+  required float lat = 5;
+  required float lon = 6;
+  required int64 client_id = 7;
+}
