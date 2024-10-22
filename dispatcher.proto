@@ -11,7 +11,7 @@ message Dispatcher {
   required string first_name = 6;
   optional string last_name = 7;
   optional uint64 telegram_id = 8;
-  optional string telegram_link = 9;
+  optional string telegram_username = 9;
   required uint64 company_id = 10;
 }
 
@@ -23,7 +23,7 @@ message DispatcherCreate {
     optional string first_name = 4;
     optional string last_name = 5;
     optional uint64 telegram_id = 6;
-    optional string telegram_link = 7;
+    optional string telegram_username = 7;
     optional uint64 company_id = 8; // if set then assert user.company_id = dispatcher_create.company_id
 }
 
@@ -35,7 +35,7 @@ message DispatcherUpdate {
     optional string first_name = 4;
     optional string last_name = 5;
     optional uint64 telegram_id = 6;
-    optional string telegram_link = 7;
+    optional string telegram_username = 7;
     optional uint64 company_id = 8; // if set then assert user.company_id = dispatcher_create.company_id
 }
 
