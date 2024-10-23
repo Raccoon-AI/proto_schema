@@ -35,7 +35,7 @@ message JobCreate {
   required uint64 num_containers = 1;
   required uint64 waste_pickup_point_id = 2;
   required uint64 client_id = 3;
-  repeated string created_by = 4;
+  required string created_by = 4;
 }
 
 // POST => /v1/api/job/status_update
