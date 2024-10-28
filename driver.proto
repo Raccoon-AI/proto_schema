@@ -46,6 +46,13 @@ message DriverUpdate {
     optional uint64 truck_id = 8;
 }
 
+// POST => /v1/api/driver/save_contact_data
+message DriverSaveContactData {
+    required string phone_number = 1;
+    required uint64 telegram_id = 2;
+    required string telegram_username = 3;
+}
+
 // POST => /v1/api/driver/status_update
 message DriverStatusUpdate {
     required uint64 id = 1;
