@@ -1,0 +1,7 @@
+
+// GET => /v1/api/me/
+message Admin {
+  required uint64 id = 1;
+  required string email = 2;
+  required string password = 3;
+}
