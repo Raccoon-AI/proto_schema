@@ -6,16 +6,16 @@ message Depot {
   required uint64 id = 1;
   optional google.protobuf.Timestamp created_at = 2;
   required string name = 3;
-  required float lat = 4;
-  required float lon = 5;
+  required double lat = 4;
+  required double lon = 5;
   required uint64 company_id = 6;
 }
 
 // POST => /v1/api/depot/create
 message DepotCreate {
     required string name = 1;
-    required float lat = 2;
-    required float lon = 3;
+    required double lat = 2;
+    required double lon = 3;
     optional uint64 company_id = 4;
 }
 
@@ -23,8 +23,8 @@ message DepotCreate {
 message DepotUpdate {
     required uint64 id = 1;
     optional string name = 2;
-    optional float lat = 3;
-    optional float lon = 4;
+    optional double lat = 3;
+    optional double lon = 4;
 }
 
 // GET => /v1/api/depot/list
