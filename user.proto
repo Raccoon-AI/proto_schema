@@ -1,0 +1,9 @@
+syntax = "proto2";
+
+
+// GET => /v1/api/me/
+message User {
+  required uint64 id = 1;
+  required string role = 2;
+  required bool is_active = 3;
+}
