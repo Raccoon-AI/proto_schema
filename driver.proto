@@ -7,6 +7,7 @@ enum DriverStatus {
   DRIVER_STATUS_OFFLINE = 1;
   DRIVER_STATUS_ONLINE = 2;
   DRIVER_STATUS_ENROUTE = 3;
+  DRIVER_STATUS_CONFIRMATION = 4;
 }
 
 // GET => /v1/api/driver/{id}
@@ -25,42 +26,42 @@ message Driver {
 
 // POST => /v1/api/driver/create
 message DriverCreate {
-    required string phone_number = 1;
-    required string first_name = 2;
-    optional string last_name = 3;
-    optional uint64 telegram_id = 4;
-    optional string telegram_username = 5;
-    required uint64 company_id = 6; // if set then assert user.company_id = driver_create.company_id
-    required uint64 truck_id = 7;
+  required string phone_number = 1;
+  required string first_name = 2;
+  optional string last_name = 3;
+  optional uint64 telegram_id = 4;
+  optional string telegram_username = 5;
+  required uint64 company_id = 6; // if set then assert user.company_id = driver_create.company_id
+  required uint64 truck_id = 7;
 }
 
 // POST => /v1/api/driver/update
 message DriverUpdate {
-    required uint64 id = 1;
-    optional string phone_number = 2;
-    optional string first_name = 3;
-    optional string last_name = 4;
-    optional uint64 telegram_id = 5;
-    optional string telegram_username = 6;
-    optional uint64 company_id = 7; // if set then assert user.company_id = driver_create.company_id
-    optional uint64 truck_id = 8;
+  required uint64 id = 1;
+  optional string phone_number = 2;
+  optional string first_name = 3;
+  optional string last_name = 4;
+  optional uint64 telegram_id = 5;
+  optional string telegram_username = 6;
+  optional uint64 company_id = 7; // if set then assert user.company_id = driver_create.company_id
+  optional uint64 truck_id = 8;
 }
 
 // POST => /v1/api/driver/save_contact_data
 message DriverSaveContactData {
-    required string phone_number = 1;
-    required uint64 telegram_id = 2;
-    required string telegram_username = 3;
+  required string phone_number = 1;
+  required uint64 telegram_id = 2;
+  required string telegram_username = 3;
 }
 
 // POST => /v1/api/driver/status_update
 message DriverStatusUpdate {
-    required uint64 id = 1;
-    required DriverStatus status = 2;
+  required uint64 id = 1;
+  required DriverStatus status = 2;
 }
 
 // => /v1/api/driver/list
 message DriverList {
-    repeated Driver drivers = 1;
+  repeated Driver drivers = 1;
 }
 
