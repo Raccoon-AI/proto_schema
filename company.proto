@@ -17,7 +17,7 @@ message Company {
   required string email = 5;
   required string address = 6;
   required string city = 7;
-  required BankDetails bank_details = 8;
+  optional BankDetails bank_details = 8;
   required string contact_name = 9;
   required string contact_phone_number = 10;
   repeated Depot depots = 11;
@@ -34,7 +34,6 @@ message CompanyCreate {
     required string email = 3;
     required string address = 4;
     required string city = 5;
-    required uint64 bank_details_id = 6;
     required string contact_name = 7;
     required string contact_phone_number = 8;
 }
