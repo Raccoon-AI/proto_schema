@@ -29,6 +29,7 @@ message TruckCreate {
   required string model = 3;
   required double engine_power = 4;
   required double capacity = 5;
+  required uint64 company_id = 9;
 }
 
 // POST => /v1/api/truck/update
