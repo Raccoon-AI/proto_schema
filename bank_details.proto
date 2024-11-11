@@ -5,7 +5,7 @@ import "google/protobuf/timestamp.proto";
 // GET => /v1/api/bank_details/{id}
 message BankDetails {
     required uint64 id = 1;
-    optional google.protobuf.Timestamp created_at = 2;
+    required google.protobuf.Timestamp created_at = 2;
     required string bank_name = 3;
     required string bank_code = 4;
     required string account_number = 5;

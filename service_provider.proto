@@ -1,0 +1,23 @@
+syntax = "proto2";
+//import "proto_schema/user.proto";
+//import "proto_schema/truck.proto";
+//import "proto_schema/container.proto";
+
+message ServiceProvider {
+  required string name = 1;
+  required string type = 2;
+  optional int32 bank_details_id = 3;
+  //  repeated User users = 4;
+  //  repeated Truck trucks = 5;
+  //  repeated Container containers = 6;
+}
+
+message ServiceProviderCreate {
+  required string name = 1;
+}
+
+message ServiceProviderUpdate {
+  required uint64 id = 1;
+  optional string name = 2;
+  optional int32 bank_details_id = 3;
+}

@@ -1,0 +1,22 @@
+syntax = "proto2";
+//import "proto_schema/location.proto";
+
+message Container {
+  required string name = 1;
+  required string type = 2;
+  required bool is_tracked = 3;
+  required uint64 organization_id = 4;
+  optional uint64 location_id = 5;
+  //  optional Location location = 6;
+}
+
+message ContainerCreate {
+  required string name = 1;
+  optional uint64 organization_id = 2;
+}
+
+message ContainerUpdate {
+  required uint64 id = 1;
+  optional string name = 2;
+  optional uint64 location_id = 3;
+}

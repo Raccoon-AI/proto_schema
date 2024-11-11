@@ -1,8 +1,7 @@
 syntax = "proto2";
-import "google/protobuf/timestamp.proto";
+import "proto_schema/container.proto";
 
-// GET => /v1/api/depot/{id}
-message Depot {
+message Location {
   required uint64 id = 1;
   required string name = 2;
   required float lon = 3;
@@ -10,28 +9,22 @@ message Depot {
   required string type = 5;
   optional string polygon = 6; // JSON representation as string
   optional string address = 7;
-  required uint64 service_provider_id = 8;
+  //  repeated Container containers = 7;
 }
 
-// POST => /v1/api/depot/create
-message DepotCreate {
+message LocationCreate {
   required string name = 1;
   required float lon = 2;
   required float lat = 3;
   optional string polygon = 4; // JSON representation as string
   optional string address = 5;
-  optional uint64 service_provider_id = 6;
 }
 
-// POST => /v1/api/depot/update
-message DepotUpdate {
+message LocationUpdate {
   required uint64 id = 1;
   optional string name = 2;
-  optional double lat = 3;
-  optional double lon = 4;
-}
-
-// GET => /v1/api/depot/list
-message DepotList {
-  repeated Depot depots = 1;
+  optional float lon = 3;
+  optional float lat = 4;
+  optional string polygon = 5; // JSON representation as string
+  optional string address = 6;
 }
