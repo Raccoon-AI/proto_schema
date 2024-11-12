@@ -1,30 +1,36 @@
 syntax = "proto2";
 import "google/protobuf/timestamp.proto";
+import "entity.proto";
 
 message GasStation {
-    required uint64 id = 1;
-    required google.protobuf.Timestamp created_at = 2;
-    required string name = 3;
-    required string type = 4;
-    required double lon = 5;
-    required double lat = 6;
-    optional string polygon = 7;
-    optional string address = 8;
-    required uint64 organization_id = 9;
-  }
+  required uint64 id = 1;
+  required google.protobuf.Timestamp created_at = 2;
+  required string name = 3;
+  required string type = 4;
+  required string role = 5;
+  optional uint64 organization_id = 6;
+  required EntityStatus status = 7;
+  required double lon = 8;
+  required double lat = 9;
+  optional string polygon = 10;
+  optional string address = 11;
+}
 
-  message GasStationCreate {
-    required string name = 1;
-    required double lon = 2;
-    required double lat = 3;
-    optional uint64 organization_id = 4;
-  }
+message GasStationCreate {
+  required string name = 1;
+  optional string role = 2;
+  optional uint64 organization_id = 3;
+  required double lon = 4;
+  required double lat = 5;
+}
 
-  message GasStationUpdate {
-    required uint64 id = 1;
-    optional string name = 2;
-    optional double lon = 3;
-    optional double lat = 4;
-    optional string polygon = 5;
-    optional string address = 6;
-  }
+message GasStationUpdate {
+  required uint64 id = 1;
+  optional string name = 2;
+  optional string role = 3;
+  optional EntityStatus status = 4;
+  optional double lon = 5;
+  optional double lat = 6;
+  optional string polygon = 7;
+  optional string address = 8;
+}

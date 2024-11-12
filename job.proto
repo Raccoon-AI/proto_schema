@@ -17,16 +17,16 @@ message Job {
   required google.protobuf.Timestamp created_at = 2;
   required string name = 3;
   required string type = 4;
-  required JobStatus status = 5;
-  optional uint64 source_location_id = 6;
-  optional uint64 destination_location_id = 7;
-  optional google.protobuf.Timestamp plan_start_at = 8;
-  optional google.protobuf.Timestamp plan_end_at = 9;
-  optional google.protobuf.Timestamp fact_start_at = 10;
-  optional google.protobuf.Timestamp fact_end_at = 11;
-  required uint64 author_id = 12;
-  optional uint64 actor_id = 13;
-  required uint64 organization_id = 14;
+  required uint64 organization_id = 5;
+  required JobStatus status = 6;
+  required uint64 source_location_id = 7;
+  optional uint64 destination_location_id = 8;
+  optional google.protobuf.Timestamp plan_start_at = 9;
+  optional google.protobuf.Timestamp plan_end_at = 10;
+  optional google.protobuf.Timestamp fact_start_at = 11;
+  optional google.protobuf.Timestamp fact_end_at = 12;
+  required uint64 author_entity_id = 13;
+  optional uint64 actor_id = 14;
   required google.protobuf.Timestamp time_window_start_at = 15;
   required google.protobuf.Timestamp time_window_end_at = 16;
   optional uint64 sequence_idx = 17;
@@ -35,13 +35,16 @@ message Job {
   optional uint64 route_id = 20;
 }
 
-// POST => /v1/api/job/create
 message JobCreate {
   required string name = 1;
-  optional uint64 author_id = 2;
-  optional uint64 organization_id = 3;
-  required google.protobuf.Timestamp time_window_start_at = 4;
-  required google.protobuf.Timestamp time_window_end_at = 5;
+  optional uint64 organization_id = 2;
+  required uint64 source_location_id = 3;
+  optional google.protobuf.Timestamp fact_start_at = 4;
+  optional google.protobuf.Timestamp fact_end_at = 5;
+  required uint64 author_entity_id = 6;
+  optional uint64 actor_id = 7;
+  required google.protobuf.Timestamp time_window_start_at = 8;
+  required google.protobuf.Timestamp time_window_end_at = 9;
 }
 
 message JobUpdate {
@@ -50,7 +53,7 @@ message JobUpdate {
   optional JobStatus status = 3;
   optional google.protobuf.Timestamp fact_start_at = 4;
   optional google.protobuf.Timestamp fact_end_at = 5;
-  optional uint64 author_id = 6;
+  optional uint64 author_entity_id = 6;
   optional uint64 actor_id = 7;
   optional uint64 sequence_idx = 8;
   optional uint64 travel_process_id = 9;

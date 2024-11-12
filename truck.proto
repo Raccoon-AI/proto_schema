@@ -1,13 +1,7 @@
 syntax = "proto2";
 
 import "google/protobuf/timestamp.proto";
-
-enum TruckStatus {
-  TRUCK_STATUS_UNDEFINED = 0;
-  TRUCK_STATUS_ACTIVE = 1;
-  TRUCK_STATUS_INACTIVE = 2;
-}
-
+import "entity.proto";
 
 // GET => /v1/api/truck/{id}
 message Truck {
@@ -16,9 +10,9 @@ message Truck {
   required string name = 3;
   required string type = 4;
   required string role = 5;
-  required bool is_tracked = 6;
-  required TruckStatus status = 7;
-  required uint64 organization_id = 8;
+  optional uint64 organization_id = 6;
+  required EntityStatus status = 7;
+  required bool is_tracked = 8;
   optional uint64 location_id = 9;
   optional double capacity = 10;
   optional double engine_power = 11;
@@ -27,20 +21,18 @@ message Truck {
   optional double truck_weight = 14;
 }
 
-// POST => /v1/api/truck/create
 message TruckCreate {
   required string name = 1;
   optional string role = 2;
   optional uint64 organization_id = 3;
 }
 
-// POST => /v1/api/truck/update
 message TruckUpdate {
   required uint64 id = 1;
   optional string name = 2;
   optional string role = 3;
-  optional bool is_tracked = 4;
-  optional TruckStatus status = 5;
+  optional EntityStatus status = 4;
+  optional bool is_tracked = 5;
   optional uint64 location_id = 6;
   optional double capacity = 7;
   optional double engine_power = 8;
@@ -52,5 +44,5 @@ message TruckUpdate {
 // POST => /v1/api/truck/status_update
 message TruckStatusUpdate {
   required uint64 id = 1;
-  required TruckStatus status = 2;
+  required EntityStatus status = 2;
 }
