@@ -14,34 +14,51 @@ enum RouteStatus {
 // GET => /v1/api/route/{id}
 message Route {
   required uint64 id = 1;
-  optional google.protobuf.Timestamp created_at = 2;
-  required uint64 driver_id = 3;
-  required uint64 truck_id = 4;
-  required uint64 company_id = 5;
-  required RouteStatus status = 6;
-  required uint64 num_completed_jobs = 7;
-  optional double total_weight = 8;
-  optional double truck_weight = 9;
-  repeated uint64 job_ids = 10;
-
-  optional google.protobuf.Timestamp started_at = 11;
-  optional google.protobuf.Timestamp arrived_at_depot_at = 12;
-  optional google.protobuf.Timestamp scaling_finished_at = 13;
-  optional google.protobuf.Timestamp dumping_started_at = 14;
-  optional google.protobuf.Timestamp dumping_finished_at = 15;
-
-  required string created_by = 16;
-  optional string modified_by = 17;
-  required uint64 depot_id = 18;
+  required google.protobuf.Timestamp created_at = 2;
+  required string name = 3;
+  required string type = 4;
+  required RouteStatus status = 5;
+  required uint64 source_location_id = 6;
+  optional uint64 destination_location_id = 7;
+  optional google.protobuf.Timestamp plan_start_at = 8;
+  optional google.protobuf.Timestamp plan_end_at = 9;
+  optional google.protobuf.Timestamp fact_start_at = 10;
+  optional google.protobuf.Timestamp fact_end_at = 11;
+  required uint64 author_id = 12;
+  optional uint64 actor_id = 13;
+  required uint64 organization_id = 14;
+  required uint64 truck_id = 15;
+  optional double waste_weight = 16;
+  optional uint64 arrival_to_depot_process_id = 17;
+  optional uint64 scaling_process_id = 18;
+  optional uint64 dumping_process_id = 19;
 }
 
 // POST => /v1/api/route/create
 message RouteCreate {
-  required uint64 driver_id = 1;
-  required uint64 truck_id = 2;
-  required uint64 company_id = 3;
-  repeated uint64 job_ids = 4;
-  required uint64 depot_id = 5;
+  required string name = 1;
+  required uint64 source_location_id = 2;
+  optional google.protobuf.Timestamp fact_start_at = 3;
+  optional google.protobuf.Timestamp fact_end_at = 4;
+  optional uint64 author_id = 5;
+  optional uint64 actor_id = 6;
+  optional uint64 organization_id = 7;
+  required uint64 truck_id = 8;
+}
+
+message RouteUpdate {
+  required uint64 id = 1;
+  optional string name = 2;
+  optional RouteStatus status = 3;
+  optional google.protobuf.Timestamp fact_start_at = 4;
+  optional google.protobuf.Timestamp fact_end_at = 5;
+  optional uint64 author_id = 6;
+  optional uint64 actor_id = 7;
+  optional uint64 truck_id = 8;
+  optional double waste_weight = 9;
+  optional uint64 arrival_to_depot_process_id = 10;
+  optional uint64 scaling_process_id = 11;
+  optional uint64 dumping_process_id = 12;
 }
 
 // POST => /v1/api/route/depot_in
@@ -51,8 +68,7 @@ message RouteCreate {
 // - `status` to `ROUTE_STATUS_DROPPING_OFF`
 message RouteDepotIn {
   required uint64 id = 1;
-  required double total_weight = 2;
-  required uint64 depot_id = 3;
+  required double waste_weight = 2;
 }
 
 // POST => /v1/api/route/depot_out
@@ -62,8 +78,7 @@ message RouteDepotIn {
 // - `status` to `ROUTE_STATUS_COMPLETED`
 message RouteDepotOut {
   required uint64 id = 1;
-  required double truck_weight = 2;
-  required uint64 depot_id = 3;
+  required double waste_weight = 2;
 }
 
 // POST => /v1/api/route/cancel

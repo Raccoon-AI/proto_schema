@@ -12,37 +12,43 @@ enum DriverStatus {
 // GET => /v1/api/driver/{id}
 message Driver {
   required uint64 id = 1;
-  required bool is_active = 2;
+  required google.protobuf.Timestamp created_at = 2;
   required string type = 3;
   required string role = 4;
-  required string first_name = 5;
-  required string last_name = 6;
-  required string phone_number = 7;
-  required string password = 8;
-  required uint64 truck_id = 9;
+  required bool is_active = 5;
+  required string first_name = 6;
+  required string last_name = 7;
+  required string phone_number = 8;
+  required string email = 9;
   optional uint64 telegram_id = 10;
   optional string telegram_username = 11;
   optional uint64 organization_id = 12;
-  //  optional Organization organization = 14;
+  required DriverStatus status = 13;
+  optional uint64 truck_id = 14;
 }
 
 // POST => /v1/api/driver/create
 message DriverCreate {
-  required string first_name = 1;
-  required string last_name = 2;
-  required string phone_number = 3;
-  optional uint64 organization_id = 4;
+  optional string role = 1;
+  required string first_name = 2;
+  required string last_name = 3;
+  required string phone_number = 4;
+  required string password = 5;
 }
 
 // POST => /v1/api/driver/update
 message DriverUpdate {
   required uint64 id = 1;
-  optional uint64 telegram_id = 2;
-  optional string telegram_username = 3;
+  optional string role = 2;
+  optional bool is_active = 3;
   optional string first_name = 4;
   optional string last_name = 5;
   optional string phone_number = 6;
-  optional uint64 truck_id = 7;
+  optional string email = 7;
+  optional uint64 telegram_id = 8;
+  optional string telegram_username = 9;
+  optional DriverStatus status = 10;
+  optional uint64 truck_id = 11;
 }
 
 // POST => /v1/api/driver/save_contact_data

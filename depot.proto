@@ -4,34 +4,36 @@ import "google/protobuf/timestamp.proto";
 // GET => /v1/api/depot/{id}
 message Depot {
   required uint64 id = 1;
-  required string name = 2;
-  required float lon = 3;
-  required float lat = 4;
-  required string type = 5;
-  optional string polygon = 6; // JSON representation as string
-  optional string address = 7;
-  required uint64 service_provider_id = 8;
+  required google.protobuf.Timestamp created_at = 2;
+  required string name = 3;
+  required string type = 4;
+  required double lon = 5;
+  required double lat = 6;
+  optional string polygon = 7;
+  optional string address = 8;
+  required uint64 organization_id = 9;
 }
 
 // POST => /v1/api/depot/create
 message DepotCreate {
   required string name = 1;
-  required float lon = 2;
-  required float lat = 3;
-  optional string polygon = 4; // JSON representation as string
-  optional string address = 5;
-  optional uint64 service_provider_id = 6;
+  required double lon = 2;
+  required double lat = 3;
+  optional uint64 organization_id = 4;
 }
 
 // POST => /v1/api/depot/update
 message DepotUpdate {
   required uint64 id = 1;
   optional string name = 2;
-  optional double lat = 3;
-  optional double lon = 4;
+  optional double lon = 3;
+  optional double lat = 4;
+  optional string polygon = 5;
+  optional string address = 6;
 }
 
 // GET => /v1/api/depot/list
 message DepotList {
   repeated Depot depots = 1;
 }
+
