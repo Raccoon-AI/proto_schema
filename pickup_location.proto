@@ -2,12 +2,18 @@ syntax = "proto2";
 import "google/protobuf/timestamp.proto";
 import "entity.proto";
 
+enum PickupLocationRole {
+  PICKUP_LOCATION_ROLE_UNDEFINED = 0;
+  PICKUP_LOCATION_ROLE_CONSTRUCTION = 1;
+  PICKUP_LOCATION_ROLE_HOUSEHOLD = 2;
+}
+
 message PickupLocation {
   required uint64 id = 1;
   required google.protobuf.Timestamp created_at = 2;
   required string name = 3;
   required string type = 4;
-  required string role = 5;
+  required PickupLocationRole role = 5;
   optional uint64 organization_id = 6;
   required EntityStatus status = 7;
   required double lon = 8;
@@ -20,7 +26,7 @@ message PickupLocation {
 
 message PickupLocationCreate {
   required string name = 1;
-  optional string role = 2;
+  optional PickupLocationRole role = 2;
   optional uint64 organization_id = 3;
   required double lon = 4;
   required double lat = 5;
@@ -30,7 +36,7 @@ message PickupLocationCreate {
 message PickupLocationUpdate {
   required uint64 id = 1;
   optional string name = 2;
-  optional string role = 3;
+  optional PickupLocationRole role = 3;
   optional EntityStatus status = 4;
   optional double lon = 5;
   optional double lat = 6;
