@@ -2,7 +2,7 @@ syntax = "proto2";
 import "google/protobuf/timestamp.proto";
 import "entity.proto";
 
-message Depot {
+message Container {
   required uint64 id = 1;
   required google.protobuf.Timestamp created_at = 2;
   required string name = 3;
@@ -10,33 +10,21 @@ message Depot {
   required string role = 5;
   optional uint64 organization_id = 6;
   required EntityStatus status = 7;
-  required double lon = 8;
-  required double lat = 9;
-  optional string polygon = 10;
-  optional string address = 11;
+  required bool is_tracked = 8;
+  optional uint64 location_id = 9;
 }
 
-message DepotCreate {
+message ContainerCreate {
   required string name = 1;
   optional string role = 2;
   optional uint64 organization_id = 3;
-  required double lon = 4;
-  required double lat = 5;
 }
 
-message DepotUpdate {
+message ContainerUpdate {
   required uint64 id = 1;
   optional string name = 2;
   optional string role = 3;
   optional EntityStatus status = 4;
-  optional double lon = 5;
-  optional double lat = 6;
-  optional string polygon = 7;
-  optional string address = 8;
+  optional bool is_tracked = 5;
+  optional uint64 location_id = 6;
 }
-
-// GET => /v1/api/depot/list
-message DepotList {
-  repeated Depot depots = 1;
-}
-

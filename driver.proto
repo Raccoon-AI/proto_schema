@@ -1,5 +1,4 @@
 syntax = "proto2";
-
 import "google/protobuf/timestamp.proto";
 
 enum DriverStatus {
@@ -10,41 +9,43 @@ enum DriverStatus {
   DRIVER_STATUS_CONFIRMATION = 4;
 }
 
-// GET => /v1/api/driver/{id}
 message Driver {
   required uint64 id = 1;
-  optional google.protobuf.Timestamp created_at = 2;
-  required string phone_number = 3;
-  required string first_name = 4;
-  optional string last_name = 5;
-  optional uint64 telegram_id = 6;
-  optional string telegram_username = 7;
-  required DriverStatus status = 8;
-  required uint64 company_id = 9;
-  required uint64 truck_id = 10;
+  required google.protobuf.Timestamp created_at = 2;
+  required string name = 3;
+  required string type = 4;
+  required string role = 5;
+  optional uint64 organization_id = 6;
+  required DriverStatus status = 7;
+  optional string last_name = 8;
+  required string phone_number = 9;
+  required string email = 10;
+  optional uint64 telegram_id = 11;
+  optional string telegram_username = 12;
+  optional uint64 truck_id = 13;
+  optional uint64 container_id = 14;
 }
 
-// POST => /v1/api/driver/create
 message DriverCreate {
-  required string phone_number = 1;
-  required string first_name = 2;
-  optional string last_name = 3;
-  optional uint64 telegram_id = 4;
-  optional string telegram_username = 5;
-  required uint64 company_id = 6; // if set then assert user.company_id = driver_create.company_id
-  required uint64 truck_id = 7;
+  required string name = 1;
+  optional string role = 2;
+  optional uint64 organization_id = 3;
+  required string phone_number = 4;
+  required string password = 5;
 }
 
-// POST => /v1/api/driver/update
 message DriverUpdate {
   required uint64 id = 1;
-  optional string phone_number = 2;
-  optional string first_name = 3;
-  optional string last_name = 4;
-  optional uint64 telegram_id = 5;
-  optional string telegram_username = 6;
-  optional uint64 company_id = 7; // if set then assert user.company_id = driver_create.company_id
-  optional uint64 truck_id = 8;
+  optional string name = 2;
+  optional string role = 3;
+  optional DriverStatus status = 4;
+  optional string last_name = 5;
+  optional string phone_number = 6;
+  optional string email = 7;
+  optional uint64 telegram_id = 8;
+  optional string telegram_username = 9;
+  optional uint64 truck_id = 10;
+  optional uint64 container_id = 11;
 }
 
 // POST => /v1/api/driver/save_contact_data
