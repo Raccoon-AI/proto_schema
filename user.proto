@@ -2,7 +2,7 @@ syntax = "proto2";
 import "google/protobuf/timestamp.proto";
 import "entity.proto";
 
-// GET => /v1/api/me/
+// GET => /v1/platform/me/
 message User {
   required uint64 id = 1;
   required google.protobuf.Timestamp created_at = 2;

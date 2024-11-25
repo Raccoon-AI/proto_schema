@@ -48,20 +48,20 @@ message DriverUpdate {
   optional uint64 container_id = 11;
 }
 
-// POST => /v1/api/driver/save_contact_data
+// POST => /v1/platform/driver/save_contact_data
 message DriverSaveContactData {
   required string phone_number = 1;
   required uint64 telegram_id = 2;
   required string telegram_username = 3;
 }
 
-// POST => /v1/api/driver/status_update
+// POST => /v1/platform/driver/status_update
 message DriverStatusUpdate {
   required uint64 id = 1;
   required DriverStatus status = 2;
 }
 
-// => /v1/api/driver/list
+// => /v1/platform/driver/list
 message DriverList {
   repeated Driver drivers = 1;
 }

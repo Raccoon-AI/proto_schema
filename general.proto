@@ -1,20 +1,20 @@
 syntax = "proto2";
 
 
-// POST => /v1/api/{dispatcher|driver|client}/login
+// POST => /v1/platform/{dispatcher|driver|client}/login
 message Login {
   required string username = 1;
   required string password = 2;
 }
 
 
-// returned by /v1/api/{dispatcher|driver|client}/login
+// returned by /v1/platform/{dispatcher|driver|client}/login
 message LoginToken {
   required string access_token = 1;
   required string token_type = 2;
 }
 
-// POST => /v1/api/{dispatcher|driver|client}/password_reset
+// POST => /v1/platform/{dispatcher|driver|client}/password_reset
 message PasswordReset {
   required string username = 1;
   required string old_password = 2;
