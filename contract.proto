@@ -6,7 +6,7 @@ message Contract {
   required google.protobuf.Timestamp created_at = 2;
   required string deal_number = 3;
   required uint64 service_provider_id = 4;
-  required uint64 service_receiver_id = 5;
+  required uint64 target_organization_id = 5;
   required google.protobuf.Timestamp start_at = 6;
   required google.protobuf.Timestamp end_at = 7;
   optional google.protobuf.Timestamp signed_at = 8;
@@ -16,7 +16,7 @@ message Contract {
 message ContractCreate {
   required string deal_number = 1;
   required uint64 service_provider_id = 2;
-  required uint64 service_receiver_id = 3;
+  required uint64 target_organization_id = 3;
   required google.protobuf.Timestamp start_at = 4;
   required google.protobuf.Timestamp end_at = 5;
 }
@@ -25,7 +25,7 @@ message ContractUpdate {
   required uint64 id = 1;
   optional string deal_number = 2;
   optional uint64 service_provider_id = 3;
-  optional uint64 service_receiver_id = 4;
+  optional uint64 target_organization_id = 4;
   optional google.protobuf.Timestamp start_at = 5;
   optional google.protobuf.Timestamp end_at = 6;
   optional google.protobuf.Timestamp signed_at = 7;

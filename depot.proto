@@ -35,7 +35,7 @@ message DepotUpdate {
   optional string address = 8;
 }
 
-// GET => /v1/api/depot/list
+// GET => /v1/platform/depot/list
 message DepotList {
   repeated Depot depots = 1;
 }
