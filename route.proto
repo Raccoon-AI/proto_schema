@@ -30,7 +30,7 @@ message Route {
   required RouteStatus status = 15;
   required uint64 truck_id = 16;
   optional double waste_weight = 17;
-  optional uint64 arrival_to_depot_process_id = 18;
+  optional uint64 arrival_to_sink_process_id = 18;
   optional uint64 scaling_process_id = 19;
   optional uint64 dumping_process_id = 20;
 }
@@ -64,7 +64,7 @@ message RouteUpdate {
   optional RouteStatus status = 11;
   optional uint64 truck_id = 12;
   optional double waste_weight = 13;
-  optional uint64 arrival_to_depot_process_id = 14;
+  optional uint64 arrival_to_sink_process_id = 14;
   optional uint64 scaling_process_id = 15;
   optional uint64 dumping_process_id = 16;
 }
