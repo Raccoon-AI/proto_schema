@@ -19,6 +19,8 @@ message Truck {
   optional string vin = 12;
   optional string model = 13;
   optional double truck_weight = 14;
+  optional string waste_type = 15;
+  optional double waste_coef = 16;
 }
 
 message TruckCreate {
@@ -31,6 +33,8 @@ message TruckCreate {
     optional string vin = 7;
     optional string model = 8;
     optional double truck_weight = 9;
+    optional string waste_type = 10;
+    optional double waste_coef = 11;
   }
 
 message TruckUpdate {
@@ -45,6 +49,8 @@ message TruckUpdate {
   optional string vin = 9;
   optional string model = 10;
   optional double truck_weight = 11;
+  optional string waste_type = 12;
+  optional double waste_coef = 13;
 }
 
 // POST => /v1/platform/truck/status_update
