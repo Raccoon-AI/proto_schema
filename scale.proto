@@ -11,10 +11,22 @@ message TruckScaleCreate {
 message TruckScale {
   required uint64 id = 1;
   required uint64 truck_id = 2;
-  required string organization_id = 3;
+  required uint64 organization_id = 3;
   required google.protobuf.Timestamp created_at = 3;
   required double total_weight = 4;
   optional double truck_weight = 5;
   optional string waste_type = 6;
-  optional double waste_type_coef;
+  optional double waste_type_coef = 7;
+}
+
+
+
+message TruckScaleUpdate {
+  required uint64 id = 1;
+  optional uint64 truck_id = 2;
+  optional uint64 organization_id = 3;
+  optional double total_weight = 4;
+  optional double truck_weight = 5;
+  optional string waste_type = 6;
+  optional double waste_type_coef = 7;
 }
