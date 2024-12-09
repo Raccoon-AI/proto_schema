@@ -54,7 +54,7 @@ message TruckUpdate {
   optional string vin = 9;
   optional string model = 10;
   optional double truck_weight = 11;
-  optional string waste_type = 12;
+  optional WasteType waste_type = 12;
   optional double waste_coef = 13;
 }
 
