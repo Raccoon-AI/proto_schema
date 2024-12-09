@@ -24,7 +24,7 @@ message Truck {
   optional string vin = 12;
   optional string model = 13;
   optional double truck_weight = 14;
-  optional string waste_type = 15;
+  optional WasteType waste_type = 15;
   optional double waste_coef = 16;
 }
 
@@ -38,7 +38,7 @@ message TruckCreate {
     optional string vin = 7;
     optional string model = 8;
     optional double truck_weight = 9;
-    optional string waste_type = 10;
+    optional WasteType waste_type = 10;
     optional double waste_coef = 11;
   }
 
