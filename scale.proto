@@ -14,11 +14,11 @@ message TruckScale {
   required uint64 id = 1;
   required uint64 truck_id = 2;
   required uint64 polygon_org_id = 3;
-  required google.protobuf.Timestamp created_at = 3;
-  required double total_weight = 4;
-  optional double truck_weight = 5;
-  optional WasteType waste_type = 6;
-  optional double waste_type_coef = 7;
+  required google.protobuf.Timestamp created_at = 4;
+  required double total_weight = 5;
+  optional double truck_weight = 6;
+  optional WasteType waste_type = 7;
+  optional double waste_type_coef = 8;
 }
 
 
