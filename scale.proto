@@ -5,13 +5,14 @@ import "organization.proto";
 message TruckScaleCreate {
   required uint64 truck_id = 1;
   required double weight = 2;
+  optional uint64 polygon_org_id = 3;
 }
 
 
 message TruckScale {
   required uint64 id = 1;
   required uint64 truck_id = 2;
-  required uint64 organization_id = 3;
+  required uint64 polygon_org_id = 3;
   required google.protobuf.Timestamp created_at = 3;
   required double total_weight = 4;
   optional double truck_weight = 5;
@@ -24,7 +25,7 @@ message TruckScale {
 message TruckScaleUpdate {
   required uint64 id = 1;
   optional uint64 truck_id = 2;
-  optional uint64 organization_id = 3;
+  optional uint64 polygon_org_id = 3;
   optional double total_weight = 4;
   optional double truck_weight = 5;
   optional string waste_type = 6;
