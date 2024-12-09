@@ -1,6 +1,7 @@
 syntax = "proto2";
 import "google/protobuf/timestamp.proto";
 import "organization.proto";
+import "truck.proto";
 
 message TruckScaleCreate {
   required uint64 truck_id = 1;
@@ -16,7 +17,7 @@ message TruckScale {
   required google.protobuf.Timestamp created_at = 3;
   required double total_weight = 4;
   optional double truck_weight = 5;
-  optional string waste_type = 6;
+  optional WasteType waste_type = 6;
   optional double waste_type_coef = 7;
 }
 
@@ -28,6 +29,6 @@ message TruckScaleUpdate {
   optional uint64 polygon_org_id = 3;
   optional double total_weight = 4;
   optional double truck_weight = 5;
-  optional string waste_type = 6;
+  optional WasteType waste_type = 6;
   optional double waste_type_coef = 7;
 }

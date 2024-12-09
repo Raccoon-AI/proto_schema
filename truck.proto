@@ -3,6 +3,11 @@ syntax = "proto2";
 import "google/protobuf/timestamp.proto";
 import "entity.proto";
 
+enum WasteType  {
+  WASTE_TBO = 0;
+  WASTE_CO = 1;
+}
+
 // GET => /v1/platform/truck/{id}
 message Truck {
   required uint64 id = 1;
