@@ -1,11 +1,17 @@
 syntax = "proto2";
 
 import "google/protobuf/timestamp.proto";
-import "entity.proto";
 
 enum WasteType  {
   WASTE_TBO = 0;
   WASTE_CO = 1;
+}
+
+enum TruckStatus {
+    TRUCK_UNDEFINED = 0;
+    TRUCK_INACTIVE = 1;
+    TRUCK_IDLE = 2;
+    TRUCK_ENROUTE = 3;
 }
 
 // GET => /v1/platform/truck/{id}
@@ -16,7 +22,7 @@ message Truck {
   required string type = 4;
   required string role = 5;
   optional uint64 organization_id = 6;
-  required EntityStatus status = 7;
+  required TruckStatus status = 7;
   required bool is_tracked = 8;
   optional uint64 location_id = 9;
   optional double capacity = 10;
@@ -32,21 +38,20 @@ message TruckCreate {
     required string name = 1;
     optional string role = 2;
     optional uint64 organization_id = 3;
-//    optional EntityStatus status = 4;
-    optional double capacity = 5;
-    optional double engine_power = 6;
-    optional string vin = 7;
-    optional string model = 8;
-    optional double truck_weight = 9;
-    optional WasteType waste_type = 10;
-    optional double waste_coef = 11;
+    optional double capacity = 4;
+    optional double engine_power = 5;
+    optional string vin = 6;
+    optional string model = 7;
+    optional double truck_weight = 8;
+    optional WasteType waste_type = 9;
+    optional double waste_coef = 10;
   }
 
 message TruckUpdate {
   required uint64 id = 1;
   optional string name = 2;
   optional string role = 3;
-  optional EntityStatus status = 4;
+  optional TruckStatus status = 4;
   optional bool is_tracked = 5;
   optional uint64 location_id = 6;
   optional double capacity = 7;
@@ -61,5 +66,5 @@ message TruckUpdate {
 // POST => /v1/platform/truck/status_update
 message TruckStatusUpdate {
   required uint64 id = 1;
-  required EntityStatus status = 2;
+  required TruckStatus status = 2;
 }
