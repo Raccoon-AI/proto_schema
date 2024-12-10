@@ -8,10 +8,10 @@ enum WasteType  {
 }
 
 enum TruckStatus {
-    TRUCK_UNDEFINED = 0;
-    TRUCK_INACTIVE = 1;
-    TRUCK_IDLE = 2;
-    TRUCK_ENROUTE = 3;
+    TRUCK_STATUS_UNDEFINED = 0;
+    TRUCK_STATUS_INACTIVE = 1;
+    TRUCK_STATUS_IDLE = 2;
+    TRUCK_STATUS_ENROUTE = 3;
 }
 
 // GET => /v1/platform/truck/{id}
