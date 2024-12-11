@@ -2,14 +2,20 @@ syntax = "proto2";
 import "google/protobuf/timestamp.proto";
 import "entity.proto";
 
-enum ReportType {
-  REPORT_TYPE_UNDEFINED = 0;
-  REPORT_TYPE_DRIVER_REPORT = 1;
-}
 enum ReportRole {
   REPORT_ROLE_UNDEFINED = 0;
-  REPORT_ROLE_BEFORE_SERVICE = 1;
-  REPORT_ROLE_AFTER_SERVICE = 2;
+  REPORT_ROLE_EVENT = 1;
+  REPORT_ROLE_PROCESS_START = 2;
+  REPORT_ROLE_PROCESS_END = 3;
+}
+
+enum ReportType {
+  REPORT_TYPE_UNDEFINED = 0;
+  REPORT_TYPE_DEFAULT = 1;
+  REPORT_TYPE_SCALE = 2;
+  REPORT_TYPE_SHIFT = 3;
+  REPORT_TYPE_NOTIFICATION = 4;
+  REPORT_TYPE_DRIVER = 5;
 }
 
 message Report {
@@ -19,42 +25,22 @@ message Report {
   required ReportType type = 4;
   required ReportRole role = 5;
   required uint64 organization_id = 6;
-  required string storage_path = 7;
-  required uint64 author_entity_id = 8;
-  optional uint64 location_id = 9;
-  optional uint64 process_id = 10;
-  required EntityStatus status = 11;
-  required string bucket = 12;
+  required uint64 author_entity_id = 7;
+  optional string comment = 8;
+  required EntityStatus status = 9;
 }
 
 message ReportCreate {
-  required ReportType type = 1;
-  required ReportRole role = 2;
+  required string name = 1;
+  optional ReportRole role = 2;
   optional uint64 organization_id = 3;
   optional uint64 author_entity_id = 4;
-  optional uint64 location_id = 5;
-  optional uint64 process_id = 6;
-}
-
-message ReportCreateInternal {
-  required ReportType type = 1;
-  required ReportRole role = 2;
-  required string name = 3;
-  optional uint64 organization_id = 4;
-  required string storage_path = 5;
-  required uint64 author_entity_id = 6;
-  required string bucket = 7;
-  optional uint64 location_id = 8;
-  optional uint64 process_id = 9;
 }
 
 message ReportUpdate {
   required uint64 id = 1;
   optional string name = 2;
   optional ReportRole role = 3;
-  //  optional string storage_path = 4;
-  optional uint64 location_id = 5;
-  optional uint64 process_id = 6;
-  optional EntityStatus status = 7;
-  optional ReportType type = 8;
+  optional string comment = 4;
+  optional EntityStatus status = 5;
 }

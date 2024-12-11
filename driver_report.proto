@@ -1,0 +1,54 @@
+syntax = "proto2";
+import "google/protobuf/timestamp.proto";
+import "entity.proto";
+import "report.proto";
+
+enum DriverReportRole {
+  DRIVER_REPORT_ROLE_UNDEFINED = 0;
+  DRIVER_REPORT_ROLE_SERVICE_START = 1;
+  DRIVER_REPORT_ROLE_SERVICE_END = 2;
+}
+
+message DriverReport {
+  required uint64 id = 1;
+  required google.protobuf.Timestamp created_at = 2;
+  required string name = 3;
+  required string type = 4;
+  required DriverReportRole role = 5;
+  required uint64 organization_id = 6;
+  required uint64 author_entity_id = 7;
+  optional string comment = 8;
+  required EntityStatus status = 9;
+  required uint64 pickup_location_id = 10;
+  required uint64 service_process_id = 11;
+  required uint64 job_id = 12;
+  required uint64 route_id = 13;
+  optional uint64 container_id = 14;
+  optional uint64 object_storage_id = 15;
+}
+
+message DriverReportCreate {
+  required string name = 1;
+  required DriverReportRole role = 2;
+  optional uint64 organization_id = 3;
+  optional uint64 author_entity_id = 4;
+  required uint64 pickup_location_id = 5;
+  required uint64 service_process_id = 6;
+  required uint64 job_id = 7;
+  required uint64 route_id = 8;
+  optional uint64 object_storage_id = 11;
+}
+
+message DriverReportUpdate {
+  required uint64 id = 1;
+  optional string name = 2;
+  optional DriverReportRole role = 3;
+  optional string comment = 4;
+  optional EntityStatus status = 5;
+  optional uint64 pickup_location_id = 6;
+  optional uint64 service_process_id = 7;
+  optional uint64 job_id = 8;
+  optional uint64 route_id = 9;
+  optional uint64 container_id = 10;
+  optional uint64 object_storage_id = 11;
+}

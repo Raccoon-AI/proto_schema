@@ -1,0 +1,46 @@
+syntax = "proto2";
+import "google/protobuf/timestamp.proto";
+import "entity.proto";
+import "report.proto";
+import "truck.proto";
+
+message ShiftReport {
+  required uint64 id = 1;
+  required google.protobuf.Timestamp created_at = 2;
+  required string name = 3;
+  required ReportType type = 4;
+  required TruckStatus role = 5;
+  required uint64 organization_id = 6;
+  required uint64 author_entity_id = 7;
+  optional string comment = 8;
+  required EntityStatus status = 9;
+  required uint64 odometer_reading = 10;
+  optional double fuel_level = 11;
+  optional uint64 driver_id = 12;
+  required uint64 truck_id = 13;
+  optional uint64 depot_id = 14;
+}
+
+message ShiftReportCreate {
+  required string name = 1;
+  optional TruckStatus role = 2;
+  optional uint64 organization_id = 3;
+  optional uint64 author_entity_id = 4;
+  required uint64 odometer_reading = 5;
+  required uint64 truck_id = 6;
+  optional double fuel_level = 11;
+  optional uint64 driver_id = 12;
+}
+
+message ShiftReportUpdate {
+  required uint64 id = 1;
+  optional string name = 2;
+  optional TruckStatus role = 3;
+  optional string comment = 4;
+  optional EntityStatus status = 5;
+  optional uint64 odometer_reading = 6;
+  optional double fuel_level = 7;
+  optional uint64 driver_id = 8;
+  optional uint64 truck_id = 9;
+  optional uint64 depot_id = 10;
+}
