@@ -26,7 +26,7 @@ message PickupLocation {
 
 message PickupLocationCreate {
   required string name = 1;
-  optional PickupLocationRole role = 2;
+  optional PickupLocationRole role = 2 [default=PICKUP_LOCATION_ROLE_UNDEFINED];
   optional uint64 organization_id = 3;
   required double lon = 4;
   required double lat = 5;
@@ -44,4 +44,9 @@ message PickupLocationUpdate {
   optional string address = 8;
   optional string schedule = 9;
   optional uint64 contract_id = 10;
+}
+
+message PickupLocationListContract {
+  repeated uint64 pickup_location_ids = 1;
+  required uint64 contract_id = 2;
 }
