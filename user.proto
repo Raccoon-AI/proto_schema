@@ -10,7 +10,7 @@ message User {
   required string type = 4;
   required string role = 5;
   optional uint64 organization_id = 6;
-  required EntityStatus status = 7;
+  required string status = 7;
   optional string last_name = 8;
   required string phone_number = 9;
   required string email = 10;

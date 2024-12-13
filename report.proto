@@ -27,7 +27,7 @@ message Report {
   required uint64 organization_id = 6;
   required uint64 author_entity_id = 7;
   optional string comment = 8;
-  required EntityStatus status = 9;
+  required string status = 9;
 }
 
 message ReportCreate {
