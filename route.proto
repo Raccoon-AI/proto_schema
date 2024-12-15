@@ -69,6 +69,11 @@ message RouteUpdate {
   optional uint64 dumping_process_id = 16;
 }
 
+message RouteStatusUpdate {
+  required uint64 id = 1;
+  required RouteStatus status = 2;
+}
+
 // POST => /v1/platform/route/depot_in
 // Sent when arrives into depot to drop off waste.
 // When the message arrived, the system must update:
