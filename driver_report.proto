@@ -20,7 +20,7 @@ message DriverReport {
   optional string comment = 8;
   required EntityStatus status = 9;
   required uint64 pickup_location_id = 10;
-  required uint64 service_process_id = 11;
+  optional uint64 service_process_id = 11;
   required uint64 job_id = 12;
   required uint64 route_id = 13;
   optional uint64 container_id = 14;
@@ -33,7 +33,7 @@ message DriverReportCreate {
   optional uint64 organization_id = 3;
   optional uint64 author_entity_id = 4;
   required uint64 pickup_location_id = 5;
-  required uint64 service_process_id = 6;
+  optional uint64 service_process_id = 6;
   required uint64 job_id = 7;
   required uint64 route_id = 8;
   optional uint64 object_storage_id = 11;
