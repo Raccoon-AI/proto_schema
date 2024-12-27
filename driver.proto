@@ -46,6 +46,7 @@ message DriverUpdate {
   optional string telegram_username = 9;
   optional uint64 truck_id = 10;
   optional uint64 container_id = 11;
+  optional uint64 latest_shift_id = 12;
 }
 
 // POST => /v1/platform/driver/save_contact_data
