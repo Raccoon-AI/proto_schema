@@ -9,66 +9,70 @@ enum JobStatus {
   JOB_STATUS_ENROUTE = 3;
   JOB_STATUS_COMPLETED = 4;
   JOB_STATUS_CANCELLED = 5;
-  JOB_STATUS_START_PICKUP = 6;
+  JOB_STATUS_ON_SERVICE = 6;
 }
 
 // GET => /v1/platform/job/{id}
 message Job {
   required uint64 id = 1;
   required google.protobuf.Timestamp created_at = 2;
-  required string name = 3;
-  required string type = 4;
-  required string role = 5;
-  required uint64 organization_id = 6;
-  required uint64 source_location_id = 7;
-  optional uint64 destination_location_id = 8;
-  optional google.protobuf.Timestamp plan_start_at = 9;
-  optional google.protobuf.Timestamp plan_end_at = 10;
-  optional google.protobuf.Timestamp fact_start_at = 11;
-  optional google.protobuf.Timestamp fact_end_at = 12;
-  required uint64 author_entity_id = 13;
-  optional uint64 actor_id = 14;
-  required JobStatus status = 15;
-  optional google.protobuf.Timestamp time_window_start_at = 16;
-  optional google.protobuf.Timestamp time_window_end_at = 17;
-  optional uint64 sequence_idx = 18;
-  optional uint64 travel_process_id = 19;
-  optional uint64 service_process_id = 20;
-  optional uint64 route_id = 21;
+  required uint64 service_provider_id = 3;
+  required uint64 service_receiver_id = 4;
+  optional google.protobuf.Timestamp time_window_start_at = 5;
+  optional google.protobuf.Timestamp time_window_end_at = 6;
+  optional uint64 sequence_idx = 7;
+  required uint64 author_id = 8;
+  optional uint64 driver_on_shift_id = 9;
+  required uint64 pickup_location_id = 10;
+  optional string service_started_storage_path = 11;
+  optional string service_ended_storage_path = 12;
+  optional uint64 route_id = 13;
+  required string bucket = 14;
+  optional string driver_comment = 15;
+  optional google.protobuf.Timestamp plan_start_at = 16;
+  optional google.protobuf.Timestamp plan_end_at = 17;
+  optional google.protobuf.Timestamp fact_start_at = 18;
+  optional google.protobuf.Timestamp fact_end_at = 19;
+  required JobStatus status = 20;
 }
 
 message JobCreate {
-  required string name = 1;
-  optional string role = 2;
-  optional uint64 organization_id = 3;
-  required uint64 source_location_id = 4;
-  optional uint64 destination_location_id = 5;
-  optional google.protobuf.Timestamp plan_start_at = 6;
-  optional google.protobuf.Timestamp plan_end_at = 7;
-  optional google.protobuf.Timestamp fact_start_at = 8;
-  optional google.protobuf.Timestamp fact_end_at = 9;
-  required uint64 author_entity_id = 10;
-  optional uint64 actor_id = 11;
-  optional google.protobuf.Timestamp time_window_start_at = 12;
-  optional google.protobuf.Timestamp time_window_end_at = 13;
+  optional uint64 service_provider_id = 1;
+  optional uint64 service_receiver_id = 2;
+  optional google.protobuf.Timestamp time_window_start_at = 3;
+  optional google.protobuf.Timestamp time_window_end_at = 4;
+  optional uint64 sequence_idx = 5;
+  optional uint64 author_id = 6;
+  optional uint64 driver_on_shift_id = 7;
+  required uint64 pickup_location_id = 8;
+  optional string service_started_storage_path = 9;
+  optional string service_ended_storage_path = 10;
+  optional uint64 route_id = 11;
+  optional string bucket = 12;
+  optional string driver_comment = 13;
+  optional google.protobuf.Timestamp plan_start_at = 14;
+  optional google.protobuf.Timestamp plan_end_at = 15;
 }
 
 message JobUpdate {
   required uint64 id = 1;
-  optional string name = 2;
-  optional string role = 3;
-  optional uint64 source_location_id = 4;
-  optional uint64 destination_location_id = 5;
-  optional google.protobuf.Timestamp plan_start_at = 6;
-  optional google.protobuf.Timestamp plan_end_at = 7;
-  optional google.protobuf.Timestamp fact_start_at = 8;
-  optional google.protobuf.Timestamp fact_end_at = 9;
-  optional uint64 actor_id = 10;
-  optional JobStatus status = 11;
-  optional uint64 sequence_idx = 12;
-  optional uint64 travel_process_id = 13;
-  optional uint64 service_process_id = 14;
-  optional uint64 route_id = 15;
+  optional uint64 service_provider_id = 2;
+  optional uint64 service_receiver_id = 3;
+  optional google.protobuf.Timestamp time_window_start_at = 4;
+  optional google.protobuf.Timestamp time_window_end_at = 5;
+  optional uint64 sequence_idx = 6;
+  optional uint64 driver_on_shift_id = 7;
+  optional uint64 pickup_location_id = 8;
+  optional string service_started_storage_path = 9;
+  optional string service_ended_storage_path = 10;
+  optional uint64 route_id = 11;
+  optional string bucket = 12;
+  optional string driver_comment = 13;
+  optional google.protobuf.Timestamp plan_start_at = 14;
+  optional google.protobuf.Timestamp plan_end_at = 15;
+  optional google.protobuf.Timestamp fact_start_at = 16;
+  optional google.protobuf.Timestamp fact_end_at = 17;
+  optional JobStatus status = 18;
 }
 
 // POST => /v1/platform/job/status_update

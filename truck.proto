@@ -2,66 +2,49 @@ syntax = "proto2";
 
 import "google/protobuf/timestamp.proto";
 
-enum WasteType  {
-  WASTE_TBO = 0;
-  WASTE_CO = 1;
-}
+//enum WasteType  {
+//  WASTE_TBO = 0;
+//  WASTE_CO = 1;
+//}
 
 enum TruckStatus {
-    TRUCK_STATUS_UNDEFINED = 0;
-    TRUCK_STATUS_INACTIVE = 1;
-    TRUCK_STATUS_IDLE = 2;
-    TRUCK_STATUS_ENROUTE = 3;
+  TRUCK_STATUS_UNDEFINED = 0;
+  TRUCK_STATUS_INACTIVE = 1;
+  TRUCK_STATUS_ACTIVE = 2;
+}
+
+enum TruckType {
+  TRUCK_TYPE_UNDEFINED = 0;
+  TRUCK_TYPE_CONSTRUCTION = 1;
 }
 
 // GET => /v1/platform/truck/{id}
 message Truck {
   required uint64 id = 1;
   required google.protobuf.Timestamp created_at = 2;
-  required string name = 3;
-  required string type = 4;
-  required string role = 5;
-  optional uint64 organization_id = 6;
-  required TruckStatus status = 7;
-  required bool is_tracked = 8;
-  optional uint64 location_id = 9;
-  optional double capacity = 10;
-  optional double engine_power = 11;
-  optional string vin = 12;
-  optional string model = 13;
-  optional double truck_weight = 14;
-  optional WasteType waste_type = 15;
-  optional double waste_coef = 16;
+  required TruckType type = 3;
+  required string plate_number = 4;
+  required TruckStatus status = 5;
+  required uint64 owner_organization_id = 6;
+  optional string model = 7;
+  optional double truck_weight = 8;
 }
 
 message TruckCreate {
-    required string name = 1;
-    optional string role = 2;
-    optional uint64 organization_id = 3;
-    optional double capacity = 4;
-    optional double engine_power = 5;
-    optional string vin = 6;
-    optional string model = 7;
-    optional double truck_weight = 8;
-    optional WasteType waste_type = 9;
-    optional double waste_coef = 10;
-  }
+  optional TruckType type = 1;
+  required string plate_number = 2;
+  optional uint64 owner_organization_id = 3;
+  optional string model = 4;
+  optional double truck_weight = 5;
+}
 
 message TruckUpdate {
   required uint64 id = 1;
-  optional string name = 2;
-  optional string role = 3;
+  optional TruckType type = 2;
+  optional string plate_number = 3;
   optional TruckStatus status = 4;
-  optional bool is_tracked = 5;
-  optional uint64 location_id = 6;
-  optional double capacity = 7;
-  optional double engine_power = 8;
-  optional string vin = 9;
-  optional string model = 10;
-  optional double truck_weight = 11;
-  optional WasteType waste_type = 12;
-  optional double waste_coef = 13;
-  optional uint64 latest_shift_id = 14;
+  optional string model = 5;
+  optional double truck_weight = 6;
 }
 
 // POST => /v1/platform/truck/status_update

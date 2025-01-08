@@ -6,7 +6,7 @@ enum RouteStatus {
   ROUTE_STATUS_UNDEFINED = 0;
   ROUTE_STATUS_CREATED = 1;
   ROUTE_STATUS_IN_PROGRESS = 2;
-  ROUTE_STATUS_DROPPING_OFF = 3;
+  ROUTE_STATUS_RETURNING = 3;
   ROUTE_STATUS_COMPLETED = 4;
   ROUTE_STATUS_CANCELLED = 5;
 }
@@ -15,58 +15,49 @@ enum RouteStatus {
 message Route {
   required uint64 id = 1;
   required google.protobuf.Timestamp created_at = 2;
-  required string name = 3;
-  required string type = 4;
-  required string role = 5;
-  required uint64 organization_id = 6;
-  required uint64 source_location_id = 7;
-  optional uint64 destination_location_id = 8;
-  optional google.protobuf.Timestamp plan_start_at = 9;
-  optional google.protobuf.Timestamp plan_end_at = 10;
-  optional google.protobuf.Timestamp fact_start_at = 11;
-  optional google.protobuf.Timestamp fact_end_at = 12;
-  required uint64 author_entity_id = 13;
-  optional uint64 actor_id = 14;
-  required RouteStatus status = 15;
-  required uint64 truck_id = 16;
-  optional double waste_weight = 17;
-  optional uint64 arrival_to_depot_process_id = 18;
-  optional uint64 scaling_process_id = 19;
-  optional uint64 dumping_process_id = 20;
+  required uint64 owner_organization_id = 3;
+  required uint64 driver_on_shift_id = 4;
+  optional double source_lon = 5;
+  optional double source_lat = 6;
+  optional double destination_lon = 7;
+  optional double destination_lat = 8;
+  optional uint64 author_id = 9;
+  optional google.protobuf.Timestamp plan_start_at = 10;
+  optional google.protobuf.Timestamp plan_end_at = 11;
+  optional google.protobuf.Timestamp fact_start_at = 12;
+  optional google.protobuf.Timestamp fact_end_at = 13;
+  required RouteStatus status = 14;
 }
 
 message RouteCreate {
-  required string name = 1;
-  optional string role = 2;
-  optional uint64 organization_id = 3;
-  required uint64 source_location_id = 4;
-  optional uint64 destination_location_id = 5;
-  optional google.protobuf.Timestamp plan_start_at = 6;
-  optional google.protobuf.Timestamp plan_end_at = 7;
-  optional google.protobuf.Timestamp fact_start_at = 8;
-  optional google.protobuf.Timestamp fact_end_at = 9;
-  required uint64 author_entity_id = 10;
-  optional uint64 actor_id = 11;
-  required uint64 truck_id = 12;
+  optional uint64 owner_organization_id = 1;
+  required uint64 driver_on_shift_id = 2;
+  optional double source_lon = 3;
+  optional double source_lat = 4;
+  optional double destination_lon = 5;
+  optional double destination_lat = 6;
+  optional uint64 author_id = 7;
+  optional google.protobuf.Timestamp plan_start_at = 8;
+  optional google.protobuf.Timestamp plan_end_at = 9;
 }
 
 message RouteUpdate {
   required uint64 id = 1;
-  optional string name = 2;
-  optional string role = 3;
-  optional uint64 source_location_id = 4;
-  optional uint64 destination_location_id = 5;
-  optional google.protobuf.Timestamp plan_start_at = 6;
-  optional google.protobuf.Timestamp plan_end_at = 7;
-  optional google.protobuf.Timestamp fact_start_at = 8;
-  optional google.protobuf.Timestamp fact_end_at = 9;
-  optional uint64 actor_id = 10;
+  optional uint64 driver_on_shift_id = 2;
+  optional double source_lon = 3;
+  optional double source_lat = 4;
+  optional double destination_lon = 5;
+  optional double destination_lat = 6;
+  optional google.protobuf.Timestamp plan_start_at = 7;
+  optional google.protobuf.Timestamp plan_end_at = 8;
+  optional google.protobuf.Timestamp fact_start_at = 9;
+  optional google.protobuf.Timestamp fact_end_at = 10;
   optional RouteStatus status = 11;
-  optional uint64 truck_id = 12;
-  optional double waste_weight = 13;
-  optional uint64 arrival_to_depot_process_id = 14;
-  optional uint64 scaling_process_id = 15;
-  optional uint64 dumping_process_id = 16;
+}
+
+message RouteCreateWithJobs {
+  required RouteCreate create = 1;
+  repeated uint64 job_ids = 10;
 }
 
 message RouteStatusUpdate {

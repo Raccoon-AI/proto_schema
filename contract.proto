@@ -19,6 +19,8 @@ message ContractCreate {
   required uint64 target_organization_id = 3;
   required google.protobuf.Timestamp start_at = 4;
   required google.protobuf.Timestamp end_at = 5;
+  optional google.protobuf.Timestamp signed_at = 6;
+  optional google.protobuf.Timestamp paid_at = 7;
 }
 
 message ContractUpdate {
