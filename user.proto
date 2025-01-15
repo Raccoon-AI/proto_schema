@@ -32,7 +32,7 @@ message User {
   required string email = 8;
   optional uint64 telegram_user_id = 9;
   optional string telegram_username = 10;
-  optional string telegram_chat_id = 11;
+  optional uint64 telegram_chat_id = 11;
   required UserStatus status = 12;
 }
 
@@ -46,7 +46,7 @@ message UserCreate {
   required string password = 7;
   optional uint64 telegram_user_id = 8;
   optional string telegram_username = 9;
-  optional string telegram_chat_id = 10;
+  optional uint64 telegram_chat_id = 10;
 }
 
 message UserUpdate {
@@ -58,13 +58,13 @@ message UserUpdate {
   optional string email = 6;
   optional uint64 telegram_user_id = 7;
   optional string telegram_username = 8;
-  optional string telegram_chat_id = 9;
+  optional uint64 telegram_chat_id = 9;
   optional UserStatus status = 10;
 }
 
 message UserSaveContactData {
   required string phone_number = 1;
-  required uint64 telegram_id = 2;
+  required uint64 telegram_user_id = 2;
   required string telegram_username = 3;
-  required string telegram_chat_id = 4;
+  required uint64 telegram_chat_id = 4;
 }
