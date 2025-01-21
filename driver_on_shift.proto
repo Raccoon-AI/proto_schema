@@ -1,5 +1,7 @@
 syntax = "proto2";
 import "google/protobuf/timestamp.proto";
+import "user.proto";
+import "truck.proto";
 
 enum DriverOnShiftStatus {
   DRIVER_ON_SHIFT_STATUS_UNDEFINED = 0;
@@ -20,6 +22,8 @@ message DriverOnShift {
   required uint64 driver_id = 7;
   required uint64 truck_id = 8;
   required DriverOnShiftStatus status = 9;
+  optional User driver = 10;
+  optional Truck truck = 11;
 }
 
 message DriverOnShiftCreate {

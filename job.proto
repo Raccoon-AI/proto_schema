@@ -1,6 +1,9 @@
 syntax = "proto2";
 
 import "google/protobuf/timestamp.proto";
+import "organization.proto";
+import "pickup_location.proto";
+import "driver_on_shift.proto";
 
 enum JobStatus {
   JOB_STATUS_UNDEFINED = 0;
@@ -34,6 +37,9 @@ message Job {
   optional google.protobuf.Timestamp fact_start_at = 18;
   optional google.protobuf.Timestamp fact_end_at = 19;
   required JobStatus status = 20;
+  optional Organization service_receiver = 21;
+  optional PickupLocation pickup_location = 22;
+  optional DriverOnShift driver_on_shift = 23;
 }
 
 message JobCreate {
