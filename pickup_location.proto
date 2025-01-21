@@ -8,6 +8,13 @@ enum PickupLocationType {
   PICKUP_LOCATION_TYPE_HOUSEHOLD = 2;
 }
 
+enum PickupLocationPriority {
+    PICKUP_LOCATION_PRIORITY_UNDEFINED = 0;
+    PICKUP_LOCATION_PRIORITY_LOW = 1;
+    PICKUP_LOCATION_PRIORITY_MEDIUM = 2;
+    PICKUP_LOCATION_PRIORITY_HIGH = 3;
+}
+
 message PickupLocation {
   required uint64 id = 1;
   required google.protobuf.Timestamp created_at = 2;
@@ -23,11 +30,12 @@ message PickupLocation {
   optional string availability_schedule = 12;
   optional string notification_schedule = 13;
   optional uint64 num_containers = 14;
-  optional uint64 priority = 15;
+  optional PickupLocationPriority priority = 15;
   optional string geo_group = 16;
-  optional uint64 receiver_user_id = 17;
-  optional uint64 contract_id = 18;
-  optional string comment = 19;
+  optional uint64 tariff = 17;
+  optional uint64 receiver_user_id = 18;
+  optional uint64 contract_id = 19;
+  optional string comment = 20;
 }
 
 message PickupLocationCreate {
@@ -41,11 +49,12 @@ message PickupLocationCreate {
   optional string availability_schedule = 8;
   optional string notification_schedule = 9;
   optional uint64 num_containers = 10;
-  optional uint64 priority = 11;
+  optional PickupLocationPriority priority = 11;
   optional string geo_group = 12;
-  optional uint64 receiver_user_id = 13;
-  optional uint64 contract_id = 14;
-  optional string comment = 15;
+  optional uint64 tariff = 13;
+  optional uint64 receiver_user_id = 14;
+  optional uint64 contract_id = 15;
+  optional string comment = 16;
 }
 
 message PickupLocationUpdate {
@@ -60,11 +69,12 @@ message PickupLocationUpdate {
   optional string availability_schedule = 9;
   optional string notification_schedule = 10;
   optional uint64 num_containers = 11;
-  optional uint64 priority = 12;
+  optional PickupLocationPriority priority = 12;
   optional string geo_group = 13;
-  optional uint64 receiver_user_id = 14;
-  optional uint64 contract_id = 15;
-  optional string comment = 16;
+  optional uint64 tariff = 14;
+  optional uint64 receiver_user_id = 15;
+  optional uint64 contract_id = 16;
+  optional string comment = 17;
 }
 
 message PickupLocationListContract {
