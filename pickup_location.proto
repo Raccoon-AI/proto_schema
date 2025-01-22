@@ -36,6 +36,8 @@ message PickupLocation {
   optional uint64 receiver_user_id = 18;
   optional uint64 contract_id = 19;
   optional string comment = 20;
+  optional string contact_name = 21;
+  optional string contact_phone = 22;
 }
 
 message PickupLocationCreate {
@@ -55,6 +57,8 @@ message PickupLocationCreate {
   optional uint64 receiver_user_id = 14;
   optional uint64 contract_id = 15;
   optional string comment = 16;
+  optional string contact_name = 17;
+  optional string contact_phone = 18;
 }
 
 message PickupLocationUpdate {
@@ -75,6 +79,8 @@ message PickupLocationUpdate {
   optional uint64 receiver_user_id = 15;
   optional uint64 contract_id = 16;
   optional string comment = 17;
+  optional string contact_name = 18;
+  optional string contact_phone = 19;
 }
 
 message PickupLocationListContract {
