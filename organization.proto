@@ -32,7 +32,6 @@ message OrganizationCreate {
 message OrganizationUpdate {
   required uint64 id = 1;
   optional string name = 2;
-  optional OrganizationType type = 3;
-  optional OrganizationStatus status = 4;
-  optional uint64 bank_details_id = 5;
+  optional OrganizationStatus status = 3;
+  optional uint64 bank_details_id = 4;
 }
