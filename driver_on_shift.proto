@@ -25,6 +25,7 @@ message DriverOnShift {
   optional string comment = 10;
   optional User driver = 11;
   optional Truck truck = 12;
+  optional google.protobuf.Timestamp completed_at = 13;
 }
 
 message DriverOnShiftCreate {
@@ -45,6 +46,7 @@ message DriverOnShiftUpdate {
   optional uint64 truck_id = 5;
   optional DriverOnShiftStatus status = 6;
   optional string comment = 7;
+  optional google.protobuf.Timestamp completed_at = 8;
 }
 
 message DriverOnShiftStatusUpdate {
