@@ -26,6 +26,7 @@ message Location {
   optional string geometry = 9;
   optional string address = 10;
   required string polymorphic_type = 11;
+  optional string gis_link = 12;
 }
 
 message LocationCreate {
@@ -36,6 +37,7 @@ message LocationCreate {
   required double lat = 5;
   optional string geometry = 6;
   optional string address = 7;
+  optional string gis_link = 8;
 }
 
 message LocationUpdate {
@@ -47,4 +49,5 @@ message LocationUpdate {
   optional double lat = 6;
   optional string geometry = 7;
   optional string address = 8;
+  optional string gis_link = 9;
 }

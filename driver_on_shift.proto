@@ -26,6 +26,7 @@ message DriverOnShift {
   optional User driver = 11;
   optional Truck truck = 12;
   optional google.protobuf.Timestamp completed_at = 13;
+  optional google.protobuf.Timestamp last_idle_at = 14;
 }
 
 message DriverOnShiftCreate {
@@ -47,6 +48,8 @@ message DriverOnShiftUpdate {
   optional DriverOnShiftStatus status = 6;
   optional string comment = 7;
   optional google.protobuf.Timestamp completed_at = 8;
+  optional google.protobuf.Timestamp last_idle_at = 9;
+  optional uint64 current_route_id = 10;
 }
 
 message DriverOnShiftStatusUpdate {

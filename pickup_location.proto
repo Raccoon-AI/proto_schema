@@ -38,6 +38,7 @@ message PickupLocation {
   optional string comment = 20;
   optional string contact_name = 21;
   optional string contact_phone = 22;
+  optional string gis_link = 23;
 }
 
 message PickupLocationCreate {
@@ -59,6 +60,7 @@ message PickupLocationCreate {
   optional string comment = 16;
   optional string contact_name = 17;
   optional string contact_phone = 18;
+  optional string gis_link = 19;
 }
 
 message PickupLocationUpdate {
@@ -81,6 +83,7 @@ message PickupLocationUpdate {
   optional string comment = 17;
   optional string contact_name = 18;
   optional string contact_phone = 19;
+  optional string gis_link = 20;
 }
 
 message PickupLocationListContract {
