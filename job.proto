@@ -5,6 +5,13 @@ import "organization.proto";
 import "pickup_location.proto";
 import "driver_on_shift.proto";
 
+enum JobType {
+  JOB_TYPE_UNDEFINED = 0;
+  JOB_TYPE_SERVICE = 1;
+  JOB_TYPE_ADD_BUNKER = 2;
+  JOB_TYPE_REMOVE_BUNKER = 3;
+}
+
 enum JobStatus {
   JOB_STATUS_UNDEFINED = 0;
   JOB_STATUS_CREATED = 1;
@@ -39,6 +46,7 @@ message Job {
   optional Organization service_receiver = 21;
   optional PickupLocation pickup_location = 22;
   optional DriverOnShift driver_on_shift = 23;
+  required JobType type = 24;
 }
 
 message JobCreate {
@@ -56,6 +64,7 @@ message JobCreate {
   optional string driver_comment = 12;
   optional google.protobuf.Timestamp plan_start_at = 13;
   optional google.protobuf.Timestamp plan_end_at = 14;
+  optional JobType type = 15;
 }
 
 message JobUpdate {
@@ -76,6 +85,7 @@ message JobUpdate {
   optional google.protobuf.Timestamp fact_start_at = 15;
   optional google.protobuf.Timestamp fact_end_at = 16;
   optional JobStatus status = 17;
+  optional JobType type = 18;
 }
 
 // POST => /v1/platform/job/status_update
