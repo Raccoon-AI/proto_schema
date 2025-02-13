@@ -2,6 +2,8 @@ syntax = "proto2";
 import "google/protobuf/timestamp.proto";
 import "location.proto";
 
+option go_package = "./pb";
+
 enum PickupLocationType {
   PICKUP_LOCATION_TYPE_UNDEFINED = 0;
   PICKUP_LOCATION_TYPE_CONSTRUCTION = 1;

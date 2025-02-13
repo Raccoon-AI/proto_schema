@@ -2,6 +2,8 @@ syntax = "proto2";
 
 import "google/protobuf/timestamp.proto";
 
+option go_package = "./pb";
+
 //enum WasteType  {
 //  WASTE_TBO = 0;
 //  WASTE_CO = 1;
@@ -51,4 +53,8 @@ message TruckUpdate {
 message TruckStatusUpdate {
   required uint64 id = 1;
   required TruckStatus status = 2;
+}
+
+message TruckList {
+  repeated Truck trucks = 1;
 }

@@ -2,6 +2,8 @@ syntax = "proto2";
 
 import "google/protobuf/timestamp.proto";
 
+option go_package = "./pb";
+
 // GET => /v1/platform/bank_details/{id}
 message BankDetails {
   required uint64 id = 1;

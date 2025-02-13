@@ -5,6 +5,8 @@ import "organization.proto";
 import "pickup_location.proto";
 import "driver_on_shift.proto";
 
+option go_package = "./pb";
+
 enum JobType {
   JOB_TYPE_UNDEFINED = 0;
   JOB_TYPE_SERVICE = 1;

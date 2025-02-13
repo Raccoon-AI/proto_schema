@@ -3,6 +3,8 @@ import "google/protobuf/timestamp.proto";
 import "user.proto";
 import "truck.proto";
 
+option go_package = "./pb";
+
 enum DriverOnShiftStatus {
   DRIVER_ON_SHIFT_STATUS_UNDEFINED = 0;
   DRIVER_ON_SHIFT_STATUS_TRUCK_IDLE = 1;

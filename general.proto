@@ -1,5 +1,6 @@
 syntax = "proto2";
 
+option go_package = "./pb";
 
 // POST => /v1/platform/{dispatcher|driver|client}/login
 message Login {
