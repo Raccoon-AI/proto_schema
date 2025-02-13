@@ -1,6 +1,8 @@
 syntax = "proto2";
 import "google/protobuf/timestamp.proto";
 
+option go_package = "./pb";
+
 enum OrganizationStatus {
   ORGANIZATION_STATUS_UNDEFINED = 0;
   ORGANIZATION_STATUS_INACTIVE = 1;

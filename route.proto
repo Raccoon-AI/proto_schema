@@ -2,6 +2,8 @@ syntax = "proto2";
 
 import "google/protobuf/timestamp.proto";
 
+option go_package = "./pb";
+
 enum RouteStatus {
   ROUTE_STATUS_UNDEFINED = 0;
   ROUTE_STATUS_CREATED = 1;

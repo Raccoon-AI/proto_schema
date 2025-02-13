@@ -1,6 +1,8 @@
 syntax = "proto2";
 import "google/protobuf/timestamp.proto";
 
+option go_package = "./pb";
+
 enum UserRole {
   USER_ROLE_UNDEFINED = 0;
   USER_ROLE_ADMIN = 1;
