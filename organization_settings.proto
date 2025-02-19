@@ -1,0 +1,26 @@
+syntax = "proto2";
+import "google/protobuf/timestamp.proto";
+
+
+message OrganizationSettings {
+  required uint64 id = 1;
+  required uint64 organization_id = 2;
+  optional string shift_departure_text = 3;
+  optional string shift_arrival_text = 4;
+  optional string shift_working_schedule = 5;
+  required google.protobuf.Timestamp created_at = 6;
+}
+
+message OrganizationSettingsCreate {
+  required uint64 organization_id = 1;
+  optional string shift_departure_text = 2;
+  optional string shift_arrival_text = 3;
+  optional string shift_working_schedule = 4;
+}
+
+message OrganizationSettingsUpdate {
+  required uint64 organization_id = 1;
+  optional string shift_departure_text = 2;
+  optional string shift_arrival_text = 3;
+  optional string shift_working_schedule = 4;
+}
