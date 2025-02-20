@@ -27,6 +27,7 @@ message Route {
   optional google.protobuf.Timestamp fact_start_at = 12;
   optional google.protobuf.Timestamp fact_end_at = 13;
   required RouteStatus status = 14;
+  required bool created_by_ai = 15;
 }
 
 message RouteCreate {
@@ -39,6 +40,7 @@ message RouteCreate {
   optional uint64 author_id = 7;
   optional google.protobuf.Timestamp plan_start_at = 8;
   optional google.protobuf.Timestamp plan_end_at = 9;
+  optional bool created_by_ai = 10;
 }
 
 message RouteUpdate {
