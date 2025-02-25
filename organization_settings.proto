@@ -1,6 +1,7 @@
 syntax = "proto2";
 import "google/protobuf/timestamp.proto";
 
+option go_package = "./pb";
 
 message OrganizationSettings {
   required uint64 id = 1;
