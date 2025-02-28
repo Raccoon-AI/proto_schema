@@ -53,3 +53,7 @@ message LocationUpdate {
   optional string address = 8;
   optional string gis_link = 9;
 }
+
+message LocationList {
+  repeated Location locations = 1;
+}
