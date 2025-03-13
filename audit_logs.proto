@@ -1,0 +1,23 @@
+syntax = "proto2";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+
+option go_package = "./pb";
+
+enum AuditLogsType {
+    AUDIT_LOGS_TYPE_UNDEFINED = 0;
+    AUDIT_LOGS_TYPE_DATA_CHANGE = 1;
+    AUDIT_LOGS_TYPE_STATE_CHANGE = 2;
+    AUDIT_LOGS_TYPE_AI_DECISION = 3;
+}
+
+
+message AuditLogs {
+  required uint64 id = 1;
+  required uint64 owner_organization_id = 2;
+  required AuditLogsType type = 3;
+  optional uint64 user_id = 4;
+  required string content = 5;
+  optional google.protobuf.Struct metadata = 6;
+  required google.protobuf.Timestamp created_at = 7;
+}
