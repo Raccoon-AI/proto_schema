@@ -1,0 +1,38 @@
+syntax = "proto2";
+import "google/protobuf/timestamp.proto";
+
+enum PointType {
+  POINT_TYPE_UNDEFINED = 0;
+  POINT_TYPE_DEPOT = 1;
+  POINT_TYPE_PICKUP_CONSTRUCTION = 2;
+  POINT_TYPE_PICKUP_RESIDENTIAL = 3;
+  POINT_TYPE_PICKUP_PRIVATE = 4;
+}
+
+message Point {
+  optional double id = 1;
+  optional PointType type = 2;
+  required double lon = 3;
+  required double lat = 4;
+  optional google.protobuf.Timestamp arrival_at = 5;
+}
+
+message CostBetweenPointsIn {
+  required Point src_point = 1;
+  required Point dst_point = 2;
+  required google.protobuf.Timestamp depart_time = 3;
+}
+
+message CostBetweenPointsOut {
+  required double time = 1;
+  required double dist = 2;
+}
+
+service CostProvider {
+  rpc CostBetweenPoints (CostBetweenPointsIn) returns (CostBetweenPointsOut);
+  rpc AnotherMethod (Point) returns (Point);
+}
+
+service CostProvider2 {
+  rpc CostBetweenPoints (CostBetweenPointsIn) returns (CostBetweenPointsOut);
+}

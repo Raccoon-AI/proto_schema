@@ -13,3 +13,9 @@ enum DriverNotification {
   DRIVER_NOTIFICATION_ARRIVED_AT_PICKUP = 7;
   DRIVER_NOTIFICATION_ARRIVED_AT_SCALING = 8;
 }
+
+message Notification {
+  required DriverNotification type = 1;
+  required string title = 2;
+  required string body = 3;
+} 
