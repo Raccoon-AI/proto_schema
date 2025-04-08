@@ -58,3 +58,12 @@ message TruckStatusUpdate {
 message TruckList {
   repeated Truck trucks = 1;
 }
+
+message TruckInProximity {
+  required uint64 id = 1;
+  required uint64 provider_org_id = 2;
+  required uint64 location_id = 3;
+  required string location_type = 4; // "pickup_location" or "location"
+  required int64 start_ts = 5;
+  required int64 end_ts = 6;
+}

@@ -92,3 +92,7 @@ message PickupLocationListContract {
   repeated uint64 pickup_location_ids = 1;
   required uint64 contract_id = 2;
 }
+
+message PickupLocationList {
+  repeated PickupLocation pickup_locations = 1;
+}
