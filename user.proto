@@ -38,6 +38,7 @@ message User {
   optional uint64 telegram_chat_id = 11;
   required UserStatus status = 12;
   optional string driver_license_number = 13;
+  optional string fcm_token = 14;
 }
 
 message UserCreate {
@@ -52,6 +53,7 @@ message UserCreate {
   optional string telegram_username = 9;
   optional uint64 telegram_chat_id = 10;
   optional string driver_license_number = 11;
+  optional string fcm_token = 12;
 }
 
 message UserUpdate {
@@ -65,6 +67,7 @@ message UserUpdate {
   optional uint64 telegram_chat_id = 8;
   optional UserStatus status = 9;
   optional string driver_license_number = 10;
+  optional string fcm_token = 11;
 }
 
 message UserUpdateRole {
