@@ -30,9 +30,4 @@ message CostBetweenPointsOut {
 
 service CostProvider {
   rpc CostBetweenPoints (CostBetweenPointsIn) returns (CostBetweenPointsOut);
-  rpc AnotherMethod (Point) returns (Point);
-}
-
-service CostProvider2 {
-  rpc CostBetweenPoints (CostBetweenPointsIn) returns (CostBetweenPointsOut);
 }
