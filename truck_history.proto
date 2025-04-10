@@ -6,9 +6,9 @@ option go_package = "./pb";
 
 enum TruckHistoryEvent {
     TRUCK_HISTORY_EVENT_UNDEFINED = 0;
-    TRUCK_HISTORY_EVENT_SHIFT = 1;   // обычная смена
-    TRUCK_HISTORY_EVENT_REPAIR = 2;  // ремонт 
-    TRUCK_HISTORY_EVENT_IDLE = 3;    // простой
+    TRUCK_HISTORY_EVENT_SHIFT = 1;
+    TRUCK_HISTORY_EVENT_REPAIR = 2;
+    TRUCK_HISTORY_EVENT_IDLE = 3;
   }
   
   message TruckHistory {
