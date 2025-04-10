@@ -1,0 +1,42 @@
+syntax = "proto2";
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+enum TruckHistoryEvent {
+    TRUCK_HISTORY_EVENT_UNDEFINED = 0;
+    TRUCK_HISTORY_EVENT_SHIFT = 1;   // обычная смена
+    TRUCK_HISTORY_EVENT_REPAIR = 2;  // ремонт 
+    TRUCK_HISTORY_EVENT_IDLE = 3;    // простой
+  }
+  
+  message TruckHistory {
+    required uint64 id = 1;
+    required uint64 owner_organization_id = 2;
+    required uint64 author_id = 3;
+    required uint64 truck_id = 4;
+    optional uint64 shift_id = 5;
+    required TruckHistoryEvent event = 6;
+    required string metadata = 7;
+    required google.protobuf.Timestamp event_start_at = 8;
+    optional google.protobuf.Timestamp event_end_at = 9;
+    required google.protobuf.Timestamp created_at = 10;
+  }
+  
+  message CreateTruckHistory {
+    required uint64 owner_organization_id = 1;
+    required uint64 truck_id = 2;
+    optional uint64 shift_id = 3;
+    required TruckHistoryEvent event = 4;
+    required string metadata = 5;
+    required google.protobuf.Timestamp event_start_at = 6;
+  }
+  
+  message UpdateTruckHistory {
+    required uint64 id = 1;
+    required uint64 owner_organization_id = 2;
+    optional uint64 shift_id = 3;
+    required string metadata = 4;
+    optional google.protobuf.Timestamp event_end_at = 5;
+  }
