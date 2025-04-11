@@ -6,7 +6,7 @@ option go_package = "./pb";
 
 enum TruckIncidentEvent {
     TRUCK_INCIDENT_EVENT_UNDEFINED = 0;
-    TRUCK_INCIDENT_EVENT_MALFUNCTION = 1;
+    TRUCK_INCIDENT_EVENT_TRUCK_MALFUNCTION = 1;
     TRUCK_INCIDENT_EVENT_TRAFFIC_ACCIDENT = 2;
     TRUCK_INCIDENT_EVENT_TRAFFIC_STOP = 3;
   }
@@ -18,9 +18,9 @@ message TruckIncident {
   required uint64 truck_id = 4;
   optional uint64 shift_id = 5;
   required TruckIncidentEvent event = 6;
-  required string metadata = 7;
-  required google.protobuf.Timestamp event_start_at = 8;
-  optional google.protobuf.Timestamp event_end_at = 9;
+  required string meta = 7;
+  required google.protobuf.Timestamp start_at = 8;
+  optional google.protobuf.Timestamp end_at = 9;
   required google.protobuf.Timestamp created_at = 10;
 }
 
@@ -29,14 +29,14 @@ message CreateTruckIncident {
   required uint64 truck_id = 2;
   optional uint64 shift_id = 3;
   required TruckIncidentEvent event = 4;
-  required string metadata = 5;
-  required google.protobuf.Timestamp event_start_at = 6;
+  required string meta = 5;
+  required google.protobuf.Timestamp start_at = 6;
 }
 
 message UpdateTruckIncident {
   required uint64 id = 1;
   required uint64 owner_organization_id = 2;
   optional uint64 shift_id = 3;
-  required string metadata = 4;
-  optional google.protobuf.Timestamp event_end_at = 5;
+  required string meta = 4;
+  optional google.protobuf.Timestamp end_at = 5;
 }
