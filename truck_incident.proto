@@ -24,16 +24,17 @@ message TruckIncident {
   required google.protobuf.Timestamp created_at = 10;
 }
 
-message CreateTruckIncident {
+message TruckIncidentCreate {
   required uint64 owner_organization_id = 1;
-  required uint64 truck_id = 2;
-  optional uint64 shift_id = 3;
-  required TruckIncidentEvent event = 4;
-  required string meta = 5;
-  required google.protobuf.Timestamp start_at = 6;
+  optional uint64 author_id = 2;
+  required uint64 truck_id = 3;
+  optional uint64 shift_id = 4;
+  required TruckIncidentEvent event = 5;
+  required string meta = 6;
+  required google.protobuf.Timestamp start_at = 7;
 }
 
-message UpdateTruckIncident {
+message TruckIncidentUpdate {
   required uint64 id = 1;
   required uint64 owner_organization_id = 2;
   optional uint64 shift_id = 3;
