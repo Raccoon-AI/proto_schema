@@ -22,6 +22,8 @@ message TruckIncident {
   required google.protobuf.Timestamp start_at = 8;
   optional google.protobuf.Timestamp end_at = 9;
   required google.protobuf.Timestamp created_at = 10;
+  optional string incident_reason = 11;
+  optional string repair_kind = 12;
 }
 
 message TruckIncidentCreate {
@@ -32,6 +34,8 @@ message TruckIncidentCreate {
   required TruckIncidentEvent event = 5;
   required string meta = 6;
   required google.protobuf.Timestamp start_at = 7;
+  optional string incident_reason = 8;
+  optional string repair_kind = 9;
 }
 
 message TruckIncidentUpdate {
@@ -40,4 +44,6 @@ message TruckIncidentUpdate {
   optional uint64 shift_id = 3;
   required string meta = 4;
   optional google.protobuf.Timestamp end_at = 5;
+  optional string incident_reason = 6;
+  optional string repair_kind = 7;
 }
