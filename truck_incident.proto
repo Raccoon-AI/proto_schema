@@ -5,12 +5,19 @@ import "google/protobuf/timestamp.proto";
 option go_package = "./pb";
 
 enum TruckIncidentEvent {
-    TRUCK_INCIDENT_EVENT_UNDEFINED = 0;
-    TRUCK_INCIDENT_EVENT_TRUCK_MALFUNCTION = 1;
-    TRUCK_INCIDENT_EVENT_TRAFFIC_ACCIDENT = 2;
-    TRUCK_INCIDENT_EVENT_TRAFFIC_STOP = 3;
-  }
-  
+  TRUCK_INCIDENT_EVENT_UNDEFINED = 0;
+  TRUCK_INCIDENT_EVENT_TRUCK_MALFUNCTION = 1;
+  TRUCK_INCIDENT_EVENT_TRAFFIC_ACCIDENT = 2;
+  TRUCK_INCIDENT_EVENT_TRAFFIC_STOP = 3;
+}
+
+enum TruckIncidentRepairKind {
+  TRUCK_INCIDENT_REPAIR_KIND_UNDEFINED = 0;
+  TRUCK_INCIDENT_REPAIR_KIND_SIMPLE = 1;
+  TRUCK_INCIDENT_REPAIR_KIND_REGULAR = 2;
+  TRUCK_INCIDENT_REPAIR_KIND_COMPLEX = 3;
+}
+
 message TruckIncident {
   required uint64 id = 1;
   required uint64 owner_organization_id = 2;
@@ -23,7 +30,7 @@ message TruckIncident {
   optional google.protobuf.Timestamp end_at = 9;
   required google.protobuf.Timestamp created_at = 10;
   optional string incident_reason = 11;
-  optional string repair_kind = 12;
+  optional TruckIncidentRepairKind repair_kind = 12;
 }
 
 message TruckIncidentCreate {
@@ -35,7 +42,7 @@ message TruckIncidentCreate {
   required string meta = 6;
   required google.protobuf.Timestamp start_at = 7;
   optional string incident_reason = 8;
-  optional string repair_kind = 9;
+  optional TruckIncidentRepairKind repair_kind = 9;
 }
 
 message TruckIncidentUpdate {
@@ -45,5 +52,5 @@ message TruckIncidentUpdate {
   required string meta = 4;
   optional google.protobuf.Timestamp end_at = 5;
   optional string incident_reason = 6;
-  optional string repair_kind = 7;
+  optional TruckIncidentRepairKind repair_kind = 7;
 }
