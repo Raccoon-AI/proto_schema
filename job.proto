@@ -62,7 +62,7 @@ message Job {
   optional double service_start_photo_lon = 27;
   optional double service_end_photo_lat = 28;
   optional double service_end_photo_lon = 29;
-  optional string container_number = 30;
+  optional string container_name = 30;
 }
 
 message JobCreate {
@@ -107,7 +107,7 @@ message JobUpdate {
   optional double service_start_photo_lon = 21;
   optional double service_end_photo_lat = 22;
   optional double service_end_photo_lon = 23;
-  optional string container_number = 24;
+  optional string container_name = 24;
 }
 
 // POST => /v1/platform/job/status_update
