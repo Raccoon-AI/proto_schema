@@ -1,5 +1,6 @@
 syntax = "proto2";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
 
 option go_package = "./pb";
 
@@ -25,7 +26,7 @@ message Location {
   required LocationStatus status = 6;
   required double lon = 7;
   required double lat = 8;
-  optional string geometry = 9;
+  optional google.protobuf.Struct geometry = 9;
   optional string address = 10;
   required string polymorphic_type = 11;
   optional string gis_link = 12;
@@ -37,7 +38,7 @@ message LocationCreate {
   optional uint64 owner_organization_id = 3;
   required double lon = 4;
   required double lat = 5;
-  optional string geometry = 6;
+  optional google.protobuf.Struct geometry = 6;
   optional string address = 7;
   optional string gis_link = 8;
 }
@@ -49,7 +50,7 @@ message LocationUpdate {
   optional LocationStatus status = 4;
   optional double lon = 5;
   optional double lat = 6;
-  optional string geometry = 7;
+  optional google.protobuf.Struct geometry = 7;
   optional string address = 8;
   optional string gis_link = 9;
 }
