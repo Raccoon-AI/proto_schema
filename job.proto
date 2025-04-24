@@ -24,6 +24,14 @@ enum JobStatus {
   JOB_STATUS_ON_SERVICE = 6;
 }
 
+enum DispatcherReviewStatus {
+  DISPATCHER_REVIEW_STATUS_UNDEFINED = 0;
+  DISPATCHER_REVIEW_STATUS_PENDING = 1;
+  DISPATCHER_REVIEW_STATUS_APPROVED = 2;
+  DISPATCHER_REVIEW_STATUS_REJECTED = 3;
+  DISPATCHER_REVIEW_STATUS_SUSPICIOUS = 4;
+}
+
 // GET => /v1/platform/job/{id}
 message Job {
   required uint64 id = 1;
@@ -49,6 +57,12 @@ message Job {
   optional PickupLocation pickup_location = 22;
   optional DriverOnShift driver_on_shift = 23;
   required JobType type = 24;
+  required DispatcherReviewStatus dispatcher_review_status = 25;
+  optional double service_start_photo_lat = 26;
+  optional double service_start_photo_lon = 27;
+  optional double service_end_photo_lat = 28;
+  optional double service_end_photo_lon = 29;
+  optional string container_number = 30;
 }
 
 message JobCreate {
@@ -88,6 +102,12 @@ message JobUpdate {
   optional google.protobuf.Timestamp fact_end_at = 16;
   optional JobStatus status = 17;
   optional JobType type = 18;
+  optional DispatcherReviewStatus dispatcher_review_status = 19;
+  optional double service_start_photo_lat = 20;
+  optional double service_start_photo_lon = 21;
+  optional double service_end_photo_lat = 22;
+  optional double service_end_photo_lon = 23;
+  optional string container_number = 24;
 }
 
 // POST => /v1/platform/job/status_update
