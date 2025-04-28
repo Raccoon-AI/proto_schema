@@ -4,6 +4,7 @@ import "location.proto";
 import "google/protobuf/struct.proto";
 
 option go_package = "./pb";
+package raccoonai;
 
 enum PickupLocationType {
   PICKUP_LOCATION_TYPE_UNDEFINED = 0;

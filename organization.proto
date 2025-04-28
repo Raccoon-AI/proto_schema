@@ -2,6 +2,7 @@ syntax = "proto2";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
+package raccoonai;
 
 enum OrganizationStatus {
   ORGANIZATION_STATUS_UNDEFINED = 0;

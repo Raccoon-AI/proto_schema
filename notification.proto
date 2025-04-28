@@ -1,6 +1,7 @@
 syntax = "proto2";
 
 option go_package = "./pb";
+package raccoonai;
 
 enum DriverNotification {
   DRIVER_NOTIFICATION_UNSPECIFIED = 0;

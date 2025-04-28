@@ -4,6 +4,7 @@ import "user.proto";
 import "truck.proto";
 
 option go_package = "./pb";
+package raccoonai;
 
 enum DriverOnShiftStatus {
   DRIVER_ON_SHIFT_STATUS_UNDEFINED = 0;

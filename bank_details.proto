@@ -3,6 +3,7 @@ syntax = "proto2";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
+package raccoonai;
 
 // GET => /v1/platform/bank_details/{id}
 message BankDetails {

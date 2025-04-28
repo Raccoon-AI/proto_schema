@@ -3,6 +3,7 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/struct.proto";
 
 option go_package = "./pb";
+package raccoonai;
 
 enum LocationStatus {
   LOCATION_STATUS_UNDEFINED = 0;
