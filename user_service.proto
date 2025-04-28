@@ -1,0 +1,18 @@
+syntax = "proto2";
+package raccoonai;
+
+import "user.proto";
+
+option go_package = "./pb";
+
+message UserListRequest {
+  required uint64 org_id = 1;
+}
+
+message UserListResponse {
+  repeated User users = 1;
+}
+
+service UserService {
+  rpc GetDrivers(UserListRequest) returns (UserListResponse) {}
+}

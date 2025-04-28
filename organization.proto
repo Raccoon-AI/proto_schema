@@ -1,4 +1,5 @@
 syntax = "proto2";
+package raccoonai;
 
 import "google/protobuf/timestamp.proto";
 
@@ -8,6 +9,7 @@ enum OrganizationStatus {
   ORGANIZATION_STATUS_UNDEFINED = 0;
   ORGANIZATION_STATUS_INACTIVE = 1;
   ORGANIZATION_STATUS_ACTIVE = 2;
+  ORGANIZATION_STATUS_GUEST = 3;
 }
 
 enum OrganizationType {

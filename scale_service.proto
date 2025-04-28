@@ -1,0 +1,68 @@
+syntax = "proto2";
+
+package raccoonai;
+
+import "google/protobuf/timestamp.proto";
+import "organization.proto";
+import "route.proto";
+import "truck.proto";
+import "user.proto";
+
+option go_package = "./pb";
+
+enum WasteType {
+  WASTE_TYPE_UNDEFINED = 0;
+  WASTE_TYPE_CONSTRUCTION = 1;
+  WASTE_TYPE_MSW = 2;
+  WASTE_TYPE_LIQUID = 3;
+  WASTE_TYPE_ORGANIC = 4;
+}
+
+message ScaleBruttoRequest {
+  required uint64 truck_id = 1;
+  required uint64 driver_id = 2;
+  required float weight_kg = 3;
+  required WasteType type = 4;
+  optional float volume = 5;
+}
+
+message ScaleNettoRequest {
+  required uint64 scale_record_id = 1;
+  required float weight_kg = 2;
+}
+
+message ScaleResponse {
+  required ScaleRecord scale_record = 1;
+}
+
+message ScaleRecord {
+  required uint64 id = 1;
+  required Organization service_provider = 2;
+  optional Organization service_receiver = 3;
+  required float brutto_weight_kg = 4;
+  required google.protobuf.Timestamp brutto_scale_ts = 5;
+  optional float netto_weight_kg = 6;
+  optional google.protobuf.Timestamp netto_scale_ts = 7;
+  required bool is_guest_record = 8;
+  required WasteType type = 9;
+  required Truck truck = 10;
+  required User driver = 11;
+  optional Route route = 12;
+}
+
+message ScaleRecordListRequest {
+  optional uint64 service_provider_id = 1;
+  optional WasteType waste_type = 2;
+  optional uint64 driver_id = 3;
+  optional uint64 truck_id = 4;
+}
+
+message ScaleRecordListResponse {
+  repeated ScaleRecord scale_records = 1;
+}
+
+service ScaleService {
+  rpc ScaleBrutto(ScaleBruttoRequest) returns (ScaleResponse) {}
+  rpc ScaleNetto(ScaleNettoRequest) returns (ScaleResponse) {}
+  rpc ScaleRecordList(ScaleRecordListRequest) returns (ScaleRecordListResponse) {}
+}
