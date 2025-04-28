@@ -25,13 +25,12 @@ message TruckIncident {
   required uint64 truck_id = 4;
   optional uint64 shift_id = 5;
   required TruckIncidentEvent event = 6;
-  optional string meta = 7;
-  required google.protobuf.Timestamp start_at = 8;
-  optional google.protobuf.Timestamp end_at = 9;
-  required google.protobuf.Timestamp created_at = 10;
-  optional string incident_reason = 11;
-  optional TruckIncidentRepairKind repair_kind = 12;
-  optional uint64 driver_id = 13;
+  required google.protobuf.Timestamp start_at = 7;
+  optional google.protobuf.Timestamp end_at = 8;
+  required google.protobuf.Timestamp created_at = 9;
+  optional string incident_reason = 10;
+  optional TruckIncidentRepairKind repair_kind = 11;
+  optional uint64 driver_id = 12;
 }
 
 message TruckIncidentCreate {
@@ -40,19 +39,17 @@ message TruckIncidentCreate {
   required uint64 truck_id = 3;
   optional uint64 shift_id = 4;
   required TruckIncidentEvent event = 5;
-  optional string meta = 6;
-  required google.protobuf.Timestamp start_at = 7;
-  optional string incident_reason = 8;
-  optional TruckIncidentRepairKind repair_kind = 9;
-  optional uint64 driver_id = 10;
+  required google.protobuf.Timestamp start_at = 6;
+  optional string incident_reason = 7;
+  optional TruckIncidentRepairKind repair_kind = 8;
+  optional uint64 driver_id = 9;
 }
 
 message TruckIncidentUpdate {
   required uint64 id = 1;
   required uint64 owner_organization_id = 2;
   optional uint64 shift_id = 3;
-  optional string meta = 4;
-  optional google.protobuf.Timestamp end_at = 5;
-  optional string incident_reason = 6;
-  optional TruckIncidentRepairKind repair_kind = 7;
+  optional google.protobuf.Timestamp end_at = 4;
+  optional string incident_reason = 5;
+  optional TruckIncidentRepairKind repair_kind = 6;
 }
