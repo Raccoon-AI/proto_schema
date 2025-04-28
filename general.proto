@@ -1,6 +1,7 @@
 syntax = "proto2";
 
 option go_package = "./pb";
+package raccoonai;
 
 // POST => /v1/platform/{dispatcher|driver|client}/login
 message Login {
@@ -20,4 +21,10 @@ message PasswordReset {
   required string username = 1;
   required string old_password = 2;
   required string new_password = 3;
+}
+
+message EmptyMessageRequest {
+}
+
+message EmptyMessageResponse {
 }

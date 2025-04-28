@@ -6,6 +6,7 @@ import "pickup_location.proto";
 import "driver_on_shift.proto";
 
 option go_package = "./pb";
+package raccoonai;
 
 enum JobType {
   JOB_TYPE_UNDEFINED = 0;

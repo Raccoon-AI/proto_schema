@@ -1,0 +1,22 @@
+syntax = "proto2";
+import "truck.proto";
+
+package raccoonai;
+option go_package = "./pb";
+
+message SearchTruckRequest {
+  required string plate_number = 1;
+}
+
+message SearchTruckResponse {
+  optional Truck truck = 1;
+}
+
+message TruckScaleRequest {
+  required uint64 truck_id = 1;
+  required float weight_kg = 2;
+}
+
+service ScaleService {
+  rpc SearchTruck(SearchTruckRequest) returns (SearchTruckResponse) {}
+}
