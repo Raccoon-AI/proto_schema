@@ -63,6 +63,7 @@ message Job {
   optional double service_end_photo_lat = 28;
   optional double service_end_photo_lon = 29;
   optional string container_name = 30;
+  optional uint64 job_tariff = 31;
 }
 
 message JobCreate {
@@ -81,6 +82,7 @@ message JobCreate {
   optional google.protobuf.Timestamp plan_start_at = 13;
   optional google.protobuf.Timestamp plan_end_at = 14;
   optional JobType type = 15;
+  optional uint64 job_tariff = 16;
 }
 
 message JobUpdate {
@@ -108,6 +110,7 @@ message JobUpdate {
   optional double service_end_photo_lat = 22;
   optional double service_end_photo_lon = 23;
   optional string container_name = 24;
+  optional uint64 job_tariff = 25;
 }
 
 // POST => /v1/platform/job/status_update
