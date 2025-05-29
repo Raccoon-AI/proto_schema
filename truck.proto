@@ -13,6 +13,7 @@ enum TruckStatus {
   TRUCK_STATUS_UNDEFINED = 0;
   TRUCK_STATUS_INACTIVE = 1;
   TRUCK_STATUS_ACTIVE = 2;
+  TRUCK_STATUS_IN_REPAIR=3;
 }
 
 enum TruckType {
