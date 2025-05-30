@@ -1,6 +1,8 @@
 syntax = "proto2";
 import "google/protobuf/timestamp.proto";
 
+option go_package = "./pb";
+
 enum PointType {
   POINT_TYPE_UNDEFINED = 0;
   POINT_TYPE_DEPOT = 1;
