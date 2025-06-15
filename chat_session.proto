@@ -1,0 +1,87 @@
+syntax = "proto2";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+
+option go_package = "./pb";
+
+// --- Core Chat Messages ---
+
+// ChatMessage represents a single message in a chat conversation.
+message ChatMessage {
+  required string role = 1;      // e.g., "user", "assistant"
+  required string content = 2;
+  optional MessageMetadata metadata = 3; // Optional metadata for SQL/plot info
+  optional uint64 id = 4;        // Making ID optional as it might be generated server-side for new messages
+}
+
+// Metadata associated with a chat message, typically for SQL query results or other structured data.
+message MessageMetadata {
+  optional string sql_query = 1;
+  optional string plot_title = 2;
+  repeated google.protobuf.Struct rows = 3;   // JSON representation of rows (list of dicts)
+  repeated string columns = 4; // JSON representation of columns (list of strings, usually)
+}
+
+// Full ChatSession model, representing an entire conversation.
+message ChatSession {
+  required string id = 1;        // UUID, maps to string
+  required uint64 user_id = 2;
+  repeated ChatMessage chat_history = 3; // List of ChatMessage objects
+  required google.protobuf.Timestamp created_at = 4;
+  required google.protobuf.Timestamp updated_at = 5;
+  optional string chat_title = 6;
+}
+
+// --- Request/Response Messages for API Endpoints ---
+
+// Generic request for sending a chat message to the assistant.
+// Can be used for starting a new chat or continuing an existing one.
+message ChatRequest {
+  required string user_question = 1;
+  optional string chat_id = 2; // Optional: If continuing an existing chat
+}
+
+// Generic response for a chat interaction, containing the assistant's reply and chat session info.
+message ChatResponse {
+  required string chat_id = 1;
+  optional string business_insights = 2; // Direct inclusion for convenience in responses
+  optional string plot_title = 3;        // Direct inclusion for convenience in responses
+  optional string sql_query = 4;         // Direct inclusion for convenience in responses
+  repeated string columns = 5;           // Direct inclusion for convenience in responses
+  repeated google.protobuf.Struct rows = 6; // Direct inclusion for convenience in responses
+  optional bool corrected = 7;           // Indicates if SQL was corrected
+  optional string error = 8;             // General error message for the response
+}
+
+// Response for retrieving a full chat history.
+message ChatHistoryListResponse {
+  required string chat_id = 1;
+  repeated ChatMessage history = 2;
+}
+
+// Message for listing chat titles.
+message ChatTitle {
+  required string id = 1; // UUID for chat session
+  required string title = 2;
+  required google.protobuf.Timestamp updated_at = 3; // Added for sorting/display
+  required google.protobuf.Timestamp created_at = 4; // Added for sorting/display
+}
+
+// Response for getting all chat titles for a user.
+message ChatTitlesResponse {
+  repeated ChatTitle chats = 1;
+}
+
+// Message for creating a new chat session when the user asks the first question.
+// This is primarily for internal use by the backend to initialize a chat.
+message ChatSessionCreateInternal {
+  required string first_message_content = 1;
+  required string chat_title = 2;
+}
+
+// Message for updating an existing chat session's title or adding messages.
+message ChatSessionUpdateInternal {
+  required string id = 1; // ID of the chat session to update
+  optional string chat_title = 2; // Optional: For updating the title later
+}
