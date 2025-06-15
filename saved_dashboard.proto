@@ -1,0 +1,50 @@
+syntax = "proto2";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto"; // Import the Struct and ListValue types
+
+option go_package = "./pb";
+
+message SavedDashboard {
+  required string id = 1; 
+  required uint64 user_id = 2;
+  required uint64 owner_organization_id = 3;
+  optional string chat_id = 4; 
+  required string title = 5;
+  required string sql_query = 6;
+  optional string description = 7;
+  required string status = 8; 
+  optional google.protobuf.Struct plot_config = 9; 
+  required google.protobuf.Timestamp created_at = 10;
+  required google.protobuf.Timestamp updated_at = 11;
+}
+
+message DashboardCreate {
+  optional string chat_id = 1; 
+  required string title = 2;
+  required string sql_query = 3;
+  optional string description = 4;
+  optional google.protobuf.Struct plot_config = 5;
+}
+
+message DashboardUpdate {
+  required string id = 1; 
+  optional string title = 2;
+  optional string sql_query = 3;
+  optional string description = 4;
+  optional string status = 5;
+  optional google.protobuf.Struct plot_config = 6; 
+}
+
+message ExecuteQueryRequest {
+  required string sql_query = 1;
+  required string user_question = 2; // Contextual user question for the query
+}
+
+message QueryResultResponse {
+  required string sql_query = 1;
+  repeated string columns = 2; 
+  repeated google.protobuf.Struct rows = 3;    
+  optional string title = 4;                       
+  optional string error = 5;
+}
