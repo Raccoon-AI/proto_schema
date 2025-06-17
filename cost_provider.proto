@@ -29,7 +29,3 @@ message CostBetweenPointsOut {
   required double time = 1;
   required double dist = 2;
 }
-
-service CostProvider {
-  rpc CostBetweenPoints (CostBetweenPointsIn) returns (CostBetweenPointsOut);
-}
