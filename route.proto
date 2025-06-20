@@ -30,6 +30,7 @@ message Route {
   optional google.protobuf.Timestamp fact_end_at = 13;
   required RouteStatus status = 14;
   required bool created_by_ai = 15;
+  required bool is_pseudo = 16;
 }
 
 message RouteCreate {
@@ -43,6 +44,7 @@ message RouteCreate {
   optional google.protobuf.Timestamp plan_start_at = 8;
   optional google.protobuf.Timestamp plan_end_at = 9;
   optional bool created_by_ai = 10;
+  optional bool is_pseudo = 11;
 }
 
 message RouteUpdate {
@@ -57,6 +59,7 @@ message RouteUpdate {
   optional google.protobuf.Timestamp fact_start_at = 9;
   optional google.protobuf.Timestamp fact_end_at = 10;
   optional RouteStatus status = 11;
+  optional bool is_pseudo = 12;
 }
 
 message RouteCreateWithJobs {
