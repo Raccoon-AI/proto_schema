@@ -30,7 +30,7 @@ message Route {
   optional google.protobuf.Timestamp fact_end_at = 13;
   required RouteStatus status = 14;
   required bool created_by_ai = 15;
-  required bool is_pseudo = 16;
+  optional bool is_pseudo = 16;
 }
 
 message RouteCreate {
