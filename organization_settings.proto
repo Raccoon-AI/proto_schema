@@ -17,6 +17,7 @@ message OrganizationSettings {
   optional string shift_working_schedule = 5;
   required google.protobuf.Timestamp created_at = 6;
   required bool is_ai_driven = 7;
+  optional NotificationConfig notification_config = 8;
 }
 
 message OrganizationSettingsCreate {
@@ -25,6 +26,7 @@ message OrganizationSettingsCreate {
   optional string shift_arrival_text = 3;
   optional string shift_working_schedule = 4;
   optional bool is_ai_driven = 5;
+  optional NotificationConfig notification_config = 6;
 }
 
 message OrganizationSettingsUpdate {
@@ -33,4 +35,5 @@ message OrganizationSettingsUpdate {
   optional string shift_arrival_text = 3;
   optional string shift_working_schedule = 4;
   optional bool is_ai_driven = 5;
+  optional NotificationConfig notification_config = 6;
 }
