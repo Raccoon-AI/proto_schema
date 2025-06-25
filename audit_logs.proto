@@ -4,17 +4,61 @@ import "google/protobuf/struct.proto";
 
 option go_package = "./pb";
 
-enum AuditLogsCategoryType {
-    AUDIT_LOGS_TYPE_UNDEFINED = 0;
-    AUDIT_LOGS_TYPE_DATA_CHANGE = 1;
-    AUDIT_LOGS_TYPE_STATE_CHANGE = 2;
-    AUDIT_LOGS_TYPE_AI_DECISION = 3;
+enum AuditLogsCategory {
+  AUDIT_LOGS_TYPE_UNDEFINED = 0;
+  AUDIT_LOGS_TYPE_AI_DECISION = 1;
+  AUDIT_LOGS_TYPE_TRUCK = 2;
+  AUDIT_LOGS_TYPE_OFFICE = 3;
+}
+
+enum AIDecisionCategoryType {
+  AI_DECISION_UNDEFINED = 0;
+  AI_ROUTE_ASSIGNED = 1;
+}
+
+enum TruckCategoryType {
+  TRUCK_UNDEFINED = 0;
+  TRUCK_AVAILABLE = 1;
+  TRUCK_ARRIVED_AT_LOCATION = 2;
+  TRUCK_ARRIVED_AT_DEPOT = 3;
+  TRUCK_LEFT_LOCATION = 4;
+  TRUCK_ISSUE_REPORTED = 5;
+  TRUCK_SENT_TO_REPAIR = 6;
+  TRUCK_RETURNED_FROM_REPAIR = 7;
+  TRUCK_SHIFT_CREATED = 8;
+  TRUCK_SHIFT_COMPLETED = 9;
+}
+
+enum OfficeCategoryType {
+  OFFICE_UNDEFINED = 0;
+  JOB_CREATED = 1;
+  JOB_STARTED = 2;
+  JOB_COMPLETED = 3;
+  JOB_CANCELLED = 4;
+  ROUTE_CREATED = 5;
+  ROUTE_STARTED = 6;
+  ROUTE_RETURNING = 7;
+  ROUTE_MANUALLY_COMPLETED = 8;
+  ROUTE_CANCELLED = 9;
+  ROUTE_COMPLETED = 10;
+  CLIENT_ADDED = 11;
+  CLIENT_UPDATED = 12;
+  LOCATION_ADDED = 13;
+  LOCATION_UPDATED = 14;
+  DRIVER_ADDED = 15;
+  DRIVER_UPDATED = 16;
+  TRUCK_ADDED = 17;
+  TRUCK_UPDATED = 18;
+  SHIFT_CREATED = 19;
+  SHIFT_COMPLETED = 20;
+  OFFICE_TRUCK_SENT_TO_REPAIR = 21;
+  OFFICE_TRUCK_RETURNED_FROM_REPAIR = 22;
 }
 
 message AuditLogs {
   required uint64 id = 1;
   required uint64 organization_id = 2;
-  required string category = 3;
+  required AuditLogsCategory category = 3;
   required string log_type = 4;
   required string user_id = 5;
   required string user_role = 6;
@@ -25,10 +69,26 @@ message AuditLogs {
 
 message AuditLogsCreate {
     required uint64 organization_id = 1;
-    required string category = 2;
+    required AuditLogsCategory category = 2;
     required string log_type = 3;
     required string user_id = 4;
     required string user_role = 5;
     required string message = 6;
     optional google.protobuf.Struct fields = 7;
+}
+
+message AuditLogsUpdate {
+    required uint64 organization_id = 1;
+    optional AuditLogsCategory category = 2;
+    optional string log_type = 3;
+    optional string user_id = 4;
+    optional string user_role = 5;
+    optional string message = 6;
+    optional google.protobuf.Struct fields = 7;
+}
+
+message AuditLogsDummyUsage {
+  optional AIDecisionCategoryType ai = 1;
+  optional TruckCategoryType truck = 2;
+  optional OfficeCategoryType office = 3;
 }
