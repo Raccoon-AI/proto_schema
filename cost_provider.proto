@@ -1,31 +1,57 @@
 syntax = "proto2";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+import "job.proto";
 
 option go_package = "./pb";
 
-enum PointType {
-  POINT_TYPE_UNDEFINED = 0;
-  POINT_TYPE_DEPOT = 1;
-  POINT_TYPE_PICKUP_CONSTRUCTION = 2;
-  POINT_TYPE_PICKUP_RESIDENTIAL = 3;
-  POINT_TYPE_PICKUP_PRIVATE = 4;
-}
-
 message Point {
   optional double id = 1;
-  optional PointType type = 2;
   required double lon = 3;
   required double lat = 4;
-  optional google.protobuf.Timestamp arrival_at = 5;
+  optional google.protobuf.Timestamp date_time = 5;
 }
 
-message CostBetweenPointsIn {
-  required Point src_point = 1;
-  required Point dst_point = 2;
-  required google.protobuf.Timestamp depart_time = 3;
+message SourcesAndTargets {
+  repeated Point sources = 1;
+  repeated Point targets = 2;
 }
 
-message CostBetweenPointsOut {
-  required double time = 1;
-  required double dist = 2;
+message SourcesToTargetsIn {
+  repeated Point sources = 1;
+  repeated Point targets = 2;
+  optional string costing = 3;
+  optional bool verbose = 4;
+  optional string shape_format = 5;
+}
+
+message SourcesToTargetsOut {
+  optional string shapes = 1;
+  required bytes durations = 2;
+  required bytes distances = 3;
+  required uint64 num_sources = 4;
+  required uint64 num_targets = 5;
+}
+
+message CostInfoOut {
+  required google.protobuf.Timestamp time = 1;
+  required Point source_point = 2;
+  required Point destination_point = 3;
+  required Point location = 4;
+  required google.protobuf.Duration d2l = 5;
+  required google.protobuf.Duration l2d = 6;
+  required google.protobuf.Duration service_duration = 7;
+  required google.protobuf.Duration dumping_duration = 8;
+}
+
+message CostInfoIn {
+  required Job job = 1;
+  required Point source_point = 2;
+  optional Point destination_point = 3;
+}
+
+service Valhalla {
+  rpc SourcesToTargets (SourcesToTargetsIn) returns (SourcesToTargetsOut);
+  rpc GetMatrix (SourcesAndTargets) returns (SourcesToTargetsOut);
+  rpc GetCostInfo (CostInfoIn) returns (CostInfoOut);
 }
