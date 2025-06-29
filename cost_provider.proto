@@ -3,33 +3,36 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
-enum PointType {
-  POINT_TYPE_UNDEFINED = 0;
-  POINT_TYPE_DEPOT = 1;
-  POINT_TYPE_PICKUP_CONSTRUCTION = 2;
-  POINT_TYPE_PICKUP_RESIDENTIAL = 3;
-  POINT_TYPE_PICKUP_PRIVATE = 4;
-}
-
 message Point {
   optional double id = 1;
-  optional PointType type = 2;
   required double lon = 3;
   required double lat = 4;
-  optional google.protobuf.Timestamp arrival_at = 5;
+  optional google.protobuf.Timestamp date_time = 5;
 }
 
-message CostBetweenPointsIn {
-  required Point src_point = 1;
-  required Point dst_point = 2;
-  required google.protobuf.Timestamp depart_time = 3;
+message SourcesToTargetsIn {
+  repeated Point sources = 1;
+  repeated Point targets = 2;
+  optional string costing = 3;
+  optional bool verbose = 4;
+  optional string shape_format = 5;
 }
 
-message CostBetweenPointsOut {
-  required double time = 1;
-  required double dist = 2;
+message SourcesToTargetsOut {
+  required string algorithm = 1;
+  required string units = 2;
+
+  message SourcesToTargetsOutData {
+    optional bytes shapes = 1;
+    required bytes durations = 2;
+    required bytes distances = 3;
+    required uint64 num_sources = 4;
+    required uint64 num_targets = 5;
+  }
+
+  required SourcesToTargetsOutData sources_to_targets = 3;
 }
 
-service CostProvider {
-  rpc CostBetweenPoints (CostBetweenPointsIn) returns (CostBetweenPointsOut);
+service Valhalla {
+  rpc SourcesToTargets (SourcesToTargetsIn) returns (SourcesToTargetsOut);
 }
