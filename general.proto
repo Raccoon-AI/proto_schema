@@ -21,3 +21,8 @@ message PasswordReset {
   required string old_password = 2;
   required string new_password = 3;
 }
+
+message OTPCreate {
+  required uint64 user_id = 1; 
+  required uint64 otp_code = 2;
+}
