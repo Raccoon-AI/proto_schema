@@ -48,10 +48,14 @@ message CostInfoIn {
   required Job job = 1;
   required Point source_point = 2;
   optional Point destination_point = 3;
+  optional google.protobuf.Timestamp time = 4;
 }
 
-service Valhalla {
-  rpc SourcesToTargets (SourcesToTargetsIn) returns (SourcesToTargetsOut);
+service CompositeCostProvider {
   rpc GetMatrix (SourcesAndTargets) returns (SourcesToTargetsOut);
   rpc GetCostInfo (CostInfoIn) returns (CostInfoOut);
+}
+
+service ValhallaCostProvider {
+  rpc SourcesToTargets (SourcesToTargetsIn) returns (SourcesToTargetsOut);
 }
