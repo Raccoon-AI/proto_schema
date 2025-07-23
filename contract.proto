@@ -20,6 +20,7 @@ message Contract {
   optional google.protobuf.Timestamp signed_at = 8;
   optional google.protobuf.Timestamp paid_at = 9;
   optional string contract_file_url = 10;
+  required ContractStatus status = 11;
 }
 
 message ContractCreate {
@@ -43,4 +44,5 @@ message ContractUpdate {
   optional google.protobuf.Timestamp signed_at = 7;
   optional google.protobuf.Timestamp paid_at = 8;
   optional string contract_file_url = 9;
+  required ContractStatus status = 10;
 }
