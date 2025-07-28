@@ -1,9 +1,11 @@
 syntax = "proto2";
 
-import "driver_on_shift.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+
 import "organization.proto";
 import "pickup_location.proto";
+import "driver_on_shift.proto";
 
 option go_package = "./pb";
 
@@ -32,6 +34,24 @@ enum DispatcherReviewStatus {
   DISPATCHER_REVIEW_STATUS_SUSPICIOUS = 4;
 }
 
+enum JobEvent {
+  JOB_EVENT_CREATE_JOB = 1;
+  JOB_EVENT_ASSIGN = 2;
+  JOB_EVENT_FALLBACK_ASSIGN = 3;
+  JOB_EVENT_ENROUTE = 4;
+  JOB_EVENT_START_SERVICE = 5;
+  JOB_EVENT_COMPLETE = 6;
+  JOB_EVENT_CANCEL = 7;
+  JOB_EVENT_DETACH_FROM_ROUTE = 8;
+  JOB_EVENT_FORCE_COMPLETE = 9;
+}
+
+message JobEventIn {
+  required JobEvent event = 1;
+  required uint64 job_id = 2;
+  optional google.protobuf.Struct payload = 3;
+}
+
 // GET => /v1/platform/job/{id}
 message Job {
   required uint64 id = 1;
@@ -40,7 +60,7 @@ message Job {
   required uint64 service_receiver_id = 4;
   optional google.protobuf.Timestamp tw_start_at = 5;
   optional google.protobuf.Timestamp tw_end_at = 6;
-  optional uint64 sequence_idx = 7;
+  optional uint64 step_idx = 7;
   required uint64 author_id = 8;
   optional uint64 driver_on_shift_id = 9;
   required uint64 pickup_location_id = 10;
@@ -72,7 +92,7 @@ message JobCreate {
   optional uint64 service_receiver_id = 2;
   optional google.protobuf.Timestamp tw_start_at = 3;
   optional google.protobuf.Timestamp tw_end_at = 4;
-  optional uint64 sequence_idx = 5;
+  optional uint64 step_idx = 5;
   optional uint64 author_id = 6;
   optional uint64 driver_on_shift_id = 7;
   required uint64 pickup_location_id = 8;
@@ -93,7 +113,7 @@ message JobUpdate {
   optional uint64 service_receiver_id = 3;
   optional google.protobuf.Timestamp tw_start_at = 4;
   optional google.protobuf.Timestamp tw_end_at = 5;
-  optional uint64 sequence_idx = 6;
+  optional uint64 step_idx = 6;
   optional uint64 driver_on_shift_id = 7;
   optional uint64 pickup_location_id = 8;
   optional string service_started_report_url = 9;
