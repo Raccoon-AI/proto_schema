@@ -83,6 +83,7 @@ message RouteLeg {
 message RouteWaypointsOut {
   repeated RouteLeg legs = 1;
 }
+
 service CompositeCostProvider {
   rpc GetMatrix (SourcesAndTargets) returns (SourcesToTargetsOut);
   rpc GetCostInfo (CostInfoIn) returns (CostInfoOut);
