@@ -13,6 +13,14 @@ message Point {
   optional google.protobuf.Timestamp date_time = 5;
 }
 
+message DepartInfo {
+  optional double id = 1;
+  optional string name = 2;
+  optional double lon = 3;
+  optional double lat = 4;
+  optional google.protobuf.Timestamp date_time = 5;
+}
+
 message SourcesAndTargets {
   repeated Point sources = 1;
   repeated Point targets = 2;
@@ -52,9 +60,34 @@ message CostInfoIn {
   optional google.protobuf.Timestamp time = 4;
 }
 
+message WebCostInfoIn {
+  required uint64 driver_on_shift_id = 1;
+  required Point source_point = 2;
+  required uint64 job_id = 3;
+  required Point destination_point = 4;
+}
+
+message RouteWaypointsIn {
+  repeated Point waypoints = 1;
+}
+
+message RouteStep {
+  required string points = 1;
+  required uint64 duration = 2;
+  required uint64 length = 3;
+}
+
+message RouteLeg {
+  repeated RouteStep steps = 1;
+}
+
+message RouteWaypointsOut {
+  repeated RouteLeg legs = 1;
+}
 service CompositeCostProvider {
   rpc GetMatrix(SourcesAndTargets) returns (SourcesToTargetsOut);
   rpc GetCostInfo(CostInfoIn) returns (CostInfoOut);
+  rpc Route (RouteWaypointsIn) returns (RouteWaypointsOut);
 }
 
 service ValhallaCostProvider {
