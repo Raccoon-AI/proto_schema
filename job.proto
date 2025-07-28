@@ -38,8 +38,8 @@ message Job {
   required google.protobuf.Timestamp created_at = 2;
   required uint64 service_provider_id = 3;
   required uint64 service_receiver_id = 4;
-  optional google.protobuf.Timestamp time_window_start_at = 5;
-  optional google.protobuf.Timestamp time_window_end_at = 6;
+  optional google.protobuf.Timestamp tw_start_at = 5;
+  optional google.protobuf.Timestamp tw_end_at = 6;
   optional uint64 sequence_idx = 7;
   required uint64 author_id = 8;
   optional uint64 driver_on_shift_id = 9;
@@ -70,8 +70,8 @@ message Job {
 message JobCreate {
   optional uint64 service_provider_id = 1;
   optional uint64 service_receiver_id = 2;
-  optional google.protobuf.Timestamp time_window_start_at = 3;
-  optional google.protobuf.Timestamp time_window_end_at = 4;
+  optional google.protobuf.Timestamp tw_start_at = 3;
+  optional google.protobuf.Timestamp tw_end_at = 4;
   optional uint64 sequence_idx = 5;
   optional uint64 author_id = 6;
   optional uint64 driver_on_shift_id = 7;
@@ -91,8 +91,8 @@ message JobUpdate {
   required uint64 id = 1;
   optional uint64 service_provider_id = 2;
   optional uint64 service_receiver_id = 3;
-  optional google.protobuf.Timestamp time_window_start_at = 4;
-  optional google.protobuf.Timestamp time_window_end_at = 5;
+  optional google.protobuf.Timestamp tw_start_at = 4;
+  optional google.protobuf.Timestamp tw_end_at = 5;
   optional uint64 sequence_idx = 6;
   optional uint64 driver_on_shift_id = 7;
   optional uint64 pickup_location_id = 8;
