@@ -19,6 +19,7 @@ enum TruckStatus {
 enum TruckType {
   TRUCK_TYPE_UNDEFINED = 0;
   TRUCK_TYPE_CONSTRUCTION = 1;
+  TRUCK_TYPE_DOUBLE_CONTAINER = 2;
 }
 
 // GET => /v1/platform/truck/{id}
