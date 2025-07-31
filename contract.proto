@@ -20,8 +20,9 @@ message Contract {
   required google.protobuf.Timestamp end_at = 7;
   optional google.protobuf.Timestamp signed_at = 8;
   optional google.protobuf.Timestamp paid_at = 9;
-  optional string contract_file_url = 10;
+  optional string contract_file_key = 10;
   required ContractStatus status = 11;
+  optional uint64 tariff = 12;
 }
 
 message ContractCreate {
@@ -32,7 +33,8 @@ message ContractCreate {
   required google.protobuf.Timestamp end_at = 5;
   optional google.protobuf.Timestamp signed_at = 6;
   optional google.protobuf.Timestamp paid_at = 7;
-  optional string contract_file_url = 8;
+  optional string contract_file_key = 8;
+  optional uint64 tariff = 9;
 }
 
 message ContractUpdate {
@@ -44,6 +46,7 @@ message ContractUpdate {
   optional google.protobuf.Timestamp end_at = 6;
   optional google.protobuf.Timestamp signed_at = 7;
   optional google.protobuf.Timestamp paid_at = 8;
-  optional string contract_file_url = 9;
+  optional string contract_file_key = 9;
   optional ContractStatus status = 10;
+  optional uint64 tariff = 11;
 }
