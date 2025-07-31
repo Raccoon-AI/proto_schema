@@ -4,10 +4,6 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
-//enum WasteType  {
-//  WASTE_TBO = 0;
-//  WASTE_CO = 1;
-//}
 
 enum TruckStatus {
   TRUCK_STATUS_UNDEFINED = 0;
