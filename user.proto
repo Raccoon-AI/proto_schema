@@ -97,3 +97,11 @@ message RegistrationTokenUpdate {
   required uint64 id = 1;
   required bool is_used = 2;
 }
+
+message GenerateLink {
+  required UserRole role = 1;
+  required int32 owner_organization_id = 2;
+  required string preferred_method = 3;
+  required string recipient = 4;
+  required string lang = 5;
+}
