@@ -1,0 +1,27 @@
+syntax = "proto2";
+
+import "user.proto";
+
+option go_package = "./pb";
+
+
+message AuthResponse {
+  required string access_token = 1;
+  required string token_type = 2;
+  required User me = 3; // User information
+}
+
+message OTPCreate {
+  required uint64 user_id = 1;
+  required uint64 otp_code = 2;
+}
+
+message OTPRequest {
+  required string phone_number = 1;
+  required string lang = 2; // Language for OTP message, e.g., "en", "fr", etc.
+}
+
+message LoginOTPRequest {
+  required string phone_number = 1;
+  required uint64 otp = 2;
+}
