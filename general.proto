@@ -2,20 +2,12 @@ syntax = "proto2";
 
 option go_package = "./pb";
 
-// POST => /v1/platform/{dispatcher|driver|client}/login
-message Login {
-  required string username = 1;
-  required string password = 2;
-}
 
-
-// returned by /v1/platform/{dispatcher|driver|client}/login
 message LoginToken {
   required string access_token = 1;
   required string token_type = 2;
 }
 
-// POST => /v1/platform/{dispatcher|driver|client}/password_reset
 message PasswordReset {
   required string username = 1;
   required string old_password = 2;
@@ -37,3 +29,8 @@ message ErrorMessage {
   optional string message = 1;
   optional ErrorCode code = 2;
 }
+
+message Message {
+  optional string message = 1;
+}
+
