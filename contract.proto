@@ -24,6 +24,7 @@ message Contract {
   optional string contract_file_key = 10;
   optional ContractStatus status = 11;
   optional uint64 tariff = 12;
+  optional uint64 rent_cost = 13;
 }
 
 message ContractCreate {
@@ -36,6 +37,7 @@ message ContractCreate {
   optional google.protobuf.Timestamp paid_at = 7;
   optional string contract_file_key = 8;
   optional uint64 tariff = 9;
+  optional uint64 rent_cost = 10;
 }
 
 message ContractUpdate {
@@ -50,6 +52,7 @@ message ContractUpdate {
   optional string contract_file_key = 9;
   optional ContractStatus status = 10;
   optional uint64 tariff = 11;
+  optional uint64 rent_cost = 12;
 }
 
 message ContractDetailed {
@@ -65,8 +68,8 @@ message ContractDetailed {
   optional string contract_file_key = 10;
   optional ContractStatus status = 11;
   optional uint64 tariff = 12;
-
   required Organization target_organization = 13;
   repeated PickupLocation pickup_locations = 14;
   optional string contract_file_url = 15;
+  optional uint64 rent_cost = 16;
 }
