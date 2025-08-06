@@ -1,7 +1,15 @@
 syntax = "proto2";
 import "google/protobuf/timestamp.proto";
-
+import "organization.proto";
+import "pickup_location.proto";
 option go_package = "./pb";
+
+enum ContractStatus {
+  CONTRACT_STATUS_UNDEFINED = 0;
+  CONTRACT_STATUS_INACTIVE = 1;
+  CONTRACT_STATUS_ACTIVE = 2;
+  CONTRACT_STATUS_HIDDEN = 3;
+}
 
 message Contract {
   required uint64 id = 1;
@@ -13,6 +21,9 @@ message Contract {
   required google.protobuf.Timestamp end_at = 7;
   optional google.protobuf.Timestamp signed_at = 8;
   optional google.protobuf.Timestamp paid_at = 9;
+  optional string contract_file_key = 10;
+  optional ContractStatus status = 11;
+  optional uint64 tariff = 12;
 }
 
 message ContractCreate {
@@ -23,6 +34,8 @@ message ContractCreate {
   required google.protobuf.Timestamp end_at = 5;
   optional google.protobuf.Timestamp signed_at = 6;
   optional google.protobuf.Timestamp paid_at = 7;
+  optional string contract_file_key = 8;
+  optional uint64 tariff = 9;
 }
 
 message ContractUpdate {
@@ -34,4 +47,26 @@ message ContractUpdate {
   optional google.protobuf.Timestamp end_at = 6;
   optional google.protobuf.Timestamp signed_at = 7;
   optional google.protobuf.Timestamp paid_at = 8;
+  optional string contract_file_key = 9;
+  optional ContractStatus status = 10;
+  optional uint64 tariff = 11;
+}
+
+message ContractDetailed {
+  required uint64 id = 1;
+  required google.protobuf.Timestamp created_at = 2;
+  required string deal_number = 3;
+  required uint64 service_provider_id = 4;
+  required uint64 target_organization_id = 5;
+  required google.protobuf.Timestamp start_at = 6;
+  required google.protobuf.Timestamp end_at = 7;
+  optional google.protobuf.Timestamp signed_at = 8;
+  optional google.protobuf.Timestamp paid_at = 9;
+  optional string contract_file_key = 10;
+  optional ContractStatus status = 11;
+  optional uint64 tariff = 12;
+
+  required Organization target_organization = 13;
+  repeated PickupLocation pickup_locations = 14;
+  optional string contract_file_url = 15;
 }
