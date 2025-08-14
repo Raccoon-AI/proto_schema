@@ -6,14 +6,14 @@ import "job.proto";
 option go_package = "./pb";
 
 message Point {
-  optional double id = 1;
+  optional uint64 id = 1;
   required double lon = 3;
   required double lat = 4;
   optional google.protobuf.Timestamp date_time = 5;
 }
 
 message DepartInfo {
-  optional double id = 1;
+  optional uint64 id = 1;
   optional string name = 2;
   optional double lon = 3;
   optional double lat = 4;
@@ -82,6 +82,7 @@ message RouteLeg {
 
 message RouteWaypointsOut {
   repeated RouteLeg legs = 1;
+  repeated Point waypoints = 2;
 }
 
 service CompositeCostProvider {
@@ -92,4 +93,5 @@ service CompositeCostProvider {
 
 service ValhallaCostProvider {
   rpc SourcesToTargets (SourcesToTargetsIn) returns (SourcesToTargetsOut);
+  rpc OptimizedRoute (RouteWaypointsIn) returns (RouteWaypointsOut);
 }
