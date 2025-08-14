@@ -47,7 +47,6 @@ message RouteCreate {
   optional bool created_by_ai = 10;
   optional bool is_pseudo = 11;
   optional double netto = 12;
-
 }
 
 message RouteUpdate {
@@ -64,7 +63,6 @@ message RouteUpdate {
   optional RouteStatus status = 11;
   optional bool is_pseudo = 12;
   optional double netto = 13;
-
 }
 
 message RouteCreateWithJobs {

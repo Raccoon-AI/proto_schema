@@ -1,9 +1,9 @@
 syntax = "proto2";
 
+import "driver_on_shift.proto";
 import "google/protobuf/timestamp.proto";
 import "organization.proto";
 import "pickup_location.proto";
-import "driver_on_shift.proto";
 
 option go_package = "./pb";
 

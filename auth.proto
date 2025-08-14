@@ -4,7 +4,6 @@ import "user.proto";
 
 option go_package = "./pb";
 
-
 message AuthResponse {
   required string access_token = 1;
   required string token_type = 2;

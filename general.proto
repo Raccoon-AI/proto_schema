@@ -2,7 +2,6 @@ syntax = "proto2";
 
 option go_package = "./pb";
 
-
 message LoginToken {
   required string access_token = 1;
   required string token_type = 2;
@@ -15,7 +14,7 @@ message PasswordReset {
 }
 
 message OTPCreate {
-  required uint64 user_id = 1; 
+  required uint64 user_id = 1;
   required uint64 otp_code = 2;
 }
 
@@ -33,4 +32,3 @@ message ErrorMessage {
 message Message {
   optional string message = 1;
 }
-

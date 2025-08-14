@@ -1,7 +1,8 @@
 syntax = "proto2";
+
 import "google/protobuf/timestamp.proto";
-import "user.proto";
 import "truck.proto";
+import "user.proto";
 
 option go_package = "./pb";
 

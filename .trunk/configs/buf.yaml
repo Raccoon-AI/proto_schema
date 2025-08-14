@@ -1,16 +1,14 @@
 version: v1
 name: ""
-deps: []
+deps:
+  - buf.build/googleapis/googleapis
 build:
   excludes: []
 lint:
   use:
     - STANDARD
-  except: []
+  except: [PACKAGE_DEFINED]
   ignore: []
-  ignore_only:
-    PACKAGE_DEFINED:
-      - *
   allow_comment_ignores: false
   enum_zero_value_suffix: _UNDEFINED
   rpc_allow_same_request_response: false

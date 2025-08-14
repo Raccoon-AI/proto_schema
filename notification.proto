@@ -18,4 +18,4 @@ message Notification {
   required DriverNotification type = 1;
   required string title = 2;
   required string body = 3;
-} 
+}
