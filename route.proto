@@ -34,15 +34,16 @@ message Route {
   optional double netto = 17;
   optional uint64 source_location_id = 18;
   optional uint64 destination_location_id = 19;
+  optional uint64 current_step_idx = 20;
 }
 
 message RouteCreate {
   optional uint64 owner_organization_id = 1;
   required uint64 driver_on_shift_id = 2;
-  optional double source_lon = 3;
-  optional double source_lat = 4;
-  optional double destination_lon = 5;
-  optional double destination_lat = 6;
+  required double source_lon = 3;
+  required double source_lat = 4;
+  required double destination_lon = 5;
+  required double destination_lat = 6;
   optional uint64 author_id = 7;
   optional google.protobuf.Timestamp plan_start_at = 8;
   optional google.protobuf.Timestamp plan_end_at = 9;
@@ -50,7 +51,7 @@ message RouteCreate {
   optional bool is_pseudo = 11;
   optional double netto = 12;
   optional uint64 source_location_id = 13;
-  optional uint64 destination_location_id = 14;
+  required uint64 destination_location_id = 14;
 }
 
 message RouteUpdate {
@@ -69,6 +70,7 @@ message RouteUpdate {
   optional double netto = 13;
   optional uint64 source_location_id = 14;
   optional uint64 destination_location_id = 15;
+  optional uint64 current_step_idx = 16;
 }
 
 message RouteCreateWithJobs {
