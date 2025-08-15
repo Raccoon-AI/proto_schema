@@ -12,54 +12,57 @@ enum AuditLogCategory {
   AUDIT_LOG_CATEGORY_OFFICE = 3;
 }
 
-enum AuditLog {
-  AUDIT_LOG_UNDEFINED = 0;
+enum AuditLogType {
+  AUDIT_LOG_TYPE_UNDEFINED = 0;
   // 100 - 150 Truck related events
-  AUDIT_LOG_TRUCK_AVAILABLE = 101;
-  AUDIT_LOG_TRUCK_ARRIVED_AT_LOCATION = 102;
-  AUDIT_LOG_TRUCK_ARRIVED_AT_DEPOT = 103;
-  AUDIT_LOG_TRUCK_LEFT_LOCATION = 104;
-  AUDIT_LOG_TRUCK_ISSUE_REPORTED = 105;
-  AUDIT_LOG_TRUCK_SENT_TO_REPAIR = 106;
-  AUDIT_LOG_TRUCK_RETURNED_FROM_REPAIR = 107;
+  AUDIT_LOG_TYPE_TRUCK_AVAILABLE = 101;
+  AUDIT_LOG_TYPE_TRUCK_ARRIVED_AT_LOCATION = 102;
+  AUDIT_LOG_TYPE_TRUCK_ARRIVED_AT_DEPOT = 103;
+  AUDIT_LOG_TYPE_TRUCK_LEFT_LOCATION = 104;
+  AUDIT_LOG_TYPE_TRUCK_ISSUE_REPORTED = 105;
+  AUDIT_LOG_TYPE_TRUCK_SENT_TO_REPAIR = 106;
+  AUDIT_LOG_TYPE_TRUCK_RETURNED_FROM_REPAIR = 107;
 
   // 150 - 200 Truck shift related events
-  AUDIT_LOG_TRUCK_SHIFT_CREATED = 151;
-  AUDIT_LOG_TRUCK_SHIFT_COMPLETED = 152;
+  AUDIT_LOG_TYPE_TRUCK_SHIFT_CREATED = 151;
+  AUDIT_LOG_TYPE_TRUCK_SHIFT_COMPLETED = 152;
 
   // 200 - 250 Job related events
-  AUDIT_LOG_JOB_CREATED = 201;
-  AUDIT_LOG_JOB_STARTED = 202;
-  AUDIT_LOG_JOB_COMPLETED = 203;
-  AUDIT_LOG_JOB_CANCELLED = 204;
+  AUDIT_LOG_TYPE_JOB_CREATED = 201;
+  AUDIT_LOG_TYPE_JOB_STARTED = 202;
+  AUDIT_LOG_TYPE_JOB_COMPLETED = 203;
+  AUDIT_LOG_TYPE_JOB_CANCELLED = 204;
 
   // 250 - 300 Route related events
-  AUDIT_LOG_ROUTE_CREATED = 251;
-  AUDIT_LOG_ROUTE_STARTED = 252;
-  AUDIT_LOG_ROUTE_RETURNING = 253;
-  AUDIT_LOG_ROUTE_MANUALLY_COMPLETED = 254;
-  AUDIT_LOG_ROUTE_CANCELLED = 255;
-  AUDIT_LOG_ROUTE_COMPLETED = 256;
+  AUDIT_LOG_TYPE_ROUTE_CREATED = 251;
+  AUDIT_LOG_TYPE_ROUTE_STARTED = 252;
+  AUDIT_LOG_TYPE_ROUTE_RETURNING = 253;
+  AUDIT_LOG_TYPE_ROUTE_MANUALLY_COMPLETED = 254;
+  AUDIT_LOG_TYPE_ROUTE_CANCELLED = 255;
+  AUDIT_LOG_TYPE_ROUTE_COMPLETED = 256;
 
   // addition and update events
-  AUDIT_LOG_CLIENT_ADDED = 301;
-  AUDIT_LOG_CLIENT_UPDATED = 302;
+  AUDIT_LOG_TYPE_CLIENT_ADDED = 301;
+  AUDIT_LOG_TYPE_CLIENT_UPDATED = 302;
 
-  AUDIT_LOG_LOCATION_ADDED = 311;
-  AUDIT_LOG_LOCATION_UPDATED = 312;
+  AUDIT_LOG_TYPE_LOCATION_ADDED = 311;
+  AUDIT_LOG_TYPE_LOCATION_UPDATED = 312;
 
-  AUDIT_LOG_DRIVER_ADDED = 321;
-  AUDIT_LOG_DRIVER_UPDATED = 322;
+  AUDIT_LOG_TYPE_DRIVER_ADDED = 321;
+  AUDIT_LOG_TYPE_DRIVER_UPDATED = 322;
 
-  AUDIT_LOG_TRUCK_ADDED = 331;
-  AUDIT_LOG_TRUCK_UPDATED = 332;
+  AUDIT_LOG_TYPE_TRUCK_ADDED = 331;
+  AUDIT_LOG_TYPE_TRUCK_UPDATED = 332;
+
+  // 400 - 500 AI related events
+  AUDIT_LOG_TYPE_AI_ROUTE_CREATED = 401;
 }
 
-message AuditLogs {
+message AuditLog {
   required uint64 id = 1;
   required uint64 organization_id = 2;
   required AuditLogCategory category = 3;
-  required AuditLog log_type = 4;
+  required AuditLogType log_type = 4;
   required uint64 user_id = 5;
   required string user_role = 6;
   required string message = 7;
@@ -67,20 +70,20 @@ message AuditLogs {
   required google.protobuf.Timestamp created_at = 9;
 }
 
-message AuditLogsCreate {
+message AuditLogCreate {
   required uint64 organization_id = 1;
   required AuditLogCategory category = 2;
-  required AuditLog log_type = 3;
+  required AuditLogType log_type = 3;
   required uint64 user_id = 4;
   required string user_role = 5;
   required string message = 6;
   optional google.protobuf.Struct fields = 7;
 }
 
-message AuditLogsUpdate {
+message AuditLogUpdate {
   required uint64 organization_id = 1;
   optional AuditLogCategory category = 2;
-  optional AuditLog log_type = 3;
+  optional AuditLogType log_type = 3;
   optional uint64 user_id = 4;
   optional string user_role = 5;
   optional string message = 6;
