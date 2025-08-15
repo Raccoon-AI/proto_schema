@@ -24,3 +24,14 @@ message LoginOTPRequest {
   required string phone_number = 1;
   required uint64 otp = 2;
 }
+
+message LoginToken {
+  required string access_token = 1;
+  required string token_type = 2;
+}
+
+message PasswordReset {
+  required string username = 1;
+  required string old_password = 2;
+  required string new_password = 3;
+}
