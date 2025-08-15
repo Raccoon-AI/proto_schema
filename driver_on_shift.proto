@@ -30,6 +30,9 @@ message DriverOnShift {
   optional Truck truck = 12;
   optional google.protobuf.Timestamp completed_at = 13;
   optional google.protobuf.Timestamp last_idle_at = 14;
+  optional google.protobuf.Timestamp tw_start_at = 15;
+  optional google.protobuf.Timestamp tw_end_at = 16;
+  optional uint64 capacity = 17;
 }
 
 message DriverOnShiftCreate {
@@ -40,6 +43,9 @@ message DriverOnShiftCreate {
   required uint64 driver_id = 5;
   required uint64 truck_id = 6;
   optional string comment = 7;
+  optional google.protobuf.Timestamp tw_start_at = 8;
+  optional google.protobuf.Timestamp tw_end_at = 9;
+  optional uint64 capacity = 10;
 }
 
 message DriverOnShiftUpdate {
@@ -53,6 +59,9 @@ message DriverOnShiftUpdate {
   optional google.protobuf.Timestamp completed_at = 8;
   optional google.protobuf.Timestamp last_idle_at = 9;
   optional uint64 current_route_id = 10;
+  optional google.protobuf.Timestamp tw_start_at = 11;
+  optional google.protobuf.Timestamp tw_end_at = 12;
+  optional uint64 capacity = 13;
 }
 
 message DriverOnShiftStatusUpdate {

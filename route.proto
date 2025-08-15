@@ -32,22 +32,25 @@ message Route {
   required bool created_by_ai = 15;
   optional bool is_pseudo = 16;
   optional double netto = 17;
+  optional uint64 source_location_id = 18;
+  optional uint64 destination_location_id = 19;
 }
 
 message RouteCreate {
   optional uint64 owner_organization_id = 1;
   required uint64 driver_on_shift_id = 2;
-  optional double source_lon = 3;
-  optional double source_lat = 4;
-  optional double destination_lon = 5;
-  optional double destination_lat = 6;
+  required double source_lon = 3;
+  required double source_lat = 4;
+  required double destination_lon = 5;
+  required double destination_lat = 6;
   optional uint64 author_id = 7;
   optional google.protobuf.Timestamp plan_start_at = 8;
   optional google.protobuf.Timestamp plan_end_at = 9;
   optional bool created_by_ai = 10;
   optional bool is_pseudo = 11;
   optional double netto = 12;
-
+  optional uint64 source_location_id = 13;
+  required uint64 destination_location_id = 14;
 }
 
 message RouteUpdate {
@@ -64,7 +67,8 @@ message RouteUpdate {
   optional RouteStatus status = 11;
   optional bool is_pseudo = 12;
   optional double netto = 13;
-
+  optional uint64 source_location_id = 14;
+  optional uint64 destination_location_id = 15;
 }
 
 message RouteCreateWithJobs {
