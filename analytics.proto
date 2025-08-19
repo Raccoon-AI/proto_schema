@@ -1,0 +1,9 @@
+syntax = "proto2";
+
+option go_package = "./pb";
+
+message ServiceProviderStats {
+  optional int32 idle_truck_count = 1;
+  optional int32 unassigned_job_count = 2;
+  optional int32 active_route_count = 3;
+}
