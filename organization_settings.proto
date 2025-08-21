@@ -6,7 +6,7 @@ import "google/protobuf/timestamp.proto";
 option go_package = "./pb";
 
 message NotificationConfig {
-  repeated AuditLogType list = 1;
+  repeated AuditLogType log_types = 1;
 }
 
 message OrganizationSettings {
