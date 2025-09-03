@@ -1,5 +1,6 @@
 syntax = "proto2";
 
+import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
@@ -11,6 +12,23 @@ enum RouteStatus {
   ROUTE_STATUS_RETURNING = 3;
   ROUTE_STATUS_COMPLETED = 4;
   ROUTE_STATUS_CANCELLED = 5;
+}
+
+enum RouteEvent {
+  ROUTE_EVENT_UNDEFINED = 0;
+  ROUTE_EVENT_CREATE_ROUTE = 1;
+  ROUTE_EVENT_START = 2;
+  ROUTE_EVENT_RETURN_BACK = 3;
+  ROUTE_EVENT_COMPLETE = 4;
+  ROUTE_EVENT_CANCEL_ROUTE_DUE_RECEIVER_REASONS = 5;
+  ROUTE_EVENT_CANCEL_ROUTE_DUE_PROVIDER_REASONS = 6;
+  ROUTE_EVENT_FORCE_COMPLETE = 7;
+}
+
+message RouteEventIn {
+  required RouteEvent event = 1;
+  required uint64 route_id = 2;
+  optional google.protobuf.Struct payload = 3;
 }
 
 // GET => /v1/platform/route/{id}

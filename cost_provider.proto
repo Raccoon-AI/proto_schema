@@ -1,6 +1,7 @@
 syntax = "proto2";
-import "google/protobuf/timestamp.proto";
+
 import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
 import "job.proto";
 
 option go_package = "./pb";
@@ -86,12 +87,12 @@ message RouteWaypointsOut {
 }
 
 service CompositeCostProvider {
-  rpc GetMatrix (SourcesAndTargets) returns (SourcesToTargetsOut);
-  rpc GetCostInfo (CostInfoIn) returns (CostInfoOut);
-  rpc Route (RouteWaypointsIn) returns (RouteWaypointsOut);
+  rpc GetMatrix(SourcesAndTargets) returns (SourcesToTargetsOut);
+  rpc GetCostInfo(CostInfoIn) returns (CostInfoOut);
+  rpc Route(RouteWaypointsIn) returns (RouteWaypointsOut);
 }
 
 service ValhallaCostProvider {
-  rpc SourcesToTargets (SourcesToTargetsIn) returns (SourcesToTargetsOut);
-  rpc OptimizedRoute (RouteWaypointsIn) returns (RouteWaypointsOut);
+  rpc SourcesToTargets(SourcesToTargetsIn) returns (SourcesToTargetsOut);
+  rpc OptimizedRoute(RouteWaypointsIn) returns (RouteWaypointsOut);
 }

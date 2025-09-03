@@ -1,4 +1,5 @@
 syntax = "proto2";
+
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
@@ -23,12 +24,14 @@ message Organization {
   required OrganizationType type = 4;
   required OrganizationStatus status = 5;
   optional uint64 bank_details_id = 6;
+  optional string bin = 7;
 }
 
 message OrganizationCreateItem {
   required string name = 1;
   required OrganizationType type = 2;
   optional uint64 bank_details_id = 3;
+  optional string bin = 4;
 }
 
 message ContractCreateItem {
@@ -39,12 +42,14 @@ message OrganizationCreate {
   required string name = 1;
   required OrganizationType type = 2;
   optional uint64 bank_details_id = 3;
+  optional string bin = 4;
 }
 
 message ServiceReceiverCreate {
   required OrganizationCreateItem organization = 1;
   optional ContractCreateItem contract = 2;
   optional uint64 service_provider_id = 3;
+  optional string bin = 4;
 }
 
 message OrganizationUpdate {
@@ -52,4 +57,5 @@ message OrganizationUpdate {
   optional string name = 2;
   optional OrganizationStatus status = 3;
   optional uint64 bank_details_id = 4;
+  optional string bin = 5;
 }

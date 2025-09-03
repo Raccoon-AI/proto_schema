@@ -21,15 +21,3 @@ jobs:
 
       - name: Trunk Code Quality
         uses: trunk-io/trunk-action@v1
-        with:
-          check-mode: populate_cache_only
-
-      - name: Install Protoc
-        uses: arduino/setup-protoc@v3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          version: 28.x
-
-      - name: Compile Proto
-        run: |
-          protoc --python_out=. *.proto

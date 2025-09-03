@@ -2,27 +2,17 @@ syntax = "proto2";
 
 option go_package = "./pb";
 
-// POST => /v1/platform/{dispatcher|driver|client}/login
-message Login {
-  required string username = 1;
-  required string password = 2;
+enum ErrorCode {
+  ERROR_CODE_UNDEFINED = 0;
+  ERROR_CODE_PHONE_NUMBER_EXISTS = 1000;
+  ERROR_CODE_EMAIL_EXISTS = 1001;
 }
 
-
-// returned by /v1/platform/{dispatcher|driver|client}/login
-message LoginToken {
-  required string access_token = 1;
-  required string token_type = 2;
+message ErrorMessage {
+  optional string message = 1;
+  optional ErrorCode code = 2;
 }
 
-// POST => /v1/platform/{dispatcher|driver|client}/password_reset
-message PasswordReset {
-  required string username = 1;
-  required string old_password = 2;
-  required string new_password = 3;
-}
-
-message OTPCreate {
-  required uint64 user_id = 1; 
-  required uint64 otp_code = 2;
+message Message {
+  optional string message = 1;
 }

@@ -3,7 +3,7 @@ syntax = "proto2";
 option go_package = "./pb";
 
 enum DriverNotification {
-  DRIVER_NOTIFICATION_UNSPECIFIED = 0;
+  DRIVER_NOTIFICATION_UNDEFINED = 0;
   DRIVER_NOTIFICATION_VALIDATION = 1;
   DRIVER_NOTIFICATION_ROUTE_CREATED = 2;
   DRIVER_NOTIFICATION_ROUTE_CANCELLED = 3;
@@ -18,4 +18,4 @@ message Notification {
   required DriverNotification type = 1;
   required string title = 2;
   required string body = 3;
-} 
+}
