@@ -1,7 +1,8 @@
 syntax = "proto2";
+
+import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "location.proto";
-import "google/protobuf/struct.proto";
 
 option go_package = "./pb";
 
@@ -12,10 +13,10 @@ enum PickupLocationType {
 }
 
 enum PickupLocationPriority {
-    PICKUP_LOCATION_PRIORITY_UNDEFINED = 0;
-    PICKUP_LOCATION_PRIORITY_LOW = 1;
-    PICKUP_LOCATION_PRIORITY_MEDIUM = 2;
-    PICKUP_LOCATION_PRIORITY_HIGH = 3;
+  PICKUP_LOCATION_PRIORITY_UNDEFINED = 0;
+  PICKUP_LOCATION_PRIORITY_LOW = 1;
+  PICKUP_LOCATION_PRIORITY_MEDIUM = 2;
+  PICKUP_LOCATION_PRIORITY_HIGH = 3;
 }
 
 message PickupLocation {

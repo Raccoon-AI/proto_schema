@@ -1,4 +1,5 @@
 syntax = "proto2";
+
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
@@ -55,6 +56,7 @@ message UserCreate {
   optional uint64 telegram_chat_id = 10;
   optional string driver_license_number = 11;
   optional string fcm_token = 12;
+  optional string registration_token = 13;
 }
 
 message UserUpdate {
@@ -81,4 +83,26 @@ message UserSaveContactData {
   required uint64 telegram_user_id = 2;
   required string telegram_username = 3;
   required uint64 telegram_chat_id = 4;
+}
+
+message RegistrationTokenCreate {
+  required string token = 1;
+  required uint64 owner_organization_id = 2;
+  required UserRole role = 3;
+  required google.protobuf.Timestamp expires_at = 4;
+  required uint64 created_by_user_id = 5;
+  optional bool is_used = 6;
+}
+
+message RegistrationTokenUpdate {
+  required uint64 id = 1;
+  required bool is_used = 2;
+}
+
+message GenerateLink {
+  required UserRole role = 1;
+  required int32 owner_organization_id = 2;
+  required string preferred_method = 3;
+  required string recipient = 4;
+  required string lang = 5;
 }

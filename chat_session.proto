@@ -1,7 +1,7 @@
 syntax = "proto2";
 
-import "google/protobuf/timestamp.proto";
 import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
@@ -9,23 +9,23 @@ option go_package = "./pb";
 
 // ChatMessage represents a single message in a chat conversation.
 message ChatMessage {
-  required string role = 1;      // e.g., "user", "assistant"
+  required string role = 1; // e.g., "user", "assistant"
   required string content = 2;
   optional MessageMetadata metadata = 3; // Optional metadata for SQL/plot info
-  optional uint64 id = 4;        // Making ID optional as it might be generated server-side for new messages
+  optional uint64 id = 4; // Making ID optional as it might be generated server-side for new messages
 }
 
 // Metadata associated with a chat message, typically for SQL query results or other structured data.
 message MessageMetadata {
   optional string sql_query = 1;
   optional string plot_title = 2;
-  repeated google.protobuf.Struct rows = 3;   // JSON representation of rows (list of dicts)
+  repeated google.protobuf.Struct rows = 3; // JSON representation of rows (list of dicts)
   repeated string columns = 4; // JSON representation of columns (list of strings, usually)
 }
 
 // Full ChatSession model, representing an entire conversation.
 message ChatSession {
-  required string id = 1;        // UUID, maps to string
+  required string id = 1; // UUID, maps to string
   required uint64 user_id = 2;
   repeated ChatMessage chat_history = 3; // List of ChatMessage objects
   required google.protobuf.Timestamp created_at = 4;
@@ -46,12 +46,12 @@ message ChatRequest {
 message ChatResponse {
   required string chat_id = 1;
   optional string business_insights = 2; // Direct inclusion for convenience in responses
-  optional string plot_title = 3;        // Direct inclusion for convenience in responses
-  optional string sql_query = 4;         // Direct inclusion for convenience in responses
-  repeated string columns = 5;           // Direct inclusion for convenience in responses
+  optional string plot_title = 3; // Direct inclusion for convenience in responses
+  optional string sql_query = 4; // Direct inclusion for convenience in responses
+  repeated string columns = 5; // Direct inclusion for convenience in responses
   repeated google.protobuf.Struct rows = 6; // Direct inclusion for convenience in responses
-  optional bool corrected = 7;           // Indicates if SQL was corrected
-  optional string error = 8;             // General error message for the response
+  optional bool corrected = 7; // Indicates if SQL was corrected
+  optional string error = 8; // General error message for the response
 }
 
 // Response for retrieving a full chat history.

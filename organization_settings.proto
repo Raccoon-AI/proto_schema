@@ -1,13 +1,12 @@
 syntax = "proto2";
+
+import "audit_logs.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
 message NotificationConfig {
-    repeated string office = 1;
-    repeated string truck = 2;
-    repeated string driver = 3;
-    repeated string receiver = 4;
+  repeated AuditLogType log_types = 1;
 }
 
 message OrganizationSettings {

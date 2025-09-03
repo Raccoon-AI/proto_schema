@@ -25,9 +25,3 @@ message BankDetailsUpdate {
   optional string bank_code = 3;
   optional string account_number = 4;
 }
-
-
-
-
-
-

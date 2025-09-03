@@ -17,9 +17,7 @@ runtimes:
 # This is the section where you manage your linters. (https://docs.trunk.io/check/configuration)
 lint:
   enabled:
-    #    - buf-breaking@1.45.0 fix it
-    #    - buf-lint@1.45.0
-    #    - buf-format@1.45.0
+    - buf-format@1.49.0
     - buf-lint@1.49.0
     - actionlint@1.7.6
     - checkov@3.2.350
