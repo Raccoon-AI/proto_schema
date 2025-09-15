@@ -1,5 +1,6 @@
 syntax = "proto2";
 
+import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
@@ -11,6 +12,23 @@ enum RouteStatus {
   ROUTE_STATUS_RETURNING = 3;
   ROUTE_STATUS_COMPLETED = 4;
   ROUTE_STATUS_CANCELLED = 5;
+}
+
+enum RouteEvent {
+  ROUTE_EVENT_UNDEFINED = 0;
+  ROUTE_EVENT_CREATE_ROUTE = 1;
+  ROUTE_EVENT_START = 2;
+  ROUTE_EVENT_RETURN_BACK = 3;
+  ROUTE_EVENT_COMPLETE = 4;
+  ROUTE_EVENT_CANCEL_ROUTE_DUE_RECEIVER_REASONS = 5;
+  ROUTE_EVENT_CANCEL_ROUTE_DUE_PROVIDER_REASONS = 6;
+  ROUTE_EVENT_FORCE_COMPLETE = 7;
+}
+
+message RouteEventIn {
+  required RouteEvent event = 1;
+  required uint64 route_id = 2;
+  optional google.protobuf.Struct payload = 3;
 }
 
 // GET => /v1/platform/route/{id}
@@ -32,21 +50,26 @@ message Route {
   required bool created_by_ai = 15;
   optional bool is_pseudo = 16;
   optional double netto = 17;
+  optional uint64 source_location_id = 18;
+  optional uint64 destination_location_id = 19;
+  optional uint64 current_step_idx = 20;
 }
 
 message RouteCreate {
   optional uint64 owner_organization_id = 1;
   required uint64 driver_on_shift_id = 2;
-  optional double source_lon = 3;
-  optional double source_lat = 4;
-  optional double destination_lon = 5;
-  optional double destination_lat = 6;
+  required double source_lon = 3;
+  required double source_lat = 4;
+  required double destination_lon = 5;
+  required double destination_lat = 6;
   optional uint64 author_id = 7;
   optional google.protobuf.Timestamp plan_start_at = 8;
   optional google.protobuf.Timestamp plan_end_at = 9;
   optional bool created_by_ai = 10;
   optional bool is_pseudo = 11;
   optional double netto = 12;
+  optional uint64 source_location_id = 13;
+  required uint64 destination_location_id = 14;
 }
 
 message RouteUpdate {
@@ -63,6 +86,9 @@ message RouteUpdate {
   optional RouteStatus status = 11;
   optional bool is_pseudo = 12;
   optional double netto = 13;
+  optional uint64 source_location_id = 14;
+  optional uint64 destination_location_id = 15;
+  optional uint64 current_step_idx = 16;
 }
 
 message RouteCreateWithJobs {

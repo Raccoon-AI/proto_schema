@@ -1,5 +1,6 @@
 syntax = "proto2";
 
+import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "truck.proto";
 import "user.proto";
@@ -14,6 +15,28 @@ enum DriverOnShiftStatus {
   DRIVER_ON_SHIFT_STATUS_ENROUTE = 4;
   DRIVER_ON_SHIFT_STATUS_ON_SERVICE = 5;
   DRIVER_ON_SHIFT_STATUS_ENDED = 6;
+}
+
+enum DriverOnShiftEvent {
+  DRIVER_ON_SHIFT_EVENT_UNDEFINED = 0;
+  DRIVER_ON_SHIFT_EVENT_CREATE_SHIFT = 1;
+  DRIVER_ON_SHIFT_EVENT_DRIVER_ONLINE = 2;
+  DRIVER_ON_SHIFT_EVENT_DRIVER_OFFLINE = 3;
+  DRIVER_ON_SHIFT_EVENT_CONFIRMATION = 4;
+  DRIVER_ON_SHIFT_EVENT_START_ROUTE = 5;
+  DRIVER_ON_SHIFT_EVENT_START_SERVICE = 6;
+  DRIVER_ON_SHIFT_EVENT_END_SERVICE = 7;
+  DRIVER_ON_SHIFT_EVENT_COMPLETE_ROUTE = 8;
+  DRIVER_ON_SHIFT_EVENT_CANCEL_ROUTE_DUE_RECEIVER_REASONS = 9;
+  DRIVER_ON_SHIFT_EVENT_CANCEL_ROUTE_DUE_PROVIDER_REASONS = 10;
+  DRIVER_ON_SHIFT_EVENT_COMPLETE_SHIFT = 11;
+  DRIVER_ON_SHIFT_EVENT_FORCE_COMPLETE_ROUTE = 12;
+}
+
+message DriverOnShiftEventIn {
+  required DriverOnShiftEvent event = 1;
+  required uint64 driver_on_shift_id = 2;
+  optional google.protobuf.Struct payload = 3;
 }
 
 message DriverOnShift {
@@ -31,6 +54,9 @@ message DriverOnShift {
   optional Truck truck = 12;
   optional google.protobuf.Timestamp completed_at = 13;
   optional google.protobuf.Timestamp last_idle_at = 14;
+  optional google.protobuf.Timestamp tw_start_at = 15;
+  optional google.protobuf.Timestamp tw_end_at = 16;
+  optional uint64 capacity = 17;
 }
 
 message DriverOnShiftCreate {
@@ -41,6 +67,9 @@ message DriverOnShiftCreate {
   required uint64 driver_id = 5;
   required uint64 truck_id = 6;
   optional string comment = 7;
+  optional google.protobuf.Timestamp tw_start_at = 8;
+  optional google.protobuf.Timestamp tw_end_at = 9;
+  optional uint64 capacity = 10;
 }
 
 message DriverOnShiftUpdate {
@@ -54,6 +83,9 @@ message DriverOnShiftUpdate {
   optional google.protobuf.Timestamp completed_at = 8;
   optional google.protobuf.Timestamp last_idle_at = 9;
   optional uint64 current_route_id = 10;
+  optional google.protobuf.Timestamp tw_start_at = 11;
+  optional google.protobuf.Timestamp tw_end_at = 12;
+  optional uint64 capacity = 13;
 }
 
 message DriverOnShiftStatusUpdate {

@@ -27,6 +27,7 @@ message Truck {
   required uint64 owner_organization_id = 6;
   optional string model = 7;
   optional double truck_weight = 8;
+  optional uint64 capacity = 9;
 }
 
 message TruckCreate {
@@ -35,6 +36,7 @@ message TruckCreate {
   optional uint64 owner_organization_id = 3;
   optional string model = 4;
   optional double truck_weight = 5;
+  optional uint64 capacity = 6;
 }
 
 message TruckUpdate {
@@ -44,6 +46,7 @@ message TruckUpdate {
   optional TruckStatus status = 4;
   optional string model = 5;
   optional double truck_weight = 6;
+  optional uint64 capacity = 7;
 }
 
 // POST => /v1/platform/truck/status_update
