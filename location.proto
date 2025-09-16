@@ -31,6 +31,7 @@ message Location {
   optional string address = 10;
   required string polymorphic_type = 11;
   optional string gis_link = 12;
+  optional uint64 service_time = 13;
 }
 
 message LocationCreate {
@@ -42,6 +43,7 @@ message LocationCreate {
   optional google.protobuf.Struct geometry = 6;
   optional string address = 7;
   optional string gis_link = 8;
+  optional uint64 service_time = 9;
 }
 
 message LocationUpdate {
@@ -54,6 +56,7 @@ message LocationUpdate {
   optional google.protobuf.Struct geometry = 7;
   optional string address = 8;
   optional string gis_link = 9;
+  optional uint64 service_time = 10;
 }
 
 message LocationList {
