@@ -1,0 +1,21 @@
+syntax = "proto2";
+
+import "job.proto";
+import "route.proto";
+
+option go_package = "./pb";
+
+message AssignmentRequest {
+  required uint64 service_provider_id = 1;
+  required string event = 2;
+  required uint64 target_entity_id = 3;
+}
+
+message AssignmentResponse {
+  optional RouteCreate route = 1;
+  repeated JobUpdate jobs = 2;
+}
+
+service AIDispatcherV3 {
+  rpc MakeAssignment(AssignmentRequest) returns (AssignmentResponse);
+}
