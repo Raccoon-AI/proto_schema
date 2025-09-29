@@ -109,6 +109,8 @@ message Job {
   repeated FileUpload file_reports = 38 [json_name = "file_reports"];
   optional bool visible_to_ai = 39 [json_name = "visible_to_ai"];
   optional JobCategory job_category = 40 [json_name = "job_category"];
+  optional uint64 priority = 35;
+  optional bool visible_to_ai = 36;
 }
 
 message JobCreate {
@@ -131,6 +133,8 @@ message JobCreate {
   optional bool is_pseudo = 17 [json_name = "is_pseudo"];
   optional bool visible_to_ai = 18 [json_name = "visible_to_ai"];
   optional JobCategory job_category = 19 [json_name = "job_category"];
+  optional uint64 priority = 18;
+  optional bool visible_to_ai = 19;
 }
 
 message JobUpdate {
@@ -164,6 +168,8 @@ message JobUpdate {
   optional google.protobuf.Timestamp gps_end_at = 29 [json_name = "gps_end_at"];
   optional bool visible_to_ai = 30 [json_name = "visible_to_ai"];
   optional JobCategory job_category = 31 [json_name = "job_category"];
+  optional uint64 priority = 30;
+  optional bool visible_to_ai = 31;
 }
 
 message JobStatusUpdate {
