@@ -33,6 +33,8 @@ message Truck {
   optional string model = 7;
   optional double truck_weight = 8;
   optional uint64 capacity = 9;
+  required uint64 depot_id = 10;
+  optional bool visible_to_ai = 11;
 }
 
 message TruckCreate {
@@ -42,6 +44,8 @@ message TruckCreate {
   optional string model = 4;
   optional double truck_weight = 5;
   optional uint64 capacity = 6;
+  optional uint64 depot_id = 7;
+  optional bool visible_to_ai = 8;
 }
 
 message TruckUpdate {
@@ -52,6 +56,8 @@ message TruckUpdate {
   optional string model = 5;
   optional double truck_weight = 6;
   optional uint64 capacity = 7;
+  optional uint64 depot_id = 8;
+  optional bool visible_to_ai = 9;
 }
 
 // POST => /v1/platform/truck/status_update
