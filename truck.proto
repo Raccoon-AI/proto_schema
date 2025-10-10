@@ -1,4 +1,5 @@
 syntax = "proto2";
+package raccoonai;
 
 import "google/protobuf/timestamp.proto";
 
@@ -9,6 +10,7 @@ enum TruckStatus {
   TRUCK_STATUS_INACTIVE = 1;
   TRUCK_STATUS_ACTIVE = 2;
   TRUCK_STATUS_IN_REPAIR = 3;
+  TRUCK_STATUS_GUEST = 4;
 }
 
 enum TruckType {

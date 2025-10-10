@@ -1,0 +1,30 @@
+syntax = "proto2";
+
+package raccoonai;
+
+import "general.proto";
+import "user.proto";
+
+option go_package = "./pb";
+
+message LoginRequest {
+  required string username = 1;
+  required string password = 2;
+}
+
+message LoginResponse {
+  required string token = 1; // The Bearer token to use for authenticated requests
+}
+
+message MeResponse {
+  required User user = 1;
+}
+
+service AuthService {
+  rpc Login(LoginRequest) returns (LoginResponse) {}
+  rpc Logout(EmptyMessageRequest) returns (EmptyMessageResponse) {}
+  rpc Protected(EmptyMessageRequest) returns (EmptyMessageResponse) {}
+  rpc Me(EmptyMessageRequest) returns (MeResponse) {
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+}
