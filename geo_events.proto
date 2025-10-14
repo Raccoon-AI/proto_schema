@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+enum GeoEventType {
+    GEO_EVENT_TYPE_UNSPECIFIED = 0;
+    SERVICE_STARTED = 1;
+    SERVICE_COMPLETED = 2;
+    TRUCK_OFFLINE = 3;
+    TRUCK_ONLINE = 4;
+    DUMP_STARTED = 5;
+    DUMP_COMPLETED = 6;
+}
+
+message GeoEventPublishPayload {
+    required string truck_id = 1;
+    required string location_id = 2;
+
+    required google.protobuf.Timestamp datetime = 3;
+
+    required string process_id = 4;
+    required string location_name = 5;
+    required string location_type = 6;
+    required string service_provider_id = 7;
+
+    required GeoEventType event_type = 8;
+
+    optional double duration_minutes = 9;
+}
