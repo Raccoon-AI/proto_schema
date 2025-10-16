@@ -13,15 +13,15 @@ enum GeoEventType {
 }
 
 message GeoEventPublishPayload {
-  required string truck_id = 1;
-  required string location_id = 2;
+  required uint64 truck_id = 1;
+  required uint64 location_id = 2;
 
   required google.protobuf.Timestamp datetime = 3;
 
-  required string process_id = 4;
+  required uint64 process_id = 4;
   required string location_name = 5;
   required string location_type = 6;
-  required string service_provider_id = 7;
+  required uint64 service_provider_id = 7;
 
   required GeoEventType event_type = 8;
 
