@@ -134,6 +134,8 @@ message JobUpdate {
   optional string container_name = 24;
   optional uint64 job_tariff = 25;
   optional bool is_pseudo = 26;
+  optional google.protobuf.Timestamp gps_start_at = 28;
+  optional google.protobuf.Timestamp gps_end_at = 29;
 }
 
 // POST => /v1/platform/job/status_update
