@@ -90,7 +90,7 @@ message RouteUpdate {
   optional uint64 destination_location_id = 15;
   optional uint64 current_step_idx = 16;
   optional google.protobuf.Timestamp gps_start_at = 17;
-  optional google.protobuf.Timestamp gps_end_at = 8;
+  optional google.protobuf.Timestamp gps_end_at = 18;
 }
 
 message RouteCreateWithJobs {
