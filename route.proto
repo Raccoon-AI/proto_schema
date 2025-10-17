@@ -53,6 +53,8 @@ message Route {
   optional uint64 source_location_id = 18;
   optional uint64 destination_location_id = 19;
   optional uint64 current_step_idx = 20;
+  optional google.protobuf.Timestamp gps_start_at = 21;
+  optional google.protobuf.Timestamp gps_end_at = 22;
 }
 
 message RouteCreate {
@@ -89,6 +91,8 @@ message RouteUpdate {
   optional uint64 source_location_id = 14;
   optional uint64 destination_location_id = 15;
   optional uint64 current_step_idx = 16;
+  optional google.protobuf.Timestamp gps_start_at = 17;
+  optional google.protobuf.Timestamp gps_end_at = 18;
 }
 
 message RouteCreateWithJobs {
