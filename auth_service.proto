@@ -4,6 +4,7 @@ package raccoonai;
 
 import "general.proto";
 import "user.proto";
+import "organization.proto";
 
 option go_package = "./pb";
 
@@ -18,6 +19,7 @@ message LoginResponse {
 
 message MeResponse {
   required User user = 1;
+  optional Organization organization = 2;
 }
 
 service AuthService {
