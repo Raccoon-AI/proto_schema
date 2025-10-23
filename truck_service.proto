@@ -22,6 +22,12 @@ message TruckListRequest {
   optional TruckType type = 2; // filter by truck type
 }
 
+message CreateGuestTruckRequest {
+  required uint64 owner_organization_id = 1;
+  required string plate_number = 2;
+  required TruckType type = 3;
+}
+
 message TruckListResponse {
   repeated Truck trucks = 1;
 }
@@ -29,4 +35,5 @@ message TruckListResponse {
 service TruckService {
   rpc SearchTruck(SearchTruckRequest) returns (SearchTruckResponse) {}
   rpc TruckList(TruckListRequest) returns (TruckListResponse) {}
+  rpc CreateGuestTruck(CreateGuestTruckRequest) returns (Truck) {}
 }
