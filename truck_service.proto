@@ -11,10 +11,14 @@ message SearchTruckRequest {
   required string plate_number = 1;
 }
 
-message SearchTruckResponse {
+message SearchTruckResult {
   optional bool is_guest = 2;
   optional Truck truck = 3;
   optional Organization org = 4;
+}
+
+message SearchTruckResponse {
+  repeated SearchTruckResult results = 1;
 }
 
 message TruckListRequest {
