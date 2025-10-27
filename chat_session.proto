@@ -45,7 +45,7 @@ message ChatRequest {
 // Generic response for a chat interaction, containing the assistant's reply and chat session info.
 message ChatResponse {
   required string chat_id = 1;
-  optional string business_insights = 2; // Direct inclusion for convenience in responses
+  optional string data_summary = 2; // Direct inclusion for convenience in responses
   optional string plot_title = 3; // Direct inclusion for convenience in responses
   optional string sql_query = 4; // Direct inclusion for convenience in responses
   repeated string columns = 5; // Direct inclusion for convenience in responses
