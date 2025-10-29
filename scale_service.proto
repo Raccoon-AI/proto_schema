@@ -55,6 +55,8 @@ message ScaleRecordListRequest {
   optional WasteType waste_type = 2;
   optional uint64 driver_id = 3;
   optional uint64 truck_id = 4;
+  optional google.protobuf.Timestamp brutto_scale_ts_from = 5;
+  optional google.protobuf.Timestamp brutto_scale_ts_to = 6;
 }
 
 message ScaleRecordListResponse {
