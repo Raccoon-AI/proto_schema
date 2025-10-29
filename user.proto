@@ -1,4 +1,5 @@
 syntax = "proto2";
+package raccoonai;
 
 import "google/protobuf/timestamp.proto";
 
@@ -23,6 +24,7 @@ enum UserStatus {
   USER_STATUS_UNDEFINED = 0;
   USER_STATUS_INACTIVE = 1;
   USER_STATUS_ACTIVE = 2;
+  USER_STATUS_GUEST = 3;
 }
 
 // GET => /v1/platform/me/

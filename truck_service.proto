@@ -1,0 +1,43 @@
+syntax = "proto2";
+
+package raccoonai;
+
+import "organization.proto";
+import "truck.proto";
+
+option go_package = "./pb";
+
+message SearchTruckRequest {
+  required string plate_number = 1;
+}
+
+message SearchTruckResult {
+  optional bool is_guest = 2;
+  optional Truck truck = 3;
+  optional Organization org = 4;
+}
+
+message SearchTruckResponse {
+  repeated SearchTruckResult results = 1;
+}
+
+message TruckListRequest {
+  optional uint64 owner_organization_id = 1; // filter by org
+  optional TruckType type = 2; // filter by truck type
+}
+
+message TruckListResponse {
+  repeated Truck trucks = 1;
+}
+
+message CreateGuestTruckRequest {
+  required uint64 owner_organization_id = 1;
+  required string plate_number = 2;
+  required TruckType type = 3;
+}
+
+service TruckService {
+  rpc SearchTruck(SearchTruckRequest) returns (SearchTruckResponse) {}
+  rpc TruckList(TruckListRequest) returns (TruckListResponse) {}
+  rpc CreateGuestTruck(CreateGuestTruckRequest) returns (Truck) {}
+}
