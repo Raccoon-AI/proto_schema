@@ -25,7 +25,7 @@ message Organization {
   required OrganizationStatus status = 5;
   optional uint64 bank_details_id = 6;
   optional string bin = 7;
-  optional string contact_phone = 8;
+  optional string phone_number = 8;
 }
 
 message OrganizationCreateItem {
@@ -33,7 +33,7 @@ message OrganizationCreateItem {
   required OrganizationType type = 2;
   optional uint64 bank_details_id = 3;
   optional string bin = 4;
-  optional string contact_phone = 5;
+  optional string phone_number = 5;
 }
 
 message ContractCreateItem {
@@ -60,5 +60,5 @@ message OrganizationUpdate {
   optional OrganizationStatus status = 3;
   optional uint64 bank_details_id = 4;
   optional string bin = 5;
-  optional string contact_phone = 6;
+  optional string phone_number = 6;
 }
