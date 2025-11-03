@@ -10,6 +10,7 @@ option go_package = "./pb";
 
 message OrganizationListRequest {
   optional OrganizationType type = 1;
+  optional OrganizationStatus status = 2;
 }
 
 message OrganizationListResponse {
@@ -46,5 +47,6 @@ service OrganizationService {
   rpc OrganizationList(OrganizationListRequest) returns (OrganizationListResponse) {}
   rpc AddGuest(AddGuestRequest) returns (AddGuestResponse) {}
   rpc ServiceProviderList(EmptyMessageRequest) returns (OrganizationListResponse) {}
+  rpc GuestOrganizationList(EmptyMessageRequest) returns (OrganizationListResponse) {}
   rpc CreateGuestOrganization(CreateGuestOrganizationRequest) returns (CreateGuestOrganizationResponse) {}
 }
