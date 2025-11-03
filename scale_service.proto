@@ -43,11 +43,12 @@ message ScaleRecord {
   required google.protobuf.Timestamp brutto_scale_ts = 5;
   optional float netto_weight_kg = 6;
   optional google.protobuf.Timestamp netto_scale_ts = 7;
-  required bool is_guest_record = 8;
-  required WasteType type = 9;
-  required Truck truck = 10;
-  required User driver = 11;
-  optional Route route = 12;
+  optional float volume = 8;
+  required bool is_guest_record = 9;
+  required WasteType type = 10;
+  required Truck truck = 11;
+  required User driver = 12;
+  optional Route route = 13;
 }
 
 message ScaleRecordListRequest {
