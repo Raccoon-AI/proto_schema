@@ -18,4 +18,5 @@ message GeoEventPublishPayload {
   required google.protobuf.Timestamp datetime = 3;
   required uint64 service_provider_id = 4;
   required GeoEventType event_type = 5;
+  optional double duration_minutes = 6;
 }
