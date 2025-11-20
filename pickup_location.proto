@@ -102,3 +102,7 @@ message PickupLocationListContract {
 message PickupLocationList {
   repeated PickupLocation pickup_locations = 1;
 }
+
+message PickupLocationRequest {
+  required uint64 pickup_location_id = 1;
+}

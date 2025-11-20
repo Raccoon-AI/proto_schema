@@ -141,3 +141,7 @@ message RouteCancel {
 message RouteList {
   repeated Route routes = 1;
 }
+
+message RouteRequest {
+  required uint64 route_id = 1;
+}

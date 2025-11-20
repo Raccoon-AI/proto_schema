@@ -13,6 +13,10 @@ message UserListResponse {
   repeated User users = 1;
 }
 
+message UserRequest {
+  required uint64 user_id = 1;
+}
+
 message CreateGuestDriverRequest {
   required uint64 owner_organization_id = 1;
   required string first_name = 2;

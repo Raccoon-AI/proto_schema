@@ -93,3 +93,7 @@ message DriverOnShiftStatusUpdate {
   required uint64 id = 1;
   required DriverOnShiftStatus status = 2;
 }
+
+message DriverOnShiftRequest {
+  required uint64 driver_on_shift_id = 1;
+}
