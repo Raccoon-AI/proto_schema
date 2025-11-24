@@ -12,23 +12,37 @@ option go_package = "./pb";
 
 enum WasteType {
   WASTE_TYPE_UNDEFINED = 0;
-  WASTE_TYPE_CONSTRUCTION = 1;
-  WASTE_TYPE_MSW = 2;
+  WASTE_TYPE_CONSTRUCTION = 1; // СО
+  WASTE_TYPE_MSW = 2; // Municipal Solid Waste - ТБО
   WASTE_TYPE_LIQUID = 3;
   WASTE_TYPE_ORGANIC = 4;
+  WASTE_TYPE_LOW_DENSITY_POLYETHYLENE = 5; // ПНД - полиэтилена низкого давления
+  WASTE_TYPE_BULKY = 6; // КГМ - крупногабаритный мусор
+  WASTE_TYPE_BALLAST = 7; // Балласт
+  WASTE_TYPE_OVERSIZED = 8; // Негабарит
+  WASTE_TYPE_MIXED = 9; // Отходы микс
+  WASTE_TYPE_CELLOPHANE = 10; // Целлофан
+  WASTE_TYPE_GLASS_CULLET = 11; // Стеклобой
+  WASTE_TYPE_MEDICAL_AND_BIO = 12; // Мед и био отходы
+  WASTE_TYPE_ALUMINUM_CANS = 13; // Алюминиевые банки
+  WASTE_TYPE_FLAKES = 14; // Флейки
+  WASTE_TYPE_PET = 15; // Polyethylene Terephthalate - ПЭТ
+  WASTE_TYPE_PETRO_PRODUCTS = 16; // Fuel and lubricants - ГСМ
 }
 
 message ScaleBruttoRequest {
-  required uint64 truck_id = 1;
-  required uint64 driver_id = 2;
-  required float weight_kg = 3;
-  required WasteType type = 4;
-  optional float volume = 5;
+  required uint64 owner_organization_id = 1;
+  required uint64 truck_id = 2;
+  required uint64 driver_id = 3;
+  required double weight_kg = 4;
+  required WasteType type = 5;
+  optional double volume = 6;
+  optional bool use_truck_tare_weight = 7;
 }
 
 message ScaleNettoRequest {
   required uint64 scale_record_id = 1;
-  required float weight_kg = 2;
+  required double weight_kg = 2;
 }
 
 message ScaleResponse {
@@ -37,18 +51,19 @@ message ScaleResponse {
 
 message ScaleRecord {
   required uint64 id = 1;
-  required Organization service_provider = 2;
-  optional Organization service_receiver = 3;
-  required float brutto_weight_kg = 4;
-  required google.protobuf.Timestamp brutto_scale_ts = 5;
-  optional float netto_weight_kg = 6;
-  optional google.protobuf.Timestamp netto_scale_ts = 7;
-  optional float volume = 8;
-  required bool is_guest_record = 9;
-  required WasteType type = 10;
-  required Truck truck = 11;
-  required User driver = 12;
-  optional Route route = 13;
+  required Organization owner_organization = 2;
+  required Organization service_provider = 3;
+  optional Organization service_receiver = 4;
+  required double brutto_weight_kg = 5;
+  required google.protobuf.Timestamp brutto_scale_ts = 6;
+  optional double netto_weight_kg = 7;
+  optional google.protobuf.Timestamp netto_scale_ts = 8;
+  optional double volume = 9;
+  required bool is_guest_record = 10;
+  required WasteType type = 11;
+  required Truck truck = 12;
+  required User driver = 13;
+  optional Route route = 14;
 }
 
 message ScaleRecordListRequest {

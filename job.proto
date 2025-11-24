@@ -176,3 +176,7 @@ message JobPickUpFinish {
 message JobList {
   repeated Job jobs = 1;
 }
+
+message JobRequest {
+  required uint64 job_id = 1;
+}
