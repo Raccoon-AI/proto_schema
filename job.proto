@@ -88,6 +88,7 @@ message Job {
   optional bool is_pseudo = 32;
   optional google.protobuf.Timestamp gps_start_at = 33;
   optional google.protobuf.Timestamp gps_end_at = 34;
+  optional bool is_created_by_client = 35;
 }
 
 message JobCreate {
