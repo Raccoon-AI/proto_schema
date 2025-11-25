@@ -104,6 +104,6 @@ message GenerateLink {
 
 message PasswordUpdate {
     required uint64 id = 1;
-    required old_pwd = 2;
-    required new_pwd = 3;
+    required string old_pwd = 2;
+    required string new_pwd = 3;
 }
