@@ -5,9 +5,9 @@ package proto;
 import "google/protobuf/timestamp.proto";
 
 enum ShiftPlanStatus {
-    SHIFT_PLAN_STATUS_UNDEFINED = 0;
-    SHIFT_PLAN_STATUS_ACTIVE = 1;
-    SHIFT_PLAN_STATUS_INACTIVE = 2;
+  SHIFT_PLAN_STATUS_UNDEFINED = 0;
+  SHIFT_PLAN_STATUS_ACTIVE = 1;
+  SHIFT_PLAN_STATUS_INACTIVE = 2;
 }
 
 enum ShiftPlanState {
@@ -20,9 +20,9 @@ enum ShiftPlanState {
 }
 
 enum ShiftPlanType {
-    SHIFT_PLAN_TYPE_UNDEFINED= 0;
-    SHIFT_PLAN_TYPE_DAY = 1;
-    SHIFT_PLAN_TYPE_NIGHT = 2;
+  SHIFT_PLAN_TYPE_UNDEFINED = 0;
+  SHIFT_PLAN_TYPE_DAY = 1;
+  SHIFT_PLAN_TYPE_NIGHT = 2;
 }
 
 message ShiftPlan {
@@ -37,10 +37,10 @@ message ShiftPlan {
 }
 
 message ShiftPlanCreate {
-    required uint64 driver_id = 1;
-    required uint64 owner_organization_id = 2;
-    required string date = 3;
-    required ShiftPlanStatus status = 4;
+  required uint64 driver_id = 1;
+  required uint64 owner_organization_id = 2;
+  required string date = 3;
+  required ShiftPlanStatus status = 4;
 }
 
 message ShiftPlanUpdateStatus {
