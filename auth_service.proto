@@ -3,6 +3,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "general.proto";
+import "google/protobuf/timestamp.proto";
 import "organization.proto";
 import "user.proto";
 
@@ -22,6 +23,15 @@ message MeResponse {
   optional Organization organization = 2;
 }
 
+message TokenRequest {
+  optional uint64 user_id = 1;
+  optional google.protobuf.Timestamp expiration_date = 2;
+}
+
+message TokenResponse {
+  required string token = 2;
+}
+
 service AuthService {
   rpc Login(LoginRequest) returns (LoginResponse) {}
   rpc Logout(EmptyMessageRequest) returns (EmptyMessageResponse) {}
@@ -29,4 +39,5 @@ service AuthService {
   rpc Me(EmptyMessageRequest) returns (MeResponse) {
     option idempotency_level = NO_SIDE_EFFECTS;
   }
+  rpc StaticToken(TokenRequest) returns (TokenResponse) {}
 }
