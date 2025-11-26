@@ -43,6 +43,7 @@ message Container {
   required uint64 owner_organization_id = 6;
   required bool is_tracked = 7;
   optional uint64 location_id = 8;
+  required google.protobuf.Timestamp updated_at = 9;
 }
 
 message ContainerCreate {
@@ -59,4 +60,9 @@ message ContainerUpdate {
   optional ContainerStatus status = 4;
   optional bool is_tracked = 5;
   optional uint64 location_id = 6;
+}
+
+message ContainerStatusUpdate {
+  required string name = 1;
+  required uint64 location_id = 2;
 }

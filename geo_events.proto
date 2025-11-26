@@ -20,3 +20,36 @@ message GeoEventPublishPayload {
   required GeoEventType event_type = 5;
   optional double duration_minutes = 6;
 }
+
+enum LocationType {
+  LOCATION_TYPE_UNDEFINED = 0;
+  LOCATION_TYPE_DEPOT = 1;
+  LOCATION_TYPE_POINT = 2;
+}
+
+enum GeoProcessType {
+  GEO_PROCESS_TYPE_UNDEFINED = 0;
+  GEO_PROCESS_TYPE_DEPOT_PROCESS = 1;
+  GEO_PROCESS_TYPE_LOADING_PROCESS = 2;
+  GEO_PROCESS_TYPE_UNLOADING_PROCESS = 3;
+}
+
+message GeoProcess {
+  required uint64 truck_id = 1;
+  required uint64 location_id = 2;
+  required string location_name = 3;
+  required LocationType location_type = 4;
+  required uint64 service_provider_id = 5;
+  required GeoProcessType process_type = 6;
+  required google.protobuf.Timestamp process_start_at = 7;
+  optional google.protobuf.Timestamp process_end_at = 8;
+  optional google.protobuf.Timestamp last_active_at = 9;
+
+  optional bool is_active = 10;
+
+  optional int32 process_id = 11;
+  optional float proximity_score = 12;
+  optional int32 start_buffer_id = 13;
+  optional int32 end_buffer_id = 14;
+  optional float duration_minutes = 15;
+}
