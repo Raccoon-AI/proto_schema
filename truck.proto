@@ -32,7 +32,8 @@ message Truck {
   required uint64 owner_organization_id = 6;
   optional string model = 7;
   optional double truck_weight = 8;
-  optional uint64 capacity = 9;
+  optional google.protobuf.Timestamp last_weight_ts = 9;
+  optional uint64 capacity = 10;
 }
 
 message TruckCreate {

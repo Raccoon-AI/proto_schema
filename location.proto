@@ -63,3 +63,7 @@ message LocationUpdate {
 message LocationList {
   repeated Location locations = 1;
 }
+
+message LocationRequest {
+  required uint64 location_id = 1;
+}

@@ -36,8 +36,18 @@ message CreateGuestTruckRequest {
   required TruckType type = 3;
 }
 
+message TruckWeightRequest {
+  required uint64 id = 1;
+  required double truck_weight = 2;
+}
+
+message TruckRequest {
+  required uint64 truck_id = 1;
+}
+
 service TruckService {
   rpc SearchTruck(SearchTruckRequest) returns (SearchTruckResponse) {}
   rpc TruckList(TruckListRequest) returns (TruckListResponse) {}
   rpc CreateGuestTruck(CreateGuestTruckRequest) returns (Truck) {}
+  rpc UpdateTruckWeight(TruckWeightRequest) returns (Truck) {}
 }
