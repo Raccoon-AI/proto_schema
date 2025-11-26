@@ -16,21 +16,21 @@ message ContainerType {
   required google.protobuf.Timestamp created_at = 2;
   required string type_name = 3;
   required uint64 owner_organization_id = 5;
-  required float size_cube = 6;
+  required float cubic_meter = 6;
   required uint64 weight = 7;
 }
 
 message ContainerTypeCreate {
   required string type_name = 1;
   required uint64 owner_organization_id = 2;
-  required float size_cube = 3;
+  required float cubic_meter = 3;
   required uint64 weight = 4;
 }
 
 message ContainerTypeUpdate {
   required uint64 id = 1;
   optional string type_name = 2;
-  optional float size_cube = 3;
+  optional float cubic_meter = 3;
   optional uint64 weight = 4;
 }
 
