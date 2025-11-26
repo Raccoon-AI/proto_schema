@@ -6,9 +6,10 @@ import "google/protobuf/timestamp.proto";
 option go_package = "./pb";
 
 enum FileUploadType {
-    FILE_UPLOAD_TYPE_JOB_SERVICE_STARTED = 0;
-    FILE_UPLOAD_TYPE_JOB_SERVICE_ENDED = 1;
-    FILE_UPLOAD_TYPE_PICKUP_LOCATION_VIEW = 2;
+    FILE_UPLOAD_TYPE_UNDEFINED = 0
+    FILE_UPLOAD_TYPE_JOB_SERVICE_STARTED = 1;
+    FILE_UPLOAD_TYPE_JOB_SERVICE_ENDED = 2;
+    FILE_UPLOAD_TYPE_PICKUP_LOCATION_VIEW = 3;
 }
 
 message FileUpload {
