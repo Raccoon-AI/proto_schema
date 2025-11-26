@@ -1,0 +1,49 @@
+syntax = "proto2";
+
+package proto;
+
+import "google/protobuf/timestamp.proto";
+
+enum ShiftPlanStatus {
+  SHIFT_PLAN_STATUS_UNDEFINED = 0;
+  SHIFT_PLAN_STATUS_ACTIVE = 1;
+  SHIFT_PLAN_STATUS_INACTIVE = 2;
+}
+
+enum ShiftPlanState {
+  SHIFT_PLAN_STATE_UNDEFINED = 0;
+  SHIFT_PLAN_STATE_PLANNED = 1;
+  SHIFT_PLAN_STATE_COMPLETED = 2;
+  SHIFT_PLAN_STATE_MISSED = 3;
+  SHIFT_PLAN_STATE_SUBSTITUTE = 4;
+  SHIFT_PLAN_STATE_CANCELLED = 5;
+}
+
+enum ShiftPlanType {
+  SHIFT_PLAN_TYPE_UNDEFINED = 0;
+  SHIFT_PLAN_TYPE_DAY = 1;
+  SHIFT_PLAN_TYPE_NIGHT = 2;
+}
+
+message ShiftPlan {
+  required uint64 id = 1;
+  required uint64 owner_organization_id = 2;
+  required uint64 driver_id = 3;
+  required string date = 4;
+  required ShiftPlanStatus status = 5;
+  required ShiftPlanState state = 6;
+  required ShiftPlanType type = 7;
+  required google.protobuf.Timestamp created_at = 8;
+}
+
+message ShiftPlanCreate {
+  required uint64 driver_id = 1;
+  required uint64 owner_organization_id = 2;
+  required string date = 3;
+  required ShiftPlanStatus status = 4;
+}
+
+message ShiftPlanUpdateStatus {
+  required uint64 id = 1;
+  required ShiftPlanStatus status = 2;
+}

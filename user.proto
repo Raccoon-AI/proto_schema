@@ -80,13 +80,6 @@ message UserUpdateRole {
   required UserRole role = 2;
 }
 
-message UserSaveContactData {
-  required string phone_number = 1;
-  required uint64 telegram_user_id = 2;
-  required string telegram_username = 3;
-  required uint64 telegram_chat_id = 4;
-}
-
 message RegistrationTokenCreate {
   required string token = 1;
   required uint64 owner_organization_id = 2;
@@ -107,4 +100,10 @@ message GenerateLink {
   required string preferred_method = 3;
   required string recipient = 4;
   required string lang = 5;
+}
+
+message PasswordUpdate {
+  required uint64 id = 1;
+  required string old_pwd = 2;
+  required string new_pwd = 3;
 }
