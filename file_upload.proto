@@ -1,0 +1,34 @@
+syntax = "proto2";
+package raccoonai;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+enum FileUploadType {
+  FILE_UPLOAD_TYPE_UNDEFINED = 0;
+  FILE_UPLOAD_TYPE_JOB_SERVICE_STARTED = 1;
+  FILE_UPLOAD_TYPE_JOB_SERVICE_ENDED = 2;
+  FILE_UPLOAD_TYPE_PICKUP_LOCATION_VIEW = 3;
+}
+
+message FileUpload {
+  required uint64 id = 1;
+  required uint64 owner_organization_id = 2;
+  required string url = 3;
+  required FileUploadType type = 4;
+  optional float lat = 5;
+  optional float lon = 6;
+  optional uint64 job_id = 7;
+  optional uint64 contract_id = 8;
+  required google.protobuf.Timestamp created_at = 9;
+}
+
+message FileUploadCreate {
+  required uint64 owner_organization_id = 1;
+  required FileUploadType type = 2;
+  optional float lat = 3;
+  optional float lon = 4;
+  optional uint64 job_id = 5;
+  optional uint64 contract_id = 6;
+}
