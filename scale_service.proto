@@ -28,6 +28,9 @@ enum WasteType {
   WASTE_TYPE_FLAKES = 14; // Флейки
   WASTE_TYPE_PET = 15; // Polyethylene Terephthalate - ПЭТ
   WASTE_TYPE_PETRO_PRODUCTS = 16; // Fuel and lubricants - ГСМ
+  WASTE_TYPE_PRESSED_MSW = 17; // Хвосты
+  WASTE_TYPE_SORTED_MSW = 18; // Хвосты росыпь - Not Pressed, but sorted
+  WASTE_TYPE_NOT_SORTED_MSW = 19; // Хвосты росыпь 1 - Not Pressed and not sorted, due to overload
 }
 
 message ScaleBruttoRequest {
