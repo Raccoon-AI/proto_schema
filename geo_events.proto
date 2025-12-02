@@ -1,4 +1,5 @@
 syntax = "proto2";
+package raccoonai;
 
 import "google/protobuf/timestamp.proto";
 
@@ -21,10 +22,10 @@ message GeoEventPublishPayload {
   optional double duration_minutes = 6;
 }
 
-enum LocationType {
-  LOCATION_TYPE_UNDEFINED = 0;
-  LOCATION_TYPE_DEPOT = 1;
-  LOCATION_TYPE_POINT = 2;
+enum GeoLocationType {
+  GEO_LOCATION_TYPE_UNDEFINED = 0;
+  GEO_LOCATION_TYPE_DEPOT = 1;
+  GEO_LOCATION_TYPE_POINT = 2;
 }
 
 enum GeoProcessType {
@@ -38,7 +39,7 @@ message GeoProcess {
   required uint64 truck_id = 1;
   required uint64 location_id = 2;
   required string location_name = 3;
-  required LocationType location_type = 4;
+  required GeoLocationType location_type = 4;
   required uint64 service_provider_id = 5;
   required GeoProcessType process_type = 6;
   required google.protobuf.Timestamp process_start_at = 7;
