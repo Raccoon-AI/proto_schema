@@ -22,7 +22,7 @@ message GeoEventPublishPayload {
   optional double duration_minutes = 6;
 }
 
-enum LocationType {
+enum GeoLocationType {
   LOCATION_TYPE_UNDEFINED = 0;
   LOCATION_TYPE_DEPOT = 1;
   LOCATION_TYPE_POINT = 2;
