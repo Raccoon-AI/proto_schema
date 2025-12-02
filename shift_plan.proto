@@ -1,6 +1,5 @@
 syntax = "proto2";
-
-package proto;
+package raccoonai;
 
 import "google/protobuf/timestamp.proto";
 
