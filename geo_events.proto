@@ -39,7 +39,7 @@ message GeoProcess {
   required uint64 truck_id = 1;
   required uint64 location_id = 2;
   required string location_name = 3;
-  required LocationType location_type = 4;
+  required GeoLocationType location_type = 4;
   required uint64 service_provider_id = 5;
   required GeoProcessType process_type = 6;
   required google.protobuf.Timestamp process_start_at = 7;
