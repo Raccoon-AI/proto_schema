@@ -23,9 +23,9 @@ message GeoEventPublishPayload {
 }
 
 enum GeoLocationType {
-  LOCATION_TYPE_UNDEFINED = 0;
-  LOCATION_TYPE_DEPOT = 1;
-  LOCATION_TYPE_POINT = 2;
+  GEO_LOCATION_TYPE_UNDEFINED = 0;
+  GEO_LOCATION_TYPE_DEPOT = 1;
+  GEO_LOCATION_TYPE_POINT = 2;
 }
 
 enum GeoProcessType {
