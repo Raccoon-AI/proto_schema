@@ -35,8 +35,8 @@ message User {
   optional uint64 owner_organization_id = 4;
   optional string first_name = 5;
   optional string last_name = 6;
-  optional string phone_number = 7;
-  optional string email = 8;
+  required string phone_number = 7;
+  required string email = 8;
   optional uint64 telegram_user_id = 9;
   optional string telegram_username = 10;
   optional uint64 telegram_chat_id = 11;
@@ -51,7 +51,7 @@ message UserCreate {
   optional string first_name = 3;
   optional string last_name = 4;
   optional string phone_number = 5;
-  optional string email = 6;
+  required string email = 6;
   required string password = 7;
   optional uint64 telegram_user_id = 8;
   optional string telegram_username = 9;
