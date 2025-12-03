@@ -3,6 +3,8 @@ package raccoonai;
 
 import "google/protobuf/timestamp.proto";
 
+option go_package = "./pb";
+
 enum GeoEventType {
   GEO_EVENT_TYPE_UNDEFINED = 0;
   GEO_EVENT_TYPE_SERVICE_STARTED = 1;
