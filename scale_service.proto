@@ -56,17 +56,16 @@ message ScaleRecord {
   required uint64 id = 1;
   required Organization owner_organization = 2;
   required Organization service_provider = 3;
-  optional Organization service_receiver = 4;
-  required double brutto_weight_kg = 5;
-  required google.protobuf.Timestamp brutto_scale_ts = 6;
-  optional double netto_weight_kg = 7;
-  optional google.protobuf.Timestamp netto_scale_ts = 8;
-  optional double volume = 9;
-  required bool is_guest_record = 10;
-  required WasteType type = 11;
-  required Truck truck = 12;
-  required User driver = 13;
-  optional Route route = 14;
+  required double brutto_weight_kg = 4;
+  required google.protobuf.Timestamp brutto_scale_ts = 5;
+  optional double netto_weight_kg = 6;
+  optional google.protobuf.Timestamp netto_scale_ts = 7;
+  optional double volume = 8;
+  required bool is_guest_record = 9;
+  required WasteType type = 10;
+  required Truck truck = 11;
+  required User driver = 12;
+  optional Route route = 13;
 }
 
 message ScaleRecordListRequest {
