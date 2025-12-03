@@ -1,0 +1,278 @@
+syntax = "proto2";
+
+package routing.v1;
+
+option java_package = "com.raccoonai.routing.grpc";
+option java_outer_classname = "RoutingServiceProto";
+
+// Main service definition
+service RoutingService {
+  rpc InitializeMatrix(InitializeMatrixRequest) returns (InitializeMatrixResponse);
+  rpc UpsertMatrixChunk(stream UpsertMatrixChunkRequest) returns (UpsertMatrixChunkResponse);
+  rpc Solve(SolveRequest) returns (SolveResponse);
+  rpc DeleteMatrix(DeleteMatrixRequest) returns (DeleteMatrixResponse);
+  rpc GetMatrixInfo(GetMatrixInfoRequest) returns (GetMatrixInfoResponse);
+  rpc ListMatrices(ListMatricesRequest) returns (ListMatricesResponse);
+}
+
+// Matrix management messages
+message InitializeMatrixRequest {
+  required string matrix_key = 1;
+  required uint32 time_dimension_size = 2;
+  required uint32 row_size = 3;
+  required uint32 column_size = 4;
+}
+
+message InitializeMatrixResponse {
+  required string response_status = 1;
+  optional string error_message = 2;
+}
+
+message UpsertMatrixChunkRequest {
+  required string matrix_key = 1;
+  required uint32 time_dimension = 2;
+  required uint32 row = 3;
+  repeated float data = 4;  // [column_size] data for specific time slice & row
+}
+
+message UpsertMatrixChunkResponse {
+  required string response_status = 1;
+  optional string error_message = 2;
+  optional uint32 chunks_received = 3;
+  optional uint32 total_chunks_expected = 4;
+}
+
+message DeleteMatrixRequest {
+  required string matrix_key = 1;
+}
+
+message DeleteMatrixResponse {
+  required string response_status = 1;
+  optional string error_message = 2;
+}
+
+message GetMatrixInfoRequest {
+  required string matrix_key = 1;
+}
+
+message GetMatrixInfoResponse {
+  required string response_status = 1;
+  optional string error_message = 2;
+  optional MatrixInfo matrix_info = 3;
+}
+
+message MatrixInfo {
+  required string matrix_key = 1;
+  required uint32 time_dimension_size = 2;
+  required uint32 row_size = 3;
+  required uint32 column_size = 4;
+  required bool is_fully_populated = 5;
+  optional uint64 created_timestamp = 6;
+  optional uint64 last_accessed_timestamp = 7;
+  optional uint32 access_count = 8;
+}
+
+message ListMatricesRequest {
+  optional bool include_incomplete = 1 [default = false];
+}
+
+message ListMatricesResponse {
+  required string response_status = 1;
+  optional string error_message = 2;
+  repeated MatrixInfo matrices = 3;
+}
+
+// Problem definition and solving
+message MatrixConfig {
+  // jsprit algorithm configuration
+  optional int32 max_iterations = 1 [default = 2000];
+//  optional string algorithm_type = 2 [default = "jsprit"];
+//  optional bool enable_breaks = 3 [default = false];
+//  optional bool enable_parallel_search = 4 [default = false];
+
+  // Time constraints
+  optional int64 planning_horizon_start = 5;  // Unix timestamp in seconds
+  optional int64 planning_horizon_end = 6;    // Unix timestamp in seconds
+
+  // Vehicle fleet configuration
+  repeated VehicleConfig vehicles = 7;
+
+  // Service jobs configuration
+  repeated ServiceConfig services = 8;
+
+  // Shipment configuration
+  repeated ShipmentConfig shipments = 9;
+
+  // Depot configuration
+  optional DepotConfig depot = 10;
+
+  // Additional solver parameters
+//  optional SolverParams solver_params = 10;
+}
+
+message VehicleConfig {
+  required string vehicle_id = 1;
+  // Multi-dimensional vehicle capacities. Each index represents a capacity dimension.
+  // Example: capacities[0] = pallets, capacities[1] = volume, etc.
+  repeated int32 capacities = 2;
+  optional string start_location = 3;
+  optional string end_location = 4;
+  optional int64 earliest_start = 5;  // Unix timestamp in seconds
+  optional int64 latest_arrival = 6;  // Unix timestamp in seconds
+  optional BreakConfig break_config = 7;
+  repeated string skills = 8;  // Vehicle capabilities
+  optional double cost_per_distance = 9 [default = 1.0];
+  optional double cost_per_time = 10 [default = 1.0];
+}
+
+message ServiceConfig {
+  required string service_id = 1;
+  required string location = 2;
+  // Multi-dimensional service demands (size vector). Missing dimensions are treated as 0.
+  repeated int32 demands = 3;
+  optional int32 service_time = 4 [default = 0];  // in seconds
+  optional TimeWindow time_window = 5;
+  repeated string required_skills = 6;  // Skills required for this service
+  optional int32 priority = 7 [default = 1];  // Higher number = higher priority
+}
+
+message ShipmentConfig {
+  required string shipment_id = 1;
+
+  // Pickup configuration
+  required string pickup_location = 2;
+  // Multi-dimensional pickup demands (size vector). Missing dimensions are treated as 0.
+  repeated int32 pickup_demands = 3;
+  optional int32 pickup_service_time = 4 [default = 0];  // in seconds
+  optional TimeWindow pickup_time_window = 5;
+
+  // Delivery configuration
+  required string delivery_location = 6;
+  // Multi-dimensional delivery demands (size vector). Must equal pickup_demands (after padding).
+  repeated int32 delivery_demands = 7;  // Must equal pickup_demands
+  optional int32 delivery_service_time = 8 [default = 0];  // in seconds
+  optional TimeWindow delivery_time_window = 9;
+
+  // Common configuration
+  repeated string required_skills = 10;  // Skills required for this shipment
+  optional int32 priority = 11 [default = 1];  // Higher number = higher priority
+}
+
+message DepotConfig {
+  required string location = 1;
+  optional int64 earliest_departure = 2;  // Unix timestamp in seconds
+  optional int64 latest_return = 3;        // Unix timestamp in seconds
+}
+
+message BreakConfig {
+  optional int64 start_time = 1;     // Unix timestamp in seconds
+  optional int64 end_time = 2;       // Unix timestamp in seconds
+  optional int32 duration = 3 [default = 1800];  // in seconds (default 30 minutes)
+  optional string location = 4;      // Where break should be taken
+  optional bool is_mandatory = 5 [default = true];
+  optional int32 priority = 6;
+}
+
+message TimeWindow {
+  required int64 start = 1;  // Unix timestamp in seconds
+  required int64 end = 2;    // Unix timestamp in seconds
+}
+
+message TimeWindowAnalysis {
+  optional int64 earliest_possible_start = 1;    // From activity time window
+  optional int64 latest_possible_start = 2;      // From activity time window
+  optional int64 actual_start_time = 3;            // From solution
+  optional int64 time_window_slack = 4;           // How early we arrive (positive)
+  optional int64 time_window_violation = 5;       // How late we arrive (positive)
+  optional TimeWindowStatus status = 6;            // Clear status indicator
+}
+
+enum TimeWindowStatus {
+  TIME_WINDOW_UNKNOWN = 0;
+  TIME_WINDOW_ON_TIME = 1;           // Within time window
+  TIME_WINDOW_EARLY = 2;             // Arrived before window (waiting)
+  TIME_WINDOW_LATE = 3;              // Violated time window
+  TIME_WINDOW_NO_CONSTRAINT = 4;     // No time window defined
+}
+
+message SolverParams {
+  optional double ruin_share = 1 [default = 0.3];
+  optional int32 min_ruin_size = 2 [default = 1];
+  optional int32 max_ruin_size = 3 [default = 200];
+  optional double regret_weight = 4 [default = 1.0];
+  optional int32 threads = 5 [default = 1];
+}
+
+message SolveRequest {
+  required MatrixConfig config = 1;
+  required string matrix_key = 2;
+  optional int64 timeout_ms = 3 [default = 30000];  // 30 seconds default
+  optional bool return_detailed_solution = 4 [default = true];
+  optional bool include_time_window_analysis = 5 [default = false];
+  optional bool include_extended_activity_details = 6 [default = false];
+}
+
+message SolveResponse {
+  required string response_status = 1;
+  repeated Route routes = 2;
+  optional SolutionStats stats = 3;
+  optional string error_message = 4;
+  optional SolveMetadata metadata = 5;
+}
+
+message Route {
+  required string vehicle_id = 1;
+  repeated Stop stops = 2;
+  optional double total_cost = 3;
+  optional double total_distance = 4;
+  optional double total_time = 5;
+  optional double total_wait_time = 6;
+  optional double total_service_time = 7;
+}
+
+message Stop {
+  // Identifier of the job associated with this stop.
+  // Now stores the underlying job ID:
+  // - For StopType.SERVICE: the ServiceConfig.service_id
+  // - For StopType.PICKUP: the ShipmentConfig.shipment_id
+  // - For StopType.DELIVERY: the ShipmentConfig.shipment_id
+  // - For StopType.DEPARTURE and StopType.ARRIVAL: may be empty or a vehicle/depot related id if applicable
+  required string stop_id = 1;
+  required string location = 2;
+  optional int64 arrival_time = 3;      // Unix timestamp in seconds
+  optional int64 departure_time = 4;    // Unix timestamp in seconds
+  optional int32 service_time = 5;       // in seconds
+  optional int32 wait_time = 6;          // in seconds
+  optional StopType type = 7 [default = SERVICE];
+  optional double accumulated_cost = 8;
+  optional double accumulated_distance = 9;
+  optional TimeWindowAnalysis time_window_analysis = 10;
+}
+
+enum StopType {
+  DEPARTURE = 0;
+  SERVICE = 1;
+  BREAK = 2;
+  ARRIVAL = 3;
+  // Added specific shipment activities
+  PICKUP = 4;
+  DELIVERY = 5;
+}
+
+message SolutionStats {
+  required int32 total_vehicles_used = 1;
+  required int32 unassigned_services = 2;
+  required double total_cost = 3;
+  required int64 computation_time_ms = 4;
+  optional int32 algorithm_iterations = 5;
+  optional double solution_quality = 6;  // Quality metric (0-1)
+  optional int32 total_distance = 7;     // in meters
+  optional int32 total_time = 8;         // in seconds
+}
+
+message SolveMetadata {
+  optional string algorithm_used = 1;
+  optional int32 iterations_completed = 2;
+  optional bool timeout_reached = 3;
+  optional string solver_version = 4;
+}
