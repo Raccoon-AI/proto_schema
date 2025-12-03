@@ -3,6 +3,8 @@ package raccoonai;
 
 import "google/protobuf/timestamp.proto";
 
+option go_package = "./pb";
+
 enum ShiftPlanStatus {
   SHIFT_PLAN_STATUS_UNDEFINED = 0;
   SHIFT_PLAN_STATUS_ACTIVE = 1;
