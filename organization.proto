@@ -30,7 +30,8 @@ message Organization {
   optional uint64 bank_details_id = 6;
   optional string bin = 7;
   optional string phone_number = 8;
-  optional string address = 9;
+  optional string jur_address = 9;
+  optional string fact_address = 10;
 }
 
 message OrganizationCreateItem {
@@ -39,7 +40,8 @@ message OrganizationCreateItem {
   optional uint64 bank_details_id = 3;
   optional string bin = 4;
   optional string phone_number = 5;
-  optional string address = 6;
+  optional string jur_address = 6;
+  optional string fact_address = 7;
 }
 
 message ContractCreateItem {
@@ -51,7 +53,8 @@ message OrganizationCreate {
   required OrganizationType type = 2;
   optional uint64 bank_details_id = 3;
   optional string bin = 4;
-  optional string address = 5;
+  optional string jur_address = 5;
+  optional string fact_address = 6;
 }
 
 message ServiceReceiverCreate {
@@ -68,5 +71,6 @@ message OrganizationUpdate {
   optional uint64 bank_details_id = 4;
   optional string bin = 5;
   optional string phone_number = 6;
-  optional string address = 7;
+  optional string jur_address = 7;
+  optional string fact_address = 8;
 }
