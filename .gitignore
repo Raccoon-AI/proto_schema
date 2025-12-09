@@ -1,2 +1,7 @@
 *_pb2.py
 .idea
+node_modules/
+dist/
+generated/
+*.log
+package-lock.json

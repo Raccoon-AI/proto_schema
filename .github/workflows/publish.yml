@@ -43,9 +43,15 @@ jobs:
           PR_VERSION=0.0.0-pr.${{ github.event.number }}.${{ github.sha }}
           npm version $PR_VERSION --no-git-tag-version
 
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build TypeScript files
+        run: npm run build
+
       - name: Publish to GitHub Packages
         # Note: Publishing from a PR is usually reserved for internal testing/beta builds.
         # This will create a package with a version like '0.0.0-pr.123.abcdef'
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.RACCOON_PAT }}

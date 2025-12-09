@@ -37,16 +37,38 @@ npm install @raccoonai/proto-schema@1.0.0
 
 ## Usage
 
-After installation, the .proto files will be available in node_modules/@raccoonai/proto-schema/.
+This package provides both the original `.proto` files and generated TypeScript definitions.
 
-### Frontend Example
+### TypeScript/JavaScript Usage (Recommended)
 
-```javascript
-// Import proto files for use with protobuf.js or other libraries
-import { protoFiles } from "@raccoonai/proto-schema";
+```typescript
+import { raccoonai } from "@raccoonai/proto-schema";
+
+// Create a new User message
+const user = raccoonai.User.create({
+  id: 1,
+  createdAt: { seconds: Date.now() / 1000, nanos: 0 },
+  role: raccoonai.UserRole.USER_ROLE_ADMIN,
+  firstName: "John",
+  lastName: "Doe",
+  email: "john@example.com",
+  status: raccoonai.UserStatus.USER_STATUS_ACTIVE,
+});
+
+// Encode to binary
+const buffer = raccoonai.User.encode(user).finish();
+
+// Decode from binary
+const decodedUser = raccoonai.User.decode(buffer);
 ```
 
-### Backend (Node.js) Example
+For more detailed usage examples, see [USAGE.md](./USAGE.md).
+
+### Using Proto Files Directly
+
+After installation, the `.proto` files are available in `node_modules/@raccoonai/proto-schema/`.
+
+#### Backend (Node.js) with gRPC
 
 ```javascript
 const path = require("path");
@@ -59,13 +81,12 @@ const protoPath = path.join(
 // Use protoPath to load .proto files
 ```
 
-### Go Example
+#### Go Example
 
 ```go
-
 import (
-"path/filepath"
-"os"
+  "path/filepath"
+  "os"
 )
 
 protoDir := filepath.Join("node_modules", "@raccoonai", "proto-schema")
