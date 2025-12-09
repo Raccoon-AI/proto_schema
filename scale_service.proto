@@ -38,7 +38,7 @@ message ScaleBruttoRequest {
   required uint64 truck_id = 2;
   required uint64 driver_id = 3;
   required double weight_kg = 4;
-  required WasteType type = 5;
+  required WasteType waste_type = 5;
   optional double volume = 6;
   optional bool use_truck_tare_weight = 7;
 }
@@ -62,7 +62,7 @@ message ScaleRecord {
   optional google.protobuf.Timestamp netto_scale_ts = 7;
   optional double volume = 8;
   required bool is_guest_record = 9;
-  required WasteType type = 10;
+  required WasteType waste_type = 10;
   required Truck truck = 11;
   required User driver = 12;
   optional Route route = 13;
