@@ -1,0 +1,25 @@
+{
+  "name": "@raccoonai/proto-schema",
+  "version": "1.0.0",
+  "description": "Protobuf schemas for Raccoon services",
+  "main": "index.js",
+  "files": [
+    "*.proto"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raccoon-AI/proto_schema.git"
+  },
+  "keywords": [
+    "protobuf",
+    "proto",
+    "schema",
+    "raccoon"
+  ],
+  "author": "Raccoon-AI",
+  "license": "UNLICENSED",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}
+
