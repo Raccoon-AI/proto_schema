@@ -10,16 +10,16 @@ on:
       # You can specify other branches, like a specific release branch:
       # - release-v2
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   publish:
     # Use a conditional expression to check the source branch (head ref)
     # NOTE: This checks the branch *from* which the PR is made.
     # Replace 'my-feature-branch' with your desired branch name.
-    if: github.event_name == 'pull_request' && github.head_ref == 'my-feature-branch'
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     steps:
       - name: Checkout code
         # IMPORTANT: When running on pull_request, you must checkout the source branch (head)
@@ -30,9 +30,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          registry-url: "https://npm.pkg.github.com"
-          scope: "@raccoonai"
+          node-version: 20
+          registry-url: https://npm.pkg.github.com
+          scope: @raccoonai
 
       # --- REMOVED: Tag version extraction (not applicable for PRs) ---
 
