@@ -131,7 +131,7 @@ All message types are available under the `raccoonai` namespace:
 
 All original `.proto` files are included in the package and can be found at:
 
-```
+```text
 node_modules/@raccoonai/proto-schema/*.proto
 ```
 

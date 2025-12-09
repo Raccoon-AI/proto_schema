@@ -10,17 +10,16 @@ This package is published to GitHub Packages. To install it, you need to configu
 
 Create or update the .npmrc file in the root of your project:
 
-```
+```text
 @raccoonai:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
 For local development, create a .npmrc file in your home directory (~/.npmrc) or in the project root with your personal token:
 
-```
+```text
 @raccoonai:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
-
 ```
 
 ### Package Installation

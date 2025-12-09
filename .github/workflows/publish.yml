@@ -54,4 +54,4 @@ jobs:
         # This will create a package with a version like '0.0.0-pr.123.abcdef'
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.RACCOON_PAT }}
+          NODE_AUTH_TOKEN: ${{ secrets.RACCOON_PUBLISHER }}

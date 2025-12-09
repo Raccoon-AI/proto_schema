@@ -10,14 +10,14 @@ Used to define the structure of the data exchanged between **Raccoon** services.
 
 Создайте или обновите файл `.npmrc` в корне вашего проекта:
 
-```
+```text
 @raccoonai:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
 Для локальной разработки создайте `.npmrc` в домашней директории (`~/.npmrc`) или в корне проекта с вашим персональным токеном:
 
-```
+```text
 @raccoonai:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
 ```
