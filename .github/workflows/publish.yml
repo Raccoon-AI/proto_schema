@@ -1,53 +1,51 @@
 name: Publish to GitHub Packages
 
 on:
-  push:
-    tags:
-      - 'v*'
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version to publish (e.g., 1.0.0)'
-        required: true
+  pull_request:
+    # Trigger only when a PR is opened, reopened, or synchronized (updated)
+    types: [opened, synchronize, reopened]
+    # Restrict the trigger to PRs targeting the 'main' branch (or your target branch)
+    branches:
+      - main
+      # You can specify other branches, like a specific release branch:
+      # - release-v2
 
 jobs:
   publish:
+    # Use a conditional expression to check the source branch (head ref)
+    # NOTE: This checks the branch *from* which the PR is made.
+    # Replace 'my-feature-branch' with your desired branch name.
+    if: github.event_name == 'pull_request' && github.head_ref == 'my-feature-branch'
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
     steps:
       - name: Checkout code
+        # IMPORTANT: When running on pull_request, you must checkout the source branch (head)
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@raccoonai'
+          node-version: "20"
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@raccoonai"
 
-      - name: Extract version from tag
-        if: startsWith(github.ref, 'refs/tags/v')
-        id: tag_version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      # --- REMOVED: Tag version extraction (not applicable for PRs) ---
 
-      - name: Update package version
-        if: startsWith(github.ref, 'refs/tags/v')
+      # --- ADDED: Set a temporary version for PR publish/testing (Optional but safer) ---
+      - name: Set PR-specific package version
         run: |
-          npm version ${{ steps.tag_version.outputs.VERSION }} --no-git-tag-version
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Update package version (manual)
-        if: github.event_name == 'workflow_dispatch'
-        run: |
-          npm version ${{ github.event.inputs.version }} --no-git-tag-version
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Use a unique identifier like the PR number or short commit SHA
+          PR_VERSION=0.0.0-pr.${{ github.event.number }}.${{ github.sha }}
+          npm version $PR_VERSION --no-git-tag-version
 
       - name: Publish to GitHub Packages
+        # Note: Publishing from a PR is usually reserved for internal testing/beta builds.
+        # This will create a package with a version like '0.0.0-pr.123.abcdef'
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

@@ -1,94 +1,103 @@
-# Protobuf schemas
+# Protobuf Schemas
 
-Used to define the structure of the data exchanged between **Raccoon** services.
+Used to define the structure of the data exchanged between Raccoon services.
 
-## Установка
+## Installation
 
-Этот пакет публикуется в GitHub Packages. Для установки необходимо настроить доступ к GitHub Packages registry.
+This package is published to GitHub Packages. To install it, you need to configure access to the GitHub Packages registry.
 
-### Настройка .npmrc
+## Configuring .npmrc
 
-Создайте или обновите файл `.npmrc` в корне вашего проекта:
+Create or update the .npmrc file in the root of your project:
 
 ```
 @raccoonai:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
-Для локальной разработки создайте `.npmrc` в домашней директории (`~/.npmrc`) или в корне проекта с вашим персональным токеном:
+For local development, create a .npmrc file in your home directory (~/.npmrc) or in the project root with your personal token:
 
 ```
 @raccoonai:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
+
 ```
 
-### Установка пакета
+### Package Installation
 
 ```bash
 npm install @raccoonai/proto-schema
 ```
 
-или с указанием версии:
+or by specifying the version:
 
 ```bash
 npm install @raccoonai/proto-schema@1.0.0
 ```
 
-## Использование
+## Usage
 
-После установки, `.proto` файлы будут доступны в `node_modules/@raccoonai/proto-schema/`.
+After installation, the .proto files will be available in node_modules/@raccoonai/proto-schema/.
 
-### Пример для фронтенда
-
-```javascript
-// Импорт proto файлов для использования с protobuf.js или другими библиотеками
-import { protoFiles } from '@raccoonai/proto-schema';
-```
-
-### Пример для бэкенда (Node.js)
+### Frontend Example
 
 ```javascript
-const path = require('path');
-const protoPath = path.join(__dirname, 'node_modules', '@raccoonai', 'proto-schema');
-// Используйте protoPath для загрузки .proto файлов
+// Import proto files for use with protobuf.js or other libraries
+import { protoFiles } from "@raccoonai/proto-schema";
 ```
 
-### Пример для Go
+### Backend (Node.js) Example
+
+```javascript
+const path = require("path");
+const protoPath = path.join(
+  __dirname,
+  "node_modules",
+  "@raccoonai",
+  "proto-schema",
+);
+// Use protoPath to load .proto files
+```
+
+### Go Example
 
 ```go
+
 import (
-    "path/filepath"
-    "os"
+"path/filepath"
+"os"
 )
 
 protoDir := filepath.Join("node_modules", "@raccoonai", "proto-schema")
-// Используйте protoDir для компиляции proto файлов
+// Use protoDir to compile proto files
 ```
 
-## Публикация новой версии
+## Publishing a New Version
 
-Публикация происходит автоматически через GitHub Actions при создании тега:
+Publishing happens automatically via GitHub Actions upon creation of a tag:
 
 ```bash
 git tag v1.0.1
 git push origin v1.0.1
 ```
 
-Или вручную через GitHub Actions workflow "Publish to GitHub Packages".
+Or manually via the "Publish to GitHub Packages" GitHub Actions workflow.
 
-## Миграция с git submodule
+## Migration from Git Submodule
 
-Если вы ранее использовали этот репозиторий как git submodule:
+If you previously used this repository as a git submodule:
 
-1. Удалите submodule из вашего проекта:
+1. Remove the submodule from your project:
+
    ```bash
    git submodule deinit -f proto_schema
    git rm proto_schema
    ```
 
-2. Установите пакет через npm:
+2. Install the package via npm:
+
    ```bash
    npm install @raccoonai/proto-schema
    ```
 
-3. Обновите пути к proto файлам в вашем коде (если необходимо)
+3. Update the paths to the proto files in your code (if necessary).
