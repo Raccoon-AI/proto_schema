@@ -28,6 +28,9 @@ enum WasteType {
   WASTE_TYPE_FLAKES = 14; // Флейки
   WASTE_TYPE_PET = 15; // Polyethylene Terephthalate - ПЭТ
   WASTE_TYPE_PETRO_PRODUCTS = 16; // Fuel and lubricants - ГСМ
+  WASTE_TYPE_PRESSED_MSW = 17; // Хвосты
+  WASTE_TYPE_SORTED_MSW = 18; // Хвосты росыпь - Not Pressed, but sorted
+  WASTE_TYPE_NOT_SORTED_MSW = 19; // Хвосты росыпь 1 - Not Pressed and not sorted, due to overload
 }
 
 message ScaleBruttoRequest {
@@ -35,7 +38,7 @@ message ScaleBruttoRequest {
   required uint64 truck_id = 2;
   required uint64 driver_id = 3;
   required double weight_kg = 4;
-  required WasteType type = 5;
+  required WasteType waste_type = 5;
   optional double volume = 6;
   optional bool use_truck_tare_weight = 7;
 }
@@ -53,17 +56,18 @@ message ScaleRecord {
   required uint64 id = 1;
   required Organization owner_organization = 2;
   required Organization service_provider = 3;
-  optional Organization service_receiver = 4;
-  required double brutto_weight_kg = 5;
-  required google.protobuf.Timestamp brutto_scale_ts = 6;
-  optional double netto_weight_kg = 7;
-  optional google.protobuf.Timestamp netto_scale_ts = 8;
-  optional double volume = 9;
-  required bool is_guest_record = 10;
-  required WasteType type = 11;
-  required Truck truck = 12;
-  required User driver = 13;
-  optional Route route = 14;
+  required double brutto_weight_kg = 4;
+  required google.protobuf.Timestamp brutto_scale_ts = 5;
+  optional double netto_weight_kg = 6;
+  optional google.protobuf.Timestamp netto_scale_ts = 7;
+  optional double volume = 8;
+  required bool is_guest_record = 9;
+  required WasteType waste_type = 10;
+  required Truck truck = 11;
+  required User driver = 12;
+  optional Route route = 13;
+  optional string integration_comments = 14;
+  required RawScaleRecord origin = 15;
 }
 
 message ScaleRecordListRequest {
@@ -77,6 +81,24 @@ message ScaleRecordListRequest {
 
 message ScaleRecordListResponse {
   repeated ScaleRecord scale_records = 1;
+}
+
+message RawScaleRecord {
+  required uint64 id = 1;
+  required uint64 legacy_id = 2;
+  optional string truck_number = 3;
+  optional string driver_full_name = 4;
+  optional google.protobuf.Timestamp first_time_scaled_at = 5;
+  optional google.protobuf.Timestamp second_time_scaled_at = 6;
+  optional double brutto_kg = 7;
+  optional double netto_kg = 8;
+  optional double tare_kg = 9;
+  optional double volume = 10;
+  optional string waste_type = 11;
+  optional string sender = 12;
+  optional string receiver = 13;
+  optional string bin = 14;
+  optional string photo_path = 15;
 }
 
 service ScaleService {
