@@ -67,7 +67,7 @@ message ScaleRecord {
   required User driver = 12;
   optional Route route = 13;
   optional string integration_comments = 14;
-  required RawScaleRecord origin = 15;
+  optional RawScaleRecord origin = 15;
 }
 
 message ScaleRecordListRequest {
