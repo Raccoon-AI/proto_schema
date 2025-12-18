@@ -56,6 +56,7 @@ message Route {
   optional uint64 current_step_idx = 20;
   optional google.protobuf.Timestamp gps_start_at = 21;
   optional google.protobuf.Timestamp gps_end_at = 22;
+  optional uint64 scale_record_id = 23;
 }
 
 message RouteCreate {
