@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "driver_on_shift.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
@@ -51,6 +52,9 @@ message GeoProcess {
   optional int32 start_buffer_id = 13;
   optional int32 end_buffer_id = 14;
   optional float duration_minutes = 15;
+}
 
-  repeated string driver_names = 16;
+message GeoProcessEnriched {
+  required GeoProcess geo_process = 1;
+  repeated DriverOnShift driver_on_shifts = 2;
 }
