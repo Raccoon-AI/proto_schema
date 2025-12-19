@@ -38,11 +38,8 @@ message User {
   optional string last_name = 6;
   optional string phone_number = 7;
   optional string email = 8;
-  optional uint64 telegram_user_id = 9;
-  optional string telegram_username = 10;
-  optional uint64 telegram_chat_id = 11;
-  required UserStatus status = 12;
-  optional string driver_license_number = 13;
+  required UserStatus status = 9;
+  optional string driver_license_number = 10;
   optional string fcm_token = 14;
 }
 
@@ -68,12 +65,9 @@ message UserUpdate {
   optional string last_name = 3;
   optional string phone_number = 4;
   optional string email = 5;
-  optional uint64 telegram_user_id = 6;
-  optional string telegram_username = 7;
-  optional uint64 telegram_chat_id = 8;
-  optional UserStatus status = 9;
-  optional string driver_license_number = 10;
-  optional string fcm_token = 11;
+  optional UserStatus status = 6;
+  optional string driver_license_number = 7;
+  optional string fcm_token = 8;
 }
 
 message UserUpdateRole {
