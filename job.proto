@@ -15,6 +15,7 @@ enum JobType {
   JOB_TYPE_SERVICE = 1;
   JOB_TYPE_ADD_BUNKER = 2;
   JOB_TYPE_REMOVE_BUNKER = 3;
+  JOB_TYPE_MSW = 4; // Municipal Solid Waste
 }
 
 enum JobStatus {
