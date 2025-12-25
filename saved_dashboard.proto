@@ -7,45 +7,45 @@ import "google/protobuf/timestamp.proto";
 option go_package = "./pb";
 
 message SavedDashboard {
-  required string id = 1;
-  required uint64 user_id = 2;
-  required uint64 owner_organization_id = 3;
-  optional string chat_id = 4;
-  required string title = 5;
-  required string sql_query = 6;
-  optional string description = 7;
-  required string status = 8;
-  optional google.protobuf.Struct plot_config = 9;
-  required google.protobuf.Timestamp created_at = 10;
-  required google.protobuf.Timestamp updated_at = 11;
+  required string id = 1 [json_name = "id"];
+  required uint64 user_id = 2 [json_name = "user_id"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+  optional string chat_id = 4 [json_name = "chat_id"];
+  required string title = 5 [json_name = "title"];
+  required string sql_query = 6 [json_name = "sql_query"];
+  optional string description = 7 [json_name = "description"];
+  required string status = 8 [json_name = "status"];
+  optional google.protobuf.Struct plot_config = 9 [json_name = "plot_config"];
+  required google.protobuf.Timestamp created_at = 10 [json_name = "created_at"];
+  required google.protobuf.Timestamp updated_at = 11 [json_name = "updated_at"];
 }
 
 message DashboardCreate {
-  optional string chat_id = 1;
-  required string title = 2;
-  required string sql_query = 3;
-  optional string description = 4;
-  optional google.protobuf.Struct plot_config = 5;
+  optional string chat_id = 1 [json_name = "chat_id"];
+  required string title = 2 [json_name = "title"];
+  required string sql_query = 3 [json_name = "sql_query"];
+  optional string description = 4 [json_name = "description"];
+  optional google.protobuf.Struct plot_config = 5 [json_name = "plot_config"];
 }
 
 message DashboardUpdate {
-  required string id = 1;
-  optional string title = 2;
-  optional string sql_query = 3;
-  optional string description = 4;
-  optional string status = 5;
-  optional google.protobuf.Struct plot_config = 6;
+  required string id = 1 [json_name = "id"];
+  optional string title = 2 [json_name = "title"];
+  optional string sql_query = 3 [json_name = "sql_query"];
+  optional string description = 4 [json_name = "description"];
+  optional string status = 5 [json_name = "status"];
+  optional google.protobuf.Struct plot_config = 6 [json_name = "plot_config"];
 }
 
 message ExecuteQueryRequest {
-  required string sql_query = 1;
-  required string user_question = 2; // Contextual user question for the query
+  required string sql_query = 1 [json_name = "sql_query"];
+  required string user_question = 2 [json_name = "user_question"]; // Contextual user question for the query
 }
 
 message QueryResultResponse {
-  required string sql_query = 1;
-  repeated string columns = 2;
-  repeated google.protobuf.Struct rows = 3;
-  optional string title = 4;
-  optional string error = 5;
+  required string sql_query = 1 [json_name = "sql_query"];
+  repeated string columns = 2 [json_name = "columns"];
+  repeated google.protobuf.Struct rows = 3 [json_name = "rows"];
+  optional string title = 4 [json_name = "title"];
+  optional string error = 5 [json_name = "error"];
 }

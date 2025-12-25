@@ -6,23 +6,23 @@ import "user.proto";
 option go_package = "./pb";
 
 message UserListRequest {
-  required uint64 org_id = 1;
+  required uint64 org_id = 1 [json_name = "org_id"];
 }
 
 message UserListResponse {
-  repeated User users = 1;
+  repeated User users = 1 [json_name = "users"];
 }
 
 message UserRequest {
-  required uint64 user_id = 1;
+  required uint64 user_id = 1 [json_name = "user_id"];
 }
 
 message CreateGuestDriverRequest {
-  required uint64 owner_organization_id = 1;
-  required string first_name = 2;
-  required string last_name = 3;
-  required string phone_number = 4;
-  required string driver_license_number = 5;
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required string first_name = 2 [json_name = "first_name"];
+  required string last_name = 3 [json_name = "last_name"];
+  required string phone_number = 4 [json_name = "phone_number"];
+  required string driver_license_number = 5 [json_name = "driver_license_number"];
 }
 
 service UserService {

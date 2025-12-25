@@ -9,42 +9,42 @@ import "truck.proto";
 option go_package = "./pb";
 
 message OrganizationListRequest {
-  optional OrganizationType type = 1;
-  optional OrganizationStatus status = 2;
+  optional OrganizationType type = 1 [json_name = "type"];
+  optional OrganizationStatus status = 2 [json_name = "status"];
 }
 
 message OrganizationListResponse {
-  repeated Organization organizations = 1;
+  repeated Organization organizations = 1 [json_name = "organizations"];
 }
 
 message AddGuestRequest {
-  required string org_name = 1;
-  required string bin = 2;
-  required string driver_first_name = 3;
-  required string driver_last_name = 4;
-  required string driver_phone_number = 5;
-  optional string driver_license_number = 6;
-  required string truck_plate_number = 7;
-  required TruckType truck_type = 8;
+  required string org_name = 1 [json_name = "org_name"];
+  required string bin = 2 [json_name = "bin"];
+  required string driver_first_name = 3 [json_name = "driver_first_name"];
+  required string driver_last_name = 4 [json_name = "driver_last_name"];
+  required string driver_phone_number = 5 [json_name = "driver_phone_number"];
+  optional string driver_license_number = 6 [json_name = "driver_license_number"];
+  required string truck_plate_number = 7 [json_name = "truck_plate_number"];
+  required TruckType truck_type = 8 [json_name = "truck_type"];
 }
 
 message AddGuestResponse {
-  required uint64 organization_id = 1;
-  required uint64 driver_id = 2;
-  required uint64 truck_id = 3;
+  required uint64 organization_id = 1 [json_name = "organization_id"];
+  required uint64 driver_id = 2 [json_name = "driver_id"];
+  required uint64 truck_id = 3 [json_name = "truck_id"];
 }
 
 message CreateGuestOrganizationRequest {
-  required string org_name = 1;
-  required string bin = 2;
+  required string org_name = 1 [json_name = "org_name"];
+  required string bin = 2 [json_name = "bin"];
 }
 
 message CreateGuestOrganizationResponse {
-  required uint64 organization_id = 1;
+  required uint64 organization_id = 1 [json_name = "organization_id"];
 }
 
 message OrganizationRequest {
-  required uint64 organization_id = 1;
+  required uint64 organization_id = 1 [json_name = "organization_id"];
 }
 
 service OrganizationService {

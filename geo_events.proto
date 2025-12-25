@@ -16,12 +16,12 @@ enum GeoEventType {
 }
 
 message GeoEventPublishPayload {
-  required uint64 truck_id = 1;
-  required uint64 location_id = 2;
-  required google.protobuf.Timestamp datetime = 3;
-  required uint64 service_provider_id = 4;
-  required GeoEventType event_type = 5;
-  optional double duration_minutes = 6;
+  required uint64 truck_id = 1 [json_name = "truck_id"];
+  required uint64 location_id = 2 [json_name = "location_id"];
+  required google.protobuf.Timestamp datetime = 3 [json_name = "datetime"];
+  required uint64 service_provider_id = 4 [json_name = "service_provider_id"];
+  required GeoEventType event_type = 5 [json_name = "event_type"];
+  optional double duration_minutes = 6 [json_name = "duration_minutes"];
 }
 
 enum GeoLocationType {
@@ -40,21 +40,21 @@ enum GeoProcessType {
 }
 
 message GeoProcess {
-  required uint64 truck_id = 1;
-  required uint64 location_id = 2;
-  required string location_name = 3;
-  required GeoLocationType location_type = 4;
-  required uint64 service_provider_id = 5;
-  required GeoProcessType process_type = 6;
-  required google.protobuf.Timestamp process_start_at = 7;
-  optional google.protobuf.Timestamp process_end_at = 8;
-  optional google.protobuf.Timestamp last_active_at = 9;
+  required uint64 truck_id = 1 [json_name = "truck_id"];
+  required uint64 location_id = 2 [json_name = "location_id"];
+  required string location_name = 3 [json_name = "location_name"];
+  required GeoLocationType location_type = 4 [json_name = "location_type"];
+  required uint64 service_provider_id = 5 [json_name = "service_provider_id"];
+  required GeoProcessType process_type = 6 [json_name = "process_type"];
+  required google.protobuf.Timestamp process_start_at = 7 [json_name = "process_start_at"];
+  optional google.protobuf.Timestamp process_end_at = 8 [json_name = "process_end_at"];
+  optional google.protobuf.Timestamp last_active_at = 9 [json_name = "last_active_at"];
 
-  optional bool is_active = 10;
+  optional bool is_active = 10 [json_name = "is_active"];
 
-  optional int32 process_id = 11;
-  optional float proximity_score = 12;
-  optional int32 start_buffer_id = 13;
-  optional int32 end_buffer_id = 14;
-  optional float duration_minutes = 15;
+  optional int32 process_id = 11 [json_name = "process_id"];
+  optional float proximity_score = 12 [json_name = "proximity_score"];
+  optional int32 start_buffer_id = 13 [json_name = "start_buffer_id"];
+  optional int32 end_buffer_id = 14 [json_name = "end_buffer_id"];
+  optional float duration_minutes = 15 [json_name = "duration_minutes"];
 }

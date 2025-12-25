@@ -10,34 +10,33 @@ import "user.proto";
 option go_package = "./pb";
 
 message LoginRequest {
-  required string username = 1;
-  required string password = 2;
+  required string username = 1 [json_name = "username"];
+  required string password = 2 [json_name = "password"];
 }
 
 message LoginResponse {
-  required string token = 1; // The Bearer token to use for authenticated requests
+  // The Bearer token to use for authenticated requests
+  required string token = 1 [json_name = "token"];
 }
 
 message MeResponse {
-  required User user = 1;
-  optional Organization organization = 2;
+  required User user = 1 [json_name = "user"];
+  optional Organization organization = 2 [json_name = "organization"];
 }
 
 message TokenRequest {
-  optional uint64 user_id = 1;
-  optional google.protobuf.Timestamp expiration_date = 2;
+  optional uint64 user_id = 1 [json_name = "user_id"];
+  optional google.protobuf.Timestamp expiration_date = 2 [json_name = "expiration_date"];
 }
 
 message TokenResponse {
-  required string token = 2;
+  required string token = 2 [json_name = "token"];
 }
 
 service AuthService {
   rpc Login(LoginRequest) returns (LoginResponse) {}
   rpc Logout(EmptyMessageRequest) returns (EmptyMessageResponse) {}
   rpc Protected(EmptyMessageRequest) returns (EmptyMessageResponse) {}
-  rpc Me(EmptyMessageRequest) returns (MeResponse) {
-    option idempotency_level = NO_SIDE_EFFECTS;
-  }
+  rpc Me(EmptyMessageRequest) returns (MeResponse) {}
   rpc StaticToken(TokenRequest) returns (TokenResponse) {}
 }

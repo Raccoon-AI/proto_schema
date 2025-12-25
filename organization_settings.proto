@@ -7,42 +7,42 @@ import "google/protobuf/timestamp.proto";
 option go_package = "./pb";
 
 message NotificationConfig {
-  repeated AuditLogType log_types = 1;
+  repeated AuditLogType log_types = 1 [json_name = "log_types"];
 }
 
 message OrganizationSettings {
-  required uint64 id = 1;
-  optional string shift_departure_text = 3;
-  optional string shift_arrival_text = 4;
-  optional string shift_working_schedule = 5;
-  required google.protobuf.Timestamp created_at = 6;
-  required bool is_ai_driven = 7;
-  optional NotificationConfig notification_config = 8;
-  optional double map_center_lat = 9;
-  optional double map_center_lon = 10;
-  optional bool ai_enabled = 11;
+  required uint64 id = 1 [json_name = "id"];
+  optional string shift_departure_text = 3 [json_name = "shift_departure_text"];
+  optional string shift_arrival_text = 4 [json_name = "shift_arrival_text"];
+  optional string shift_working_schedule = 5 [json_name = "shift_working_schedule"];
+  required google.protobuf.Timestamp created_at = 6 [json_name = "created_at"];
+  required bool is_ai_driven = 7 [json_name = "is_ai_driven"];
+  optional NotificationConfig notification_config = 8 [json_name = "notification_config"];
+  optional double map_center_lat = 9 [json_name = "map_center_lat"];
+  optional double map_center_lon = 10 [json_name = "map_center_lon"];
+  optional bool ai_enabled = 11 [json_name = "ai_enabled"];
 }
 
 message OrganizationSettingsCreate {
-  required uint64 id = 1;
-  optional string shift_departure_text = 2;
-  optional string shift_arrival_text = 3;
-  optional string shift_working_schedule = 4;
-  optional bool is_ai_driven = 5;
-  optional NotificationConfig notification_config = 6;
-  optional double map_center_lat = 7;
-  optional double map_center_lon = 8;
-  optional bool ai_enabled = 9;
+  required uint64 id = 1 [json_name = "id"];
+  optional string shift_departure_text = 2 [json_name = "shift_departure_text"];
+  optional string shift_arrival_text = 3 [json_name = "shift_arrival_text"];
+  optional string shift_working_schedule = 4 [json_name = "shift_working_schedule"];
+  optional bool is_ai_driven = 5 [json_name = "is_ai_driven"];
+  optional NotificationConfig notification_config = 6 [json_name = "notification_config"];
+  optional double map_center_lat = 7 [json_name = "map_center_lat"];
+  optional double map_center_lon = 8 [json_name = "map_center_lon"];
+  optional bool ai_enabled = 9 [json_name = "ai_enabled"];
 }
 
 message OrganizationSettingsUpdate {
-  required uint64 id = 1;
-  optional string shift_departure_text = 2;
-  optional string shift_arrival_text = 3;
-  optional string shift_working_schedule = 4;
-  optional bool is_ai_driven = 5;
-  optional NotificationConfig notification_config = 6;
-  optional double map_center_lat = 7;
-  optional double map_center_lon = 8;
-  optional bool ai_enabled = 9;
+  required uint64 id = 1 [json_name = "id"];
+  optional string shift_departure_text = 2 [json_name = "shift_departure_text"];
+  optional string shift_arrival_text = 3 [json_name = "shift_arrival_text"];
+  optional string shift_working_schedule = 4 [json_name = "shift_working_schedule"];
+  optional bool is_ai_driven = 5 [json_name = "is_ai_driven"];
+  optional NotificationConfig notification_config = 6 [json_name = "notification_config"];
+  optional double map_center_lat = 7 [json_name = "map_center_lat"];
+  optional double map_center_lon = 8 [json_name = "map_center_lon"];
+  optional bool ai_enabled = 9 [json_name = "ai_enabled"];
 }

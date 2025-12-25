@@ -10,28 +10,36 @@ option go_package = "./pb";
 
 // ChatMessage represents a single message in a chat conversation.
 message ChatMessage {
-  required string role = 1; // e.g., "user", "assistant"
-  required string content = 2;
-  optional MessageMetadata metadata = 3; // Optional metadata for SQL/plot info
-  optional uint64 id = 4; // Making ID optional as it might be generated server-side for new messages
+  // e.g., "user", "assistant"
+  required string role = 1 [json_name = "role"];
+  // The actual message content
+  required string content = 2 [json_name = "content"];
+  // Optional metadata for SQL/plot info
+  optional MessageMetadata metadata = 3 [json_name = "metadata"];
+  // Making ID optional as it might be generated server-side for new messages
+  optional uint64 id = 4 [json_name = "id"];
 }
 
 // Metadata associated with a chat message, typically for SQL query results or other structured data.
 message MessageMetadata {
-  optional string sql_query = 1;
-  optional string plot_title = 2;
-  repeated google.protobuf.Struct rows = 3; // JSON representation of rows (list of dicts)
-  repeated string columns = 4; // JSON representation of columns (list of strings, usually)
+  optional string sql_query = 1 [json_name = "sql_query"];
+  optional string plot_title = 2 [json_name = "plot_title"];
+  // JSON representation of rows (list of dicts)
+  repeated google.protobuf.Struct rows = 3 [json_name = "rows"];
+  // JSON representation of columns (list of strings, usually)
+  repeated string columns = 4 [json_name = "columns"];
 }
 
 // Full ChatSession model, representing an entire conversation.
 message ChatSession {
-  required string id = 1; // UUID, maps to string
-  required uint64 user_id = 2;
-  repeated ChatMessage chat_history = 3; // List of ChatMessage objects
-  required google.protobuf.Timestamp created_at = 4;
-  required google.protobuf.Timestamp updated_at = 5;
-  optional string chat_title = 6;
+  // UUID, maps to string
+  required string id = 1 [json_name = "id"];
+  required uint64 user_id = 2 [json_name = "user_id"];
+  // List of ChatMessage objects
+  repeated ChatMessage chat_history = 3 [json_name = "chat_history"];
+  required google.protobuf.Timestamp created_at = 4 [json_name = "created_at"];
+  required google.protobuf.Timestamp updated_at = 5 [json_name = "updated_at"];
+  optional string chat_title = 6 [json_name = "chat_title"];
 }
 
 // --- Request/Response Messages for API Endpoints ---
@@ -39,50 +47,63 @@ message ChatSession {
 // Generic request for sending a chat message to the assistant.
 // Can be used for starting a new chat or continuing an existing one.
 message ChatRequest {
-  required string user_question = 1;
-  optional string chat_id = 2; // Optional: If continuing an existing chat
+  required string user_question = 1 [json_name = "user_question"];
+  // Optional: If continuing an existing chat
+  optional string chat_id = 2 [json_name = "chat_id"];
 }
 
 // Generic response for a chat interaction, containing the assistant's reply and chat session info.
 message ChatResponse {
-  required string chat_id = 1;
-  optional string data_summary = 2; // Direct inclusion for convenience in responses
-  optional string plot_title = 3; // Direct inclusion for convenience in responses
-  optional string sql_query = 4; // Direct inclusion for convenience in responses
-  repeated string columns = 5; // Direct inclusion for convenience in responses
-  repeated google.protobuf.Struct rows = 6; // Direct inclusion for convenience in responses
-  optional bool corrected = 7; // Indicates if SQL was corrected
-  optional string error = 8; // General error message for the response
+  required string chat_id = 1 [json_name = "chat_id"];
+  // Direct inclusion for convenience in responses
+  optional string data_summary = 2 [json_name = "data_summary"];
+  // Direct inclusion for convenience in responses
+  optional string plot_title = 3 [json_name = "plot_title"];
+  // Direct inclusion for convenience in responses
+  optional string sql_query = 4 [json_name = "sql_query"];
+  // Direct inclusion for convenience in responses
+  repeated string columns = 5 [json_name = "columns"];
+  // Direct inclusion for convenience in responses
+  repeated google.protobuf.Struct rows = 6 [json_name = "rows"];
+  // Indicates if SQL was corrected
+  optional bool corrected = 7 [json_name = "corrected"];
+  // General error message for the response
+  optional string error = 8 [json_name = "error"];
 }
 
 // Response for retrieving a full chat history.
 message ChatHistoryListResponse {
-  required string chat_id = 1;
-  repeated ChatMessage history = 2;
+  required string chat_id = 1 [json_name = "chat_id"];
+  repeated ChatMessage history = 2 [json_name = "history"];
 }
 
 // Message for listing chat titles.
 message ChatTitle {
-  required string id = 1; // UUID for chat session
-  required string title = 2;
-  required google.protobuf.Timestamp updated_at = 3; // Added for sorting/display
-  required google.protobuf.Timestamp created_at = 4; // Added for sorting/display
+  // UUID for chat session
+  required string id = 1 [json_name = "id"];
+  required string title = 2 [json_name = "title"];
+  // Added for sorting/display
+  required google.protobuf.Timestamp updated_at = 3 [json_name = "updated_at"];
+  // Added for sorting/display
+  required google.protobuf.Timestamp created_at = 4 [json_name = "created_at"];
 }
 
 // Response for getting all chat titles for a user.
 message ChatTitlesResponse {
-  repeated ChatTitle chats = 1;
+  repeated ChatTitle chats = 1 [json_name = "chats"];
 }
 
 // Message for creating a new chat session when the user asks the first question.
 // This is primarily for internal use by the backend to initialize a chat.
 message ChatSessionCreateInternal {
-  required string first_message_content = 1;
-  required string chat_title = 2;
+  required string first_message_content = 1 [json_name = "first_message_content"];
+  required string chat_title = 2 [json_name = "chat_title"];
 }
 
 // Message for updating an existing chat session's title or adding messages.
 message ChatSessionUpdateInternal {
-  required string id = 1; // ID of the chat session to update
-  optional string chat_title = 2; // Optional: For updating the title later
+  // ID of the chat session to update
+  required string id = 1 [json_name = "id"];
+  // Optional: For updating the title later
+  optional string chat_title = 2 [json_name = "chat_title"];
 }

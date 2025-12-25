@@ -4,7 +4,7 @@ package raccoonai;
 option go_package = "./pb";
 
 message ServiceProviderStats {
-  optional int32 idle_truck_count = 1;
-  optional int32 unassigned_job_count = 2;
-  optional int32 active_route_count = 3;
+  optional int32 idle_truck_count = 1 [json_name = "idle_truck_count"];
+  optional int32 unassigned_job_count = 2 [json_name = "unassigned_job_count"];
+  optional int32 active_route_count = 3 [json_name = "active_route_count"];
 }
