@@ -71,12 +71,13 @@ message ScaleRecord {
 }
 
 message ScaleRecordListRequest {
-  optional uint64 service_provider_id = 1 [json_name = "service_provider_id"];
-  optional WasteType waste_type = 2 [json_name = "waste_type"];
-  optional uint64 driver_id = 3 [json_name = "driver_id"];
-  optional uint64 truck_id = 4 [json_name = "truck_id"];
-  optional google.protobuf.Timestamp brutto_scale_ts_from = 5 [json_name = "brutto_scale_ts_from"];
-  optional google.protobuf.Timestamp brutto_scale_ts_to = 6 [json_name = "brutto_scale_ts_to"];
+  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional uint64 service_provider_id = 2 [json_name = "service_provider_id"];
+  optional WasteType waste_type = 3 [json_name = "waste_type"];
+  optional uint64 driver_id = 4 [json_name = "driver_id"];
+  optional uint64 truck_id = 5 [json_name = "truck_id"];
+  optional google.protobuf.Timestamp brutto_scale_ts_from = 6 [json_name = "brutto_scale_ts_from"];
+  optional google.protobuf.Timestamp brutto_scale_ts_to = 7 [json_name = "brutto_scale_ts_to"];
 }
 
 message ScaleRecordListResponse {
