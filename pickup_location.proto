@@ -21,88 +21,88 @@ enum PickupLocationPriority {
 }
 
 message PickupLocation {
-  required uint64 id = 1;
-  required google.protobuf.Timestamp created_at = 2;
-  required string name = 3;
-  required PickupLocationType type = 4;
-  required uint64 owner_organization_id = 5;
-  required LocationStatus status = 6;
-  required double lon = 7;
-  required double lat = 8;
-  optional google.protobuf.Struct geometry = 9;
-  optional string address = 10;
-  required string polymorphic_type = 11;
-  optional string availability_schedule = 12;
-  optional string notification_schedule = 13;
-  optional uint64 num_containers = 14;
-  optional PickupLocationPriority priority = 15;
-  optional string geo_group = 16;
-  optional uint64 tariff = 17;
-  optional uint64 receiver_user_id = 18;
-  optional uint64 contract_id = 19;
-  optional string comment = 20;
-  optional string contact_name = 21;
-  optional string contact_phone = 22;
-  optional string gis_link = 23;
-  optional uint64 service_time = 24;
+  required uint64 id = 1 [json_name = "id"];
+  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
+  required string name = 3 [json_name = "name"];
+  required PickupLocationType type = 4 [json_name = "type"];
+  required uint64 owner_organization_id = 5 [json_name = "owner_organization_id"];
+  required LocationStatus status = 6 [json_name = "status"];
+  required double lon = 7 [json_name = "lon"];
+  required double lat = 8 [json_name = "lat"];
+  optional google.protobuf.Struct geometry = 9 [json_name = "geometry"];
+  optional string address = 10 [json_name = "address"];
+  required string polymorphic_type = 11 [json_name = "polymorphic_type"];
+  optional string availability_schedule = 12 [json_name = "availability_schedule"];
+  optional string notification_schedule = 13 [json_name = "notification_schedule"];
+  optional uint64 num_containers = 14 [json_name = "num_containers"];
+  optional PickupLocationPriority priority = 15 [json_name = "priority"];
+  optional string geo_group = 16 [json_name = "geo_group"];
+  optional uint64 tariff = 17 [json_name = "tariff"];
+  optional uint64 receiver_user_id = 18 [json_name = "receiver_user_id"];
+  optional uint64 contract_id = 19 [json_name = "contract_id"];
+  optional string comment = 20 [json_name = "comment"];
+  optional string contact_name = 21 [json_name = "contact_name"];
+  optional string contact_phone = 22 [json_name = "contact_phone"];
+  optional string gis_link = 23 [json_name = "gis_link"];
+  optional uint64 service_time = 24 [json_name = "service_time"];
 }
 
 message PickupLocationCreate {
-  required string name = 1;
-  optional PickupLocationType type = 2;
-  optional uint64 owner_organization_id = 3;
-  required double lon = 4;
-  required double lat = 5;
-  optional google.protobuf.Struct geometry = 6;
-  optional string address = 7;
-  optional string availability_schedule = 8;
-  optional string notification_schedule = 9;
-  optional uint64 num_containers = 10;
-  optional PickupLocationPriority priority = 11;
-  optional string geo_group = 12;
-  optional uint64 tariff = 13;
-  optional uint64 receiver_user_id = 14;
-  optional uint64 contract_id = 15;
-  optional string comment = 16;
-  optional string contact_name = 17;
-  optional string contact_phone = 18;
-  optional string gis_link = 19;
-  optional uint64 service_time = 20;
+  required string name = 1 [json_name = "name"];
+  optional PickupLocationType type = 2 [json_name = "type"];
+  optional uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+  required double lon = 4 [json_name = "lon"];
+  required double lat = 5 [json_name = "lat"];
+  optional google.protobuf.Struct geometry = 6 [json_name = "geometry"];
+  optional string address = 7 [json_name = "address"];
+  optional string availability_schedule = 8 [json_name = "availability_schedule"];
+  optional string notification_schedule = 9 [json_name = "notification_schedule"];
+  optional uint64 num_containers = 10 [json_name = "num_containers"];
+  optional PickupLocationPriority priority = 11 [json_name = "priority"];
+  optional string geo_group = 12 [json_name = "geo_group"];
+  optional uint64 tariff = 13 [json_name = "tariff"];
+  optional uint64 receiver_user_id = 14 [json_name = "receiver_user_id"];
+  optional uint64 contract_id = 15 [json_name = "contract_id"];
+  optional string comment = 16 [json_name = "comment"];
+  optional string contact_name = 17 [json_name = "contact_name"];
+  optional string contact_phone = 18 [json_name = "contact_phone"];
+  optional string gis_link = 19 [json_name = "gis_link"];
+  optional uint64 service_time = 20 [json_name = "service_time"];
 }
 
 message PickupLocationUpdate {
-  required uint64 id = 1;
-  optional string name = 2;
-  optional PickupLocationType type = 3;
-  optional LocationStatus status = 4;
-  optional double lon = 5;
-  optional double lat = 6;
-  optional google.protobuf.Struct geometry = 7;
-  optional string address = 8;
-  optional string availability_schedule = 9;
-  optional string notification_schedule = 10;
-  optional uint64 num_containers = 11;
-  optional PickupLocationPriority priority = 12;
-  optional string geo_group = 13;
-  optional uint64 tariff = 14;
-  optional uint64 receiver_user_id = 15;
-  optional uint64 contract_id = 16;
-  optional string comment = 17;
-  optional string contact_name = 18;
-  optional string contact_phone = 19;
-  optional string gis_link = 20;
-  optional uint64 service_time = 21;
+  required uint64 id = 1 [json_name = "id"];
+  optional string name = 2 [json_name = "name"];
+  optional PickupLocationType type = 3 [json_name = "type"];
+  optional LocationStatus status = 4 [json_name = "status"];
+  optional double lon = 5 [json_name = "lon"];
+  optional double lat = 6 [json_name = "lat"];
+  optional google.protobuf.Struct geometry = 7 [json_name = "geometry"];
+  optional string address = 8 [json_name = "address"];
+  optional string availability_schedule = 9 [json_name = "availability_schedule"];
+  optional string notification_schedule = 10 [json_name = "notification_schedule"];
+  optional uint64 num_containers = 11 [json_name = "num_containers"];
+  optional PickupLocationPriority priority = 12 [json_name = "priority"];
+  optional string geo_group = 13 [json_name = "geo_group"];
+  optional uint64 tariff = 14 [json_name = "tariff"];
+  optional uint64 receiver_user_id = 15 [json_name = "receiver_user_id"];
+  optional uint64 contract_id = 16 [json_name = "contract_id"];
+  optional string comment = 17 [json_name = "comment"];
+  optional string contact_name = 18 [json_name = "contact_name"];
+  optional string contact_phone = 19 [json_name = "contact_phone"];
+  optional string gis_link = 20 [json_name = "gis_link"];
+  optional uint64 service_time = 21 [json_name = "service_time"];
 }
 
 message PickupLocationListContract {
-  repeated uint64 pickup_location_ids = 1;
-  required uint64 contract_id = 2;
+  repeated uint64 pickup_location_ids = 1 [json_name = "pickup_location_ids"];
+  required uint64 contract_id = 2 [json_name = "contract_id"];
 }
 
 message PickupLocationList {
-  repeated PickupLocation pickup_locations = 1;
+  repeated PickupLocation pickup_locations = 1 [json_name = "pickup_locations"];
 }
 
 message PickupLocationRequest {
-  required uint64 pickup_location_id = 1;
+  required uint64 pickup_location_id = 1 [json_name = "pickup_location_id"];
 }

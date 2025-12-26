@@ -30,75 +30,75 @@ enum UserStatus {
 
 // GET => /v1/platform/me/
 message User {
-  required uint64 id = 1;
-  required google.protobuf.Timestamp created_at = 2;
-  required UserRole role = 3;
-  optional uint64 owner_organization_id = 4;
-  optional string first_name = 5;
-  optional string last_name = 6;
-  optional string phone_number = 7;
-  optional string email = 8;
-  required UserStatus status = 9;
-  optional string driver_license_number = 10;
-  optional string fcm_token = 14;
+  required uint64 id = 1 [json_name = "id"];
+  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
+  required UserRole role = 3 [json_name = "role"];
+  optional uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
+  optional string first_name = 5 [json_name = "first_name"];
+  optional string last_name = 6 [json_name = "last_name"];
+  optional string phone_number = 7 [json_name = "phone_number"];
+  optional string email = 8 [json_name = "email"];
+  required UserStatus status = 9 [json_name = "status"];
+  optional string driver_license_number = 10 [json_name = "driver_license_number"];
+  optional string fcm_token = 14 [json_name = "fcm_token"];
 }
 
 message UserCreate {
-  required UserRole role = 1;
-  optional uint64 owner_organization_id = 2;
-  optional string first_name = 3;
-  optional string last_name = 4;
-  optional string phone_number = 5;
-  optional string email = 6;
-  required string password = 7;
-  optional uint64 telegram_user_id = 8;
-  optional string telegram_username = 9;
-  optional uint64 telegram_chat_id = 10;
-  optional string driver_license_number = 11;
-  optional string fcm_token = 12;
-  optional string registration_token = 13;
+  required UserRole role = 1 [json_name = "role"];
+  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  optional string first_name = 3 [json_name = "first_name"];
+  optional string last_name = 4 [json_name = "last_name"];
+  optional string phone_number = 5 [json_name = "phone_number"];
+  optional string email = 6 [json_name = "email"];
+  required string password = 7 [json_name = "password"];
+  optional uint64 telegram_user_id = 8 [json_name = "telegram_user_id"];
+  optional string telegram_username = 9 [json_name = "telegram_username"];
+  optional uint64 telegram_chat_id = 10 [json_name = "telegram_chat_id"];
+  optional string driver_license_number = 11 [json_name = "driver_license_number"];
+  optional string fcm_token = 12 [json_name = "fcm_token"];
+  optional string registration_token = 13 [json_name = "registration_token"];
 }
 
 message UserUpdate {
-  required uint64 id = 1;
-  optional string first_name = 2;
-  optional string last_name = 3;
-  optional string phone_number = 4;
-  optional string email = 5;
-  optional UserStatus status = 6;
-  optional string driver_license_number = 7;
-  optional string fcm_token = 8;
+  required uint64 id = 1 [json_name = "id"];
+  optional string first_name = 2 [json_name = "first_name"];
+  optional string last_name = 3 [json_name = "last_name"];
+  optional string phone_number = 4 [json_name = "phone_number"];
+  optional string email = 5 [json_name = "email"];
+  optional UserStatus status = 6 [json_name = "status"];
+  optional string driver_license_number = 7 [json_name = "driver_license_number"];
+  optional string fcm_token = 8 [json_name = "fcm_token"];
 }
 
 message UserUpdateRole {
-  required uint64 id = 1;
-  required UserRole role = 2;
+  required uint64 id = 1 [json_name = "id"];
+  required UserRole role = 2 [json_name = "role"];
 }
 
 message RegistrationTokenCreate {
-  required string token = 1;
-  required uint64 owner_organization_id = 2;
-  required UserRole role = 3;
-  required google.protobuf.Timestamp expires_at = 4;
-  required uint64 created_by_user_id = 5;
-  optional bool is_used = 6;
+  required string token = 1 [json_name = "token"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required UserRole role = 3 [json_name = "role"];
+  required google.protobuf.Timestamp expires_at = 4 [json_name = "expires_at"];
+  required uint64 created_by_user_id = 5 [json_name = "created_by_user_id"];
+  optional bool is_used = 6 [json_name = "is_used"];
 }
 
 message RegistrationTokenUpdate {
-  required uint64 id = 1;
-  required bool is_used = 2;
+  required uint64 id = 1 [json_name = "id"];
+  required bool is_used = 2 [json_name = "is_used"];
 }
 
 message GenerateLink {
-  required UserRole role = 1;
-  required int32 owner_organization_id = 2;
-  required string preferred_method = 3;
-  required string recipient = 4;
-  required string lang = 5;
+  required UserRole role = 1 [json_name = "role"];
+  required int32 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required string preferred_method = 3 [json_name = "preferred_method"];
+  required string recipient = 4 [json_name = "recipient"];
+  required string lang = 5 [json_name = "lang"];
 }
 
 message PasswordUpdate {
-  required uint64 id = 1;
-  required string old_pwd = 2;
-  required string new_pwd = 3;
+  required uint64 id = 1 [json_name = "id"];
+  required string old_pwd = 2 [json_name = "old_pwd"];
+  required string new_pwd = 3 [json_name = "new_pwd"];
 }

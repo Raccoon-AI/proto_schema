@@ -6,33 +6,34 @@ import "user.proto";
 option go_package = "./pb";
 
 message AuthResponse {
-  required string access_token = 1;
-  required string token_type = 2;
-  required User me = 3; // User information
+  required string access_token = 1 [json_name = "access_token"];
+  required string token_type = 2 [json_name = "token_type"];
+  required User me = 3 [json_name = "me"]; // User information
 }
 
 message OTPCreate {
-  required uint64 user_id = 1;
-  required uint64 otp_code = 2;
+  required uint64 user_id = 1 [json_name = "user_id"];
+  required uint64 otp_code = 2 [json_name = "otp_code"];
 }
 
 message OTPRequest {
-  required string phone_number = 1;
-  required string lang = 2; // Language for OTP message, e.g., "en", "fr", etc.
+  required string phone_number = 1 [json_name = "phone_number"];
+  // Language for OTP message, e.g., "en", "fr", etc.
+  required string lang = 2 [json_name = "lang"];
 }
 
 message LoginOTPRequest {
-  required string phone_number = 1;
-  required uint64 otp = 2;
+  required string phone_number = 1 [json_name = "phone_number"];
+  required uint64 otp = 2 [json_name = "otp"];
 }
 
 message LoginToken {
-  required string access_token = 1;
-  required string token_type = 2;
+  required string access_token = 1 [json_name = "access_token"];
+  required string token_type = 2 [json_name = "token_type"];
 }
 
 message PasswordReset {
-  required string username = 1;
-  required string old_password = 2;
-  required string new_password = 3;
+  required string username = 1 [json_name = "username"];
+  required string old_password = 2 [json_name = "old_password"];
+  required string new_password = 3 [json_name = "new_password"];
 }

@@ -34,71 +34,71 @@ enum WasteType {
 }
 
 message ScaleBruttoRequest {
-  required uint64 owner_organization_id = 1;
-  required uint64 truck_id = 2;
-  required uint64 driver_id = 3;
-  required double weight_kg = 4;
-  required WasteType waste_type = 5;
-  optional double volume = 6;
-  optional bool use_truck_tare_weight = 7;
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 truck_id = 2 [json_name = "truck_id"];
+  required uint64 driver_id = 3 [json_name = "driver_id"];
+  required double weight_kg = 4 [json_name = "weight_kg"];
+  required WasteType waste_type = 5 [json_name = "waste_type"];
+  optional double volume = 6 [json_name = "volume"];
+  optional bool use_truck_tare_weight = 7 [json_name = "use_truck_tare_weight"];
 }
 
 message ScaleNettoRequest {
-  required uint64 scale_record_id = 1;
-  required double weight_kg = 2;
+  required uint64 scale_record_id = 1 [json_name = "scale_record_id"];
+  required double weight_kg = 2 [json_name = "weight_kg"];
 }
 
 message ScaleResponse {
-  required ScaleRecord scale_record = 1;
+  required ScaleRecord scale_record = 1 [json_name = "scale_record"];
 }
 
 message ScaleRecord {
-  required uint64 id = 1;
-  required Organization owner_organization = 2;
-  required Organization service_provider = 3;
-  required double brutto_weight_kg = 4;
-  required google.protobuf.Timestamp brutto_scale_ts = 5;
-  optional double netto_weight_kg = 6;
-  optional google.protobuf.Timestamp netto_scale_ts = 7;
-  optional double volume = 8;
-  optional bool is_guest_record = 9;
-  required WasteType waste_type = 10;
-  required Truck truck = 11;
-  required User driver = 12;
-  optional Route route = 13;
-  optional string integration_comments = 14;
-  optional RawScaleRecord origin = 15;
+  required uint64 id = 1 [json_name = "id"];
+  required Organization owner_organization = 2 [json_name = "owner_organization"];
+  required Organization service_provider = 3 [json_name = "service_provider"];
+  required double brutto_weight_kg = 4 [json_name = "brutto_weight_kg"];
+  required google.protobuf.Timestamp brutto_scale_ts = 5 [json_name = "brutto_scale_ts"];
+  optional double netto_weight_kg = 6 [json_name = "netto_weight_kg"];
+  optional google.protobuf.Timestamp netto_scale_ts = 7 [json_name = "netto_scale_ts"];
+  optional double volume = 8 [json_name = "volume"];
+  optional bool is_guest_record = 9 [json_name = "is_guest_record"];
+  required WasteType waste_type = 10 [json_name = "waste_type"];
+  required Truck truck = 11 [json_name = "truck"];
+  required User driver = 12 [json_name = "driver"];
+  optional Route route = 13 [json_name = "route"];
+  optional string integration_comments = 14 [json_name = "integration_comments"];
+  optional RawScaleRecord origin = 15 [json_name = "origin"];
 }
 
 message ScaleRecordListRequest {
-  optional uint64 service_provider_id = 1;
-  optional WasteType waste_type = 2;
-  optional uint64 driver_id = 3;
-  optional uint64 truck_id = 4;
-  optional google.protobuf.Timestamp brutto_scale_ts_from = 5;
-  optional google.protobuf.Timestamp brutto_scale_ts_to = 6;
+  optional uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  optional WasteType waste_type = 2 [json_name = "waste_type"];
+  optional uint64 driver_id = 3 [json_name = "driver_id"];
+  optional uint64 truck_id = 4 [json_name = "truck_id"];
+  optional google.protobuf.Timestamp brutto_scale_ts_from = 5 [json_name = "brutto_scale_ts_from"];
+  optional google.protobuf.Timestamp brutto_scale_ts_to = 6 [json_name = "brutto_scale_ts_to"];
 }
 
 message ScaleRecordListResponse {
-  repeated ScaleRecord scale_records = 1;
+  repeated ScaleRecord scale_records = 1 [json_name = "scale_records"];
 }
 
 message RawScaleRecord {
-  required uint64 id = 1;
-  required uint64 legacy_id = 2;
-  optional string truck_number = 3;
-  optional string driver_full_name = 4;
-  optional google.protobuf.Timestamp first_time_scaled_at = 5;
-  optional google.protobuf.Timestamp second_time_scaled_at = 6;
-  optional double brutto_kg = 7;
-  optional double netto_kg = 8;
-  optional double tare_kg = 9;
-  optional double volume = 10;
-  optional string waste_type = 11;
-  optional string sender = 12;
-  optional string receiver = 13;
-  optional string bin = 14;
-  optional string photo_path = 15;
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 legacy_id = 2 [json_name = "legacy_id"];
+  optional string truck_number = 3 [json_name = "truck_number"];
+  optional string driver_full_name = 4 [json_name = "driver_full_name"];
+  optional google.protobuf.Timestamp first_time_scaled_at = 5 [json_name = "first_time_scaled_at"];
+  optional google.protobuf.Timestamp second_time_scaled_at = 6 [json_name = "second_time_scaled_at"];
+  optional double brutto_kg = 7 [json_name = "brutto_kg"];
+  optional double netto_kg = 8 [json_name = "netto_kg"];
+  optional double tare_kg = 9 [json_name = "tare_kg"];
+  optional double volume = 10 [json_name = "volume"];
+  optional string waste_type = 11 [json_name = "waste_type"];
+  optional string sender = 12 [json_name = "sender"];
+  optional string receiver = 13 [json_name = "receiver"];
+  optional string bin = 14 [json_name = "bin"];
+  optional string photo_path = 15 [json_name = "photo_path"];
 }
 
 service ScaleService {

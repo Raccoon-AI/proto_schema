@@ -24,52 +24,51 @@ enum TruckType {
 
 // GET => /v1/platform/truck/{id}
 message Truck {
-  required uint64 id = 1;
-  required google.protobuf.Timestamp created_at = 2;
-  required TruckType type = 3;
-  required string plate_number = 4;
-  required TruckStatus status = 5;
-  required uint64 owner_organization_id = 6;
-  optional string model = 7;
-  optional double truck_weight = 8;
-  optional google.protobuf.Timestamp last_weight_ts = 9;
-  optional uint64 capacity = 10;
+  required uint64 id = 1 [json_name = "id"];
+  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
+  required TruckType type = 3 [json_name = "type"];
+  required string plate_number = 4 [json_name = "plate_number"];
+  required TruckStatus status = 5 [json_name = "status"];
+  required uint64 owner_organization_id = 6 [json_name = "owner_organization_id"];
+  optional string model = 7 [json_name = "model"];
+  optional double truck_weight = 8 [json_name = "truck_weight"];
+  optional google.protobuf.Timestamp last_weight_ts = 9 [json_name = "last_weight_ts"];
+  optional uint64 capacity = 10 [json_name = "capacity"];
 }
 
 message TruckCreate {
-  optional TruckType type = 1;
-  required string plate_number = 2;
-  optional uint64 owner_organization_id = 3;
-  optional string model = 4;
-  optional double truck_weight = 5;
-  optional uint64 capacity = 6;
+  optional TruckType type = 1 [json_name = "type"];
+  required string plate_number = 2 [json_name = "plate_number"];
+  optional uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+  optional string model = 4 [json_name = "model"];
+  optional double truck_weight = 5 [json_name = "truck_weight"];
+  optional uint64 capacity = 6 [json_name = "capacity"];
 }
 
 message TruckUpdate {
-  required uint64 id = 1;
-  optional TruckType type = 2;
-  optional string plate_number = 3;
-  optional TruckStatus status = 4;
-  optional string model = 5;
-  optional double truck_weight = 6;
-  optional uint64 capacity = 7;
+  required uint64 id = 1 [json_name = "id"];
+  optional TruckType type = 2 [json_name = "type"];
+  optional string plate_number = 3 [json_name = "plate_number"];
+  optional TruckStatus status = 4 [json_name = "status"];
+  optional string model = 5 [json_name = "model"];
+  optional double truck_weight = 6 [json_name = "truck_weight"];
+  optional uint64 capacity = 7 [json_name = "capacity"];
 }
 
-// POST => /v1/platform/truck/status_update
 message TruckStatusUpdate {
-  required uint64 id = 1;
-  required TruckStatus status = 2;
+  required uint64 id = 1 [json_name = "id"];
+  required TruckStatus status = 2 [json_name = "status"];
 }
 
 message TruckList {
-  repeated Truck trucks = 1;
+  repeated Truck trucks = 1 [json_name = "trucks"];
 }
 
 message TruckInProximity {
-  required uint64 id = 1;
-  required uint64 provider_org_id = 2;
-  required uint64 location_id = 3;
-  required string location_type = 4; // "pickup_location" or "location"
-  required int64 start_ts = 5;
-  required int64 end_ts = 6;
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 provider_org_id = 2 [json_name = "provider_org_id"];
+  required uint64 location_id = 3 [json_name = "location_id"];
+  required string location_type = 4 [json_name = "location_type"]; // "pickup_location" or "location"
+  required int64 start_ts = 5 [json_name = "start_ts"];
+  required int64 end_ts = 6 [json_name = "end_ts"];
 }

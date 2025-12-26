@@ -8,83 +8,83 @@ import "job.proto";
 option go_package = "./pb";
 
 message Point {
-  optional uint64 id = 1;
-  required double lon = 3;
-  required double lat = 4;
-  optional google.protobuf.Timestamp date_time = 5;
+  optional uint64 id = 1 [json_name = "id"];
+  required double lon = 3 [json_name = "lon"];
+  required double lat = 4 [json_name = "lat"];
+  optional google.protobuf.Timestamp date_time = 5 [json_name = "date_time"];
 }
 
 message DepartInfo {
-  optional uint64 id = 1;
-  optional string name = 2;
-  optional double lon = 3;
-  optional double lat = 4;
-  optional google.protobuf.Timestamp date_time = 5;
+  optional uint64 id = 1 [json_name = "id"];
+  optional string name = 2 [json_name = "name"];
+  optional double lon = 3 [json_name = "lon"];
+  optional double lat = 4 [json_name = "lat"];
+  optional google.protobuf.Timestamp date_time = 5 [json_name = "date_time"];
 }
 
 message SourcesAndTargets {
-  repeated Point sources = 1;
-  repeated Point targets = 2;
+  repeated Point sources = 1 [json_name = "sources"];
+  repeated Point targets = 2 [json_name = "targets"];
 }
 
 message SourcesToTargetsIn {
-  repeated Point sources = 1;
-  repeated Point targets = 2;
-  optional string costing = 3;
-  optional bool verbose = 4;
-  optional string shape_format = 5;
+  repeated Point sources = 1 [json_name = "sources"];
+  repeated Point targets = 2 [json_name = "targets"];
+  optional string costing = 3 [json_name = "costing"];
+  optional bool verbose = 4 [json_name = "verbose"];
+  optional string shape_format = 5 [json_name = "shape_format"];
 }
 
 message SourcesToTargetsOut {
-  optional string shapes = 1;
-  required bytes durations = 2;
-  required bytes distances = 3;
-  required uint64 num_sources = 4;
-  required uint64 num_targets = 5;
+  optional string shapes = 1 [json_name = "shapes"];
+  required bytes durations = 2 [json_name = "durations"];
+  required bytes distances = 3 [json_name = "distances"];
+  required uint64 num_sources = 4 [json_name = "num_sources"];
+  required uint64 num_targets = 5 [json_name = "num_targets"];
 }
 
 message CostInfoOut {
-  required google.protobuf.Timestamp time = 1;
-  required Point source_point = 2;
-  required Point destination_point = 3;
-  required Point location = 4;
-  required google.protobuf.Duration d2l = 5;
-  required google.protobuf.Duration l2d = 6;
-  required google.protobuf.Duration service_duration = 7;
-  required google.protobuf.Duration dumping_duration = 8;
+  required google.protobuf.Timestamp time = 1 [json_name = "time"];
+  required Point source_point = 2 [json_name = "source_point"];
+  required Point destination_point = 3 [json_name = "destination_point"];
+  required Point location = 4 [json_name = "location"];
+  required google.protobuf.Duration d2l = 5 [json_name = "d2l"];
+  required google.protobuf.Duration l2d = 6 [json_name = "l2d"];
+  required google.protobuf.Duration service_duration = 7 [json_name = "service_duration"];
+  required google.protobuf.Duration dumping_duration = 8 [json_name = "dumping_duration"];
 }
 
 message CostInfoIn {
-  required Job job = 1;
-  required Point source_point = 2;
-  optional Point destination_point = 3;
-  optional google.protobuf.Timestamp time = 4;
+  required Job job = 1 [json_name = "job"];
+  required Point source_point = 2 [json_name = "source_point"];
+  optional Point destination_point = 3 [json_name = "destination_point"];
+  optional google.protobuf.Timestamp time = 4 [json_name = "time"];
 }
 
 message WebCostInfoIn {
-  required uint64 driver_on_shift_id = 1;
-  required Point source_point = 2;
-  required uint64 job_id = 3;
-  required Point destination_point = 4;
+  required uint64 driver_on_shift_id = 1 [json_name = "driver_on_shift_id"];
+  required Point source_point = 2 [json_name = "source_point"];
+  required uint64 job_id = 3 [json_name = "job_id"];
+  required Point destination_point = 4 [json_name = "destination_point"];
 }
 
 message RouteWaypointsIn {
-  repeated Point waypoints = 1;
+  repeated Point waypoints = 1 [json_name = "waypoints"];
 }
 
 message RouteStep {
-  required string points = 1;
-  required uint64 duration = 2;
-  required uint64 length = 3;
+  required string points = 1 [json_name = "points"];
+  required uint64 duration = 2 [json_name = "duration"];
+  required uint64 length = 3 [json_name = "length"];
 }
 
 message RouteLeg {
-  repeated RouteStep steps = 1;
+  repeated RouteStep steps = 1 [json_name = "steps"];
 }
 
 message RouteWaypointsOut {
-  repeated RouteLeg legs = 1;
-  repeated Point waypoints = 2;
+  repeated RouteLeg legs = 1 [json_name = "legs"];
+  repeated Point waypoints = 2 [json_name = "waypoints"];
 }
 
 service CompositeCostProvider {

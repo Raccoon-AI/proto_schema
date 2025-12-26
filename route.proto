@@ -27,122 +27,104 @@ enum RouteEvent {
 }
 
 message RouteEventIn {
-  required RouteEvent event = 1;
-  required uint64 route_id = 2;
-  optional google.protobuf.Struct payload = 3;
+  required RouteEvent event = 1 [json_name = "event"];
+  required uint64 route_id = 2 [json_name = "route_id"];
+  optional google.protobuf.Struct payload = 3 [json_name = "payload"];
 }
 
 // GET => /v1/platform/route/{id}
 message Route {
-  required uint64 id = 1;
-  required google.protobuf.Timestamp created_at = 2;
-  required uint64 owner_organization_id = 3;
-  required uint64 driver_on_shift_id = 4;
-  optional double source_lon = 5;
-  optional double source_lat = 6;
-  optional double destination_lon = 7;
-  optional double destination_lat = 8;
-  optional uint64 author_id = 9;
-  optional google.protobuf.Timestamp plan_start_at = 10;
-  optional google.protobuf.Timestamp plan_end_at = 11;
-  optional google.protobuf.Timestamp fact_start_at = 12;
-  optional google.protobuf.Timestamp fact_end_at = 13;
-  required RouteStatus status = 14;
-  required bool created_by_ai = 15;
-  optional bool is_pseudo = 16;
-  optional double netto = 17;
-  optional uint64 source_location_id = 18;
-  optional uint64 destination_location_id = 19;
-  optional uint64 current_step_idx = 20;
-  optional google.protobuf.Timestamp gps_start_at = 21;
-  optional google.protobuf.Timestamp gps_end_at = 22;
-  optional uint64 scale_record_id = 23;
+  required uint64 id = 1 [json_name = "id"];
+  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+  required uint64 driver_on_shift_id = 4 [json_name = "driver_on_shift_id"];
+  optional double source_lon = 5 [json_name = "source_lon"];
+  optional double source_lat = 6 [json_name = "source_lat"];
+  optional double destination_lon = 7 [json_name = "destination_lon"];
+  optional double destination_lat = 8 [json_name = "destination_lat"];
+  optional uint64 author_id = 9 [json_name = "author_id"];
+  optional google.protobuf.Timestamp plan_start_at = 10 [json_name = "plan_start_at"];
+  optional google.protobuf.Timestamp plan_end_at = 11 [json_name = "plan_end_at"];
+  optional google.protobuf.Timestamp fact_start_at = 12 [json_name = "fact_start_at"];
+  optional google.protobuf.Timestamp fact_end_at = 13 [json_name = "fact_end_at"];
+  required RouteStatus status = 14 [json_name = "status"];
+  required bool created_by_ai = 15 [json_name = "created_by_ai"];
+  optional bool is_pseudo = 16 [json_name = "is_pseudo"];
+  optional double netto = 17 [json_name = "netto"];
+  optional uint64 source_location_id = 18 [json_name = "source_location_id"];
+  optional uint64 destination_location_id = 19 [json_name = "destination_location_id"];
+  optional uint64 current_step_idx = 20 [json_name = "current_step_idx"];
+  optional google.protobuf.Timestamp gps_start_at = 21 [json_name = "gps_start_at"];
+  optional google.protobuf.Timestamp gps_end_at = 22 [json_name = "gps_end_at"];
+  optional uint64 scale_record_id = 23 [json_name = "scale_record_id"];
 }
 
 message RouteCreate {
-  optional uint64 owner_organization_id = 1;
-  required uint64 driver_on_shift_id = 2;
-  required double source_lon = 3;
-  required double source_lat = 4;
-  required double destination_lon = 5;
-  required double destination_lat = 6;
-  optional uint64 author_id = 7;
-  optional google.protobuf.Timestamp plan_start_at = 8;
-  optional google.protobuf.Timestamp plan_end_at = 9;
-  optional bool created_by_ai = 10;
-  optional bool is_pseudo = 11;
-  optional double netto = 12;
-  optional uint64 source_location_id = 13;
-  required uint64 destination_location_id = 14;
+  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 driver_on_shift_id = 2 [json_name = "driver_on_shift_id"];
+  required double source_lon = 3 [json_name = "source_lon"];
+  required double source_lat = 4 [json_name = "source_lat"];
+  required double destination_lon = 5 [json_name = "destination_lon"];
+  required double destination_lat = 6 [json_name = "destination_lat"];
+  optional uint64 author_id = 7 [json_name = "author_id"];
+  optional google.protobuf.Timestamp plan_start_at = 8 [json_name = "plan_start_at"];
+  optional google.protobuf.Timestamp plan_end_at = 9 [json_name = "plan_end_at"];
+  optional bool created_by_ai = 10 [json_name = "created_by_ai"];
+  optional bool is_pseudo = 11 [json_name = "is_pseudo"];
+  optional double netto = 12 [json_name = "netto"];
+  optional uint64 source_location_id = 13 [json_name = "source_location_id"];
+  required uint64 destination_location_id = 14 [json_name = "destination_location_id"];
 }
 
 message RouteUpdate {
-  required uint64 id = 1;
-  optional uint64 driver_on_shift_id = 2;
-  optional double source_lon = 3;
-  optional double source_lat = 4;
-  optional double destination_lon = 5;
-  optional double destination_lat = 6;
-  optional google.protobuf.Timestamp plan_start_at = 7;
-  optional google.protobuf.Timestamp plan_end_at = 8;
-  optional google.protobuf.Timestamp fact_start_at = 9;
-  optional google.protobuf.Timestamp fact_end_at = 10;
-  optional RouteStatus status = 11;
-  optional bool is_pseudo = 12;
-  optional double netto = 13;
-  optional uint64 source_location_id = 14;
-  optional uint64 destination_location_id = 15;
-  optional uint64 current_step_idx = 16;
-  optional google.protobuf.Timestamp gps_start_at = 17;
-  optional google.protobuf.Timestamp gps_end_at = 18;
+  required uint64 id = 1 [json_name = "id"];
+  optional uint64 driver_on_shift_id = 2 [json_name = "driver_on_shift_id"];
+  optional double source_lon = 3 [json_name = "source_lon"];
+  optional double source_lat = 4 [json_name = "source_lat"];
+  optional double destination_lon = 5 [json_name = "destination_lon"];
+  optional double destination_lat = 6 [json_name = "destination_lat"];
+  optional google.protobuf.Timestamp plan_start_at = 7 [json_name = "plan_start_at"];
+  optional google.protobuf.Timestamp plan_end_at = 8 [json_name = "plan_end_at"];
+  optional google.protobuf.Timestamp fact_start_at = 9 [json_name = "fact_start_at"];
+  optional google.protobuf.Timestamp fact_end_at = 10 [json_name = "fact_end_at"];
+  optional RouteStatus status = 11 [json_name = "status"];
+  optional bool is_pseudo = 12 [json_name = "is_pseudo"];
+  optional double netto = 13 [json_name = "netto"];
+  optional uint64 source_location_id = 14 [json_name = "source_location_id"];
+  optional uint64 destination_location_id = 15 [json_name = "destination_location_id"];
+  optional uint64 current_step_idx = 16 [json_name = "current_step_idx"];
+  optional google.protobuf.Timestamp gps_start_at = 17 [json_name = "gps_start_at"];
+  optional google.protobuf.Timestamp gps_end_at = 18 [json_name = "gps_end_at"];
 }
 
 message RouteCreateWithJobs {
-  required RouteCreate create = 1;
-  repeated uint64 job_ids = 10;
+  required RouteCreate create = 1 [json_name = "create"];
+  repeated uint64 job_ids = 10 [json_name = "job_ids"];
 }
 
 message RouteStatusUpdate {
-  required uint64 id = 1;
-  required RouteStatus status = 2;
+  required uint64 id = 1 [json_name = "id"];
+  required RouteStatus status = 2 [json_name = "status"];
 }
 
-// POST => /v1/platform/route/depot_in
-// Sent when arrives into depot to drop off waste.
-// When the message arrived, the system must update:
-// - `arrived_at_depot_at`
-// - `status` to `ROUTE_STATUS_DROPPING_OFF`
 message RouteDepotIn {
-  required uint64 id = 1;
-  required double waste_weight = 2;
+  required uint64 id = 1 [json_name = "id"];
+  required double waste_weight = 2 [json_name = "waste_weight"];
 }
 
-// POST => /v1/platform/route/depot_out
-// Sent when leaves depot after dropping off waste.
-// When the message arrived, the system must update:
-// - `scaling_finished_at`
-// - `status` to `ROUTE_STATUS_COMPLETED`
 message RouteDepotOut {
-  required uint64 id = 1;
-  required double waste_weight = 2;
+  required uint64 id = 1 [json_name = "id"];
+  required double waste_weight = 2 [json_name = "waste_weight"];
 }
 
-// POST => /v1/platform/route/cancel
-// When the message arrived, the system must update:
-// - `status` to `ROUTE_STATUS_CANCELLED`
-// - `driver.status` to `DRIVER_STATUS_ONLINE`
-// - foreach `job.status != JOB_STATUS_COMPLETED` assign to `JOB_STATUS_CANCELLED`
 message RouteCancel {
-  required uint64 id = 1;
+  required uint64 id = 1 [json_name = "id"];
 }
 
-// GET => /v1/platform/route/list
-// Params:
-// - company_id : uint64
 message RouteList {
-  repeated Route routes = 1;
+  repeated Route routes = 1 [json_name = "routes"];
 }
 
 message RouteRequest {
-  required uint64 route_id = 1;
+  required uint64 route_id = 1 [json_name = "route_id"];
 }

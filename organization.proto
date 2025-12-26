@@ -22,55 +22,55 @@ enum OrganizationType {
 }
 
 message Organization {
-  required uint64 id = 1;
-  required google.protobuf.Timestamp created_at = 2;
-  required string name = 3;
-  required OrganizationType type = 4;
-  required OrganizationStatus status = 5;
-  optional uint64 bank_details_id = 6;
-  optional string bin = 7;
-  optional string phone_number = 8;
-  optional string jur_address = 9;
-  optional string fact_address = 10;
+  required uint64 id = 1 [json_name = "id"];
+  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
+  required string name = 3 [json_name = "name"];
+  required OrganizationType type = 4 [json_name = "type"];
+  required OrganizationStatus status = 5 [json_name = "status"];
+  optional uint64 bank_details_id = 6 [json_name = "bank_details_id"];
+  optional string bin = 7 [json_name = "bin"];
+  optional string phone_number = 8 [json_name = "phone_number"];
+  optional string jur_address = 9 [json_name = "jur_address"];
+  optional string fact_address = 10 [json_name = "fact_address"];
 }
 
 message OrganizationCreateItem {
-  required string name = 1;
-  required OrganizationType type = 2;
-  optional uint64 bank_details_id = 3;
-  optional string bin = 4;
-  optional string phone_number = 5;
-  optional string jur_address = 6;
-  optional string fact_address = 7;
+  required string name = 1 [json_name = "name"];
+  required OrganizationType type = 2 [json_name = "type"];
+  optional uint64 bank_details_id = 3 [json_name = "bank_details_id"];
+  optional string bin = 4 [json_name = "bin"];
+  optional string phone_number = 5 [json_name = "phone_number"];
+  optional string jur_address = 6 [json_name = "jur_address"];
+  optional string fact_address = 7 [json_name = "fact_address"];
 }
 
 message ContractCreateItem {
-  required google.protobuf.Timestamp end_at = 1;
+  required google.protobuf.Timestamp end_at = 1 [json_name = "end_at"];
 }
 
 message OrganizationCreate {
-  required string name = 1;
-  required OrganizationType type = 2;
-  optional uint64 bank_details_id = 3;
-  optional string bin = 4;
-  optional string jur_address = 5;
-  optional string fact_address = 6;
+  required string name = 1 [json_name = "name"];
+  required OrganizationType type = 2 [json_name = "type"];
+  optional uint64 bank_details_id = 3 [json_name = "bank_details_id"];
+  optional string bin = 4 [json_name = "bin"];
+  optional string jur_address = 5 [json_name = "jur_address"];
+  optional string fact_address = 6 [json_name = "fact_address"];
 }
 
 message ServiceReceiverCreate {
-  required OrganizationCreateItem organization = 1;
-  optional ContractCreateItem contract = 2;
-  optional uint64 service_provider_id = 3;
-  optional string bin = 4;
+  required OrganizationCreateItem organization = 1 [json_name = "organization"];
+  optional ContractCreateItem contract = 2 [json_name = "contract"];
+  optional uint64 service_provider_id = 3 [json_name = "service_provider_id"];
+  optional string bin = 4 [json_name = "bin"];
 }
 
 message OrganizationUpdate {
-  required uint64 id = 1;
-  optional string name = 2;
-  optional OrganizationStatus status = 3;
-  optional uint64 bank_details_id = 4;
-  optional string bin = 5;
-  optional string phone_number = 6;
-  optional string jur_address = 7;
-  optional string fact_address = 8;
+  required uint64 id = 1 [json_name = "id"];
+  optional string name = 2 [json_name = "name"];
+  optional OrganizationStatus status = 3 [json_name = "status"];
+  optional uint64 bank_details_id = 4 [json_name = "bank_details_id"];
+  optional string bin = 5 [json_name = "bin"];
+  optional string phone_number = 6 [json_name = "phone_number"];
+  optional string jur_address = 7 [json_name = "jur_address"];
+  optional string fact_address = 8 [json_name = "fact_address"];
 }

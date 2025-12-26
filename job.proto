@@ -50,136 +50,119 @@ enum JobEvent {
 }
 
 message JobEventIn {
-  required JobEvent event = 1;
-  required uint64 job_id = 2;
-  optional google.protobuf.Struct payload = 3;
+  required JobEvent event = 1 [json_name = "event"];
+  required uint64 job_id = 2 [json_name = "job_id"];
+  optional google.protobuf.Struct payload = 3 [json_name = "payload"];
 }
 
 // GET => /v1/platform/job/{id}
 message Job {
-  required uint64 id = 1;
-  required google.protobuf.Timestamp created_at = 2;
-  required uint64 service_provider_id = 3;
-  required uint64 service_receiver_id = 4;
-  optional google.protobuf.Timestamp tw_start_at = 5;
-  optional google.protobuf.Timestamp tw_end_at = 6;
-  optional uint64 step_idx = 7;
-  required uint64 author_id = 8;
-  optional uint64 driver_on_shift_id = 9;
-  required uint64 pickup_location_id = 10;
-  optional string service_started_report_url = 11;
-  optional string service_ended_report_url = 12;
-  optional uint64 route_id = 13;
-  optional string driver_comment = 14;
-  optional google.protobuf.Timestamp plan_start_at = 16;
-  optional google.protobuf.Timestamp plan_end_at = 17;
-  optional google.protobuf.Timestamp fact_start_at = 18;
-  optional google.protobuf.Timestamp fact_end_at = 19;
-  required JobStatus status = 20;
-  optional Organization service_receiver = 21;
-  optional PickupLocation pickup_location = 22;
-  optional DriverOnShift driver_on_shift = 23;
-  required JobType type = 24;
-  required DispatcherReviewStatus dispatcher_review_status = 25;
-  optional double service_start_photo_lat = 26;
-  optional double service_start_photo_lon = 27;
-  optional double service_end_photo_lat = 28;
-  optional double service_end_photo_lon = 29;
-  optional string container_name = 30;
-  optional uint64 job_tariff = 31;
-  optional bool is_pseudo = 32;
-  optional google.protobuf.Timestamp gps_start_at = 33;
-  optional google.protobuf.Timestamp gps_end_at = 34;
-  optional bool is_created_by_client = 35;
-  optional uint64 scale_record_id = 36;
-  optional User author = 37;
+  required uint64 id = 1 [json_name = "id"];
+  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
+  required uint64 service_provider_id = 3 [json_name = "service_provider_id"];
+  required uint64 service_receiver_id = 4 [json_name = "service_receiver_id"];
+  optional google.protobuf.Timestamp tw_start_at = 5 [json_name = "tw_start_at"];
+  optional google.protobuf.Timestamp tw_end_at = 6 [json_name = "tw_end_at"];
+  optional uint64 step_idx = 7 [json_name = "step_idx"];
+  required uint64 author_id = 8 [json_name = "author_id"];
+  optional uint64 driver_on_shift_id = 9 [json_name = "driver_on_shift_id"];
+  required uint64 pickup_location_id = 10 [json_name = "pickup_location_id"];
+  optional string service_started_report_url = 11 [json_name = "service_started_report_url"];
+  optional string service_ended_report_url = 12 [json_name = "service_ended_report_url"];
+  optional uint64 route_id = 13 [json_name = "route_id"];
+  optional string driver_comment = 14 [json_name = "driver_comment"];
+  optional google.protobuf.Timestamp plan_start_at = 16 [json_name = "plan_start_at"];
+  optional google.protobuf.Timestamp plan_end_at = 17 [json_name = "plan_end_at"];
+  optional google.protobuf.Timestamp fact_start_at = 18 [json_name = "fact_start_at"];
+  optional google.protobuf.Timestamp fact_end_at = 19 [json_name = "fact_end_at"];
+  required JobStatus status = 20 [json_name = "status"];
+  optional Organization service_receiver = 21 [json_name = "service_receiver"];
+  optional PickupLocation pickup_location = 22 [json_name = "pickup_location"];
+  optional DriverOnShift driver_on_shift = 23 [json_name = "driver_on_shift"];
+  required JobType type = 24 [json_name = "type"];
+  required DispatcherReviewStatus dispatcher_review_status = 25 [json_name = "dispatcher_review_status"];
+  optional double service_start_photo_lat = 26 [json_name = "service_start_photo_lat"];
+  optional double service_start_photo_lon = 27 [json_name = "service_start_photo_lon"];
+  optional double service_end_photo_lat = 28 [json_name = "service_end_photo_lat"];
+  optional double service_end_photo_lon = 29 [json_name = "service_end_photo_lon"];
+  optional string container_name = 30 [json_name = "container_name"];
+  optional uint64 job_tariff = 31 [json_name = "job_tariff"];
+  optional bool is_pseudo = 32 [json_name = "is_pseudo"];
+  optional google.protobuf.Timestamp gps_start_at = 33 [json_name = "gps_start_at"];
+  optional google.protobuf.Timestamp gps_end_at = 34 [json_name = "gps_end_at"];
+  optional bool is_created_by_client = 35 [json_name = "is_created_by_client"];
+  optional uint64 scale_record_id = 36 [json_name = "scale_record_id"];
+  optional User author = 37 [json_name = "author"];
 }
 
 message JobCreate {
-  optional uint64 service_provider_id = 1;
-  optional uint64 service_receiver_id = 2;
-  optional google.protobuf.Timestamp tw_start_at = 3;
-  optional google.protobuf.Timestamp tw_end_at = 4;
-  optional uint64 step_idx = 5;
-  optional uint64 author_id = 6;
-  optional uint64 driver_on_shift_id = 7;
-  required uint64 pickup_location_id = 8;
-  optional string service_started_report_url = 9;
-  optional string service_ended_report_url = 10;
-  optional uint64 route_id = 11;
-  optional string driver_comment = 12;
-  optional google.protobuf.Timestamp plan_start_at = 13;
-  optional google.protobuf.Timestamp plan_end_at = 14;
-  optional JobType type = 15;
-  optional uint64 job_tariff = 16;
-  optional bool is_pseudo = 17;
+  optional uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  optional uint64 service_receiver_id = 2 [json_name = "service_receiver_id"];
+  optional google.protobuf.Timestamp tw_start_at = 3 [json_name = "tw_start_at"];
+  optional google.protobuf.Timestamp tw_end_at = 4 [json_name = "tw_end_at"];
+  optional uint64 step_idx = 5 [json_name = "step_idx"];
+  optional uint64 author_id = 6 [json_name = "author_id"];
+  optional uint64 driver_on_shift_id = 7 [json_name = "driver_on_shift_id"];
+  required uint64 pickup_location_id = 8 [json_name = "pickup_location_id"];
+  optional string service_started_report_url = 9 [json_name = "service_started_report_url"];
+  optional string service_ended_report_url = 10 [json_name = "service_ended_report_url"];
+  optional uint64 route_id = 11 [json_name = "route_id"];
+  optional string driver_comment = 12 [json_name = "driver_comment"];
+  optional google.protobuf.Timestamp plan_start_at = 13 [json_name = "plan_start_at"];
+  optional google.protobuf.Timestamp plan_end_at = 14 [json_name = "plan_end_at"];
+  optional JobType type = 15 [json_name = "type"];
+  optional uint64 job_tariff = 16 [json_name = "job_tariff"];
+  optional bool is_pseudo = 17 [json_name = "is_pseudo"];
 }
 
 message JobUpdate {
-  required uint64 id = 1;
-  optional uint64 service_provider_id = 2;
-  optional uint64 service_receiver_id = 3;
-  optional google.protobuf.Timestamp tw_start_at = 4;
-  optional google.protobuf.Timestamp tw_end_at = 5;
-  optional uint64 step_idx = 6;
-  optional uint64 driver_on_shift_id = 7;
-  optional uint64 pickup_location_id = 8;
-  optional string service_started_report_url = 9;
-  optional string service_ended_report_url = 10;
-  optional uint64 route_id = 11;
-  optional string driver_comment = 12;
-  optional google.protobuf.Timestamp plan_start_at = 13;
-  optional google.protobuf.Timestamp plan_end_at = 14;
-  optional google.protobuf.Timestamp fact_start_at = 15;
-  optional google.protobuf.Timestamp fact_end_at = 16;
-  optional JobStatus status = 17;
-  optional JobType type = 18;
-  optional DispatcherReviewStatus dispatcher_review_status = 19;
-  optional double service_start_photo_lat = 20;
-  optional double service_start_photo_lon = 21;
-  optional double service_end_photo_lat = 22;
-  optional double service_end_photo_lon = 23;
-  optional string container_name = 24;
-  optional uint64 job_tariff = 25;
-  optional bool is_pseudo = 26;
-  optional google.protobuf.Timestamp gps_start_at = 28;
-  optional google.protobuf.Timestamp gps_end_at = 29;
+  required uint64 id = 1 [json_name = "id"];
+  optional uint64 service_provider_id = 2 [json_name = "service_provider_id"];
+  optional uint64 service_receiver_id = 3 [json_name = "service_receiver_id"];
+  optional google.protobuf.Timestamp tw_start_at = 4 [json_name = "tw_start_at"];
+  optional google.protobuf.Timestamp tw_end_at = 5 [json_name = "tw_end_at"];
+  optional uint64 step_idx = 6 [json_name = "step_idx"];
+  optional uint64 driver_on_shift_id = 7 [json_name = "driver_on_shift_id"];
+  optional uint64 pickup_location_id = 8 [json_name = "pickup_location_id"];
+  optional string service_started_report_url = 9 [json_name = "service_started_report_url"];
+  optional string service_ended_report_url = 10 [json_name = "service_ended_report_url"];
+  optional uint64 route_id = 11 [json_name = "route_id"];
+  optional string driver_comment = 12 [json_name = "driver_comment"];
+  optional google.protobuf.Timestamp plan_start_at = 13 [json_name = "plan_start_at"];
+  optional google.protobuf.Timestamp plan_end_at = 14 [json_name = "plan_end_at"];
+  optional google.protobuf.Timestamp fact_start_at = 15 [json_name = "fact_start_at"];
+  optional google.protobuf.Timestamp fact_end_at = 16 [json_name = "fact_end_at"];
+  optional JobStatus status = 17 [json_name = "status"];
+  optional JobType type = 18 [json_name = "type"];
+  optional DispatcherReviewStatus dispatcher_review_status = 19 [json_name = "dispatcher_review_status"];
+  optional double service_start_photo_lat = 20 [json_name = "service_start_photo_lat"];
+  optional double service_start_photo_lon = 21 [json_name = "service_start_photo_lon"];
+  optional double service_end_photo_lat = 22 [json_name = "service_end_photo_lat"];
+  optional double service_end_photo_lon = 23 [json_name = "service_end_photo_lon"];
+  optional string container_name = 24 [json_name = "container_name"];
+  optional uint64 job_tariff = 25 [json_name = "job_tariff"];
+  optional bool is_pseudo = 26 [json_name = "is_pseudo"];
+  optional google.protobuf.Timestamp gps_start_at = 28 [json_name = "gps_start_at"];
+  optional google.protobuf.Timestamp gps_end_at = 29 [json_name = "gps_end_at"];
 }
 
-// POST => /v1/platform/job/status_update
-// Sent when the job status is updated.
-// if status is `JOB_STATUS_COMPLETED` then the system must update:
-// - `route[route_id].num_completed_jobs`
 message JobStatusUpdate {
-  required uint64 id = 1;
-  required JobStatus status = 2;
+  required uint64 id = 1 [json_name = "id"];
+  required JobStatus status = 2 [json_name = "status"];
 }
 
-// POST => /v1/platform/job/pickup_start
-// Sent when the driver arrives at the waste pickup point.
-// When the message arrived, updates:
-// - `pickup_started_at`
 message JobPickUpStart {
-  required uint64 id = 1;
+  required uint64 id = 1 [json_name = "id"];
 }
 
-// POST => /v1/platform/job/pickup_finish
-// Sent when the driver finishes the waste pickup.
-// When the message arrived, updates:
-// - `pickup_finished_at`
 message JobPickUpFinish {
-  required uint64 id = 1;
+  required uint64 id = 1 [json_name = "id"];
 }
 
-// GET => /v1/platform/job/list
-// Params:
-// - assigned : bool
-// - completed : bool
-// - cancelled : bool
 message JobList {
-  repeated Job jobs = 1;
+  repeated Job jobs = 1 [json_name = "jobs"];
 }
 
 message JobRequest {
-  required uint64 job_id = 1;
+  required uint64 job_id = 1 [json_name = "job_id"];
 }

@@ -60,33 +60,33 @@ enum AuditLogType {
 }
 
 message AuditLog {
-  required uint64 id = 1;
-  required uint64 organization_id = 2;
-  required AuditLogCategory category = 3;
-  required AuditLogType log_type = 4;
-  required uint64 user_id = 5;
-  required string user_role = 6;
-  required string message = 7;
-  optional google.protobuf.Struct fields = 8;
-  required google.protobuf.Timestamp created_at = 9;
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 organization_id = 2 [json_name = "organization_id"];
+  required AuditLogCategory category = 3 [json_name = "category"];
+  required AuditLogType log_type = 4 [json_name = "log_type"];
+  required uint64 user_id = 5 [json_name = "user_id"];
+  required string user_role = 6 [json_name = "user_role"];
+  required string message = 7 [json_name = "message"];
+  optional google.protobuf.Struct fields = 8 [json_name = "fields"];
+  required google.protobuf.Timestamp created_at = 9 [json_name = "created_at"];
 }
 
 message AuditLogCreate {
-  required uint64 organization_id = 1;
-  required AuditLogCategory category = 2;
-  required AuditLogType log_type = 3;
-  required uint64 user_id = 4;
-  required string user_role = 5;
-  required string message = 6;
-  optional google.protobuf.Struct fields = 7;
+  required uint64 organization_id = 1 [json_name = "organization_id"];
+  required AuditLogCategory category = 2 [json_name = "category"];
+  required AuditLogType log_type = 3 [json_name = "log_type"];
+  required uint64 user_id = 4 [json_name = "user_id"];
+  required string user_role = 5 [json_name = "user_role"];
+  required string message = 6 [json_name = "message"];
+  optional google.protobuf.Struct fields = 7 [json_name = "fields"];
 }
 
 message AuditLogUpdate {
-  required uint64 organization_id = 1;
-  optional AuditLogCategory category = 2;
-  optional AuditLogType log_type = 3;
-  optional uint64 user_id = 4;
-  optional string user_role = 5;
-  optional string message = 6;
-  optional google.protobuf.Struct fields = 7;
+  required uint64 organization_id = 1 [json_name = "organization_id"];
+  optional AuditLogCategory category = 2 [json_name = "category"];
+  optional AuditLogType log_type = 3 [json_name = "log_type"];
+  optional uint64 user_id = 4 [json_name = "user_id"];
+  optional string user_role = 5 [json_name = "user_role"];
+  optional string message = 6 [json_name = "message"];
+  optional google.protobuf.Struct fields = 7 [json_name = "fields"];
 }
