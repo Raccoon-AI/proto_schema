@@ -8,3 +8,10 @@ message ServiceProviderStats {
   optional int32 unassigned_job_count = 2 [json_name = "unassigned_job_count"];
   optional int32 active_route_count = 3 [json_name = "active_route_count"];
 }
+
+message ServiceProviderJobStats {
+  optional int32 assigned_jobs = 1 [json_name = "assigned_jobs"];
+  optional int32 completed_jobs =2 [json_name = "completed_jobs"];
+  optional int32 active_jobs =3 [json_name = "active_jobs"];
+  optional int32 all_jobs=4 [json_name = "all_jobs"];
+}
