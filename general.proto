@@ -17,12 +17,12 @@ enum ResponseStatus {
 }
 
 message ErrorMessage {
-  optional string message = 1;
-  optional ErrorCode code = 2;
+  optional string message = 1 [json_name = "message"];
+  optional ErrorCode code = 2 [json_name = "code"];
 }
 
 message Message {
-  optional string message = 1;
+  optional string message = 1 [json_name = "message"];
 }
 
 message EmptyMessageRequest {}

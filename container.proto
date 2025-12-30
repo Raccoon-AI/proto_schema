@@ -12,57 +12,57 @@ enum ContainerStatus {
 }
 
 message ContainerType {
-  required uint64 id = 1;
-  required google.protobuf.Timestamp created_at = 2;
-  required string type_name = 3;
-  required uint64 owner_organization_id = 5;
-  required float cubic_meter = 6;
-  required uint64 weight = 7;
+  required uint64 id = 1 [json_name = "id"];
+  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
+  required string type_name = 3 [json_name = "type_name"];
+  required uint64 owner_organization_id = 5 [json_name = "owner_organization_id"];
+  required float cubic_meter = 6 [json_name = "cubic_meter"];
+  required uint64 weight = 7 [json_name = "weight"];
 }
 
 message ContainerTypeCreate {
-  required string type_name = 1;
-  required uint64 owner_organization_id = 2;
-  required float cubic_meter = 3;
-  required uint64 weight = 4;
+  required string type_name = 1 [json_name = "type_name"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required float cubic_meter = 3 [json_name = "cubic_meter"];
+  required uint64 weight = 4 [json_name = "weight"];
 }
 
 message ContainerTypeUpdate {
-  required uint64 id = 1;
-  optional string type_name = 2;
-  optional float cubic_meter = 3;
-  optional uint64 weight = 4;
+  required uint64 id = 1 [json_name = "id"];
+  optional string type_name = 2 [json_name = "type_name"];
+  optional float cubic_meter = 3 [json_name = "cubic_meter"];
+  optional uint64 weight = 4 [json_name = "weight"];
 }
 
 message Container {
-  required uint64 id = 1;
-  required google.protobuf.Timestamp created_at = 2;
-  required string name = 3;
-  required ContainerType type = 4;
-  required ContainerStatus status = 5;
-  required uint64 owner_organization_id = 6;
-  required bool is_tracked = 7;
-  optional uint64 location_id = 8;
-  required google.protobuf.Timestamp updated_at = 9;
+  required uint64 id = 1 [json_name = "id"];
+  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
+  required string name = 3 [json_name = "name"];
+  required ContainerType type = 4 [json_name = "type"];
+  required ContainerStatus status = 5 [json_name = "status"];
+  required uint64 owner_organization_id = 6 [json_name = "owner_organization_id"];
+  required bool is_tracked = 7 [json_name = "is_tracked"];
+  optional uint64 location_id = 8 [json_name = "location_id"];
+  required google.protobuf.Timestamp updated_at = 9 [json_name = "updated_at"];
 }
 
 message ContainerCreate {
-  required string name = 1;
-  required uint64 type_id = 2;
-  required uint64 owner_organization_id = 3;
-  optional uint64 location_id = 4;
+  required string name = 1 [json_name = "name"];
+  required uint64 type_id = 2 [json_name = "type_id"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+  optional uint64 location_id = 4 [json_name = "location_id"];
 }
 
 message ContainerUpdate {
-  required uint64 id = 1;
-  optional string name = 2;
-  optional uint64 type_id = 3;
-  optional ContainerStatus status = 4;
-  optional bool is_tracked = 5;
-  optional uint64 location_id = 6;
+  required uint64 id = 1 [json_name = "id"];
+  optional string name = 2 [json_name = "name"];
+  optional uint64 type_id = 3 [json_name = "type_id"];
+  optional ContainerStatus status = 4 [json_name = "status"];
+  optional bool is_tracked = 5 [json_name = "is_tracked"];
+  optional uint64 location_id = 6 [json_name = "location_id"];
 }
 
 message ContainerStatusUpdate {
-  required string name = 1;
-  required uint64 location_id = 2;
+  required string name = 1 [json_name = "name"];
+  required uint64 location_id = 2 [json_name = "location_id"];
 }

@@ -21,68 +21,68 @@ enum ContractType {
 }
 
 message Contract {
-  required uint64 id = 1;
-  required google.protobuf.Timestamp created_at = 2;
-  required ContractType type = 3;
-  required string deal_number = 4;
-  required uint64 service_provider_id = 5;
-  required uint64 target_organization_id = 6;
-  required google.protobuf.Timestamp start_at = 7;
-  required google.protobuf.Timestamp end_at = 8;
-  optional google.protobuf.Timestamp signed_at = 9;
-  optional google.protobuf.Timestamp paid_at = 10;
-  optional string contract_file_key = 11;
-  optional ContractStatus status = 12;
-  optional uint64 tariff = 13;
-  optional uint64 rent_cost = 14;
+  required uint64 id = 1 [json_name = "id"];
+  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
+  required ContractType type = 3 [json_name = "type"];
+  required string deal_number = 4 [json_name = "deal_number"];
+  required uint64 service_provider_id = 5 [json_name = "service_provider_id"];
+  required uint64 target_organization_id = 6 [json_name = "target_organization_id"];
+  required google.protobuf.Timestamp start_at = 7 [json_name = "start_at"];
+  required google.protobuf.Timestamp end_at = 8 [json_name = "end_at"];
+  optional google.protobuf.Timestamp signed_at = 9 [json_name = "signed_at"];
+  optional google.protobuf.Timestamp paid_at = 10 [json_name = "paid_at"];
+  optional string contract_file_key = 11 [json_name = "contract_file_key"];
+  optional ContractStatus status = 12 [json_name = "status"];
+  optional uint64 tariff = 13 [json_name = "tariff"];
+  optional uint64 rent_cost = 14 [json_name = "rent_cost"];
 }
 
 message ContractCreate {
-  required string deal_number = 1;
-  optional ContractType type = 2;
-  required uint64 service_provider_id = 3;
-  required uint64 target_organization_id = 4;
-  required google.protobuf.Timestamp start_at = 5;
-  required google.protobuf.Timestamp end_at = 6;
-  optional google.protobuf.Timestamp signed_at = 7;
-  optional google.protobuf.Timestamp paid_at = 8;
-  optional string contract_file_key = 9;
-  optional uint64 tariff = 10;
-  optional uint64 rent_cost = 11;
-  optional ContractStatus status = 12;
+  required string deal_number = 1 [json_name = "deal_number"];
+  optional ContractType type = 2 [json_name = "type"];
+  required uint64 service_provider_id = 3 [json_name = "service_provider_id"];
+  required uint64 target_organization_id = 4 [json_name = "target_organization_id"];
+  required google.protobuf.Timestamp start_at = 5 [json_name = "start_at"];
+  required google.protobuf.Timestamp end_at = 6 [json_name = "end_at"];
+  optional google.protobuf.Timestamp signed_at = 7 [json_name = "signed_at"];
+  optional google.protobuf.Timestamp paid_at = 8 [json_name = "paid_at"];
+  optional string contract_file_key = 9 [json_name = "contract_file_key"];
+  optional uint64 tariff = 10 [json_name = "tariff"];
+  optional uint64 rent_cost = 11 [json_name = "rent_cost"];
+  optional ContractStatus status = 12 [json_name = "status"];
 }
 
 message ContractUpdate {
-  required uint64 id = 1;
-  optional string deal_number = 2;
-  optional uint64 service_provider_id = 3;
-  optional uint64 target_organization_id = 4;
-  optional google.protobuf.Timestamp start_at = 5;
-  optional google.protobuf.Timestamp end_at = 6;
-  optional google.protobuf.Timestamp signed_at = 7;
-  optional google.protobuf.Timestamp paid_at = 8;
-  optional string contract_file_key = 9;
-  optional ContractStatus status = 10;
-  optional uint64 tariff = 11;
-  optional uint64 rent_cost = 12;
+  required uint64 id = 1 [json_name = "id"];
+  optional string deal_number = 2 [json_name = "deal_number"];
+  optional uint64 service_provider_id = 3 [json_name = "service_provider_id"];
+  optional uint64 target_organization_id = 4 [json_name = "target_organization_id"];
+  optional google.protobuf.Timestamp start_at = 5 [json_name = "start_at"];
+  optional google.protobuf.Timestamp end_at = 6 [json_name = "end_at"];
+  optional google.protobuf.Timestamp signed_at = 7 [json_name = "signed_at"];
+  optional google.protobuf.Timestamp paid_at = 8 [json_name = "paid_at"];
+  optional string contract_file_key = 9 [json_name = "contract_file_key"];
+  optional ContractStatus status = 10 [json_name = "status"];
+  optional uint64 tariff = 11 [json_name = "tariff"];
+  optional uint64 rent_cost = 12 [json_name = "rent_cost"];
 }
 
 message ContractDetailed {
-  required uint64 id = 1;
-  required google.protobuf.Timestamp created_at = 2;
-  optional ContractType type = 3;
-  required string deal_number = 4;
-  required uint64 service_provider_id = 5;
-  required uint64 target_organization_id = 6;
-  required google.protobuf.Timestamp start_at = 7;
-  required google.protobuf.Timestamp end_at = 8;
-  optional google.protobuf.Timestamp signed_at = 9;
-  optional google.protobuf.Timestamp paid_at = 10;
-  optional string contract_file_key = 11;
-  optional ContractStatus status = 12;
-  optional uint64 tariff = 13;
-  required Organization target_organization = 14;
-  repeated PickupLocation pickup_locations = 15;
-  optional string contract_file_url = 16;
-  optional uint64 rent_cost = 17;
+  required uint64 id = 1 [json_name = "id"];
+  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
+  optional ContractType type = 3 [json_name = "type"];
+  required string deal_number = 4 [json_name = "deal_number"];
+  required uint64 service_provider_id = 5 [json_name = "service_provider_id"];
+  required uint64 target_organization_id = 6 [json_name = "target_organization_id"];
+  required google.protobuf.Timestamp start_at = 7 [json_name = "start_at"];
+  required google.protobuf.Timestamp end_at = 8 [json_name = "end_at"];
+  optional google.protobuf.Timestamp signed_at = 9 [json_name = "signed_at"];
+  optional google.protobuf.Timestamp paid_at = 10 [json_name = "paid_at"];
+  optional string contract_file_key = 11 [json_name = "contract_file_key"];
+  optional ContractStatus status = 12 [json_name = "status"];
+  optional uint64 tariff = 13 [json_name = "tariff"];
+  required Organization target_organization = 14 [json_name = "target_organization"];
+  repeated PickupLocation pickup_locations = 15 [json_name = "pickup_locations"];
+  optional string contract_file_url = 16 [json_name = "contract_file_url"];
+  optional uint64 rent_cost = 17 [json_name = "rent_cost"];
 }

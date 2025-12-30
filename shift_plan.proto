@@ -27,24 +27,24 @@ enum ShiftPlanType {
 }
 
 message ShiftPlan {
-  required uint64 id = 1;
-  required uint64 owner_organization_id = 2;
-  required uint64 driver_id = 3;
-  required string date = 4;
-  required ShiftPlanStatus status = 5;
-  required ShiftPlanState state = 6;
-  required ShiftPlanType type = 7;
-  required google.protobuf.Timestamp created_at = 8;
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required uint64 driver_id = 3 [json_name = "driver_id"];
+  required string date = 4 [json_name = "date"];
+  required ShiftPlanStatus status = 5 [json_name = "status"];
+  required ShiftPlanState state = 6 [json_name = "state"];
+  required ShiftPlanType type = 7 [json_name = "type"];
+  required google.protobuf.Timestamp created_at = 8 [json_name = "created_at"];
 }
 
 message ShiftPlanCreate {
-  required uint64 driver_id = 1;
-  required uint64 owner_organization_id = 2;
-  required string date = 3;
-  required ShiftPlanStatus status = 4;
+  required uint64 driver_id = 1 [json_name = "driver_id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required string date = 3 [json_name = "date"];
+  required ShiftPlanStatus status = 4 [json_name = "status"];
 }
 
 message ShiftPlanUpdateStatus {
-  required uint64 id = 1;
-  required ShiftPlanStatus status = 2;
+  required uint64 id = 1 [json_name = "id"];
+  required ShiftPlanStatus status = 2 [json_name = "status"];
 }

@@ -13,22 +13,22 @@ enum FileUploadType {
 }
 
 message FileUpload {
-  required uint64 id = 1;
-  required uint64 owner_organization_id = 2;
-  required string url = 3;
-  required FileUploadType type = 4;
-  optional float lat = 5;
-  optional float lon = 6;
-  optional uint64 job_id = 7;
-  optional uint64 contract_id = 8;
-  required google.protobuf.Timestamp created_at = 9;
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required string url = 3 [json_name = "url"];
+  required FileUploadType type = 4 [json_name = "type"];
+  optional float lat = 5 [json_name = "lat"];
+  optional float lon = 6 [json_name = "lon"];
+  optional uint64 job_id = 7 [json_name = "job_id"];
+  optional uint64 contract_id = 8 [json_name = "contract_id"];
+  required google.protobuf.Timestamp created_at = 9 [json_name = "created_at"];
 }
 
 message FileUploadCreate {
-  required uint64 owner_organization_id = 1;
-  required FileUploadType type = 2;
-  optional float lat = 3;
-  optional float lon = 4;
-  optional uint64 job_id = 5;
-  optional uint64 contract_id = 6;
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required FileUploadType type = 2 [json_name = "type"];
+  optional float lat = 3 [json_name = "lat"];
+  optional float lon = 4 [json_name = "lon"];
+  optional uint64 job_id = 5 [json_name = "job_id"];
+  optional uint64 contract_id = 6 [json_name = "contract_id"];
 }
