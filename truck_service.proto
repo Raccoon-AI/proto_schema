@@ -23,7 +23,7 @@ message SearchTruckResponse {
 
 message TruckListRequest {
   optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"]; // filter by org
-  optional TruckType type = 2 [json_name = "type"]; // filter by truck type
+  optional uint64 truck_type_id = 2 [json_name = "truck_type_id"]; // filter by truck type
 }
 
 message TruckListResponse {
@@ -33,7 +33,7 @@ message TruckListResponse {
 message CreateGuestTruckRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   required string plate_number = 2 [json_name = "plate_number"];
-  required TruckType type = 3 [json_name = "type"];
+  required uint64 truck_type_id = 3 [json_name = "truck_type_id"];
 }
 
 message TruckWeightRequest {

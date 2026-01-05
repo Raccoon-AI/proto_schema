@@ -12,10 +12,11 @@ option go_package = "./pb";
 
 enum JobType {
   JOB_TYPE_UNDEFINED = 0;
-  JOB_TYPE_SERVICE = 1;
+  JOB_TYPE_REPLACE_BUNKER = 1;
   JOB_TYPE_ADD_BUNKER = 2;
   JOB_TYPE_REMOVE_BUNKER = 3;
-  JOB_TYPE_MSW = 4; // Municipal Solid Waste
+  JOB_TYPE_PICKUP = 4; // Municipal Solid Waste
+  JOB_TYPE_ANY = 5;
 }
 
 enum JobStatus {

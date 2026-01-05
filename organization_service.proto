@@ -4,7 +4,6 @@ package raccoonai;
 
 import "general.proto";
 import "organization.proto";
-import "truck.proto";
 
 option go_package = "./pb";
 
@@ -25,7 +24,7 @@ message AddGuestRequest {
   required string driver_phone_number = 5 [json_name = "driver_phone_number"];
   optional string driver_license_number = 6 [json_name = "driver_license_number"];
   required string truck_plate_number = 7 [json_name = "truck_plate_number"];
-  required TruckType truck_type = 8 [json_name = "truck_type"];
+  required uint64 truck_type_id = 8 [json_name = "truck_type"];
 }
 
 message AddGuestResponse {
