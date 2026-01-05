@@ -47,7 +47,7 @@ message GeoProcess {
 
   optional bool is_active = 10 [json_name = "is_active"];
 
-  optional int32 process_id = 11 [json_name = "process_id"];
+  optional string process_id = 11 [json_name = "process_id"];
   optional float proximity_score = 12 [json_name = "proximity_score"];
   optional int32 start_buffer_id = 13 [json_name = "start_buffer_id"];
   optional int32 end_buffer_id = 14 [json_name = "end_buffer_id"];
