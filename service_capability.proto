@@ -1,0 +1,36 @@
+syntax = "proto2";
+package raccoonai;
+
+import "container_type.proto";
+import "google/protobuf/timestamp.proto";
+import "truck_type.proto";
+
+option go_package = "./pb";
+
+message ServiceCapability {
+  required uint64 id = 1 [json_name = "id"];
+  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+
+  required uint64 truck_type_id = 4 [json_name = "truck_type_id"];
+  required TruckTypeRead truck_type = 5 [json_name = "truck_type"];
+
+  required uint64 container_type_id = 6 [json_name = "container_type_id"];
+  required ContainerTypeRead container_type = 7 [json_name = "container_type"];
+
+  required string job_type = 8 [json_name = "job_type"];
+}
+
+message ServiceCapabilityCreate {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 truck_type_id = 2 [json_name = "truck_type_id"];
+  required uint64 container_type_id = 3 [json_name = "container_type_id"];
+  required string job_type = 4 [json_name = "job_type"];
+}
+
+message ServiceCapabilityUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  optional uint64 truck_type_id = 2 [json_name = "truck_type_id"];
+  optional uint64 container_type_id = 3 [json_name = "container_type_id"];
+  optional string job_type = 4 [json_name = "job_type"];
+}

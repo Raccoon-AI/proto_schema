@@ -7,12 +7,6 @@ import "location.proto";
 
 option go_package = "./pb";
 
-enum PickupLocationType {
-  PICKUP_LOCATION_TYPE_UNDEFINED = 0;
-  PICKUP_LOCATION_TYPE_CONSTRUCTION = 1;
-  PICKUP_LOCATION_TYPE_HOUSEHOLD = 2;
-}
-
 enum PickupLocationPriority {
   PICKUP_LOCATION_PRIORITY_UNDEFINED = 0;
   PICKUP_LOCATION_PRIORITY_LOW = 1;
@@ -24,7 +18,7 @@ message PickupLocation {
   required uint64 id = 1 [json_name = "id"];
   required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
   required string name = 3 [json_name = "name"];
-  required PickupLocationType type = 4 [json_name = "type"];
+  required LocationType type = 4 [json_name = "type"];
   required uint64 owner_organization_id = 5 [json_name = "owner_organization_id"];
   required LocationStatus status = 6 [json_name = "status"];
   required double lon = 7 [json_name = "lon"];
@@ -48,7 +42,7 @@ message PickupLocation {
 
 message PickupLocationCreate {
   required string name = 1 [json_name = "name"];
-  optional PickupLocationType type = 2 [json_name = "type"];
+  optional LocationType type = 2 [json_name = "type"];
   optional uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
   required double lon = 4 [json_name = "lon"];
   required double lat = 5 [json_name = "lat"];
@@ -70,7 +64,7 @@ message PickupLocationCreate {
 message PickupLocationUpdate {
   required uint64 id = 1 [json_name = "id"];
   optional string name = 2 [json_name = "name"];
-  optional PickupLocationType type = 3 [json_name = "type"];
+  optional LocationType type = 3 [json_name = "type"];
   optional LocationStatus status = 4 [json_name = "status"];
   optional double lon = 5 [json_name = "lon"];
   optional double lat = 6 [json_name = "lat"];

@@ -17,6 +17,9 @@ enum LocationType {
   LOCATION_TYPE_DEPOT = 1;
   LOCATION_TYPE_DISPOSAL_SITE = 2;
   LOCATION_TYPE_GAS_STATION = 3;
+  LOCATION_TYPE_CONSTRUCTION = 4;
+  LOCATION_TYPE_MSW = 5;
+  LOCATION_TYPE_PICKUP = 6;
 }
 
 message Location {
@@ -33,6 +36,13 @@ message Location {
   required string polymorphic_type = 11 [json_name = "polymorphic_type"];
   optional string gis_link = 12 [json_name = "gis_link"];
   optional uint64 service_time = 13 [json_name = "service_time"];
+}
+
+message LocationRead {
+  required uint64 id = 1 [json_name = "id"];
+  required string name = 3 [json_name = "name"];
+  optional string address = 10 [json_name = "address"];
+  required LocationStatus status = 6 [json_name = "status"];
 }
 
 message LocationCreate {

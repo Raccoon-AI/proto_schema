@@ -1,0 +1,36 @@
+syntax = "proto2";
+package raccoonai;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+message TruckType {
+  required uint64 id = 1;
+  required string name = 2 [json_name = "name"];
+  required google.protobuf.Timestamp created_at = 3 [json_name = "created_at"];
+  optional float volume = 4 [json_name = "volume"];
+  optional uint64 weight = 5 [json_name = "weight"];
+  required uint64 owner_organization_id = 6 [json_name = "owner_organization_id"];
+  required google.protobuf.Timestamp updated_at = 7 [json_name = "updated_at"];
+}
+
+// Simplified truck type for nested responses
+message TruckTypeRead {
+  required uint64 id = 1;
+  required string name = 2 [json_name = "name"];
+}
+
+message TruckTypeCreate {
+  required string name = 1 [json_name = "name"];
+  optional float volume = 2 [json_name = "volume"];
+  optional uint64 weight = 3 [json_name = "weight"];
+  optional uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
+}
+
+message TruckTypeUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  optional string name = 2 [json_name = "name"];
+  optional float volume = 3 [json_name = "volume"];
+  optional uint64 weight = 4 [json_name = "weight"];
+}

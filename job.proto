@@ -13,13 +13,29 @@ option go_package = "./pb";
 
 enum JobType {
   JOB_TYPE_UNDEFINED = 0;
-  // JOB CATEGORY CO
-  JOB_TYPE_SERVICE = 1;
-  JOB_TYPE_ADD_BUNKER = 2;
-  JOB_TYPE_REMOVE_BUNKER = 3;
-  // JOB CATEGORY MSW
-  JOB_TYPE_MSW = 100; // Municipal Solid Waste
-  // OTHER JOB CATEGORIES
+
+  //  Core Bunker Operations
+  JOB_TYPE_REPLACE_BUNKER = 1; // Забрать с заменой
+  JOB_TYPE_ADD_BUNKER = 2; // Установить ёмкость
+  JOB_TYPE_REMOVE_BUNKER = 3; // Забрать без замены
+
+  //  Sanitation & Maintenance
+  JOB_TYPE_CLEANUP = 4; // Подбор (Standard site cleanup)
+  JOB_TYPE_MOBILE_CLEANUP = 5; // Подбор с объездом
+  JOB_TYPE_APPLY_BRANDING = 6; // Брендировать ёмкость
+  JOB_TYPE_DISINFECTION = 7; // Дезинфекция
+
+  //  Logistics
+  JOB_TYPE_TRANSPORTATION = 8; // Перевозка
+  JOB_TYPE_TRANSPORTATION_MPS = 9; // Перевозка (МПС - МПС)
+
+  // Miscellaneous
+  JOB_TYPE_BRAND_CONTAINER = 10; // Брендировать ёмкость
+  JOB_TYPE_REPAIR_CONTAINER = 11; // Ремонт ёмкости
+  JOB_TYPE_DECOMMISSION_CONTAINER = 12; // Снять ёмкость
+  JOB_TYPE_INSTALL_LID = 13; // Установить крышку
+  JOB_TYPE_REMOVE_LID = 14; // Снять крышку
+  JOB_TYPE_INSTALL_TAG = 15; // Установить идентификатор
 }
 
 enum JobCategory {

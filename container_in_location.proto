@@ -1,0 +1,36 @@
+syntax = "proto2";
+package raccoonai;
+
+import "container_type.proto";
+import "google/protobuf/timestamp.proto";
+import "location.proto";
+
+option go_package = "./pb";
+
+message ContainerInLocation {
+  required uint64 id = 1 [json_name = "id"];
+  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+
+  required uint64 location_id = 4 [json_name = "location_id"];
+  required LocationRead location = 5 [json_name = "location"];
+
+  required uint64 container_type_id = 6 [json_name = "container_type_id"];
+  required ContainerTypeRead container_type = 7 [json_name = "container_type"];
+
+  required uint64 quantity = 8 [json_name = "quantity"];
+}
+
+message ContainerInLocationCreate {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 location_id = 2 [json_name = "location_id"];
+  required uint64 container_type_id = 3 [json_name = "container_type_id"];
+  required uint64 quantity = 4 [json_name = "quantity"];
+}
+
+message ContainerInLocationUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  optional uint64 location_id = 2 [json_name = "location_id"];
+  optional uint64 container_type_id = 3 [json_name = "container_type_id"];
+  optional uint64 quantity = 4 [json_name = "quantity"];
+}

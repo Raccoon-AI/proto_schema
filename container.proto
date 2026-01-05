@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "container_type.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
@@ -11,39 +12,26 @@ enum ContainerStatus {
   CONTAINER_STATUS_ACTIVE = 2;
 }
 
-message ContainerType {
-  required uint64 id = 1 [json_name = "id"];
-  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
-  required string type_name = 3 [json_name = "type_name"];
-  required uint64 owner_organization_id = 5 [json_name = "owner_organization_id"];
-  required float cubic_meter = 6 [json_name = "cubic_meter"];
-  required uint64 weight = 7 [json_name = "weight"];
-}
-
-message ContainerTypeCreate {
-  required string type_name = 1 [json_name = "type_name"];
-  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
-  required float cubic_meter = 3 [json_name = "cubic_meter"];
-  required uint64 weight = 4 [json_name = "weight"];
-}
-
-message ContainerTypeUpdate {
-  required uint64 id = 1 [json_name = "id"];
-  optional string type_name = 2 [json_name = "type_name"];
-  optional float cubic_meter = 3 [json_name = "cubic_meter"];
-  optional uint64 weight = 4 [json_name = "weight"];
-}
+//enum ContainerTypeName {
+//  CONTAINER_TYPE_NAME_UNDEFINED = 0;
+//  CONTAINER_TYPE_NAME_EURO = 1;
+//  CONTAINER_TYPE_NAME_C8 = 2;
+//  CONTAINER_TYPE_NAME_C10 = 3;
+//  CONTAINER_TYPE_NAME_C14 = 4;
+//  CONTAINER_TYPE_NAME_C23 = 5;
+//}
 
 message Container {
   required uint64 id = 1 [json_name = "id"];
   required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
   required string name = 3 [json_name = "name"];
-  required ContainerType type = 4 [json_name = "type"];
+  required ContainerTypeRead type = 4 [json_name = "type"];
   required ContainerStatus status = 5 [json_name = "status"];
   required uint64 owner_organization_id = 6 [json_name = "owner_organization_id"];
   required bool is_tracked = 7 [json_name = "is_tracked"];
   optional uint64 location_id = 8 [json_name = "location_id"];
   required google.protobuf.Timestamp updated_at = 9 [json_name = "updated_at"];
+  required uint64 type_id = 10 [json_name = "type_id"];
 }
 
 message ContainerCreate {
