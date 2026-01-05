@@ -45,6 +45,7 @@ message PickupLocation {
   optional string contact_phone = 22 [json_name = "contact_phone"];
   optional string gis_link = 23 [json_name = "gis_link"];
   optional uint64 service_time = 24 [json_name = "service_time"];
+  map<string, uint64> container_group = 25;
 }
 
 message PickupLocationCreate {
@@ -68,6 +69,7 @@ message PickupLocationCreate {
   optional string contact_phone = 18 [json_name = "contact_phone"];
   optional string gis_link = 19 [json_name = "gis_link"];
   optional uint64 service_time = 20 [json_name = "service_time"];
+  map<string, uint64> container_group = 21;
 }
 
 message PickupLocationUpdate {
@@ -92,6 +94,7 @@ message PickupLocationUpdate {
   optional string contact_phone = 19 [json_name = "contact_phone"];
   optional string gis_link = 20 [json_name = "gis_link"];
   optional uint64 service_time = 21 [json_name = "service_time"];
+  map<string, uint64> container_group = 22;
 }
 
 message PickupLocationListContract {
