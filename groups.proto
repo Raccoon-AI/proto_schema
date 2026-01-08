@@ -1,0 +1,102 @@
+syntax = "proto2";
+package raccoonai;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+enum ResourceType {
+  RESOURCE_TYPE_UNDEFINED = 0;
+  RESOURCE_TYPE_JOB_PROVIDER = 1;
+  RESOURCE_TYPE_JOB_RECEIVER = 2;
+  RESOURCE_TYPE_JOB_VIEWER = 3;
+  RESOURCE_TYPE_ROUTE_MANAGER = 4;
+  RESOURCE_TYPE_ROUTE_VIEWER = 5;
+  RESOURCE_TYPE_CONTRACT_PROVIDER = 6;
+  RESOURCE_TYPE_CONTRACT_RECEIVER = 7;
+  RESOURCE_TYPE_LOCATION_MANAGER = 8;
+  RESOURCE_TYPE_LOCATION_VIEWER = 9;
+  RESOURCE_TYPE_TRUCK_MANAGER = 10;
+  RESOURCE_TYPE_CONTAINER_OWNER = 11;
+  RESOURCE_TYPE_INCIDENT_MANAGER = 12;
+  RESOURCE_TYPE_SCALE_OWNER = 13;
+  RESOURCE_TYPE_SCALE_PROVIDER = 14;
+  RESOURCE_TYPE_SETTINGS_MANAGER = 15;
+  RESOURCE_TYPE_USER_MANAGER = 16;
+  RESOURCE_TYPE_BANK_DETAILS_OWNER = 17;
+}
+
+// ==========================================================
+// CustomGroup
+// ==========================================================
+
+message CustomGroup {
+  required uint64 id = 1 [json_name = "id"];
+  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
+  required google.protobuf.Timestamp updated_at = 3 [json_name = "updated_at"];
+  required string name = 4 [json_name = "name"];
+  required string slug = 5 [json_name = "slug"];
+  required uint64 owner_organization_id = 6 [json_name = "owner_organization_id"];
+}
+
+message CustomGroupCreate {
+  required string name = 1 [json_name = "name"];
+  required string slug = 2 [json_name = "slug"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+}
+
+message CustomGroupUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  optional string name = 2 [json_name = "name"];
+  optional string slug = 3 [json_name = "slug"];
+}
+
+// ==========================================================
+// GroupMembership
+// ==========================================================
+
+message GroupMembership {
+  required uint64 id = 1 [json_name = "id"];
+  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
+  required google.protobuf.Timestamp updated_at = 3 [json_name = "updated_at"];
+  required uint64 custom_group_id = 4 [json_name = "custom_group_id"];
+  required uint64 user_id = 5 [json_name = "user_id"];
+  required string role = 6 [json_name = "role"]; // e.g. "manager", "viewer"
+}
+
+message GroupMembershipCreate {
+  required uint64 custom_group_id = 1 [json_name = "custom_group_id"];
+  required uint64 user_id = 2 [json_name = "user_id"];
+  required string role = 3 [json_name = "role"];
+}
+
+message GroupMembershipUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  optional string role = 2 [json_name = "role"];
+}
+
+// ==========================================================
+// ResourceAccessGrant
+// ==========================================================
+
+message ResourceAccessGrant {
+  required uint64 id = 1 [json_name = "id"];
+  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
+  required google.protobuf.Timestamp updated_at = 3 [json_name = "updated_at"];
+  required uint64 custom_group_id = 4 [json_name = "custom_group_id"];
+  required string resource_group_id = 5 [json_name = "resource_group_id"]; // e.g. "job_provider_43"
+}
+
+message ResourceAccessGrantCreate {
+  required uint64 custom_group_id = 1 [json_name = "custom_group_id"];
+  optional uint64 target_org_id = 2 [json_name = "target_org_id"];
+  optional ResourceType resource_type = 3 [json_name = "resource_type"];
+  optional string resource_group_id = 4 [json_name = "resource_group_id"];
+}
+
+message ResourceAccessGrantUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 target_org_id = 2 [json_name = "target_org_id"];
+  required ResourceType resource_type = 3 [json_name = "resource_type"];
+  optional string resource_group_id = 4 [json_name = "resource_group_id"];
+}
