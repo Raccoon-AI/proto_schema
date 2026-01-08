@@ -47,12 +47,16 @@ message OrganizationRequest {
   required uint64 organization_id = 1 [json_name = "organization_id"];
 }
 
+message ChildrenOrganizationListRequest {
+  optional uint64 parent_organization_id = 1 [json_name = "parent_organization_id"];
+}
+
 service OrganizationService {
   rpc OrganizationList(OrganizationListRequest) returns (OrganizationListResponse) {}
   rpc AddGuest(AddGuestRequest) returns (AddGuestResponse) {}
   rpc ServiceProviderList(EmptyMessageRequest) returns (OrganizationListResponse) {}
   rpc GuestOrganizationList(EmptyMessageRequest) returns (OrganizationListResponse) {}
   rpc CreateGuestOrganization(CreateGuestOrganizationRequest) returns (CreateGuestOrganizationResponse) {}
-  rpc ChildrenOrganizationList(EmptyMessageRequest) returns (OrganizationListResponse) {}
+  rpc ChildrenOrganizationList(ChildrenOrganizationListRequest) returns (OrganizationListResponse) {}
   rpc GetOrganization(OrganizationRequest) returns (Organization) {}
 }
