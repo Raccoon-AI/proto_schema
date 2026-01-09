@@ -2,6 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "google/protobuf/timestamp.proto";
+import "organization.proto";
 
 option go_package = "./pb";
 
@@ -41,6 +42,7 @@ message User {
   required UserStatus status = 9 [json_name = "status"];
   optional string driver_license_number = 10 [json_name = "driver_license_number"];
   optional string fcm_token = 14 [json_name = "fcm_token"];
+  optional Organization owner_organization = 15 [json_name = "owner_organization"];
 }
 
 message UserCreate {
@@ -68,6 +70,7 @@ message UserUpdate {
   optional UserStatus status = 6 [json_name = "status"];
   optional string driver_license_number = 7 [json_name = "driver_license_number"];
   optional string fcm_token = 8 [json_name = "fcm_token"];
+  optional UserRole role = 9 [json_name = "role"];
 }
 
 message UserUpdateRole {
