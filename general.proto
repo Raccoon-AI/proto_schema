@@ -21,8 +21,10 @@ message ErrorMessage {
   optional ErrorCode code = 2 [json_name = "code"];
 }
 
-message Message {
-  optional string message = 1 [json_name = "message"];
+message MessageResponse {
+  required ResponseStatus status = 1 [json_name = "status"];
+  optional string message = 2 [json_name = "message"];
+  optional ErrorMessage error = 3 [json_name = "error"];
 }
 
 message EmptyMessageRequest {}

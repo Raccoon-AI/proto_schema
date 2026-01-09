@@ -1,6 +1,8 @@
 syntax = "proto2";
 package raccoonai;
 
+import "google/protobuf/timestamp.proto";
+import "organization.proto";
 import "user.proto";
 
 option go_package = "./pb";
@@ -11,6 +13,7 @@ message AuthResponse {
   required User me = 3 [json_name = "me"]; // User information
 }
 
+// Not used in messaging. To be deprecated.
 message OTPCreate {
   required uint64 user_id = 1 [json_name = "user_id"];
   required uint64 otp_code = 2 [json_name = "otp_code"];
@@ -33,7 +36,22 @@ message LoginToken {
 }
 
 message PasswordReset {
-  required string username = 1 [json_name = "username"];
+  required uint64 user_id = 1 [json_name = "user_id"];
   required string old_password = 2 [json_name = "old_password"];
   required string new_password = 3 [json_name = "new_password"];
+}
+
+message LoginRequest {
+  required string username = 1 [json_name = "username"];
+  required string password = 2 [json_name = "password"];
+}
+
+message MeResponse {
+  required User user = 1 [json_name = "user"];
+  optional Organization organization = 2 [json_name = "organization"];
+}
+
+message TokenRequest {
+  optional uint64 user_id = 1 [json_name = "user_id"];
+  optional google.protobuf.Timestamp expiration_date = 2 [json_name = "expiration_date"];
 }
