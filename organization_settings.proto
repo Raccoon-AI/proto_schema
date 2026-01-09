@@ -2,6 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "audit_logs.proto";
+import "container.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
@@ -21,6 +22,7 @@ message OrganizationSettings {
   optional double map_center_lat = 9 [json_name = "map_center_lat"];
   optional double map_center_lon = 10 [json_name = "map_center_lon"];
   optional bool ai_enabled = 11 [json_name = "ai_enabled"];
+  repeated ContainerTypeName visible_container_type_names = 12;
 }
 
 message OrganizationSettingsCreate {
@@ -33,6 +35,7 @@ message OrganizationSettingsCreate {
   optional double map_center_lat = 7 [json_name = "map_center_lat"];
   optional double map_center_lon = 8 [json_name = "map_center_lon"];
   optional bool ai_enabled = 9 [json_name = "ai_enabled"];
+  repeated ContainerTypeName visible_container_type_names = 12;
 }
 
 message OrganizationSettingsUpdate {
@@ -45,4 +48,5 @@ message OrganizationSettingsUpdate {
   optional double map_center_lat = 7 [json_name = "map_center_lat"];
   optional double map_center_lon = 8 [json_name = "map_center_lon"];
   optional bool ai_enabled = 9 [json_name = "ai_enabled"];
+  repeated ContainerTypeName visible_container_type_names = 12;
 }

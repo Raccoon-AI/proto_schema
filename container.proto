@@ -11,26 +11,35 @@ enum ContainerStatus {
   CONTAINER_STATUS_ACTIVE = 2;
 }
 
+enum ContainerTypeName {
+  CONTAINER_TYPE_NAME_UNDEFINED = 0;
+  CONTAINER_TYPE_NAME_EURO = 1;
+  CONTAINER_TYPE_NAME_C8 = 2;
+  CONTAINER_TYPE_NAME_C10 = 3;
+  CONTAINER_TYPE_NAME_C14 = 4;
+  CONTAINER_TYPE_NAME_C23 = 5;
+}
+
 message ContainerType {
   required uint64 id = 1 [json_name = "id"];
   required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
-  required string type_name = 3 [json_name = "type_name"];
-  required uint64 owner_organization_id = 5 [json_name = "owner_organization_id"];
-  required float cubic_meter = 6 [json_name = "cubic_meter"];
-  required uint64 weight = 7 [json_name = "weight"];
+  required ContainerTypeName name = 3 [json_name = "name"];
+  //  required uint64 owner_organization_id = 5 [json_name = "owner_organization_id"];
+  required float volume = 6 [json_name = "volume"];
+  optional uint64 weight = 7 [json_name = "weight"];
 }
 
 message ContainerTypeCreate {
-  required string type_name = 1 [json_name = "type_name"];
-  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
-  required float cubic_meter = 3 [json_name = "cubic_meter"];
-  required uint64 weight = 4 [json_name = "weight"];
+  required ContainerTypeName name = 1 [json_name = "name"];
+  //  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required float volume = 3 [json_name = "volume"];
+  optional uint64 weight = 4 [json_name = "weight"];
 }
 
 message ContainerTypeUpdate {
   required uint64 id = 1 [json_name = "id"];
-  optional string type_name = 2 [json_name = "type_name"];
-  optional float cubic_meter = 3 [json_name = "cubic_meter"];
+  //  optional string name = 2 [json_name = "name"];
+  optional float volume = 3 [json_name = "volume"];
   optional uint64 weight = 4 [json_name = "weight"];
 }
 
