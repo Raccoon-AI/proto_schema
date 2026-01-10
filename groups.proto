@@ -5,25 +5,25 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
-enum ResourceType {
-  RESOURCE_TYPE_UNDEFINED = 0;
-  RESOURCE_TYPE_JOB_PROVIDER = 1;
-  RESOURCE_TYPE_JOB_RECEIVER = 2;
-  RESOURCE_TYPE_JOB_VIEWER = 3;
-  RESOURCE_TYPE_ROUTE_MANAGER = 4;
-  RESOURCE_TYPE_ROUTE_VIEWER = 5;
-  RESOURCE_TYPE_CONTRACT_PROVIDER = 6;
-  RESOURCE_TYPE_CONTRACT_RECEIVER = 7;
-  RESOURCE_TYPE_LOCATION_MANAGER = 8;
-  RESOURCE_TYPE_LOCATION_VIEWER = 9;
-  RESOURCE_TYPE_TRUCK_MANAGER = 10;
-  RESOURCE_TYPE_CONTAINER_OWNER = 11;
-  RESOURCE_TYPE_INCIDENT_MANAGER = 12;
-  RESOURCE_TYPE_SCALE_OWNER = 13;
-  RESOURCE_TYPE_SCALE_PROVIDER = 14;
-  RESOURCE_TYPE_SETTINGS_MANAGER = 15;
-  RESOURCE_TYPE_USER_MANAGER = 16;
-  RESOURCE_TYPE_BANK_DETAILS_OWNER = 17;
+enum ResourceRelation {
+  RESOURCE_RELATION_UNDEFINED = 0;
+  RESOURCE_RELATION_JOB_PROVIDER = 1;
+  RESOURCE_RELATION_JOB_RECEIVER = 2;
+  RESOURCE_RELATION_JOB_VIEWER = 3;
+  RESOURCE_RELATION_ROUTE_MANAGER = 4;
+  RESOURCE_RELATION_ROUTE_VIEWER = 5;
+  RESOURCE_RELATION_CONTRACT_PROVIDER = 6;
+  RESOURCE_RELATION_CONTRACT_RECEIVER = 7;
+  RESOURCE_RELATION_LOCATION_MANAGER = 8;
+  RESOURCE_RELATION_LOCATION_VIEWER = 9;
+  RESOURCE_RELATION_TRUCK_MANAGER = 10;
+  RESOURCE_RELATION_CONTAINER_OWNER = 11;
+  RESOURCE_RELATION_INCIDENT_MANAGER = 12;
+  RESOURCE_RELATION_SCALE_OWNER = 13;
+  RESOURCE_RELATION_SCALE_PROVIDER = 14;
+  RESOURCE_RELATION_SETTINGS_MANAGER = 15;
+  RESOURCE_RELATION_USER_MANAGER = 16;
+  RESOURCE_RELATION_BANK_DETAILS_OWNER = 17;
 }
 
 // ==========================================================
@@ -90,13 +90,13 @@ message ResourceAccessGrant {
 message ResourceAccessGrantCreate {
   required uint64 custom_group_id = 1 [json_name = "custom_group_id"];
   optional uint64 target_org_id = 2 [json_name = "target_org_id"];
-  optional ResourceType resource_type = 3 [json_name = "resource_type"];
+  optional ResourceRelation resource_type = 3 [json_name = "resource_type"];
   optional string resource_group_id = 4 [json_name = "resource_group_id"];
 }
 
 message ResourceAccessGrantUpdate {
   required uint64 id = 1 [json_name = "id"];
   required uint64 target_org_id = 2 [json_name = "target_org_id"];
-  required ResourceType resource_type = 3 [json_name = "resource_type"];
+  required ResourceRelation resource_type = 3 [json_name = "resource_type"];
   optional string resource_group_id = 4 [json_name = "resource_group_id"];
 }
