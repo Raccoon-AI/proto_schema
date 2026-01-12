@@ -2,41 +2,19 @@ syntax = "proto2";
 
 package raccoonai;
 
+import "auth.proto";
 import "general.proto";
-import "google/protobuf/timestamp.proto";
-import "organization.proto";
-import "user.proto";
 
 option go_package = "./pb";
 
-message LoginRequest {
-  required string username = 1 [json_name = "username"];
-  required string password = 2 [json_name = "password"];
-}
-
-message LoginResponse {
-  // The Bearer token to use for authenticated requests
-  required string token = 1 [json_name = "token"];
-}
-
-message MeResponse {
-  required User user = 1 [json_name = "user"];
-  optional Organization organization = 2 [json_name = "organization"];
-}
-
-message TokenRequest {
-  optional uint64 user_id = 1 [json_name = "user_id"];
-  optional google.protobuf.Timestamp expiration_date = 2 [json_name = "expiration_date"];
-}
-
-message TokenResponse {
-  required string token = 2 [json_name = "token"];
-}
-
 service AuthService {
-  rpc Login(LoginRequest) returns (LoginResponse) {}
-  rpc Logout(EmptyMessageRequest) returns (EmptyMessageResponse) {}
-  rpc Protected(EmptyMessageRequest) returns (EmptyMessageResponse) {}
+  rpc Login(LoginRequest) returns (AuthResponse) {}
+  rpc Logout(EmptyMessageRequest) returns (MessageResponse) {}
+  rpc Protected(EmptyMessageRequest) returns (MessageResponse) {}
   rpc Me(EmptyMessageRequest) returns (MeResponse) {}
-  rpc StaticToken(TokenRequest) returns (TokenResponse) {}
+  rpc StaticToken(TokenRequest) returns (AuthResponse) {}
+  rpc RequestOTP(OTPRequest) returns (MessageResponse) {}
+  rpc LoginOTP(LoginOTPRequest) returns (AuthResponse) {}
+  rpc ResetPassword(PasswordReset) returns (MessageResponse) {}
+  rpc RefreshToken(EmptyMessageRequest) returns (AuthResponse) {}
 }
