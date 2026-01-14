@@ -1,0 +1,56 @@
+syntax = "proto2";
+package raccoonai;
+
+option go_package = "./pb";
+
+// ==========================================================
+// Permify Common Structures
+// ==========================================================
+
+message PermifyMetadata {
+  optional string schema_version = 1 [json_name = "schema_version"];
+  optional string snap_token = 2 [json_name = "snap_token"];
+  optional int32 depth = 3 [json_name = "depth", default = 64];
+}
+
+message PermifyEntity {
+  required string type = 1 [json_name = "type"];
+  required string id = 2 [json_name = "id"];
+}
+
+message PermifySubject {
+  required string type = 1 [json_name = "type"];
+  required string id = 2 [json_name = "id"];
+  optional string relation = 3 [json_name = "relation"];
+}
+
+// ==========================================================
+// Request Payloads
+// ==========================================================
+
+message PermissionCheckRequest {
+  required PermifyMetadata metadata = 1 [json_name = "metadata"];
+  required PermifyEntity entity = 2 [json_name = "entity"];
+  required string permission = 3 [json_name = "permission"];
+  required PermifySubject subject = 4 [json_name = "subject"];
+}
+
+message BulkCheckItem {
+  required PermifyEntity entity = 1 [json_name = "entity"];
+  required string permission = 2 [json_name = "permission"];
+  required PermifySubject subject = 3 [json_name = "subject"];
+}
+
+message BulkCheckRequest {
+  required PermifyMetadata metadata = 1 [json_name = "metadata"];
+  repeated BulkCheckItem items = 2 [json_name = "items"];
+}
+
+message LookupEntityRequest {
+  required PermifyMetadata metadata = 1 [json_name = "metadata"];
+  required string entity_type = 2 [json_name = "entity_type"];
+  required string permission = 3 [json_name = "permission"];
+  required PermifySubject subject = 4 [json_name = "subject"];
+  optional int32 page_size = 5 [json_name = "page_size", default = 100];
+  optional string continuous_token = 6 [json_name = "continuous_token"];
+}
