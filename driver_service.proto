@@ -46,14 +46,14 @@ service DriverService {
   // Upload job-related file (e.g., photo evidence)
   rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
 
-  // ******** Route Releated RPCs *********** //
+  // ******** Route Related RPCs *********** //
   rpc AssignedRoutes(EmptyMessageRequest) returns (RouteList) {}
   // history of routes assigned to driver
   rpc GetRouteHistory(EmptyMessageRequest) returns (RouteList) {}
   // update container's location
   rpc UpdateContainerLocation(ContainerStatusUpdate) returns (MessageResponse) {}
 
-  // ******** Firebase Releated RPCs *********** //
+  // ******** Firebase Related RPCs *********** //
   // Subscribe or Unsubscribe
   rpc FirebaseNotifications(FirebaseNotificationsRequest) returns (FirebaseNotificationsResponse) {}
 
