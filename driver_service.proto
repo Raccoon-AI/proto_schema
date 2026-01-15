@@ -1,0 +1,61 @@
+syntax = "proto2";
+package raccoonai;
+
+import "container.proto";
+import "driver_on_shift.proto";
+import "general.proto";
+import "job.proto";
+import "route.proto";
+
+option go_package = "./pb";
+
+message JobFileUploadRequest {
+  required File file = 1 [json_name = "file"];
+  required JobFileType type = 2 [json_name = "type"];
+  optional uint64 job_id = 3 [json_name = "job_id"];
+}
+
+message MyLocationRequest {
+  required float lat = 1 [json_name = "lat"];
+  required float lon = 2 [json_name = "lon"];
+  optional float accuracy = 3 [json_name = "accuracy"];
+  optional float altitude = 4 [json_name = "altitude"];
+  optional float heading = 5 [json_name = "heading"];
+  optional float speed = 6 [json_name = "speed"];
+}
+
+message FirebaseNotificationsRequest {
+  required bool subscribe = 1 [json_name = "subscribe"];
+}
+
+// TODO: define response message properly
+// Does it need to return topic/token info?
+message FirebaseNotificationsResponse {
+  required bool success = 1 [json_name = "success"];
+  optional string message = 2 [json_name = "message"];
+}
+
+service DriverService {
+  rpc MyShift(EmptyMessageRequest) returns (DriverOnShift) {}
+  rpc SendMyLocation(MyLocationRequest) returns (MessageResponse) {}
+
+  // event calls
+  rpc SendDriverOnShiftEvent(DriverOnShiftEventIn) returns (DriverOnShift) {}
+  rpc SendJobEvent(JobEventIn) returns (Job) {}
+  rpc SendRouteEvent(RouteEventIn) returns (Route) {}
+  // Upload job-related file (e.g., photo evidence)
+  rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
+
+  // ******** Route Related RPCs *********** //
+  rpc AssignedRoutes(EmptyMessageRequest) returns (RouteList) {}
+  // history of routes assigned to driver
+  rpc GetRouteHistory(EmptyMessageRequest) returns (RouteList) {}
+  // update container's location
+  rpc UpdateContainerLocation(ContainerStatusUpdate) returns (MessageResponse) {}
+
+  // ******** Firebase Related RPCs *********** //
+  // Subscribe or Unsubscribe
+  rpc FirebaseNotifications(FirebaseNotificationsRequest) returns (FirebaseNotificationsResponse) {}
+
+  // TODO: add endpoints related to pins(depots, pickups) on the map
+}
