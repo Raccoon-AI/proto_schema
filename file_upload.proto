@@ -5,6 +5,8 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
+// TODO: DEPRECATE AFTER MIGRATION *********
+
 enum FileUploadType {
   FILE_UPLOAD_TYPE_UNDEFINED = 0;
   FILE_UPLOAD_TYPE_JOB_SERVICE_STARTED = 1;

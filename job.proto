@@ -93,6 +93,7 @@ message Job {
   optional bool is_created_by_client = 35 [json_name = "is_created_by_client"];
   optional uint64 scale_record_id = 36 [json_name = "scale_record_id"];
   optional User author = 37 [json_name = "author"];
+  repeated JobFileReport file_reports = 38 [json_name = "file_reports"];
 }
 
 message JobCreate {
@@ -165,4 +166,24 @@ message JobList {
 
 message JobRequest {
   required uint64 job_id = 1 [json_name = "job_id"];
+}
+
+enum JobFileType {
+  JOB_FILE_TYPE_UNDEFINED = 0;
+  JOB_FILE_TYPE_JOB_SERVICE_STARTED = 1; // FULL CONTAINER PHOTO
+  JOB_FILE_TYPE_JOB_SERVICE_ENDED = 2; // EMPTY_CONTAINER PHOTO
+  JOB_FILE_TYPE_PICKUP_LOCATION_VIEW = 3; // PICKUP LOCATION PHOTO
+}
+
+message JobFileReport {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 service_provider_id = 2 [json_name = "owner_organization_id"];
+  required uint64 service_receiver_id = 3 [json_name = "service_receiver_id"];
+  required string url = 4 [json_name = "url"];
+  required JobFileType type = 5 [json_name = "type"];
+  optional float lat = 6 [json_name = "lat"];
+  optional float lon = 7 [json_name = "lon"];
+  optional uint64 job_id = 8 [json_name = "job_id"];
+  optional uint64 contract_id = 9 [json_name = "contract_id"];
+  required google.protobuf.Timestamp created_at = 10 [json_name = "created_at"];
 }
