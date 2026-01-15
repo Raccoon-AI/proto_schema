@@ -40,7 +40,7 @@ service DriverService {
   rpc SendMyLocation(MyLocationRequest) returns (MessageResponse) {}
 
   // event calls
-  rpc SendDriverOnfShiftEvent(DriverOnShiftEventIn) returns (DriverOnShift) {}
+  rpc SendDriverOnShiftEvent(DriverOnShiftEventIn) returns (DriverOnShift) {}
   rpc SendJobEvent(JobEventIn) returns (Job) {}
   rpc SendRouteEvent(RouteEventIn) returns (Route) {}
   // Upload job-related file (e.g., photo evidence)
