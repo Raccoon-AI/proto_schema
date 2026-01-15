@@ -10,7 +10,7 @@ import "route.proto";
 option go_package = "./pb";
 
 message JobFileUploadRequest {
-  required FileUpload file = 1 [json_name = "file"];
+  required File file = 1 [json_name = "file"];
   required JobFileType type = 2 [json_name = "type"];
   optional uint64 job_id = 3 [json_name = "job_id"];
 }
