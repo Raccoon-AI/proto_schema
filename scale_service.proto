@@ -100,6 +100,27 @@ message RawScaleRecord {
   optional string receiver = 13 [json_name = "receiver"];
   optional string bin = 14 [json_name = "bin"];
   optional string photo_path = 15 [json_name = "photo_path"];
+
+  optional string product_code = 16 [json_name = "product_code"]; // Код номенклатуры в 1С (продукция)
+  optional string sender_code = 17 [json_name = "sender_code"]; // Код контрагента в 1С (поставщик)
+  optional string receiver_code = 18 [json_name = "receiver_code"]; // Код контрагента в 1С (получатель)
+  optional string invoice_num = 19 [json_name = "invoice_num"]; // Номер накладной(с весовой)
+  optional string operation_code = 20 [json_name = "operation_code"]; // Код операции с 1С
+  optional string document_invoice_num = 21 [json_name = "document_invoice_num"]; // Номер накладной(от поставщика по документам)
+  optional double document_brutto_kg = 22 [json_name = "document_brutto_kg"]; // Брутто по документам(поставщика)
+  optional double document_netto_kg = 23 [json_name = "document_netto_kg"]; // Нетто по документам(поставщика)
+  optional double document_tare_kg = 24 [json_name = "document_tare_kg"]; // Тара по документам(поставщика)
+  optional double document_volume = 25 [json_name = "document_volume"]; // Объем по документам(поставщика)
+  optional string permit_num = 26 [json_name = "permit_num"]; // Номер пропуска
+  optional string order_num = 27 [json_name = "order_num"]; // Номер заказа
+  optional string seal_num = 28 [json_name = "seal_num"]; // Номер пломбы
+  optional string scale_net_num = 29 [json_name = "scale_net_num"]; // Сетевой номер автовесов
+  optional string delete_mark = 30 [json_name = "delete_mark"]; // Метка на удаление записи
+  optional string commentary = 31 [json_name = "commentary"]; // Комментарий
+  optional double weight1 = 32 [json_name = "weight1"]; // Вес при первом завесе
+  optional double weight2 = 33 [json_name = "weight2"]; // Вес при втором завесе
+  optional double humidity = 34 [json_name = "humidity"]; // Влажность
+  optional double nettomodif = 35 [json_name = "nettomodif"]; // Чистый вес нетто с учетом тары и влажности
 }
 
 service ScaleService {
