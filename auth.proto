@@ -20,9 +20,11 @@ message OTPCreate {
 }
 
 message OTPRequest {
-  required string phone_number = 1 [json_name = "phone_number"];
-  // Language for OTP message, e.g., "en", "fr", etc.
-  required string lang = 2 [json_name = "lang"];
+  optional string phone_number = 1 [json_name = "phone_number"];
+  optional string email = 2 [json_name = "email"];
+  required string lang = 3 [json_name = "lang"];
+  // "whatsapp" or "email"
+  required string preferred_method = 4 [json_name = "preferred_method"];
 }
 
 message LoginOTPRequest {
