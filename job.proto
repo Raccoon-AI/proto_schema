@@ -177,7 +177,7 @@ enum JobFileType {
 
 message JobFileReport {
   required uint64 id = 1 [json_name = "id"];
-  required uint64 service_provider_id = 2 [json_name = "owner_organization_id"];
+  required uint64 service_provider_id = 2 [json_name = "service_provider_id"];
   required uint64 service_receiver_id = 3 [json_name = "service_receiver_id"];
   required string url = 4 [json_name = "url"];
   required JobFileType type = 5 [json_name = "type"];
