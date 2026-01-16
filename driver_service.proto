@@ -3,15 +3,16 @@ package raccoonai;
 
 import "container.proto";
 import "driver_on_shift.proto";
+import "file_upload.proto";
 import "general.proto";
 import "job.proto";
 import "route.proto";
 
 option go_package = "./pb";
 
-message JobFileUploadRequest {
+message FileUploadRequest {
   required File file = 1 [json_name = "file"];
-  required JobFileType type = 2 [json_name = "type"];
+  required FileUploadType type = 2 [json_name = "type"];
   optional uint64 job_id = 3 [json_name = "job_id"];
 }
 
@@ -44,7 +45,7 @@ service DriverService {
   rpc SendJobEvent(JobEventIn) returns (Job) {}
   rpc SendRouteEvent(RouteEventIn) returns (Route) {}
   // Upload job-related file (e.g., photo evidence)
-  rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
+  rpc UploadJobFile(FileUploadRequest) returns (MessageResponse) {}
 
   // ******** Route Related RPCs *********** //
   rpc AssignedRoutes(EmptyMessageRequest) returns (RouteList) {}

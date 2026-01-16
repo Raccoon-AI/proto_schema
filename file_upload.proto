@@ -12,6 +12,7 @@ enum FileUploadType {
   FILE_UPLOAD_TYPE_JOB_SERVICE_STARTED = 1;
   FILE_UPLOAD_TYPE_JOB_SERVICE_ENDED = 2;
   FILE_UPLOAD_TYPE_PICKUP_LOCATION_VIEW = 3;
+  FILE_UPLOAD_TYPE_CONTRACT_DOCUMENT = 4;
 }
 
 message FileUpload {
@@ -24,6 +25,7 @@ message FileUpload {
   optional uint64 job_id = 7 [json_name = "job_id"];
   optional uint64 contract_id = 8 [json_name = "contract_id"];
   required google.protobuf.Timestamp created_at = 9 [json_name = "created_at"];
+  optional uint64 author_id = 10 [json_name = "author_id"];
 }
 
 message FileUploadCreate {
@@ -33,4 +35,14 @@ message FileUploadCreate {
   optional float lon = 4 [json_name = "lon"];
   optional uint64 job_id = 5 [json_name = "job_id"];
   optional uint64 contract_id = 6 [json_name = "contract_id"];
+  optional uint64 author_id = 7 [json_name = "author_id"];
+}
+
+message File {
+  optional string bytes = 1 [json_name = "bytes"]; // base64-encoded image data
+  optional string name = 2 [json_name = "name"];
+  optional string format = 3 [json_name = "format"]; // e.g., "jpg", "png"
+  optional float lat = 4 [json_name = "lat"];
+  optional float lon = 5 [json_name = "lon"];
+  optional google.protobuf.Timestamp ts = 6 [json_name = "ts"];
 }
