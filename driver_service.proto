@@ -3,6 +3,7 @@ package raccoonai;
 
 import "container.proto";
 import "driver_on_shift.proto";
+import "file_upload.proto";
 import "general.proto";
 import "job.proto";
 import "route.proto";
@@ -11,7 +12,7 @@ option go_package = "./pb";
 
 message JobFileUploadRequest {
   required File file = 1 [json_name = "file"];
-  required JobFileType type = 2 [json_name = "type"];
+  required FileUploadType type = 2 [json_name = "type"];
   optional uint64 job_id = 3 [json_name = "job_id"];
 }
 
