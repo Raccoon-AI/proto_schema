@@ -10,7 +10,7 @@ import "route.proto";
 
 option go_package = "./pb";
 
-message FileUploadRequest {
+message JobFileUploadRequest {
   required File file = 1 [json_name = "file"];
   required FileUploadType type = 2 [json_name = "type"];
   optional uint64 job_id = 3 [json_name = "job_id"];
@@ -45,7 +45,7 @@ service DriverService {
   rpc SendJobEvent(JobEventIn) returns (Job) {}
   rpc SendRouteEvent(RouteEventIn) returns (Route) {}
   // Upload job-related file (e.g., photo evidence)
-  rpc UploadJobFile(FileUploadRequest) returns (MessageResponse) {}
+  rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
 
   // ******** Route Related RPCs *********** //
   rpc AssignedRoutes(EmptyMessageRequest) returns (RouteList) {}
