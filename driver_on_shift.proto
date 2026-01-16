@@ -58,6 +58,7 @@ message DriverOnShift {
   optional google.protobuf.Timestamp tw_start_at = 15 [json_name = "tw_start_at"];
   optional google.protobuf.Timestamp tw_end_at = 16 [json_name = "tw_end_at"];
   optional uint64 capacity = 17 [json_name = "capacity"];
+  optional bool visible_to_ai = 18 [json_name = "visible_to_ai"];
 }
 
 message DriverOnShiftCreate {
@@ -71,6 +72,7 @@ message DriverOnShiftCreate {
   optional google.protobuf.Timestamp tw_start_at = 8 [json_name = "tw_start_at"];
   optional google.protobuf.Timestamp tw_end_at = 9 [json_name = "tw_end_at"];
   optional uint64 capacity = 10 [json_name = "capacity"];
+  optional bool visible_to_ai = 11 [json_name = "visible_to_ai"];
 }
 
 message DriverOnShiftUpdate {
@@ -87,6 +89,7 @@ message DriverOnShiftUpdate {
   optional google.protobuf.Timestamp tw_start_at = 11 [json_name = "tw_start_at"];
   optional google.protobuf.Timestamp tw_end_at = 12 [json_name = "tw_end_at"];
   optional uint64 capacity = 13 [json_name = "capacity"];
+  optional bool visible_to_ai = 14 [json_name = "visible_to_ai"];
 }
 
 message DriverOnShiftStatusUpdate {
