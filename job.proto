@@ -19,6 +19,14 @@ enum JobType {
   JOB_TYPE_MSW = 4; // Municipal Solid Waste
 }
 
+enum JobCategory {
+  JOB_CATEGORY_UNDEFINED = 0;
+  JOB_CATEGORY_CO = 1;
+  JOB_CATEGORY_MSW = 2;
+  JOB_CATEGORY_LIQUID = 3;
+  JOB_CATEGORY_DESINFECTION = 4;
+}
+
 enum JobStatus {
   JOB_STATUS_UNDEFINED = 0;
   JOB_STATUS_CREATED = 1;
