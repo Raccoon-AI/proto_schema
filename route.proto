@@ -15,6 +15,15 @@ enum RouteStatus {
   ROUTE_STATUS_CANCELLED = 5;
 }
 
+enum RouteCategory {
+  ROUTE_CATEGORY_UNDEFINED = 0;
+  ROUTE_CATEGORY_CO = 1;
+  ROUTE_CATEGORY_MSW = 2;
+  ROUTE_CATEGORY_LIQUID = 3;
+  ROUTE_CATEGORY_TIPPER = 4;
+  ROUTE_CATEGORY_DISINFECTION = 5;
+}
+
 enum RouteEvent {
   ROUTE_EVENT_UNDEFINED = 0;
   ROUTE_EVENT_CREATE_ROUTE = 1;
@@ -57,6 +66,7 @@ message Route {
   optional google.protobuf.Timestamp gps_start_at = 21 [json_name = "gps_start_at"];
   optional google.protobuf.Timestamp gps_end_at = 22 [json_name = "gps_end_at"];
   optional uint64 scale_record_id = 23 [json_name = "scale_record_id"];
+  optional RouteCategory route_category = 24 [json_name = "route_category"];
 }
 
 message RouteCreate {
@@ -74,6 +84,7 @@ message RouteCreate {
   optional double netto = 12 [json_name = "netto"];
   optional uint64 source_location_id = 13 [json_name = "source_location_id"];
   required uint64 destination_location_id = 14 [json_name = "destination_location_id"];
+  optional RouteCategory route_category = 15 [json_name = "route_category"];
 }
 
 message RouteUpdate {
@@ -95,6 +106,7 @@ message RouteUpdate {
   optional uint64 current_step_idx = 16 [json_name = "current_step_idx"];
   optional google.protobuf.Timestamp gps_start_at = 17 [json_name = "gps_start_at"];
   optional google.protobuf.Timestamp gps_end_at = 18 [json_name = "gps_end_at"];
+  optional RouteCategory route_category = 19 [json_name = "route_category"];
 }
 
 message RouteCreateWithJobs {
