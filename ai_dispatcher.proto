@@ -1,0 +1,36 @@
+syntax = "proto2";
+package raccoonai;
+
+import "job.proto";
+import "route.proto";
+
+option go_package = "./pb";
+
+//message OnDriverIdlePayload {
+//  required uint64 service_provider_id = 1;
+//  required uint64 driver_on_shift_id = 2;
+//}
+
+message AIDispatcherRequest {
+  required uint64 service_provider_id = 1;
+}
+
+message AssignmentResponse {
+  optional RouteCreate route = 1;
+  repeated JobUpdate jobs = 2;
+}
+
+message BulkAssignmentResponse {
+  repeated AssignmentResponse responses = 1;
+}
+
+message CapacityPlanResponse {
+  required uint64 num_existing_jobs = 1;
+  required uint64 num_expected_jobs = 2;
+  required uint64 num_drivers_minimum = 3;
+}
+
+service AIDispatcherV4 {
+  rpc OnDispatcherHeartbeat(AIDispatcherRequest) returns (BulkAssignmentResponse);
+  rpc OnCapacityPlan(AIDispatcherRequest) returns (CapacityPlanResponse);
+}
