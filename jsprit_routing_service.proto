@@ -2,8 +2,8 @@ syntax = "proto2";
 
 package routing.v1;
 
-option java_package = "com.raccoonai.routing.grpc";
 option java_outer_classname = "RoutingServiceProto";
+option java_package = "com.raccoonai.routing.grpc";
 
 // Main service definition
 service JspritRoutingService {
@@ -17,262 +17,318 @@ service JspritRoutingService {
 
 // Matrix management messages
 message InitializeMatrixRequest {
-  required string matrix_key = 1;
-  required uint32 time_dimension_size = 2;
-  required uint32 row_size = 3;
-  required uint32 column_size = 4;
+  required string matrix_key = 1 [json_name = "matrix_key"];
+  required uint32 time_dimension_size = 2 [json_name = "responses"];
+  required uint32 row_size = 3 [json_name = "row_size"];
+  required uint32 column_size = 4 [json_name = "column_size"];
 }
 
 message InitializeMatrixResponse {
-  required string response_status = 1;
-  optional string error_message = 2;
+  required string response_status = 1 [json_name = "response_status"];
+  optional string error_message = 2 [json_name = "error_message"];
 }
 
 message UpsertMatrixChunkRequest {
-  required string matrix_key = 1;
-  required uint32 time_dimension = 2;
-  required uint32 row = 3;
-  repeated float data = 4;  // [column_size] data for specific time slice & row
+  required string matrix_key = 1 [json_name = "matrix_key"];
+  required uint32 time_dimension = 2 [json_name = "time_dimension"];
+  required uint32 row = 3 [json_name = "row"];
+  repeated float data = 4 [json_name = "data"]; // [column_size] data for specific time slice & row
 }
 
 message UpsertMatrixChunkResponse {
-  required string response_status = 1;
-  optional string error_message = 2;
-  optional uint32 chunks_received = 3;
-  optional uint32 total_chunks_expected = 4;
+  required string response_status = 1 [json_name = "response_status"];
+  optional string error_message = 2 [json_name = "error_message"];
+  optional uint32 chunks_received = 3 [json_name = "chunks_received"];
+  optional uint32 total_chunks_expected = 4 [json_name = "total_chunks_expected"];
 }
 
 message DeleteMatrixRequest {
-  required string matrix_key = 1;
+  required string matrix_key = 1 [json_name = "matrix_key"];
 }
 
 message DeleteMatrixResponse {
-  required string response_status = 1;
-  optional string error_message = 2;
+  required string response_status = 1 [json_name = "response_status"];
+  optional string error_message = 2 [json_name = "error_message"];
 }
 
 message GetMatrixInfoRequest {
-  required string matrix_key = 1;
+  required string matrix_key = 1 [json_name = "matrix_key"];
 }
 
 message GetMatrixInfoResponse {
-  required string response_status = 1;
-  optional string error_message = 2;
-  optional MatrixInfo matrix_info = 3;
+  required string response_status = 1 [json_name = "response_status"];
+  optional string error_message = 2 [json_name = "error_message"];
+  optional MatrixInfo matrix_info = 3 [json_name = "matrix_info"];
 }
 
 message MatrixInfo {
-  required string matrix_key = 1;
-  required uint32 time_dimension_size = 2;
-  required uint32 row_size = 3;
-  required uint32 column_size = 4;
-  required bool is_fully_populated = 5;
-  optional uint64 created_timestamp = 6;
-  optional uint64 last_accessed_timestamp = 7;
-  optional uint32 access_count = 8;
+  required string matrix_key = 1 [json_name = "matrix_key"];
+  required uint32 time_dimension_size = 2 [json_name = "time_dimension_size"];
+  required uint32 row_size = 3 [json_name = "row_size"];
+  required uint32 column_size = 4 [json_name = "column_size"];
+  required bool is_fully_populated = 5 [json_name = "is_fully_populated"];
+  optional uint64 created_timestamp = 6 [json_name = "created_timestamp"];
+  optional uint64 last_accessed_timestamp = 7 [json_name = "last_accessed_timestamp"];
+  optional uint32 access_count = 8 [json_name = "access_count"];
 }
 
 message ListMatricesRequest {
-  optional bool include_incomplete = 1 [default = false];
+  optional bool include_incomplete = 1 [
+    default = false,
+    json_name = "include_incomplete"
+  ];
 }
 
 message ListMatricesResponse {
-  required string response_status = 1;
-  optional string error_message = 2;
-  repeated MatrixInfo matrices = 3;
+  required string response_status = 1 [json_name = "response_status"];
+  optional string error_message = 2 [json_name = "error_message"];
+  repeated MatrixInfo matrices = 3 [json_name = "matrices"];
 }
 
 // Problem definition and solving
 message MatrixConfig {
-  // jsprit algorithm configuration
-  optional int32 max_iterations = 1 [default = 2000];
-//  optional string algorithm_type = 2 [default = "jsprit"];
-//  optional bool enable_breaks = 3 [default = false];
-//  optional bool enable_parallel_search = 4 [default = false];
+  optional int32 max_iterations = 1 [
+    default = 2000,
+    json_name = "max_iterations"
+  ];
 
   // Time constraints
-  optional int64 planning_horizon_start = 5;  // Unix timestamp in seconds
-  optional int64 planning_horizon_end = 6;    // Unix timestamp in seconds
+  optional int64 planning_horizon_start = 5 [json_name = "planning_horizon_start"]; // Unix timestamp in seconds
+  optional int64 planning_horizon_end = 6 [json_name = "planning_horizon_end"]; // Unix timestamp in seconds
 
   // Vehicle fleet configuration
-  repeated VehicleConfig vehicles = 7;
+  repeated VehicleConfig vehicles = 7 [json_name = "vehicles"];
 
   // Service jobs configuration
-  repeated ServiceConfig services = 8;
+  repeated ServiceConfig services = 8 [json_name = "services"];
 
   // Shipment configuration
-  repeated ShipmentConfig shipments = 9;
+  repeated ShipmentConfig shipments = 9 [json_name = "shipments"];
 
   // Depot configuration
-  optional DepotConfig depot = 10;
-
-  // Additional solver parameters
-//  optional SolverParams solver_params = 10;
+  optional DepotConfig depot = 10 [json_name = "depot"];
 }
 
 message VehicleConfig {
-  required string vehicle_id = 1;
+  required string vehicle_id = 1 [json_name = "vehicle_id"];
   // Multi-dimensional vehicle capacities. Each index represents a capacity dimension.
   // Example: capacities[0] = pallets, capacities[1] = volume, etc.
-  repeated int32 capacities = 2;
-  optional string start_location = 3;
-  optional string end_location = 4;
-  optional int64 earliest_start = 5;  // Unix timestamp in seconds
-  optional int64 latest_arrival = 6;  // Unix timestamp in seconds
-  optional BreakConfig break_config = 7;
-  repeated string skills = 8;  // Vehicle capabilities
-  optional double cost_per_distance = 9 [default = 1.0];
-  optional double cost_per_time = 10 [default = 1.0];
+  repeated int32 capacities = 2 [json_name = "capacities"];
+  optional string start_location = 3 [json_name = "start_location"];
+  optional string end_location = 4 [json_name = "end_location"];
+  optional int64 earliest_start = 5 [json_name = "earliest_start"]; // Unix timestamp in seconds
+  optional int64 latest_arrival = 6 [json_name = "latest_arrival"]; // Unix timestamp in seconds
+  optional BreakConfig break_config = 7 [json_name = "break_config"];
+  repeated string skills = 8 [json_name = "skills"]; // Vehicle capabilities
+  optional double cost_per_distance = 9 [
+    default = 1.0,
+    json_name = "cost_per_distance"
+  ];
+  optional double cost_per_time = 10 [
+    default = 1.0,
+    json_name = "cost_per_time"
+  ];
 }
 
 message ServiceConfig {
-  required string service_id = 1;
-  required string location = 2;
+  required string service_id = 1 [json_name = "service_id"];
+  required string location = 2 [json_name = "location"];
   // Multi-dimensional service demands (size vector). Missing dimensions are treated as 0.
-  repeated int32 demands = 3;
-  optional int32 service_time = 4 [default = 0];  // in seconds
-  optional TimeWindow time_window = 5;
-  repeated string required_skills = 6;  // Skills required for this service
-  optional int32 priority = 7 [default = 1];  // Higher number = higher priority
+  repeated int32 demands = 3 [json_name = "demands"];
+  optional int32 service_time = 4 [
+    default = 0,
+    json_name = "service_time"
+  ]; // in seconds
+  optional TimeWindow time_window = 5 [json_name = "time_window"];
+  repeated string required_skills = 6 [json_name = "required_skills"]; // Skills required for this service
+  optional int32 priority = 7 [
+    default = 1,
+    json_name = "priority"
+  ]; // Higher number = higher priority
 }
 
 message ShipmentConfig {
-  required string shipment_id = 1;
+  required string shipment_id = 1 [json_name = "shipment_id"];
 
   // Pickup configuration
-  required string pickup_location = 2;
+  required string pickup_location = 2 [json_name = "pickup_location"];
   // Multi-dimensional pickup demands (size vector). Missing dimensions are treated as 0.
-  repeated int32 pickup_demands = 3;
-  optional int32 pickup_service_time = 4 [default = 0];  // in seconds
-  optional TimeWindow pickup_time_window = 5;
+  repeated int32 pickup_demands = 3 [json_name = "pickup_demands"];
+  optional int32 pickup_service_time = 4 [
+    default = 0,
+    json_name = "pickup_service_time"
+  ]; // in seconds
+  optional TimeWindow pickup_time_window = 5 [json_name = "pickup_time_window"];
 
   // Delivery configuration
-  required string delivery_location = 6;
+  required string delivery_location = 6 [json_name = "delivery_location"];
   // Multi-dimensional delivery demands (size vector). Must equal pickup_demands (after padding).
-  repeated int32 delivery_demands = 7;  // Must equal pickup_demands
-  optional int32 delivery_service_time = 8 [default = 0];  // in seconds
-  optional TimeWindow delivery_time_window = 9;
+  repeated int32 delivery_demands = 7 [json_name = "delivery_demands"]; // Must equal pickup_demands
+  optional int32 delivery_service_time = 8 [
+    default = 0,
+    json_name = "delivery_service_time"
+  ]; // in seconds
+  optional TimeWindow delivery_time_window = 9 [json_name = "delivery_time_window"];
 
   // Common configuration
-  repeated string required_skills = 10;  // Skills required for this shipment
-  optional int32 priority = 11 [default = 1];  // Higher number = higher priority
+  repeated string required_skills = 10 [json_name = "required_skills"]; // Skills required for this shipment
+  optional int32 priority = 11 [
+    default = 1,
+    json_name = "priority"
+  ]; // Higher number = higher priority
 }
 
 message DepotConfig {
-  required string location = 1;
-  optional int64 earliest_departure = 2;  // Unix timestamp in seconds
-  optional int64 latest_return = 3;        // Unix timestamp in seconds
+  required string location = 1 [json_name = "location"];
+  optional int64 earliest_departure = 2 [json_name = "earliest_departure"]; // Unix timestamp in seconds
+  optional int64 latest_return = 3 [json_name = "latest_return"]; // Unix timestamp in seconds
 }
 
 message BreakConfig {
-  optional int64 start_time = 1;     // Unix timestamp in seconds
-  optional int64 end_time = 2;       // Unix timestamp in seconds
-  optional int32 duration = 3 [default = 1800];  // in seconds (default 30 minutes)
-  optional string location = 4;      // Where break should be taken
-  optional bool is_mandatory = 5 [default = true];
-  optional int32 priority = 6;
+  optional int64 start_time = 1 [json_name = "start_time"]; // Unix timestamp in seconds
+  optional int64 end_time = 2 [json_name = "end_time"]; // Unix timestamp in seconds
+  optional int32 duration = 3 [
+    default = 1800,
+    json_name = "duration"
+  ]; // in seconds (default 30 minutes)
+  optional string location = 4 [json_name = "location"]; // Where break should be taken
+  optional bool is_mandatory = 5 [
+    default = true,
+    json_name = "is_mandatory"
+  ];
+  optional int32 priority = 6 [json_name = "priority"];
 }
 
 message TimeWindow {
-  required int64 start = 1;  // Unix timestamp in seconds
-  required int64 end = 2;    // Unix timestamp in seconds
+  required int64 start = 1 [json_name = "start"]; // Unix timestamp in seconds
+  required int64 end = 2 [json_name = "end"]; // Unix timestamp in seconds
 }
 
 message TimeWindowAnalysis {
-  optional int64 earliest_possible_start = 1;    // From activity time window
-  optional int64 latest_possible_start = 2;      // From activity time window
-  optional int64 actual_start_time = 3;            // From solution
-  optional int64 time_window_slack = 4;           // How early we arrive (positive)
-  optional int64 time_window_violation = 5;       // How late we arrive (positive)
-  optional TimeWindowStatus status = 6;            // Clear status indicator
+  optional int64 earliest_possible_start = 1 [json_name = "earliest_possible_start"]; // From activity time window
+  optional int64 latest_possible_start = 2 [json_name = "latest_possible_start"]; // From activity time window
+  optional int64 actual_start_time = 3 [json_name = "actual_start_time"]; // From solution
+  optional int64 time_window_slack = 4 [json_name = "time_window_slack"]; // How early we arrive (positive)
+  optional int64 time_window_violation = 5 [json_name = "time_window_violation"]; // How late we arrive (positive)
+  optional TimeWindowStatus status = 6 [json_name = "status"]; // Clear status indicator
 }
 
 enum TimeWindowStatus {
-  TIME_WINDOW_UNKNOWN = 0;
-  TIME_WINDOW_ON_TIME = 1;           // Within time window
-  TIME_WINDOW_EARLY = 2;             // Arrived before window (waiting)
-  TIME_WINDOW_LATE = 3;              // Violated time window
-  TIME_WINDOW_NO_CONSTRAINT = 4;     // No time window defined
+  TIME_WINDOW_STATUS_UNDEFINED = 0;
+  TIME_WINDOW_STATUS_ON_TIME = 1; // Within time window
+  TIME_WINDOW_STATUS_EARLY = 2; // Arrived before window (waiting)
+  TIME_WINDOW_STATUS_LATE = 3; // Violated time window
+  TIME_WINDOW_STATUS_NO_CONSTRAINT = 4; // No time window defined
 }
 
 message SolverParams {
-  optional double ruin_share = 1 [default = 0.3];
-  optional int32 min_ruin_size = 2 [default = 1];
-  optional int32 max_ruin_size = 3 [default = 200];
-  optional double regret_weight = 4 [default = 1.0];
-  optional int32 threads = 5 [default = 1];
+  optional double ruin_share = 1 [
+    default = 0.3,
+    json_name = "ruin_share"
+  ];
+  optional int32 min_ruin_size = 2 [
+    default = 1,
+    json_name = "min_ruin_size"
+  ];
+  optional int32 max_ruin_size = 3 [
+    default = 200,
+    json_name = "max_ruin_size"
+  ];
+  optional double regret_weight = 4 [
+    default = 1.0,
+    json_name = "regret_weight"
+  ];
+  optional int32 threads = 5 [
+    default = 1,
+    json_name = "threads"
+  ];
 }
 
 message SolveRequest {
-  required MatrixConfig config = 1;
-  required string matrix_key = 2;
-  optional int64 timeout_ms = 3 [default = 30000];  // 30 seconds default
-  optional bool return_detailed_solution = 4 [default = true];
-  optional bool include_time_window_analysis = 5 [default = false];
-  optional bool include_extended_activity_details = 6 [default = false];
+  required MatrixConfig config = 1 [json_name = "config"];
+  required string matrix_key = 2 [json_name = "matrix_key"];
+  optional int64 timeout_ms = 3 [
+    default = 30000,
+    json_name = "timeout_ms"
+  ]; // 30 seconds default
+  optional bool return_detailed_solution = 4 [
+    default = true,
+    json_name = "return_detailed_solution"
+  ];
+  optional bool include_time_window_analysis = 5 [
+    default = false,
+    json_name = "include_time_window_analysis"
+  ];
+  optional bool include_extended_activity_details = 6 [
+    default = false,
+    json_name = "include_extended_activity_details"
+  ];
 }
 
 message SolveResponse {
-  required string response_status = 1;
-  repeated JspritRoute routes = 2;
-  optional SolutionStats stats = 3;
-  optional string error_message = 4;
-  optional SolveMetadata metadata = 5;
+  required string response_status = 1 [json_name = "response_status"];
+  repeated JspritRoute routes = 2 [json_name = "routes"];
+  optional SolutionStats stats = 3 [json_name = "stats"];
+  optional string error_message = 4 [json_name = "error_message"];
+  optional SolveMetadata metadata = 5 [json_name = "metadata"];
 }
 
 message JspritRoute {
-  required string vehicle_id = 1;
-  repeated Stop stops = 2;
-  optional double total_cost = 3;
-  optional double total_distance = 4;
-  optional double total_time = 5;
-  optional double total_wait_time = 6;
-  optional double total_service_time = 7;
+  required string vehicle_id = 1 [json_name = "vehicle_id"];
+  repeated Stop stops = 2 [json_name = "stops"];
+  optional double total_cost = 3 [json_name = "total_cost"];
+  optional double total_distance = 4 [json_name = "total_distance"];
+  optional double total_time = 5 [json_name = "total_time"];
+  optional double total_wait_time = 6 [json_name = "total_wait_time"];
+  optional double total_service_time = 7 [json_name = "total_service_time"];
 }
 
 message Stop {
   // Identifier of the job associated with this stop.
   // Now stores the underlying job ID:
-  // - For StopType.SERVICE: the ServiceConfig.service_id
-  // - For StopType.PICKUP: the ShipmentConfig.shipment_id
-  // - For StopType.DELIVERY: the ShipmentConfig.shipment_id
-  // - For StopType.DEPARTURE and StopType.ARRIVAL: may be empty or a vehicle/depot related id if applicable
-  required string stop_id = 1;
-  required string location = 2;
-  optional int64 arrival_time = 3;      // Unix timestamp in seconds
-  optional int64 departure_time = 4;    // Unix timestamp in seconds
-  optional int32 service_time = 5;       // in seconds
-  optional int32 wait_time = 6;          // in seconds
-  optional StopType type = 7 [default = SERVICE];
-  optional double accumulated_cost = 8;
-  optional double accumulated_distance = 9;
-  optional TimeWindowAnalysis time_window_analysis = 10;
+  // - For StopType.STOP_TYPE_SERVICE: the ServiceConfig.service_id
+  // - For StopType.STOP_TYPE_PICKUP: the ShipmentConfig.shipment_id
+  // - For StopType.STOP_TYPE_DELIVERY: the ShipmentConfig.shipment_id
+  // - For StopType.STOP_TYPE_DEPARTURE_UNDEFINED and StopType.STOP_TYPE_ARRIVAL: may be empty or a vehicle/depot related id if applicable
+  required string stop_id = 1 [json_name = "stop_id"];
+  required string location = 2 [json_name = "location"];
+  optional int64 arrival_time = 3 [json_name = "arrival_time"]; // Unix timestamp in seconds
+  optional int64 departure_time = 4 [json_name = "departure_time"]; // Unix timestamp in seconds
+  optional int32 service_time = 5 [json_name = "service_time"]; // in seconds
+  optional int32 wait_time = 6 [json_name = "wait_time"]; // in seconds
+  optional StopType type = 7 [
+    default = STOP_TYPE_SERVICE,
+    json_name = "type"
+  ];
+  optional double accumulated_cost = 8 [json_name = "accumulated_cost"];
+  optional double accumulated_distance = 9 [json_name = "accumulated_distance"];
+  optional TimeWindowAnalysis time_window_analysis = 10 [json_name = "time_window_analysis"];
 }
 
 enum StopType {
-  DEPARTURE = 0;
-  SERVICE = 1;
-  BREAK = 2;
-  ARRIVAL = 3;
+  STOP_TYPE_DEPARTURE_UNDEFINED = 0;
+  STOP_TYPE_SERVICE = 1;
+  STOP_TYPE_BREAK = 2;
+  STOP_TYPE_ARRIVAL = 3;
   // Added specific shipment activities
-  PICKUP = 4;
-  DELIVERY = 5;
+  STOP_TYPE_PICKUP = 4;
+  STOP_TYPE_DELIVERY = 5;
 }
 
 message SolutionStats {
-  required int32 total_vehicles_used = 1;
-  required int32 unassigned_services = 2;
-  required double total_cost = 3;
-  required int64 computation_time_ms = 4;
-  optional int32 algorithm_iterations = 5;
-  optional double solution_quality = 6;  // Quality metric (0-1)
-  optional int32 total_distance = 7;     // in meters
-  optional int32 total_time = 8;         // in seconds
+  required int32 total_vehicles_used = 1 [json_name = "total_vehicles_used"];
+  required int32 unassigned_services = 2 [json_name = "unassigned_services"];
+  required double total_cost = 3 [json_name = "total_cost"];
+  required int64 computation_time_ms = 4 [json_name = "computation_time_ms"];
+  optional int32 algorithm_iterations = 5 [json_name = "algorithm_iterations"];
+  optional double solution_quality = 6 [json_name = "solution_quality"]; // Quality metric (0-1)
+  optional int32 total_distance = 7 [json_name = "total_distance"]; // in meters
+  optional int32 total_time = 8 [json_name = "total_time"]; // in seconds
 }
 
 message SolveMetadata {
-  optional string algorithm_used = 1;
-  optional int32 iterations_completed = 2;
-  optional bool timeout_reached = 3;
-  optional string solver_version = 4;
+  optional string algorithm_used = 1 [json_name = "algorithm_used"];
+  optional int32 iterations_completed = 2 [json_name = "iterations_completed"];
+  optional bool timeout_reached = 3 [json_name = "timeout_reached"];
+  optional string solver_version = 4 [json_name = "solver_version"];
 }

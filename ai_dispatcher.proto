@@ -1,31 +1,23 @@
 syntax = "proto2";
 package raccoonai;
 
-import "general.proto";
 import "job.proto";
 import "route.proto";
 
-
 option go_package = "./pb";
 
-//message OnDriverIdlePayload {
-//  required uint64 service_provider_id = 1;
-//  required uint64 driver_on_shift_id = 2;
-//}
-
 message AIDispatcherRequest {
-  required uint64 service_provider_id = 1;
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
 }
 
 message AssignmentResponse {
-  optional RouteCreate route = 1;
-  repeated JobUpdate jobs = 2;
+  required RouteCreate route = 1 [json_name = "route"];
+  repeated JobUpdate jobs = 2 [json_name = "jobs"];
 }
 
 message BulkAssignmentResponse {
-  repeated AssignmentResponse responses = 1;
+  repeated AssignmentResponse responses = 1 [json_name = "responses"];
 }
-
 
 enum CapacityPlanResponseStatus {
   CAPACITY_PLAN_RESPONSE_STATUS_UNDEFINED = 0;
@@ -35,13 +27,13 @@ enum CapacityPlanResponseStatus {
 }
 
 message CapacityPlanResponse {
-  required CapacityPlanResponseStatus status = 1;
-  required uint64 num_existing_jobs = 2;
-  required uint64 num_expected_jobs = 3;
-  required uint64 num_drivers_minimum = 4;
+  required CapacityPlanResponseStatus status = 1 [json_name = "status"];
+  required uint64 num_existing_jobs = 2 [json_name = "num_existing_jobs"];
+  required uint64 num_expected_jobs = 3 [json_name = "num_expected_jobs"];
+  required uint64 num_drivers_minimum = 4 [json_name = "num_drivers_minimum"];
 
-  optional string error_message = 5;
-  optional string info_json = 8;
+  optional string error_message = 5 [json_name = "error_message"];
+  optional string info_json = 8 [json_name = "info_json"];
 }
 
 service AIDispatcherV4 {
