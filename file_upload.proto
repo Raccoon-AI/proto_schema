@@ -41,7 +41,7 @@ message FileUploadCreate {
 message File {
   optional string bytes = 1 [json_name = "bytes"]; // base64-encoded image data
   optional string name = 2 [json_name = "name"];
-  optional string format = 3 [json_name = "format"]; // e.g., "jpg", "png"
+  optional string format = 3 [json_name = "format"]; // e.g., jpg, png
   optional float lat = 4 [json_name = "lat"];
   optional float lon = 5 [json_name = "lon"];
   optional google.protobuf.Timestamp ts = 6 [json_name = "ts"];

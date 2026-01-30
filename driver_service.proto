@@ -14,6 +14,11 @@ message JobFileUploadRequest {
   required File file = 1 [json_name = "file"];
   required FileUploadType type = 2 [json_name = "type"];
   optional uint64 job_id = 3 [json_name = "job_id"];
+  optional uint64 contract_id = 4 [json_name = "contract_id"];
+}
+
+message JobFileUploadResponse {
+  required FileUpload file_upload = 1 [json_name = "file_upload"];
 }
 
 message MyLocationRequest {
@@ -27,6 +32,7 @@ message MyLocationRequest {
 
 message FirebaseNotificationsRequest {
   required bool subscribe = 1 [json_name = "subscribe"];
+  optional string fcm_token = 2 [json_name = "fcm_token"];
 }
 
 // TODO: define response message properly
@@ -45,7 +51,7 @@ service DriverService {
   rpc SendJobEvent(JobEventIn) returns (Job) {}
   rpc SendRouteEvent(RouteEventIn) returns (Route) {}
   // Upload job-related file (e.g., photo evidence)
-  rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
+  rpc UploadJobFile(JobFileUploadRequest) returns (JobFileUploadResponse) {}
 
   // ******** Route Related RPCs *********** //
   rpc AssignedRoutes(EmptyMessageRequest) returns (RouteList) {}
