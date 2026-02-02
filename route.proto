@@ -34,6 +34,8 @@ enum RouteEvent {
   ROUTE_EVENT_CANCEL_ROUTE_DUE_RECEIVER_REASONS = 5;
   ROUTE_EVENT_CANCEL_ROUTE_DUE_PROVIDER_REASONS = 6;
   ROUTE_EVENT_FORCE_COMPLETE = 7;
+  ROUTE_EVENT_CREATE_ROUTE_BY_AI = 8;
+  ROUTE_EVENT_UPDATE_JOBS = 9;
 }
 
 message RouteEventIn {
@@ -141,4 +143,9 @@ message RouteList {
 
 message RouteRequest {
   required uint64 route_id = 1 [json_name = "route_id"];
+}
+
+message RouteUpdateWithJobs {
+  required RouteUpdate route = 1 [json_name = "route"];
+  repeated uint64 job_ids = 2 [json_name = "job_ids"];
 }
