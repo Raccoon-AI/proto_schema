@@ -3,6 +3,7 @@ package raccoonai;
 
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
+import "job.proto";
 
 option go_package = "./pb";
 
@@ -67,6 +68,7 @@ message Route {
   optional google.protobuf.Timestamp gps_end_at = 22 [json_name = "gps_end_at"];
   optional uint64 scale_record_id = 23 [json_name = "scale_record_id"];
   optional RouteCategory route_category = 24 [json_name = "route_category"];
+  repeated Job jobs = 25 [json_name = "jobs"];
 }
 
 message RouteCreate {

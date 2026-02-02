@@ -7,6 +7,7 @@ import "file_upload.proto";
 import "general.proto";
 import "job.proto";
 import "route.proto";
+import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
@@ -15,10 +16,6 @@ message JobFileUploadRequest {
   required FileUploadType type = 2 [json_name = "type"];
   optional uint64 job_id = 3 [json_name = "job_id"];
   optional uint64 contract_id = 4 [json_name = "contract_id"];
-}
-
-message JobFileUploadResponse {
-  required FileUpload file_upload = 1 [json_name = "file_upload"];
 }
 
 message MyLocationRequest {
@@ -42,6 +39,11 @@ message FirebaseNotificationsResponse {
   optional string message = 2 [json_name = "message"];
 }
 
+message DateTimeFilter {
+  required google.protobuf.Timestamp from = 1 [json_name = "from"];
+  required google.protobuf.Timestamp to = 2 [json_name = "to"];
+}
+
 service DriverService {
   rpc MyShift(EmptyMessageRequest) returns (DriverOnShift) {}
   rpc SendMyLocation(MyLocationRequest) returns (MessageResponse) {}
@@ -51,12 +53,12 @@ service DriverService {
   rpc SendJobEvent(JobEventIn) returns (Job) {}
   rpc SendRouteEvent(RouteEventIn) returns (Route) {}
   // Upload job-related file (e.g., photo evidence)
-  rpc UploadJobFile(JobFileUploadRequest) returns (JobFileUploadResponse) {}
+  rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
 
   // ******** Route Related RPCs *********** //
   rpc AssignedRoutes(EmptyMessageRequest) returns (RouteList) {}
   // history of routes assigned to driver
-  rpc GetRouteHistory(EmptyMessageRequest) returns (RouteList) {}
+  rpc GetRouteHistory(DateTimeFilter) returns (RouteList) {}
   // update container's location
   rpc UpdateContainerLocation(ContainerStatusUpdate) returns (MessageResponse) {}
 
