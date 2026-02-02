@@ -5,9 +5,9 @@ import "container.proto";
 import "driver_on_shift.proto";
 import "file_upload.proto";
 import "general.proto";
+import "google/protobuf/timestamp.proto";
 import "job.proto";
 import "route.proto";
-import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
