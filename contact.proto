@@ -8,7 +8,7 @@ option go_package = "./pb";
 // Contact can belong to a location or directly to an organization
 // - If location_id is set: contact belongs to that location
 // - If location_id is null: contact belongs directly to the organization
-// is_primary flag is scoped per location (when location_id exists) or per organization (when location_id is null)
+// Primary contacts are referenced via primary_contact_id in PickupLocation/Organization
 message Contact {
   required uint64 id = 1 [json_name = "id"];
   required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
@@ -19,7 +19,6 @@ message Contact {
   optional string phone = 7 [json_name = "phone"];
   optional string email = 8 [json_name = "email"];
   optional string position = 9 [json_name = "position"];
-  required bool is_primary = 10 [json_name = "is_primary"];
 }
 
 // Create a contact for a location or organization
@@ -31,7 +30,6 @@ message ContactCreate {
   optional string phone = 4 [json_name = "phone"];
   optional string email = 5 [json_name = "email"];
   optional string position = 6 [json_name = "position"];
-  optional bool is_primary = 7 [json_name = "is_primary"];
 }
 
 message ContactUpdate {
@@ -40,7 +38,6 @@ message ContactUpdate {
   optional string phone = 3 [json_name = "phone"];
   optional string email = 4 [json_name = "email"];
   optional string position = 5 [json_name = "position"];
-  optional bool is_primary = 6 [json_name = "is_primary"];
 }
 
 message ContactList {
