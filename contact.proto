@@ -30,10 +30,11 @@ message ContactCreate {
     json_name = "location_id",
     default = 0
   ]; // 0 = create org-level contact
-  required string name = 2 [json_name = "name"];
-  optional string phone = 3 [json_name = "phone"];
-  optional string email = 4 [json_name = "email"];
-  optional string position = 5 [json_name = "position"];
+  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required string name = 3 [json_name = "name"];
+  optional string phone = 4 [json_name = "phone"];
+  optional string email = 5 [json_name = "email"];
+  optional string position = 6 [json_name = "position"];
 }
 
 message ContactUpdate {
