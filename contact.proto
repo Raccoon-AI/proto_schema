@@ -5,25 +5,33 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
+// Contact can belong to a location or directly to an organization
+// - If location_id is set: contact belongs to that location
+// - If location_id is null: contact belongs directly to the organization
+// is_primary flag is scoped per location (when location_id exists) or per organization (when location_id is null)
 message Contact {
   required uint64 id = 1 [json_name = "id"];
   required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
-  required uint64 location_id = 3 [json_name = "location_id"];
-  required uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
-  required string name = 5 [json_name = "name"];
-  optional string phone = 6 [json_name = "phone"];
-  optional string email = 7 [json_name = "email"];
-  optional string position = 8 [json_name = "position"];
-  required bool is_primary = 9 [json_name = "is_primary"];
+  optional uint64 location_id = 3 [json_name = "location_id"]; // null = org-level contact
+  optional uint64 organization_id = 4 [json_name = "organization_id"];
+  required uint64 owner_organization_id = 5 [json_name = "owner_organization_id"];
+  required string name = 6 [json_name = "name"];
+  optional string phone = 7 [json_name = "phone"];
+  optional string email = 8 [json_name = "email"];
+  optional string position = 9 [json_name = "position"];
+  required bool is_primary = 10 [json_name = "is_primary"];
 }
 
+// Create a contact for a location or organization
+// location_id is optional - if not provided, contact belongs to organization directly
 message ContactCreate {
-  required uint64 location_id = 1 [json_name = "location_id"];
-  required string name = 2 [json_name = "name"];
-  optional string phone = 3 [json_name = "phone"];
-  optional string email = 4 [json_name = "email"];
-  optional string position = 5 [json_name = "position"];
-  optional bool is_primary = 6 [json_name = "is_primary"];
+  optional uint64 location_id = 1 [json_name = "location_id"]; // null = create org-level contact
+  optional uint64 organization_id = 2 [json_name = "organization_id"];
+  required string name = 3 [json_name = "name"];
+  optional string phone = 4 [json_name = "phone"];
+  optional string email = 5 [json_name = "email"];
+  optional string position = 6 [json_name = "position"];
+  optional bool is_primary = 7 [json_name = "is_primary"];
 }
 
 message ContactUpdate {
