@@ -89,6 +89,7 @@ message PickupLocationUpdate {
   optional string comment = 17 [json_name = "comment"];
   optional string gis_link = 18 [json_name = "gis_link"];
   optional uint64 service_time = 19 [json_name = "service_time"];
+  optional uint64 primary_contact_id = 20 [json_name = "primary_contact_id"];
 }
 
 message PickupLocationListContract {

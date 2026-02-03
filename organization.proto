@@ -76,4 +76,5 @@ message OrganizationUpdate {
   optional string phone_number = 6 [json_name = "phone_number"];
   optional string jur_address = 7 [json_name = "jur_address"];
   optional string fact_address = 8 [json_name = "fact_address"];
+  optional uint64 primary_contact_id = 9 [json_name = "primary_contact_id"];
 }
