@@ -24,7 +24,7 @@ message Contact {
 // location_id is optional - if not provided, contact belongs to organization directly
 message ContactCreate {
   optional uint64 location_id = 1 [json_name = "location_id"]; // null = create org-level contact
-  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
   required string name = 3 [json_name = "name"];
   optional string phone = 4 [json_name = "phone"];
   optional string email = 5 [json_name = "email"];
