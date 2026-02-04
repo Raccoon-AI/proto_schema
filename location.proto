@@ -1,7 +1,6 @@
 syntax = "proto2";
 package raccoonai;
 
-import "contact.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
