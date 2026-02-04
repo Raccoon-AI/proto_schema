@@ -34,7 +34,6 @@ message Location {
   required string polymorphic_type = 11 [json_name = "polymorphic_type"];
   optional string gis_link = 12 [json_name = "gis_link"];
   optional uint64 service_time = 13 [json_name = "service_time"];
-  repeated Contact contacts = 14 [json_name = "contacts"];
 }
 
 message LocationCreate {

@@ -33,7 +33,6 @@ message Organization {
   optional string jur_address = 9 [json_name = "jur_address"];
   optional string fact_address = 10 [json_name = "fact_address"];
   optional uint64 primary_contact_id = 11 [json_name = "primary_contact_id"]; // ID of primary org-level contact
-  repeated Contact contacts = 12 [json_name = "contacts"];
 }
 
 message OrganizationCreateItem {

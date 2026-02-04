@@ -44,7 +44,6 @@ message PickupLocation {
   optional string comment = 20 [json_name = "comment"];
   optional string gis_link = 21 [json_name = "gis_link"];
   optional uint64 service_time = 22 [json_name = "service_time"];
-  repeated Contact contacts = 23 [json_name = "contacts"];
   optional uint64 primary_contact_id = 24 [json_name = "primary_contact_id"]; // ID of primary contact
 }
 
