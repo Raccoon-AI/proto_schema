@@ -29,7 +29,7 @@ message ContactCreate {
   optional uint64 location_id = 1 [
     json_name = "location_id",
     default = 0
-  ]; // 0 = create org-level contact
+  ]; // null = create org-level contact
   optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
   required string name = 3 [json_name = "name"];
   optional string phone = 4 [json_name = "phone"];
