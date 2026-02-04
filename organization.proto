@@ -30,7 +30,6 @@ message Organization {
   required OrganizationStatus status = 5 [json_name = "status"];
   optional uint64 bank_details_id = 6 [json_name = "bank_details_id"];
   optional string bin = 7 [json_name = "bin"];
-  optional string phone_number = 8 [json_name = "phone_number"];
   optional string jur_address = 9 [json_name = "jur_address"];
   optional string fact_address = 10 [json_name = "fact_address"];
   optional uint64 primary_contact_id = 11 [json_name = "primary_contact_id"]; // ID of primary org-level contact
@@ -42,7 +41,6 @@ message OrganizationCreateItem {
   required OrganizationType type = 2 [json_name = "type"];
   optional uint64 bank_details_id = 3 [json_name = "bank_details_id"];
   optional string bin = 4 [json_name = "bin"];
-  optional string phone_number = 5 [json_name = "phone_number"];
   optional string jur_address = 6 [json_name = "jur_address"];
   optional string fact_address = 7 [json_name = "fact_address"];
 }
@@ -73,7 +71,6 @@ message OrganizationUpdate {
   optional OrganizationStatus status = 3 [json_name = "status"];
   optional uint64 bank_details_id = 4 [json_name = "bank_details_id"];
   optional string bin = 5 [json_name = "bin"];
-  optional string phone_number = 6 [json_name = "phone_number"];
   optional string jur_address = 7 [json_name = "jur_address"];
   optional string fact_address = 8 [json_name = "fact_address"];
   optional uint64 primary_contact_id = 9 [json_name = "primary_contact_id"];
