@@ -25,5 +25,6 @@ message ServiceProviderRouteStatsByCategory {
   optional int32 all_routes = 1 [json_name = "all_routes"];
   optional int32 completed_routes = 2 [json_name = "completed_routes"];
   optional int32 planned_routes = 3 [json_name = "planned_routes"];
+  optional int32 active_routes = 4 [json_name = "active_routes"];
   optional RouteCategory route_category = 4 [json_name = "route_category"];
 }
