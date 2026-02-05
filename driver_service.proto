@@ -5,7 +5,6 @@ import "container.proto";
 import "driver_on_shift.proto";
 import "file_upload.proto";
 import "general.proto";
-import "google/protobuf/timestamp.proto";
 import "job.proto";
 import "route.proto";
 
@@ -15,7 +14,6 @@ message JobFileUploadRequest {
   required File file = 1 [json_name = "file"];
   required FileUploadType type = 2 [json_name = "type"];
   optional uint64 job_id = 3 [json_name = "job_id"];
-  optional uint64 contract_id = 4 [json_name = "contract_id"];
 }
 
 message MyLocationRequest {
@@ -37,11 +35,6 @@ message FirebaseNotificationsRequest {
 message FirebaseNotificationsResponse {
   required bool success = 1 [json_name = "success"];
   optional string message = 2 [json_name = "message"];
-}
-
-message DateTimeFilter {
-  required google.protobuf.Timestamp from = 1 [json_name = "from"];
-  required google.protobuf.Timestamp to = 2 [json_name = "to"];
 }
 
 service DriverService {
