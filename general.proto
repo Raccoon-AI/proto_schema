@@ -1,7 +1,14 @@
 syntax = "proto2";
 package raccoonai;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "./pb";
+
+message DateTimeFilter {
+  required google.protobuf.Timestamp from = 1 [json_name = "from"];
+  required google.protobuf.Timestamp to = 2 [json_name = "to"];
+}
 
 enum ErrorCode {
   ERROR_CODE_UNDEFINED = 0;
