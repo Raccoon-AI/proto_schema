@@ -26,6 +26,7 @@ message FileUpload {
   optional uint64 contract_id = 8 [json_name = "contract_id"];
   required google.protobuf.Timestamp created_at = 9 [json_name = "created_at"];
   optional uint64 author_id = 10 [json_name = "author_id"];
+  optional string name = 11 [json_name = "name"];
 }
 
 message FileUploadCreate {
