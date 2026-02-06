@@ -34,6 +34,8 @@ message Truck {
   optional double truck_weight = 8 [json_name = "truck_weight"];
   optional google.protobuf.Timestamp last_weight_ts = 9 [json_name = "last_weight_ts"];
   optional uint64 capacity = 10 [json_name = "capacity"];
+  optional uint64 year = 11 [json_name = "year"];
+  optional string color = 12 [json_name = "color"];
 }
 
 message TruckCreate {
@@ -43,6 +45,8 @@ message TruckCreate {
   optional string model = 4 [json_name = "model"];
   optional double truck_weight = 5 [json_name = "truck_weight"];
   optional uint64 capacity = 6 [json_name = "capacity"];
+  optional uint64 year = 7 [json_name = "year"];
+  optional string color = 8 [json_name = "color"];
 }
 
 message TruckUpdate {
@@ -53,6 +57,8 @@ message TruckUpdate {
   optional string model = 5 [json_name = "model"];
   optional double truck_weight = 6 [json_name = "truck_weight"];
   optional uint64 capacity = 7 [json_name = "capacity"];
+  optional uint64 year = 8 [json_name = "year"];
+  optional string color = 9 [json_name = "color"];
 }
 
 message TruckStatusUpdate {

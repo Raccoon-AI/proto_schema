@@ -27,6 +27,7 @@ message MyLocationRequest {
 
 message FirebaseNotificationsRequest {
   required bool subscribe = 1 [json_name = "subscribe"];
+  optional string fcm_token = 2 [json_name = "fcm_token"];
 }
 
 // TODO: define response message properly
@@ -50,7 +51,7 @@ service DriverService {
   // ******** Route Related RPCs *********** //
   rpc AssignedRoutes(EmptyMessageRequest) returns (RouteList) {}
   // history of routes assigned to driver
-  rpc GetRouteHistory(EmptyMessageRequest) returns (RouteList) {}
+  rpc GetRouteHistory(DateTimeFilter) returns (RouteList) {}
   // update container's location
   rpc UpdateContainerLocation(ContainerStatusUpdate) returns (MessageResponse) {}
 

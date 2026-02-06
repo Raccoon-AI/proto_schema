@@ -1,7 +1,8 @@
 syntax = "proto2";
 
-package routing.v1;
+package raccoonai;
 
+option go_package = "./pb";
 option java_outer_classname = "RoutingServiceProto";
 option java_package = "com.raccoonai.routing.grpc";
 

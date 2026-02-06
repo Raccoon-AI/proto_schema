@@ -26,6 +26,7 @@ message FileUpload {
   optional uint64 contract_id = 8 [json_name = "contract_id"];
   required google.protobuf.Timestamp created_at = 9 [json_name = "created_at"];
   optional uint64 author_id = 10 [json_name = "author_id"];
+  optional string name = 11 [json_name = "name"];
 }
 
 message FileUploadCreate {
@@ -41,8 +42,8 @@ message FileUploadCreate {
 message File {
   optional string bytes = 1 [json_name = "bytes"]; // base64-encoded image data
   optional string name = 2 [json_name = "name"];
-  optional string format = 3 [json_name = "format"]; // e.g., "jpg", "png"
-  optional float lat = 4 [json_name = "lat"];
-  optional float lon = 5 [json_name = "lon"];
+  optional string format = 3 [json_name = "format"]; // e.g., jpg, png
+  optional double lat = 4 [json_name = "lat"];
+  optional double lon = 5 [json_name = "lon"];
   optional google.protobuf.Timestamp ts = 6 [json_name = "ts"];
 }

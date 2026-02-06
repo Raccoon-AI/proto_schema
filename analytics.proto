@@ -2,6 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "job.proto";
+import "route.proto";
 
 option go_package = "./pb";
 
@@ -18,4 +19,12 @@ message ServiceProviderJobsStatsByCategory {
   optional int32 all_jobs = 4 [json_name = "all_jobs"];
   optional int32 unassigned_jobs = 5 [json_name = "unassigned_jobs"];
   optional JobCategory job_category = 6 [json_name = "job_category"];
+}
+
+message ServiceProviderRoutesStatsByCategory {
+  optional int32 all_routes = 1 [json_name = "all_routes"];
+  optional int32 completed_routes = 2 [json_name = "completed_routes"];
+  optional int32 planned_routes = 3 [json_name = "planned_routes"];
+  optional int32 active_routes = 4 [json_name = "active_routes"];
+  optional RouteCategory route_category = 5 [json_name = "route_category"];
 }
