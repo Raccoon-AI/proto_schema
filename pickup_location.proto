@@ -41,10 +41,9 @@ message PickupLocation {
   optional uint64 receiver_user_id = 18 [json_name = "receiver_user_id"];
   optional uint64 contract_id = 19 [json_name = "contract_id"];
   optional string comment = 20 [json_name = "comment"];
-  optional string contact_name = 21 [json_name = "contact_name"];
-  optional string contact_phone = 22 [json_name = "contact_phone"];
-  optional string gis_link = 23 [json_name = "gis_link"];
-  optional uint64 service_time = 24 [json_name = "service_time"];
+  optional string gis_link = 21 [json_name = "gis_link"];
+  optional uint64 service_time = 22 [json_name = "service_time"];
+  optional uint64 primary_contact_id = 23 [json_name = "primary_contact_id"]; // ID of primary contact
 }
 
 message PickupLocationCreate {
@@ -64,10 +63,8 @@ message PickupLocationCreate {
   optional uint64 receiver_user_id = 14 [json_name = "receiver_user_id"];
   optional uint64 contract_id = 15 [json_name = "contract_id"];
   optional string comment = 16 [json_name = "comment"];
-  optional string contact_name = 17 [json_name = "contact_name"];
-  optional string contact_phone = 18 [json_name = "contact_phone"];
-  optional string gis_link = 19 [json_name = "gis_link"];
-  optional uint64 service_time = 20 [json_name = "service_time"];
+  optional string gis_link = 17 [json_name = "gis_link"];
+  optional uint64 service_time = 18 [json_name = "service_time"];
 }
 
 message PickupLocationUpdate {
@@ -88,10 +85,9 @@ message PickupLocationUpdate {
   optional uint64 receiver_user_id = 15 [json_name = "receiver_user_id"];
   optional uint64 contract_id = 16 [json_name = "contract_id"];
   optional string comment = 17 [json_name = "comment"];
-  optional string contact_name = 18 [json_name = "contact_name"];
-  optional string contact_phone = 19 [json_name = "contact_phone"];
-  optional string gis_link = 20 [json_name = "gis_link"];
-  optional uint64 service_time = 21 [json_name = "service_time"];
+  optional string gis_link = 18 [json_name = "gis_link"];
+  optional uint64 service_time = 19 [json_name = "service_time"];
+  optional uint64 primary_contact_id = 20 [json_name = "primary_contact_id"];
 }
 
 message PickupLocationListContract {
