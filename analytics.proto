@@ -1,8 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
-import "job.proto";
-import "route.proto";
+import "enums.proto";
 
 option go_package = "./pb";
 

@@ -1,0 +1,163 @@
+syntax = "proto2";
+package raccoonai;
+
+option go_package = "./pb";
+
+// *****************************************************
+// TRUCK ENUMS
+// *****************************************************
+
+enum TruckStatus {
+  TRUCK_STATUS_UNDEFINED = 0;
+  TRUCK_STATUS_INACTIVE = 1;
+  TRUCK_STATUS_ACTIVE = 2;
+  TRUCK_STATUS_IN_REPAIR = 3;
+  TRUCK_STATUS_GUEST = 4;
+}
+
+enum TruckType {
+  TRUCK_TYPE_UNDEFINED = 0;
+  TRUCK_TYPE_CONSTRUCTION = 1;
+  TRUCK_TYPE_DOUBLE_CONTAINER = 2; // multilift
+  TRUCK_TYPE_MSW = 3;
+  TRUCK_TYPE_TIPPER = 4; // samosval
+  TRUCK_TYPE_LIQUID_WASTE = 5;
+}
+
+// *****************************************************
+// JOB ENUMS
+// *****************************************************
+
+enum JobType {
+  JOB_TYPE_UNDEFINED = 0;
+  //  Core Bunker Operations
+  JOB_TYPE_SERVICE = 1; // Забрать с заменой [to be deprecated??]
+  JOB_TYPE_REPLACE_BUNKER = 2; // Забрать с заменой
+  JOB_TYPE_ADD_BUNKER = 3; // Установить ёмкость
+  JOB_TYPE_REMOVE_BUNKER = 4; // Забрать без замены
+
+  // Municipal Solid Waste
+  JOB_TYPE_MSW = 10; // Municipal Solid Waste
+  JOB_TYPE_MSW_CLEANUP = 20; // Подбор (Standard site cleanup)
+  JOB_TYPE_MSW_MOBILE_CLEANUP = 21; // Подбор с объездом на ходу
+
+  //  Sanitation
+  JOB_TYPE_DISINFECTION = 22; // Дезинфекция
+
+  //  Logistics
+  JOB_TYPE_TRANSPORTATION = 30; // Перевозка
+  JOB_TYPE_TRANSPORTATION_MPS = 31; // Перевозка (МПС - МПС)
+
+  // Miscellaneous
+  JOB_TYPE_BRAND_CONTAINER = 40; // Брендировать ёмкость
+  JOB_TYPE_REPAIR_CONTAINER = 41; // Ремонт ёмкости
+  JOB_TYPE_DECOMMISSION_CONTAINER = 42; // Снять ёмкость
+  JOB_TYPE_INSTALL_LID = 43; // Установить крышку
+  JOB_TYPE_REMOVE_LID = 44; // Снять крышку
+  JOB_TYPE_INSTALL_TAG = 45; // Установить идентификатор
+}
+
+enum JobCategory {
+  JOB_CATEGORY_UNDEFINED = 0;
+  JOB_CATEGORY_CO = 1;
+  JOB_CATEGORY_MSW = 2;
+  JOB_CATEGORY_LIQUID = 3;
+  JOB_CATEGORY_DISINFECTION = 4;
+  JOB_CATEGORY_TIPPER = 5;
+}
+
+enum JobStatus {
+  JOB_STATUS_UNDEFINED = 0;
+  JOB_STATUS_CREATED = 1;
+  JOB_STATUS_ASSIGNED = 2;
+  JOB_STATUS_ENROUTE = 3;
+  JOB_STATUS_COMPLETED = 4;
+  JOB_STATUS_CANCELLED = 5;
+  JOB_STATUS_ON_SERVICE = 6;
+}
+
+enum DispatcherReviewStatus {
+  DISPATCHER_REVIEW_STATUS_UNDEFINED = 0;
+  DISPATCHER_REVIEW_STATUS_PENDING = 1;
+  DISPATCHER_REVIEW_STATUS_APPROVED = 2;
+  DISPATCHER_REVIEW_STATUS_REJECTED = 3;
+  DISPATCHER_REVIEW_STATUS_SUSPICIOUS = 4;
+}
+
+enum JobEvent {
+  JOB_EVENT_UNDEFINED = 0;
+  JOB_EVENT_CREATE_JOB = 1;
+  JOB_EVENT_ASSIGN = 2;
+  JOB_EVENT_FALLBACK_ASSIGN = 3;
+  JOB_EVENT_ENROUTE = 4;
+  JOB_EVENT_START_SERVICE = 5;
+  JOB_EVENT_COMPLETE = 6;
+  JOB_EVENT_CANCEL = 7;
+  JOB_EVENT_DETACH_FROM_ROUTE = 8;
+  JOB_EVENT_FORCE_COMPLETE = 9;
+}
+
+// *****************************************************
+// ROUTE ENUMS
+// *****************************************************
+
+enum RouteStatus {
+  ROUTE_STATUS_UNDEFINED = 0;
+  ROUTE_STATUS_CREATED = 1;
+  ROUTE_STATUS_IN_PROGRESS = 2;
+  ROUTE_STATUS_RETURNING = 3;
+  ROUTE_STATUS_COMPLETED = 4;
+  ROUTE_STATUS_CANCELLED = 5;
+}
+
+enum RouteCategory {
+  ROUTE_CATEGORY_UNDEFINED = 0;
+  ROUTE_CATEGORY_CO = 1;
+  ROUTE_CATEGORY_MSW = 2;
+  ROUTE_CATEGORY_LIQUID = 3;
+  ROUTE_CATEGORY_TIPPER = 4;
+  ROUTE_CATEGORY_DISINFECTION = 5;
+}
+
+enum RouteEvent {
+  ROUTE_EVENT_UNDEFINED = 0;
+  ROUTE_EVENT_CREATE_ROUTE = 1;
+  ROUTE_EVENT_START = 2;
+  ROUTE_EVENT_RETURN_BACK = 3;
+  ROUTE_EVENT_COMPLETE = 4;
+  ROUTE_EVENT_CANCEL_ROUTE_DUE_RECEIVER_REASONS = 5;
+  ROUTE_EVENT_CANCEL_ROUTE_DUE_PROVIDER_REASONS = 6;
+  ROUTE_EVENT_FORCE_COMPLETE = 7;
+  ROUTE_EVENT_CREATE_ROUTE_BY_AI = 8;
+  ROUTE_EVENT_UPDATE_JOBS = 9;
+}
+
+// *****************************************************
+// DRIVER ON SHIFT ENUMS
+// *****************************************************
+
+enum DriverOnShiftStatus {
+  DRIVER_ON_SHIFT_STATUS_UNDEFINED = 0;
+  DRIVER_ON_SHIFT_STATUS_TRUCK_IDLE = 1;
+  DRIVER_ON_SHIFT_STATUS_DRIVER_IDLE = 2;
+  DRIVER_ON_SHIFT_STATUS_CONFIRMATION = 3;
+  DRIVER_ON_SHIFT_STATUS_ENROUTE = 4;
+  DRIVER_ON_SHIFT_STATUS_ON_SERVICE = 5;
+  DRIVER_ON_SHIFT_STATUS_ENDED = 6;
+}
+
+enum DriverOnShiftEvent {
+  DRIVER_ON_SHIFT_EVENT_UNDEFINED = 0;
+  DRIVER_ON_SHIFT_EVENT_CREATE_SHIFT = 1;
+  DRIVER_ON_SHIFT_EVENT_DRIVER_ONLINE = 2;
+  DRIVER_ON_SHIFT_EVENT_DRIVER_OFFLINE = 3;
+  DRIVER_ON_SHIFT_EVENT_CONFIRMATION = 4;
+  DRIVER_ON_SHIFT_EVENT_START_ROUTE = 5;
+  DRIVER_ON_SHIFT_EVENT_START_SERVICE = 6;
+  DRIVER_ON_SHIFT_EVENT_END_SERVICE = 7;
+  DRIVER_ON_SHIFT_EVENT_COMPLETE_ROUTE = 8;
+  DRIVER_ON_SHIFT_EVENT_CANCEL_ROUTE_DUE_RECEIVER_REASONS = 9;
+  DRIVER_ON_SHIFT_EVENT_CANCEL_ROUTE_DUE_PROVIDER_REASONS = 10;
+  DRIVER_ON_SHIFT_EVENT_COMPLETE_SHIFT = 11;
+  DRIVER_ON_SHIFT_EVENT_FORCE_COMPLETE_ROUTE = 12;
+}
