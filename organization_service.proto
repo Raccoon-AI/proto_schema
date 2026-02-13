@@ -2,9 +2,9 @@ syntax = "proto2";
 
 package raccoonai;
 
+import "enums.proto";
 import "general.proto";
 import "organization.proto";
-import "truck.proto";
 
 option go_package = "./pb";
 
