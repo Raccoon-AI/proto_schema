@@ -31,6 +31,7 @@ message PickupLocation {
   required double lat = 8 [json_name = "lat"];
   optional google.protobuf.Struct geometry = 9 [json_name = "geometry"];
   optional string address = 10 [json_name = "address"];
+  required string polymorphic_type = 11 [json_name = "polymorphic_type"];
   optional string availability_schedule = 12 [json_name = "availability_schedule"];
   optional string notification_schedule = 13 [json_name = "notification_schedule"];
   optional uint64 num_containers = 14 [json_name = "num_containers"];
