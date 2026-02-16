@@ -1,0 +1,35 @@
+syntax = "proto2";
+package raccoonai;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+message ContainerType {
+  required uint64 id = 1 [json_name = "id"];
+  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
+  required google.protobuf.Timestamp updated_at = 3 [json_name = "updated_at"];
+  required uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
+  required string name = 5 [json_name = "name"];
+  required float volume = 6 [json_name = "volume"];
+  optional uint64 weight = 7 [json_name = "weight"];
+}
+
+message ContainerTypeRead {
+  required uint64 id = 1 [json_name = "id"];
+  required string name = 2 [json_name = "name"];
+}
+
+message ContainerTypeCreate {
+  required string name = 1 [json_name = "name"];
+  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required float volume = 3 [json_name = "volume"];
+  optional uint64 weight = 4 [json_name = "weight"];
+}
+
+message ContainerTypeUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  optional string name = 2 [json_name = "name"];
+  optional float volume = 3 [json_name = "volume"];
+  optional uint64 weight = 4 [json_name = "weight"];
+}
