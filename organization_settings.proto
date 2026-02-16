@@ -21,6 +21,7 @@ message OrganizationSettings {
   optional double map_center_lat = 9 [json_name = "map_center_lat"];
   optional double map_center_lon = 10 [json_name = "map_center_lon"];
   optional bool ai_enabled = 11 [json_name = "ai_enabled"];
+  optional string table_columns_config = 12 [json_name = "table_columns_config"];
 }
 
 message OrganizationSettingsCreate {
@@ -33,6 +34,7 @@ message OrganizationSettingsCreate {
   optional double map_center_lat = 7 [json_name = "map_center_lat"];
   optional double map_center_lon = 8 [json_name = "map_center_lon"];
   optional bool ai_enabled = 9 [json_name = "ai_enabled"];
+  optional string table_columns_config = 10 [json_name = "table_columns_config"];
 }
 
 message OrganizationSettingsUpdate {
@@ -45,4 +47,5 @@ message OrganizationSettingsUpdate {
   optional double map_center_lat = 7 [json_name = "map_center_lat"];
   optional double map_center_lon = 8 [json_name = "map_center_lon"];
   optional bool ai_enabled = 9 [json_name = "ai_enabled"];
+  optional string table_columns_config = 10 [json_name = "table_columns_config"];
 }
