@@ -44,6 +44,7 @@ message Container {
   required bool is_tracked = 7 [json_name = "is_tracked"];
   optional uint64 location_id = 8 [json_name = "location_id"];
   required google.protobuf.Timestamp updated_at = 9 [json_name = "updated_at"];
+  optional uint64 pickup_location_id = 10 [json_name = "pickup_location_id"];
 }
 
 message ContainerCreate {
@@ -51,6 +52,7 @@ message ContainerCreate {
   required uint64 type_id = 2 [json_name = "type_id"];
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
   optional uint64 location_id = 4 [json_name = "location_id"];
+  optional uint64 pickup_location_id = 5 [json_name = "pickup_location_id"];
 }
 
 message ContainerUpdate {
@@ -60,6 +62,7 @@ message ContainerUpdate {
   optional ContainerStatus status = 4 [json_name = "status"];
   optional bool is_tracked = 5 [json_name = "is_tracked"];
   optional uint64 location_id = 6 [json_name = "location_id"];
+  optional uint64 pickup_location_id = 7 [json_name = "pickup_location_id"];
 }
 
 message ContainerStatusUpdate {
