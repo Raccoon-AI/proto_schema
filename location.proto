@@ -30,7 +30,6 @@ message Location {
   required double lat = 8 [json_name = "lat"];
   optional google.protobuf.Struct geometry = 9 [json_name = "geometry"];
   optional string address = 10 [json_name = "address"];
-  required string polymorphic_type = 11 [json_name = "polymorphic_type"];
   optional string gis_link = 12 [json_name = "gis_link"];
   optional uint64 service_time = 13 [json_name = "service_time"];
 }
