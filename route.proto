@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "driver_on_shift.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "job.proto";
@@ -71,6 +72,7 @@ message Route {
   optional uint64 scale_record_id = 23 [json_name = "scale_record_id"];
   optional RouteCategory route_category = 24 [json_name = "route_category"];
   repeated Job jobs = 25 [json_name = "jobs"];
+  optional DriverOnShift driver_on_shift = 26 [json_name = "driver_on_shift"];
 }
 
 message RouteCreate {
