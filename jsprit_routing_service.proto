@@ -143,9 +143,9 @@ message ServiceConfig {
   optional TimeWindow time_window = 5 [json_name = "time_window"];
   repeated string required_skills = 6 [json_name = "required_skills"]; // Skills required for this service
   optional int32 priority = 7 [
-    default = 1,
+    default = 2,
     json_name = "priority"
-  ]; // Higher number = higher priority
+  ]; // 1=highest priority, 10=lowest priority
 }
 
 message ShipmentConfig {
@@ -174,9 +174,9 @@ message ShipmentConfig {
   // Common configuration
   repeated string required_skills = 10 [json_name = "required_skills"]; // Skills required for this shipment
   optional int32 priority = 11 [
-    default = 1,
+    default = 2,
     json_name = "priority"
-  ]; // Higher number = higher priority
+  ]; // 1=highest priority, 10=lowest priority
 }
 
 message DepotConfig {
