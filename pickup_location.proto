@@ -43,6 +43,8 @@ message PickupLocation {
   optional string gis_link = 21 [json_name = "gis_link"];
   optional uint64 service_time = 22 [json_name = "service_time"];
   optional uint64 primary_contact_id = 23 [json_name = "primary_contact_id"]; // ID of primary contact
+  optional string plan_waste_volume = 24 [json_name = "plan_waste_volume"];
+  optional string plan_waste_mass = 25 [json_name = "plan_waste_mass"];
 }
 
 message PickupLocationCreate {
@@ -64,6 +66,8 @@ message PickupLocationCreate {
   optional string comment = 16 [json_name = "comment"];
   optional string gis_link = 17 [json_name = "gis_link"];
   optional uint64 service_time = 18 [json_name = "service_time"];
+  optional string plan_waste_volume = 19 [json_name = "plan_waste_volume"];
+  optional string plan_waste_mass = 20 [json_name = "plan_waste_mass"];
 }
 
 message PickupLocationUpdate {
@@ -87,6 +91,8 @@ message PickupLocationUpdate {
   optional string gis_link = 18 [json_name = "gis_link"];
   optional uint64 service_time = 19 [json_name = "service_time"];
   optional uint64 primary_contact_id = 20 [json_name = "primary_contact_id"];
+  optional string plan_waste_volume = 21 [json_name = "plan_waste_volume"];
+  optional string plan_waste_mass = 22 [json_name = "plan_waste_mass"];
 }
 
 message PickupLocationListContract {
