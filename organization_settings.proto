@@ -10,6 +10,22 @@ message NotificationConfig {
   repeated AuditLogType log_types = 1 [json_name = "log_types"];
 }
 
+message ColumnConfig {
+  required string column_name = 1 [json_name = "column_name"];
+  required bool is_hidden = 2 [json_name = "is_hidden"];
+  required uint32 order = 3 [json_name = "order"];
+  optional uint32 width = 4 [json_name = "width"];
+}
+
+message TableConfig {
+  required string table_name = 1 [json_name = "table_name"];
+  repeated ColumnConfig columns = 2 [json_name = "columns"];
+}
+
+message TableColumnsConfig {
+  repeated TableConfig tables = 1 [json_name = "tables"];
+}
+
 message OrganizationSettings {
   required uint64 id = 1 [json_name = "id"];
   optional string shift_departure_text = 3 [json_name = "shift_departure_text"];
@@ -21,6 +37,7 @@ message OrganizationSettings {
   optional double map_center_lat = 9 [json_name = "map_center_lat"];
   optional double map_center_lon = 10 [json_name = "map_center_lon"];
   optional bool ai_enabled = 11 [json_name = "ai_enabled"];
+  optional TableColumnsConfig table_columns_config = 12 [json_name = "table_columns_config"];
 }
 
 message OrganizationSettingsCreate {
@@ -33,6 +50,7 @@ message OrganizationSettingsCreate {
   optional double map_center_lat = 7 [json_name = "map_center_lat"];
   optional double map_center_lon = 8 [json_name = "map_center_lon"];
   optional bool ai_enabled = 9 [json_name = "ai_enabled"];
+  optional TableColumnsConfig table_columns_config = 10 [json_name = "table_columns_config"];
 }
 
 message OrganizationSettingsUpdate {
@@ -45,4 +63,5 @@ message OrganizationSettingsUpdate {
   optional double map_center_lat = 7 [json_name = "map_center_lat"];
   optional double map_center_lon = 8 [json_name = "map_center_lon"];
   optional bool ai_enabled = 9 [json_name = "ai_enabled"];
+  optional TableColumnsConfig table_columns_config = 10 [json_name = "table_columns_config"];
 }
