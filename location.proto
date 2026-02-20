@@ -69,5 +69,5 @@ message LocationRequest {
 
 message LocationListRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
-  required string type = 2 [json_name = "type"];
+  optional LocationType type = 2 [json_name = "type"];
 }
