@@ -1,41 +1,27 @@
 syntax = "proto2";
 package raccoonai;
 
+import "container.proto";
+import "enums.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
-
-enum TruckStatus {
-  TRUCK_STATUS_UNDEFINED = 0;
-  TRUCK_STATUS_INACTIVE = 1;
-  TRUCK_STATUS_ACTIVE = 2;
-  TRUCK_STATUS_IN_REPAIR = 3;
-  TRUCK_STATUS_GUEST = 4;
-}
-
-enum TruckType {
-  TRUCK_TYPE_UNDEFINED = 0;
-  TRUCK_TYPE_CONSTRUCTION = 1;
-  TRUCK_TYPE_DOUBLE_CONTAINER = 2; // multilift
-  TRUCK_TYPE_MSW = 3;
-  TRUCK_TYPE_TIPPER = 4; // samosval
-  TRUCK_TYPE_LIQUID_WASTE = 5;
-}
 
 // GET => /v1/platform/truck/{id}
 message Truck {
   required uint64 id = 1 [json_name = "id"];
   required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
-  required TruckType type = 3 [json_name = "type"];
+  required TruckType type = 3 [json_name = "type"]; // To be deprecated in favor of truck_type
   required string plate_number = 4 [json_name = "plate_number"];
   required TruckStatus status = 5 [json_name = "status"];
   required uint64 owner_organization_id = 6 [json_name = "owner_organization_id"];
-  optional string model = 7 [json_name = "model"];
-  optional double truck_weight = 8 [json_name = "truck_weight"];
+  optional string model = 7 [json_name = "model"]; // To be deprecated in favor of truck_type.model
+  optional double truck_weight = 8 [json_name = "truck_weight"]; // To be deprecated in favor of truck_type.weight_kg
   optional google.protobuf.Timestamp last_weight_ts = 9 [json_name = "last_weight_ts"];
-  optional uint64 capacity = 10 [json_name = "capacity"];
+  optional uint64 capacity = 10 [json_name = "capacity"]; // To be deprecated in favor of truck_type.volume
   optional uint64 year = 11 [json_name = "year"];
   optional string color = 12 [json_name = "color"];
+  optional CustomTruckType truck_type = 13 [json_name = "truck_type"];
 }
 
 message TruckCreate {
@@ -77,4 +63,42 @@ message TruckInProximity {
   required string location_type = 4 [json_name = "location_type"]; // "pickup_location" or "location"
   required int64 start_ts = 5 [json_name = "start_ts"];
   required int64 end_ts = 6 [json_name = "end_ts"];
+}
+
+message CustomTruckType {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required string manufacturer = 3 [json_name = "manufacturer"];
+  required string model = 4 [json_name = "model"];
+  required float volume = 5 [json_name = "volume"];
+  optional double weight_kg = 6 [json_name = "weight_kg"];
+  optional float compaction_factor = 7 [json_name = "compaction_factor"];
+  repeated JobType job_type_list = 8 [json_name = "job_type_list"];
+  repeated ContainerType container_type_list = 9 [json_name = "container_type_list"];
+}
+
+message CustomTruckTypeCreate {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required string manufacturer = 2 [json_name = "manufacturer"];
+  required string model = 3 [json_name = "model"];
+  required float volume = 4 [json_name = "volume"];
+  optional double weight_kg = 5 [json_name = "weight_kg"];
+  optional float compaction_factor = 6 [json_name = "compaction_factor"];
+  repeated JobType job_type_list = 7 [json_name = "job_type_list"];
+  repeated uint64 container_type_id_list = 8 [json_name = "container_type_id_list"];
+}
+
+message CustomTruckTypeUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  optional string manufacturer = 2 [json_name = "manufacturer"];
+  optional string model = 3 [json_name = "model"];
+  optional float volume = 4 [json_name = "volume"];
+  optional double weight_kg = 5 [json_name = "weight_kg"];
+  optional float compaction_factor = 6 [json_name = "compaction_factor"];
+  repeated JobType job_type_list = 7 [json_name = "job_type_list"];
+  repeated uint64 container_type_id_list = 8 [json_name = "container_type_id_list"];
+}
+
+message CustomTruckTypeList {
+  repeated CustomTruckType custom_truck_types = 1 [json_name = "custom_truck_types"];
 }

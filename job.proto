@@ -2,6 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "driver_on_shift.proto";
+import "enums.proto";
 import "file_upload.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
@@ -10,57 +11,6 @@ import "pickup_location.proto";
 import "user.proto";
 
 option go_package = "./pb";
-
-enum JobType {
-  JOB_TYPE_UNDEFINED = 0;
-  // JOB CATEGORY CO
-  JOB_TYPE_SERVICE = 1;
-  JOB_TYPE_ADD_BUNKER = 2;
-  JOB_TYPE_REMOVE_BUNKER = 3;
-  // JOB CATEGORY MSW
-  JOB_TYPE_MSW = 100; // Municipal Solid Waste
-  // OTHER JOB CATEGORIES
-}
-
-enum JobCategory {
-  JOB_CATEGORY_UNDEFINED = 0;
-  JOB_CATEGORY_CO = 1;
-  JOB_CATEGORY_MSW = 2;
-  JOB_CATEGORY_LIQUID = 3;
-  JOB_CATEGORY_DISINFECTION = 4;
-  JOB_CATEGORY_TIPPER = 5;
-}
-
-enum JobStatus {
-  JOB_STATUS_UNDEFINED = 0;
-  JOB_STATUS_CREATED = 1;
-  JOB_STATUS_ASSIGNED = 2;
-  JOB_STATUS_ENROUTE = 3;
-  JOB_STATUS_COMPLETED = 4;
-  JOB_STATUS_CANCELLED = 5;
-  JOB_STATUS_ON_SERVICE = 6;
-}
-
-enum DispatcherReviewStatus {
-  DISPATCHER_REVIEW_STATUS_UNDEFINED = 0;
-  DISPATCHER_REVIEW_STATUS_PENDING = 1;
-  DISPATCHER_REVIEW_STATUS_APPROVED = 2;
-  DISPATCHER_REVIEW_STATUS_REJECTED = 3;
-  DISPATCHER_REVIEW_STATUS_SUSPICIOUS = 4;
-}
-
-enum JobEvent {
-  JOB_EVENT_UNDEFINED = 0;
-  JOB_EVENT_CREATE_JOB = 1;
-  JOB_EVENT_ASSIGN = 2;
-  JOB_EVENT_FALLBACK_ASSIGN = 3;
-  JOB_EVENT_ENROUTE = 4;
-  JOB_EVENT_START_SERVICE = 5;
-  JOB_EVENT_COMPLETE = 6;
-  JOB_EVENT_CANCEL = 7;
-  JOB_EVENT_DETACH_FROM_ROUTE = 8;
-  JOB_EVENT_FORCE_COMPLETE = 9;
-}
 
 message JobEventIn {
   required JobEvent event = 1 [json_name = "event"];

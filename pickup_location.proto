@@ -101,3 +101,20 @@ message PickupLocationList {
 message PickupLocationRequest {
   required uint64 pickup_location_id = 1 [json_name = "pickup_location_id"];
 }
+
+message PickupLocationGroup {
+  required uint64 id = 1 [json_name = "id"];
+  required string name = 2 [json_name = "name"];
+  repeated PickupLocation pickup_locations = 3 [json_name = "pickup_locations"];
+  required uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
+}
+
+message PickupLocationGroupCreate {
+  required string group_name = 1 [json_name = "name"];
+  repeated uint64 pickup_location_ids = 2 [json_name = "pickup_location_ids"];
+  optional uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
+}
+
+message PickupLocationGroupList {
+  repeated PickupLocationGroup pickup_location_groups = 1 [json_name = "pickup_location_groups"];
+}

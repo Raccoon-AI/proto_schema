@@ -1,0 +1,38 @@
+syntax = "proto2";
+package raccoonai;
+
+import "container.proto";
+
+option go_package = "./pb";
+
+message ContainerTypeIDRequest {
+  required uint64 id = 1 [json_name = "id"];
+}
+
+message ContainerTypeListRequest {
+  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+}
+
+message ContainerGroupIDRequest {
+  required uint64 id = 1 [json_name = "id"];
+}
+
+message ContainerGroupListRequest {
+  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  repeated uint64 container_type_ids = 2 [json_name = "container_type_ids"];
+  repeated uint64 pickup_location_ids = 3 [json_name = "pickup_location_ids"];
+}
+
+service ContainerService {
+  // Container Type operations
+  rpc CreateContainerType(ContainerTypeCreate) returns (ContainerType) {}
+  rpc GetContainerTypeByID(ContainerTypeIDRequest) returns (ContainerType) {}
+  rpc UpdateContainerType(ContainerTypeUpdate) returns (ContainerType) {}
+  rpc ListContainerTypes(ContainerTypeListRequest) returns (ContainerTypeList) {}
+
+  // Container Group operations
+  rpc CreateContainerGroup(ContainerGroupCreate) returns (ContainerGroup) {}
+  rpc GetContainerGroupByID(ContainerGroupIDRequest) returns (ContainerGroup) {}
+  rpc UpdateContainerGroup(ContainerGroupUpdate) returns (ContainerGroup) {}
+  rpc ListContainerGroups(ContainerGroupListRequest) returns (ContainerGroupList) {}
+}

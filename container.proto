@@ -1,49 +1,98 @@
 syntax = "proto2";
 package raccoonai;
 
+import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
+// *****************************************************
+// CONTAINER TYPE
+// *****************************************************
+message ContainerType {
+  required uint64 id = 1 [json_name = "id"];
+  required string name = 2 [json_name = "type_name"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+  required float volume = 4 [json_name = "volume"];
+  optional float weight_kg = 5 [json_name = "weight_kg"];
+
+  optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+  optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
+}
+
+message ContainerTypeCreate {
+  required string name = 1 [json_name = "name"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required float volume = 3 [json_name = "volume"];
+  required float weight_kg = 4 [json_name = "weight_kg"];
+}
+
+message ContainerTypeUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  optional string name = 2 [json_name = "name"];
+  optional float volume = 3 [json_name = "volume"];
+  optional float weight_kg = 4 [json_name = "weight_kg"];
+}
+
+message ContainerTypeList {
+  repeated ContainerType container_types = 1 [json_name = "container_types"];
+}
+
+// *****************************************************
+// CONTAINER GROUP
+// *****************************************************
+message ContainerGroup {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required ContainerType container_type = 3 [json_name = "container_type"];
+  required uint32 number_of_containers = 4 [json_name = "number_of_containers"];
+  required uint64 pickup_location_id = 5 [json_name = "pickup_location_id"];
+  optional google.protobuf.Struct service_schedule_by_job_type = 6 [json_name = "service_schedule_by_job_type"];
+
+  optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+  optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
+}
+
+message ContainerGroupCreate {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 container_type_id = 2 [json_name = "container_type_id"];
+  required uint32 number_of_containers = 3 [json_name = "number_of_containers"];
+  required uint64 pickup_location_id = 4 [json_name = "pickup_location_id"];
+  optional google.protobuf.Struct service_schedule_by_job_type = 5 [json_name = "service_schedule_by_job_type"];
+}
+
+message ContainerGroupUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  optional uint64 container_type_id = 2 [json_name = "container_type_id"];
+  optional uint32 number_of_containers = 3 [json_name = "number_of_containers"];
+  optional uint64 pickup_location_id = 4 [json_name = "pickup_location_id"];
+  optional google.protobuf.Struct service_schedule_by_job_type = 5 [json_name = "service_schedule_by_job_type"];
+}
+
+message ContainerGroupList {
+  repeated ContainerGroup container_groups = 1 [json_name = "container_groups"];
+}
+
+// *****************************************************
+// CONTAINER
+// *****************************************************
 enum ContainerStatus {
   CONTAINER_STATUS_UNDEFINED = 0;
   CONTAINER_STATUS_INACTIVE = 1;
   CONTAINER_STATUS_ACTIVE = 2;
 }
 
-message ContainerType {
-  required uint64 id = 1 [json_name = "id"];
-  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
-  required string type_name = 3 [json_name = "type_name"];
-  required uint64 owner_organization_id = 5 [json_name = "owner_organization_id"];
-  required float cubic_meter = 6 [json_name = "cubic_meter"];
-  required uint64 weight = 7 [json_name = "weight"];
-}
-
-message ContainerTypeCreate {
-  required string type_name = 1 [json_name = "type_name"];
-  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
-  required float cubic_meter = 3 [json_name = "cubic_meter"];
-  required uint64 weight = 4 [json_name = "weight"];
-}
-
-message ContainerTypeUpdate {
-  required uint64 id = 1 [json_name = "id"];
-  optional string type_name = 2 [json_name = "type_name"];
-  optional float cubic_meter = 3 [json_name = "cubic_meter"];
-  optional uint64 weight = 4 [json_name = "weight"];
-}
-
 message Container {
   required uint64 id = 1 [json_name = "id"];
-  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
-  required string name = 3 [json_name = "name"];
-  required ContainerType type = 4 [json_name = "type"];
-  required ContainerStatus status = 5 [json_name = "status"];
-  required uint64 owner_organization_id = 6 [json_name = "owner_organization_id"];
-  required bool is_tracked = 7 [json_name = "is_tracked"];
-  optional uint64 pickup_location_id = 8 [json_name = "pickup_location_id"];
-  required google.protobuf.Timestamp updated_at = 9 [json_name = "updated_at"];
+  required string name = 2 [json_name = "name"];
+  required ContainerType type = 3 [json_name = "type"];
+  required ContainerStatus status = 4 [json_name = "status"];
+  required uint64 owner_organization_id = 5 [json_name = "owner_organization_id"];
+  required bool is_tracked = 6 [json_name = "is_tracked"];
+  optional uint64 pickup_location_id = 7 [json_name = "pickup_location_id"];
+
+  required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+  required google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
 }
 
 message ContainerCreate {
