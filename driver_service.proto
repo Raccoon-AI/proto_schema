@@ -6,6 +6,7 @@ import "driver_on_shift.proto";
 import "file_upload.proto";
 import "general.proto";
 import "job.proto";
+import "location.proto";
 import "route.proto";
 
 option go_package = "./pb";
@@ -60,4 +61,6 @@ service DriverService {
   rpc FirebaseNotifications(FirebaseNotificationsRequest) returns (FirebaseNotificationsResponse) {}
 
   // TODO: add endpoints related to pins(depots, pickups) on the map
+
+  rpc GetLocations(LocationListRequest) returns (LocationList) {}
 }

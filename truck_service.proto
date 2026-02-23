@@ -2,6 +2,8 @@ syntax = "proto2";
 
 package raccoonai;
 
+import "enums.proto";
+import "general.proto";
 import "organization.proto";
 import "truck.proto";
 
@@ -45,9 +47,23 @@ message TruckRequest {
   required uint64 truck_id = 1 [json_name = "truck_id"];
 }
 
+message CustomTruckTypeIDRequest {
+  required uint64 id = 1 [json_name = "id"];
+}
+
+message CustomTruckTypeListRequest {
+  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+}
+
 service TruckService {
   rpc SearchTruck(SearchTruckRequest) returns (SearchTruckResponse) {}
   rpc TruckList(TruckListRequest) returns (TruckListResponse) {}
   rpc CreateGuestTruck(CreateGuestTruckRequest) returns (Truck) {}
   rpc UpdateTruckWeight(TruckWeightRequest) returns (Truck) {}
+
+  rpc CreateTruckType(CustomTruckTypeCreate) returns (CustomTruckType) {}
+  rpc GetTruckTypeByID(CustomTruckTypeIDRequest) returns (CustomTruckType) {}
+  rpc UpdateTruckType(CustomTruckTypeUpdate) returns (CustomTruckType) {}
+  rpc DeleteTruckType(CustomTruckTypeIDRequest) returns (MessageResponse) {}
+  rpc ListTruckTypes(CustomTruckTypeListRequest) returns (CustomTruckTypeList) {}
 }

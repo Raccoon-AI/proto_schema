@@ -1,42 +1,13 @@
 syntax = "proto2";
 package raccoonai;
 
+import "driver_on_shift.proto";
+import "enums.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "job.proto";
 
 option go_package = "./pb";
-
-enum RouteStatus {
-  ROUTE_STATUS_UNDEFINED = 0;
-  ROUTE_STATUS_CREATED = 1;
-  ROUTE_STATUS_IN_PROGRESS = 2;
-  ROUTE_STATUS_RETURNING = 3;
-  ROUTE_STATUS_COMPLETED = 4;
-  ROUTE_STATUS_CANCELLED = 5;
-}
-
-enum RouteCategory {
-  ROUTE_CATEGORY_UNDEFINED = 0;
-  ROUTE_CATEGORY_CO = 1;
-  ROUTE_CATEGORY_MSW = 2;
-  ROUTE_CATEGORY_LIQUID = 3;
-  ROUTE_CATEGORY_TIPPER = 4;
-  ROUTE_CATEGORY_DISINFECTION = 5;
-}
-
-enum RouteEvent {
-  ROUTE_EVENT_UNDEFINED = 0;
-  ROUTE_EVENT_CREATE_ROUTE = 1;
-  ROUTE_EVENT_START = 2;
-  ROUTE_EVENT_RETURN_BACK = 3;
-  ROUTE_EVENT_COMPLETE = 4;
-  ROUTE_EVENT_CANCEL_ROUTE_DUE_RECEIVER_REASONS = 5;
-  ROUTE_EVENT_CANCEL_ROUTE_DUE_PROVIDER_REASONS = 6;
-  ROUTE_EVENT_FORCE_COMPLETE = 7;
-  ROUTE_EVENT_CREATE_ROUTE_BY_AI = 8;
-  ROUTE_EVENT_UPDATE_JOBS = 9;
-}
 
 message RouteEventIn {
   required RouteEvent event = 1 [json_name = "event"];
@@ -71,6 +42,7 @@ message Route {
   optional uint64 scale_record_id = 23 [json_name = "scale_record_id"];
   optional RouteCategory route_category = 24 [json_name = "route_category"];
   repeated Job jobs = 25 [json_name = "jobs"];
+  optional DriverOnShift driver_on_shift = 26 [json_name = "driver_on_shift"];
 }
 
 message RouteCreate {

@@ -1,0 +1,50 @@
+syntax = "proto2";
+package raccoonai;
+
+import "general.proto";
+import "pickup_location.proto";
+
+option go_package = "./pb";
+
+message PickupLocationIDRequest {
+  required uint64 id = 1 [json_name = "id"];
+}
+
+message PickupLocationListRequest {
+  optional uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  optional uint64 service_receiver_id = 2 [json_name = "service_receiver_id"];
+}
+
+message PickupLocationListToGroupRequest {
+  repeated uint64 pickup_location_ids = 1 [json_name = "pickup_location_ids"];
+  required uint64 pickup_location_group_id = 2 [json_name = "pickup_location_group_id"];
+}
+
+message PickupLocationListToContractRequest {
+  repeated uint64 pickup_location_ids = 1 [json_name = "pickup_location_ids"];
+  required uint64 contract_id = 2 [json_name = "contract_id"];
+}
+
+message PickupLocationGroupIDRequest {
+  required uint64 id = 1 [json_name = "id"];
+}
+
+message PickupLocationGroupListRequest {
+  optional uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  optional uint64 service_receiver_id = 2 [json_name = "service_receiver_id"];
+}
+
+service PickupLocationService {
+  // Pickup Location operations
+  rpc CreatePickupLocation(PickupLocationCreate) returns (PickupLocation) {}
+  rpc GetPickupLocationByID(PickupLocationIDRequest) returns (PickupLocation) {}
+  rpc UpdatePickupLocation(PickupLocationUpdate) returns (PickupLocation) {}
+  rpc DeletePickupLocation(PickupLocationIDRequest) returns (MessageResponse) {}
+  rpc ListPickupLocations(PickupLocationListRequest) returns (PickupLocationList) {}
+  rpc AddPickupLocationToGroup(PickupLocationListToGroupRequest) returns (MessageResponse) {}
+  rpc BindPickupLocationListToContract(PickupLocationListToContractRequest) returns (MessageResponse) {}
+  // Pickup Location Group operations
+  rpc CreatePickupLocationGroup(PickupLocationGroupCreate) returns (PickupLocationGroup) {}
+  rpc GetPickupLocationGroupByID(PickupLocationGroupIDRequest) returns (PickupLocationGroup) {}
+  rpc ListPickupLocationGroups(PickupLocationGroupListRequest) returns (PickupLocationGroupList) {}
+}

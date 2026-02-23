@@ -31,7 +31,6 @@ message PickupLocation {
   required double lat = 8 [json_name = "lat"];
   optional google.protobuf.Struct geometry = 9 [json_name = "geometry"];
   optional string address = 10 [json_name = "address"];
-  required string polymorphic_type = 11 [json_name = "polymorphic_type"];
   optional string availability_schedule = 12 [json_name = "availability_schedule"];
   optional string notification_schedule = 13 [json_name = "notification_schedule"];
   optional uint64 num_containers = 14 [json_name = "num_containers"];
@@ -44,6 +43,8 @@ message PickupLocation {
   optional string gis_link = 21 [json_name = "gis_link"];
   optional uint64 service_time = 22 [json_name = "service_time"];
   optional uint64 primary_contact_id = 23 [json_name = "primary_contact_id"]; // ID of primary contact
+  optional string plan_waste_volume = 24 [json_name = "plan_waste_volume"];
+  optional string plan_waste_mass = 25 [json_name = "plan_waste_mass"];
 }
 
 message PickupLocationCreate {
@@ -65,6 +66,8 @@ message PickupLocationCreate {
   optional string comment = 16 [json_name = "comment"];
   optional string gis_link = 17 [json_name = "gis_link"];
   optional uint64 service_time = 18 [json_name = "service_time"];
+  optional string plan_waste_volume = 19 [json_name = "plan_waste_volume"];
+  optional string plan_waste_mass = 20 [json_name = "plan_waste_mass"];
 }
 
 message PickupLocationUpdate {
@@ -88,6 +91,8 @@ message PickupLocationUpdate {
   optional string gis_link = 18 [json_name = "gis_link"];
   optional uint64 service_time = 19 [json_name = "service_time"];
   optional uint64 primary_contact_id = 20 [json_name = "primary_contact_id"];
+  optional string plan_waste_volume = 21 [json_name = "plan_waste_volume"];
+  optional string plan_waste_mass = 22 [json_name = "plan_waste_mass"];
 }
 
 message PickupLocationListContract {
@@ -101,4 +106,21 @@ message PickupLocationList {
 
 message PickupLocationRequest {
   required uint64 pickup_location_id = 1 [json_name = "pickup_location_id"];
+}
+
+message PickupLocationGroup {
+  required uint64 id = 1 [json_name = "id"];
+  required string name = 2 [json_name = "name"];
+  repeated PickupLocation pickup_locations = 3 [json_name = "pickup_locations"];
+  required uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
+}
+
+message PickupLocationGroupCreate {
+  required string group_name = 1 [json_name = "name"];
+  repeated uint64 pickup_location_ids = 2 [json_name = "pickup_location_ids"];
+  optional uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
+}
+
+message PickupLocationGroupList {
+  repeated PickupLocationGroup pickup_location_groups = 1 [json_name = "pickup_location_groups"];
 }
