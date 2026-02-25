@@ -82,14 +82,23 @@ enum ContainerStatus {
   CONTAINER_STATUS_ACTIVE = 2;
 }
 
+enum ContainerTrackingEvent {
+  CONTAINER_TRACKING_EVENT_UNDEFINED = 0;
+  CONTAINER_TRACKING_EVENT_DELIVERED = 1;
+  CONTAINER_TRACKING_EVENT_COLLECTED = 2;
+}
+
 message Container {
   required uint64 id = 1 [json_name = "id"];
   required string name = 2 [json_name = "name"];
-  required ContainerType type = 3 [json_name = "type"];
-  required ContainerStatus status = 4 [json_name = "status"];
-  required uint64 owner_organization_id = 5 [json_name = "owner_organization_id"];
-  required bool is_tracked = 6 [json_name = "is_tracked"];
-  optional uint64 pickup_location_id = 7 [json_name = "pickup_location_id"];
+  required uint64 type_id = 3 [json_name = "type_id"];
+  required ContainerType type = 4 [json_name = "type"];
+  required ContainerStatus status = 5 [json_name = "status"];
+  required uint64 owner_organization_id = 6 [json_name = "owner_organization_id"];
+  required bool is_tracked = 7 [json_name = "is_tracked"];
+  optional uint64 pickup_location_id = 8 [json_name = "pickup_location_id"];
+  optional ContainerTrackingEvent last_event = 9 [json_name = "last_event"];
+  optional google.protobuf.Timestamp last_event_at = 10 [json_name = "last_event_at"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   required google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -100,6 +109,9 @@ message ContainerCreate {
   required uint64 type_id = 2 [json_name = "type_id"];
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
   optional uint64 pickup_location_id = 4 [json_name = "pickup_location_id"];
+  required bool is_tracked = 5 [json_name = "is_tracked"];
+  optional ContainerTrackingEvent last_event = 6 [json_name = "last_event"];
+  optional google.protobuf.Timestamp last_event_at = 7 [json_name = "last_event_at"];
 }
 
 message ContainerUpdate {
@@ -109,9 +121,12 @@ message ContainerUpdate {
   optional ContainerStatus status = 4 [json_name = "status"];
   optional bool is_tracked = 5 [json_name = "is_tracked"];
   optional uint64 pickup_location_id = 6 [json_name = "pickup_location_id"];
+  optional ContainerTrackingEvent last_event = 7 [json_name = "last_event"];
+  optional google.protobuf.Timestamp last_event_at = 8 [json_name = "last_event_at"];
 }
 
 message ContainerStatusUpdate {
   required string name = 1 [json_name = "name"];
   required uint64 pickup_location_id = 2 [json_name = "pickup_location_id"];
+  required ContainerTrackingEvent last_event = 3 [json_name = "last_event"];
 }
