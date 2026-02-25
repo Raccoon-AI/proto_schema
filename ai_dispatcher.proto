@@ -26,6 +26,12 @@ enum CapacityPlanResponseStatus {
   CAPACITY_PLAN_RESPONSE_STATUS_INTERNAL_ERROR = 3;
 }
 
+message DemandPrediction {
+  required uint64 pickup_location_id = 1 [json_name = "pickup_location_id"];
+  required string pickup_location_name = 2 [json_name = "pickup_location_name"];
+  required uint64 predicted_count = 3 [json_name = "predicted_count"];
+}
+
 message CapacityPlanResponse {
   required CapacityPlanResponseStatus status = 1 [json_name = "status"];
   required uint64 num_existing_jobs = 2 [json_name = "num_existing_jobs"];
@@ -34,6 +40,7 @@ message CapacityPlanResponse {
 
   optional string error_message = 5 [json_name = "error_message"];
   optional string info_json = 8 [json_name = "info_json"];
+  repeated DemandPrediction demand_predictions = 9 [json_name = "demand_predictions"];
 }
 
 service AIDispatcherV4 {
