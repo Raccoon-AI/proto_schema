@@ -8,17 +8,16 @@ import "google/protobuf/timestamp.proto";
 option go_package = "./pb";
 
 message GreenCountryScaleRecord {
-  required uint64 legacy_id = 2 [json_name = "legacy_id"];
-  optional string truck_number = 3 [json_name = "truck_number"];
-  optional string transporter = 4 [json_name = "transporter"]; // Полное имя МВО, как указано в ГринКантри
-  optional string landfill = 5 [json_name = "landfill"]; // Название полигона, как указано в ГринКантри
-  optional string entrance_time = 6 [json_name = "entrance_time"]; // Время въезда в формате 2025-06-09 07:13:34
-  optional string exit_time = 7 [json_name = "exit_time"]; // Время выезда в формате 2025-06-09 07:13:34
-  optional string time_on_site = 8 [json_name = "time_on_site"]; // Время на площадке в формате 00:00:00
-  optional double entrance_weight_kg = 9 [json_name = "weight_kg"];
-  optional double exit_weight_kg = 10 [json_name = "exit_weight_kg"];
-  optional double netto_weight_kg = 11 [json_name = "netto_weight_kg"];
-  optional double permissible_error_kg = 12 [json_name = "permissible_error_kg"];
+  required uint64 legacy_id = 1 [json_name = "legacy_id"]; // ID записи в ГринКантри, для связи с фото
+  optional string truck_number = 2 [json_name = "truck_number"]; // Номер автомобиля, как указано в ГринКантри
+  optional string sender = 3 [json_name = "sender"]; // Полное имя МВО, как указано в ГринКантри
+  optional string receiver = 4 [json_name = "receiver"]; // Название полигона, как указано в ГринКантри
+  optional google.protobuf.Timestamp first_time_scaled_at = 5 [json_name = "first_time_scaled_at"]; // Время въезда в формате 2025-06-09 07:13:34
+  optional google.protobuf.Timestamp second_time_scaled_at = 6 [json_name = "second_time_scaled_at"]; // Время выезда в формате 2025-06-09 07:13:34
+  optional double brutto_kg = 7 [json_name = "brutto_kg"]; // Масса транспортного средства на въезде, кг
+  optional double tare_kg = 8 [json_name = "tare_kg"]; // Масса транспортного средства на выезде, кг
+  optional double netto_kg = 9 [json_name = "netto_kg"]; // Выгружено кг
+  optional string waste_type = 10 [json_name = "waste_type"]; // Вид отходов, как указано в ГринКантри
 }
 
 message GreenCountryScaleRecordPhoto {
