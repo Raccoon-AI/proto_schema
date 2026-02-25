@@ -114,6 +114,8 @@ message JobUpdate {
   optional google.protobuf.Timestamp gps_end_at = 29 [json_name = "gps_end_at"];
   optional bool visible_to_ai = 30 [json_name = "visible_to_ai"];
   optional JobCategory job_category = 31 [json_name = "job_category"];
+  optional ContainerType container_type = 33 [json_name = "container_type"];
+  optional uint64 container_type_id = 32 [json_name = "container_type_id"];
 }
 
 message JobStatusUpdate {
