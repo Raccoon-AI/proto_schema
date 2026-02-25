@@ -1,7 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
-import "container_type.proto";
+import "container.proto";
 import "driver_on_shift.proto";
 import "enums.proto";
 import "file_upload.proto";
