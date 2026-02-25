@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "container.proto";
 import "driver_on_shift.proto";
 import "enums.proto";
 import "file_upload.proto";
@@ -114,6 +115,8 @@ message JobUpdate {
   optional google.protobuf.Timestamp gps_end_at = 29 [json_name = "gps_end_at"];
   optional bool visible_to_ai = 30 [json_name = "visible_to_ai"];
   optional JobCategory job_category = 31 [json_name = "job_category"];
+  optional uint64 container_type_id = 32 [json_name = "container_type_id"];
+  optional ContainerType container_type = 33 [json_name = "container_type"];
 }
 
 message JobStatusUpdate {
