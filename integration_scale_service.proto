@@ -1,0 +1,81 @@
+syntax = "proto2";
+
+package raccoonai;
+
+import "general.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+message GreenCountryScaleRecord {
+  required uint64 legacy_id = 2 [json_name = "legacy_id"];
+  optional string truck_number = 3 [json_name = "truck_number"];
+  optional string transporter = 4 [json_name = "transporter"]; // Полное имя МВО, как указано в ГринКантри
+  optional string landfill = 5 [json_name = "landfill"]; // Название полигона, как указано в ГринКантри
+  optional string entrance_time = 6 [json_name = "entrance_time"]; // Время въезда в формате 2025-06-09 07:13:34
+  optional string exit_time = 7 [json_name = "exit_time"]; // Время выезда в формате 2025-06-09 07:13:34
+  optional string time_on_site = 8 [json_name = "time_on_site"]; // Время на площадке в формате 00:00:00
+  optional double entrance_weight_kg = 9 [json_name = "weight_kg"];
+  optional double exit_weight_kg = 10 [json_name = "exit_weight_kg"];
+  optional double netto_weight_kg = 11 [json_name = "netto_weight_kg"];
+  optional double permissible_error_kg = 12 [json_name = "permissible_error_kg"];
+}
+
+message GreenCountryScaleRecordPhoto {
+  required uint64 legacy_id = 1 [json_name = "legacy_id"];
+  repeated string photo_list_base64 = 2 [json_name = "photo_list_base64"]; // Список фото в виде base64 строк
+}
+
+message MelkomPolusScaleRecord {
+  required uint64 legacy_id = 1 [json_name = "legacy_id"];
+  optional string truck_number = 2 [json_name = "truck_number"];
+  optional string driver_full_name = 3 [json_name = "driver_full_name"];
+  optional google.protobuf.Timestamp first_time_scaled_at = 4 [json_name = "first_time_scaled_at"];
+  optional google.protobuf.Timestamp second_time_scaled_at = 5 [json_name = "second_time_scaled_at"];
+  optional double brutto_kg = 6 [json_name = "brutto_kg"];
+  optional double netto_kg = 7 [json_name = "netto_kg"];
+  optional double tare_kg = 8 [json_name = "tare_kg"];
+  optional double volume = 9 [json_name = "volume"];
+  optional string waste_type = 10 [json_name = "waste_type"];
+  optional string sender = 11 [json_name = "sender"];
+  optional string receiver = 12 [json_name = "receiver"];
+  optional string bin = 13 [json_name = "bin"];
+  optional string product_code = 14 [json_name = "product_code"]; // Код номенклатуры в 1С (продукция)
+  optional string sender_code = 15 [json_name = "sender_code"]; // Код номенклатуры в 1С (поставщик)
+  optional string receiver_code = 16 [json_name = "receiver_code"]; // Код номенклатуры в 1С (получатель)
+  optional string invoice_num = 17 [json_name = "invoice_num"]; // Номер накладной(с весовой)
+  optional string operation_code = 18 [json_name = "operation_code"]; // Код операции с 1С
+  optional string document_invoice_num = 19 [json_name = "document_invoice_num"]; // Номер накладной(от поставщика по документам)
+  optional string document_brutto_kg = 20 [json_name = "document_brutto_kg"]; // Брутто вес из документа поставщика
+  optional string document_netto_kg = 21 [json_name = "document_netto_kg"]; // Нетто вес из документа поставщика
+  optional string document_tare_kg = 22 [json_name = "document_tare_kg"]; // Тара из документа поставщика
+  optional string document_volume = 23 [json_name = "document_volume"]; // Объем из документа поставщика
+  optional string permit_num = 24 [json_name = "permit_num"]; // Номер пропуска
+  optional string order_num = 25 [json_name = "order_num"]; // Номер заказа
+  optional string seal_num = 26 [json_name = "seal_num"]; // Номер пломбы
+  optional string scale_net_num = 27 [json_name = "scale_net_num"]; // Сетевой номер автовесов
+  optional string delete_mark = 28 [json_name = "delete_mark"]; // Метка на удаление записи
+  optional string commentary = 29 [json_name = "commentary"]; // Комментарий к записи
+  optional double weight1 = 30 [json_name = "weight1"]; // Вес при первом завесе
+  optional double weight2 = 31 [json_name = "weight2"]; // Вес при втором завесе
+  optional double humidity = 32 [json_name = "humidity"]; // Влажность
+  optional double nettomodif = 33 [json_name = "nettomodif"]; // Чистый вес нетто с учетом тары и влажности
+}
+
+message MelkomPolusScaleRecordPhoto {
+  required uint64 legacy_id = 1 [json_name = "legacy_record_id"];
+  repeated string photo_list_base64 = 2 [json_name = "photos"]; // Список фото в виде base64 строк
+}
+
+message UploadPhotoListResponse {
+  required ResponseStatus status = 1 [json_name = "status"];
+  optional string message = 2 [json_name = "message"];
+  repeated string photo_urls = 3 [json_name = "photo_urls"]; // Список URL загруженных фото
+}
+
+service ScaleIntegrationService {
+  rpc RecordFromGreenCountry(GreenCountryScaleRecord) returns (MessageResponse) {}
+  rpc RecordPhotoListFromGreenCountry(GreenCountryScaleRecordPhoto) returns (UploadPhotoListResponse) {}
+  rpc RecordFromMelkomPolus(MelkomPolusScaleRecord) returns (MessageResponse) {}
+  rpc RecordPhotoListFromMelkomPolus(MelkomPolusScaleRecordPhoto) returns (UploadPhotoListResponse) {}
+}
