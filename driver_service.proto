@@ -42,10 +42,47 @@ service DriverService {
   rpc MyShift(EmptyMessageRequest) returns (DriverOnShift) {}
   rpc SendMyLocation(MyLocationRequest) returns (MessageResponse) {}
 
+  // ******** Old Event Calls *********** //
   // event calls
-  rpc SendDriverOnShiftEvent(DriverOnShiftEventIn) returns (DriverOnShift) {}
-  rpc SendJobEvent(JobEventIn) returns (Job) {}
-  rpc SendRouteEvent(RouteEventIn) returns (Route) {}
+  rpc SendDriverOnShiftEvent(DriverOnShiftEventIn) returns (DriverOnShift) {} // To deprecate
+  rpc SendJobEvent(JobEventIn) returns (Job) {} // To deprecate
+  rpc SendRouteEvent(RouteEventIn) returns (Route) {} // To deprecate
+
+  // ******** New Event Calls *********** //
+
+  // Choose route from the list of assigned routes
+  // Changes route status to IN_PROGRESS
+  rpc ChooseRoute(IdRequest) returns (Route) {}
+
+  // Choose job from the list of jobs in current route
+  // Changes job status to ENROUTE
+  rpc ChooseJob(IdRequest) returns (Job) {}
+
+  // When driver chose a job by mistake and want to switch to another job
+  // in the same route. Unassigns the current job first.
+  rpc UnassignCurrentJob(EmptyMessageRequest) returns (MessageResponse) {}
+
+  // Get current assigned route and it's jobs. Can be used by driver app to
+  // refresh the screen after app restart or network failure.
+  rpc GetCurrentRoute(EmptyMessageRequest) returns (Route) {}
+
+  // When arrived to pickup location and start performing service
+  // (e.g., start cleaning container, or start disinfection).
+  // Changes job status to ON_SERVICE
+  rpc StartServiceCurrentJob(EmptyMessageRequest) returns (Job) {}
+
+  // When finished performing service at pickup location and ready to leave.
+  // Changes job status to COMPLETED, and if it's the last job in the route,
+  // changes route status to RETURNING
+  rpc CompleteCurrentJob(EmptyMessageRequest) returns (Job) {}
+
+  // When driver is en-route back to the depot. Changes route status to RETURNING
+  rpc ReturnToDepot(EmptyMessageRequest) returns (MessageResponse) {}
+
+  // When driver has arrived at the depot and completes the route. Changes route
+  // status to COMPLETED
+  rpc CompleteCurrentRoute(EmptyMessageRequest) returns (Route) {}
+
   // Upload job-related file (e.g., photo evidence)
   rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
 

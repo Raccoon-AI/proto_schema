@@ -37,3 +37,7 @@ message MessageResponse {
 message EmptyMessageRequest {}
 
 message EmptyMessageResponse {}
+
+message IdRequest {
+  required uint64 id = 1 [json_name = "id"];
+}
