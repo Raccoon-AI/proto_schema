@@ -109,7 +109,7 @@ message ContainerCreate {
   required uint64 type_id = 2 [json_name = "type_id"];
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
   optional uint64 pickup_location_id = 4 [json_name = "pickup_location_id"];
-  required bool is_tracked = 5 [json_name = "is_tracked"];
+  optional bool is_tracked = 5 [json_name = "is_tracked"];
   optional ContainerTrackingEvent last_event = 6 [json_name = "last_event"];
   optional google.protobuf.Timestamp last_event_at = 7 [json_name = "last_event_at"];
 }
