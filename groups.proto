@@ -1,0 +1,68 @@
+syntax = "proto2";
+package raccoonai;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+message CustomGroup {
+  required uint64 id = 1 [json_name = "id"];
+  required string name = 2 [json_name = "name"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+  required google.protobuf.Timestamp created_at = 4 [json_name = "created_at"];
+  required google.protobuf.Timestamp updated_at = 5 [json_name = "updated_at"];
+}
+
+message CustomGroupCreate {
+  required string name = 1 [json_name = "name"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+}
+
+message CustomGroupUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  optional string name = 2 [json_name = "name"];
+}
+
+message GroupMembership {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 custom_group_id = 2 [json_name = "custom_group_id"];
+  required uint64 user_id = 3 [json_name = "user_id"];
+  required string role = 4 [json_name = "role"];
+  required google.protobuf.Timestamp created_at = 5 [json_name = "created_at"];
+  required google.protobuf.Timestamp updated_at = 6 [json_name = "updated_at"];
+}
+
+message GroupMembershipCreate {
+  required uint64 custom_group_id = 1 [json_name = "custom_group_id"];
+  required uint64 user_id = 2 [json_name = "user_id"];
+  required string role = 3 [json_name = "role"];
+}
+
+message GroupMembershipUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  optional string role = 2 [json_name = "role"];
+}
+
+message ResourceAccessGrant {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 custom_group_id = 2 [json_name = "custom_group_id"];
+  required uint64 organization_id = 3 [json_name = "organization_id"];
+  required string resource_type = 4 [json_name = "resource_type"];
+  required string access_level = 5 [json_name = "access_level"];
+  required google.protobuf.Timestamp created_at = 6 [json_name = "created_at"];
+  required google.protobuf.Timestamp updated_at = 7 [json_name = "updated_at"];
+}
+
+message ResourceAccessGrantCreate {
+  required uint64 custom_group_id = 1 [json_name = "custom_group_id"];
+  required uint64 organization_id = 2 [json_name = "organization_id"];
+  required string resource_type = 3 [json_name = "resource_type"];
+  required string access_level = 4 [json_name = "access_level"];
+}
+
+message ResourceAccessGrantUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  optional uint64 organization_id = 2 [json_name = "organization_id"];
+  optional string resource_type = 3 [json_name = "resource_type"];
+  optional string access_level = 4 [json_name = "access_level"];
+}
