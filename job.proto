@@ -85,7 +85,6 @@ message JobCreate {
   optional bool visible_to_ai = 18 [json_name = "visible_to_ai"];
   optional JobCategory job_category = 19 [json_name = "job_category"];
   optional uint64 container_type_id = 20 [json_name = "container_type_id"];
-  optional ContainerType container_type = 21 [json_name = "container_type"];
 }
 
 message JobUpdate {
@@ -120,7 +119,6 @@ message JobUpdate {
   optional bool visible_to_ai = 30 [json_name = "visible_to_ai"];
   optional JobCategory job_category = 31 [json_name = "job_category"];
   optional uint64 container_type_id = 32 [json_name = "container_type_id"];
-  optional ContainerType container_type = 33 [json_name = "container_type"];
 }
 
 message JobStatusUpdate {
