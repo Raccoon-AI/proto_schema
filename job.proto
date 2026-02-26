@@ -60,6 +60,8 @@ message Job {
   repeated FileUpload file_reports = 38 [json_name = "file_reports"];
   optional bool visible_to_ai = 39 [json_name = "visible_to_ai"];
   optional JobCategory job_category = 40 [json_name = "job_category"];
+  optional uint64 container_type_id = 41 [json_name = "container_type_id"];
+  optional ContainerType container_type = 42 [json_name = "container_type"];
 }
 
 message JobCreate {
@@ -82,6 +84,8 @@ message JobCreate {
   optional bool is_pseudo = 17 [json_name = "is_pseudo"];
   optional bool visible_to_ai = 18 [json_name = "visible_to_ai"];
   optional JobCategory job_category = 19 [json_name = "job_category"];
+  optional uint64 container_type_id = 20 [json_name = "container_type_id"];
+  optional ContainerType container_type = 21 [json_name = "container_type"];
 }
 
 message JobUpdate {
