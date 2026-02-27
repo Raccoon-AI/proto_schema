@@ -67,13 +67,29 @@ enum JobCategory {
 }
 
 enum JobStatus {
+  // Default value, should not be used.
   JOB_STATUS_UNDEFINED = 0;
+  // Marks jobs that are created but have not yet been assigned to any drivers.
   JOB_STATUS_CREATED = 1;
+  // Jobs that are assigned to drivers but have not yet going to the pickup location.
   JOB_STATUS_ASSIGNED = 2;
+  // Jobs that are assigned to drivers and are currently en-route to the pickup location.
   JOB_STATUS_ENROUTE = 3;
+  // Marks jobs that are completed by the driver.
   JOB_STATUS_COMPLETED = 4;
+  // Marks jobs that are cancelled by the dispatcher or client due to various reasons.
   JOB_STATUS_CANCELLED = 5;
+  // Marks jobs that are currently being performed by the driver.
   JOB_STATUS_ON_SERVICE = 6;
+  // Marks jobs that are force completed by dispatcher or system due to various reasons (e.g. driver
+  // unable to complete the job due to safety issue, but the job is still considered completed for
+  // record keeping and billing purposes).
+  JOB_STATUS_FORCE_COMPLETED = 7;
+  // Marks jobs that are could not be completed due to various reasons (e.g. truck is full, pickup
+  // location is blocked). Jobs with this status are not considered completed, but the system will
+  // automatically create a new job with the same details (i.e. pickup_location, order_number) for
+  // someone to attempt again.
+  JOB_STATUS_NOT_COMPLETED = 8;
 }
 
 enum DispatcherReviewStatus {
@@ -102,12 +118,33 @@ enum JobEvent {
 // *****************************************************
 
 enum RouteStatus {
+  // Default value, should not be used.
   ROUTE_STATUS_UNDEFINED = 0;
+  // Marks routes that are created, assigned to driver, but have not yet been started by the driver.
   ROUTE_STATUS_CREATED = 1;
+  // Driver has started the route, but has not yet completed all jobs in the route.
   ROUTE_STATUS_IN_PROGRESS = 2;
+  // Driver has started the route and is currently en-route back to the depot after
+  // completing all jobs in the route. Changed by job state machine when the last job in the route is completed.
   ROUTE_STATUS_RETURNING = 3;
+  // Marks routes that are completed by the driver, meaning all jobs in the route are
+  // completed and the driver has returned to the depot.
   ROUTE_STATUS_COMPLETED = 4;
+  // Jobs that are not completed will be marked as CANCELLED, but jobs that are already
+  // completed will remain COMPLETED
   ROUTE_STATUS_CANCELLED = 5;
+  // Marks all jobs in the route as FORCE_COMPLETED, regardless of their individual statuses.
+  // Can be done only by dispatcher.
+  ROUTE_STATUS_FORCE_COMPLETED = 6;
+  // Marks routes that are returning to the depot, but some jobs in the route are not completed
+  // due to various reasons (e.g. truck is full, pickup location is blocked).
+  // Not completed jobs will be marked as NOT_COMPLETED, which consequently trigger to create
+  // new jobs with same order information.
+  ROUTE_STATUS_RETURNING_WITH_UNCOMPLETED_JOBS = 7;
+  // Marks routes that are completed by the driver, but some jobs in the route are not completed
+  // due to various reasons (e.g. truck is full, pickup location is blocked). Jobs that are not
+  // completed will be marked as NOT_COMPLETED, but jobs that are already completed will remain COMPLETED.
+  ROUTE_STATUS_PARTIALLY_COMPLETED = 8;
 }
 
 enum RouteCategory {
@@ -138,14 +175,27 @@ enum RouteEvent {
 
 enum DriverOnShiftStatus {
   DRIVER_ON_SHIFT_STATUS_UNDEFINED = 0;
+  // To be deprecated
   DRIVER_ON_SHIFT_STATUS_TRUCK_IDLE = 1;
   DRIVER_ON_SHIFT_STATUS_DRIVER_IDLE = 2;
   DRIVER_ON_SHIFT_STATUS_CONFIRMATION = 3;
   DRIVER_ON_SHIFT_STATUS_ENROUTE = 4;
   DRIVER_ON_SHIFT_STATUS_ON_SERVICE = 5;
-  DRIVER_ON_SHIFT_STATUS_ENDED = 6;
+
+  // Below statuses to be used in the future
+
+  // Driver is on shift but has not yet started any route,
+  // and is waiting for dispatcher's assignment.
+  DRIVER_ON_SHIFT_STATUS_IDLE = 10;
+  // Driver is on shift and currently performing a route
+  // assigned by dispatcher.
+  DRIVER_ON_SHIFT_STATUS_ACTIVE = 11;
+  // Shift is ended, either by driver or dispatcher. Driver
+  // is off shift and is not available for assignment.
+  DRIVER_ON_SHIFT_STATUS_ENDED = 12;
 }
 
+// To be deprecated
 enum DriverOnShiftEvent {
   DRIVER_ON_SHIFT_EVENT_UNDEFINED = 0;
   DRIVER_ON_SHIFT_EVENT_CREATE_SHIFT = 1;
