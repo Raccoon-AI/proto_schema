@@ -7,20 +7,20 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
-message GreenCountryScaleRecord {
-  required uint64 legacy_id = 1 [json_name = "legacy_id"]; // ID записи в ГринКантри, для связи с фото
-  optional string truck_number = 2 [json_name = "truck_number"]; // Номер автомобиля, как указано в ГринКантри
-  optional string sender = 3 [json_name = "sender"]; // Полное имя МВО, как указано в ГринКантри
-  optional string receiver = 4 [json_name = "receiver"]; // Название полигона, как указано в ГринКантри
+message EcoPolygonScaleRecord {
+  required uint64 legacy_id = 1 [json_name = "legacy_id"]; // ID записи в ЭкоПолигонАстана, для связи с фото
+  optional string truck_number = 2 [json_name = "truck_number"]; // Номер автомобиля, как указано в ЭкоПолигонАстана
+  optional string sender = 3 [json_name = "sender"]; // Полное имя МВО, как указано в ЭкоПолигонАстана
+  optional string receiver = 4 [json_name = "receiver"]; // Название полигона, как указано в ЭкоПолигонАстана
   optional google.protobuf.Timestamp first_time_scaled_at = 5 [json_name = "first_time_scaled_at"]; // Время въезда в формате 2025-06-09 07:13:34
   optional google.protobuf.Timestamp second_time_scaled_at = 6 [json_name = "second_time_scaled_at"]; // Время выезда в формате 2025-06-09 07:13:34
   optional double brutto_kg = 7 [json_name = "brutto_kg"]; // Масса транспортного средства на въезде, кг
   optional double tare_kg = 8 [json_name = "tare_kg"]; // Масса транспортного средства на выезде, кг
   optional double netto_kg = 9 [json_name = "netto_kg"]; // Выгружено кг
-  optional string waste_type = 10 [json_name = "waste_type"]; // Вид отходов, как указано в ГринКантри
+  optional string waste_type = 10 [json_name = "waste_type"]; // Вид отходов, как указано в ЭкоПолигонАстана
 }
 
-message GreenCountryScaleRecordPhoto {
+message EcoPolygonScaleRecordPhoto {
   required uint64 legacy_id = 1 [json_name = "legacy_id"];
   repeated string photo_list_base64 = 2 [json_name = "photo_list_base64"]; // Список фото в виде base64 строк
 }
@@ -73,8 +73,8 @@ message UploadPhotoListResponse {
 }
 
 service ScaleIntegrationService {
-  rpc RecordFromGreenCountry(GreenCountryScaleRecord) returns (MessageResponse) {}
-  rpc RecordPhotoListFromGreenCountry(GreenCountryScaleRecordPhoto) returns (UploadPhotoListResponse) {}
+  rpc RecordFromEcoPolygon(EcoPolygonScaleRecord) returns (MessageResponse) {}
+  rpc RecordPhotoListFromEcoPolygon(EcoPolygonScaleRecordPhoto) returns (UploadPhotoListResponse) {}
   rpc RecordFromMelkomPolus(MelkomPolusScaleRecord) returns (MessageResponse) {}
   rpc RecordPhotoListFromMelkomPolus(MelkomPolusScaleRecordPhoto) returns (UploadPhotoListResponse) {}
 }
