@@ -38,6 +38,7 @@ message OrganizationSettings {
   optional double map_center_lon = 10 [json_name = "map_center_lon"];
   optional bool ai_enabled = 11 [json_name = "ai_enabled"];
   optional TableColumnsConfig table_columns_config = 12 [json_name = "table_columns_config"];
+  optional double reward_coeff = 13 [json_name = "reward_coeff"];
 }
 
 message OrganizationSettingsCreate {
