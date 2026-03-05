@@ -62,6 +62,7 @@ message Job {
   optional JobCategory job_category = 40 [json_name = "job_category"];
   optional uint64 container_type_id = 41 [json_name = "container_type_id"];
   optional ContainerType container_type = 42 [json_name = "container_type"];
+  optional string order_number = 43 [json_name = "order_number"];
 }
 
 message JobCreate {
