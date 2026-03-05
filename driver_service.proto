@@ -18,12 +18,12 @@ message JobFileUploadRequest {
 }
 
 message MyLocationRequest {
-  required float lat = 1 [json_name = "lat"];
-  required float lon = 2 [json_name = "lon"];
-  optional float accuracy = 3 [json_name = "accuracy"];
-  optional float altitude = 4 [json_name = "altitude"];
-  optional float heading = 5 [json_name = "heading"];
-  optional float speed = 6 [json_name = "speed"];
+  required double lat = 1 [json_name = "lat"];
+  required double lon = 2 [json_name = "lon"];
+  optional double accuracy = 3 [json_name = "accuracy"];
+  optional double altitude = 4 [json_name = "altitude"];
+  optional double heading = 5 [json_name = "heading"];
+  optional double speed = 6 [json_name = "speed"];
 }
 
 message FirebaseNotificationsRequest {
