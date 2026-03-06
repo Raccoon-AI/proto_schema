@@ -5,6 +5,7 @@ import "container.proto";
 import "driver_on_shift.proto";
 import "file_upload.proto";
 import "general.proto";
+import "google/protobuf/timestamp.proto";
 import "job.proto";
 import "location.proto";
 import "route.proto";
@@ -24,6 +25,9 @@ message MyLocationRequest {
   optional double altitude = 4 [json_name = "altitude"];
   optional double heading = 5 [json_name = "heading"];
   optional double speed = 6 [json_name = "speed"];
+  optional uint64 current_route_id = 7 [json_name = "route_id"];
+  optional uint64 current_job_id = 8 [json_name = "job_id"];
+  required google.protobuf.Timestamp sent_at = 9 [json_name = "sent_at"];
 }
 
 message FirebaseNotificationsRequest {
