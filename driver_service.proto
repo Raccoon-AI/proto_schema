@@ -58,13 +58,10 @@ service DriverService {
   // Changes route status to IN_PROGRESS
   rpc ChooseRoute(IdRequest) returns (Route) {}
 
-  // Choose job from the list of jobs in current route
-  // Changes job status to ENROUTE
-  rpc ChooseJob(IdRequest) returns (Job) {}
-
-  // When driver chose a job by mistake and want to switch to another job
-  // in the same route. Unassigns the current job first.
-  rpc UnassignCurrentJob(EmptyMessageRequest) returns (MessageResponse) {}
+  // Choose pickup location from the list of jobs in the assigned route.
+  // If the route has several jobs at the same pickup location, all those
+  // jobs will be ENROUTE and returned.
+  rpc ChoosePickupLocation(IdRequest) returns (JobList) {}
 
   // Get current assigned route and it's jobs. Can be used by driver app to
   // refresh the screen after app restart or network failure.
@@ -73,15 +70,17 @@ service DriverService {
   // When arrived to pickup location and start performing service
   // (e.g., start cleaning container, or start disinfection).
   // Changes job status to ON_SERVICE
-  rpc StartServiceCurrentJob(EmptyMessageRequest) returns (Job) {}
+  rpc StartServiceCurrentJob(IdRequest) returns (Job) {}
 
   // When finished performing service at pickup location and ready to leave.
   // Changes job status to COMPLETED, and if it's the last job in the route,
   // changes route status to RETURNING
   rpc CompleteCurrentJob(EmptyMessageRequest) returns (Job) {}
 
-  // When driver is en-route back to the depot. Changes route status to RETURNING
-  rpc ReturnToDepot(EmptyMessageRequest) returns (MessageResponse) {}
+  // When driver is en-route back to the depot. Changes route status to RETURNING.
+  // Any unfinished jobs in the route will be marked as NOT_COMPLETED and
+  // recreated with same order number.
+  rpc ReturnToDepot(EmptyMessageRequest) returns (Route) {}
 
   // When driver has arrived at the depot and completes the route. Changes route
   // status to COMPLETED
