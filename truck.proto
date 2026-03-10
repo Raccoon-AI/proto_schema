@@ -33,6 +33,7 @@ message TruckCreate {
   optional uint64 capacity = 6 [json_name = "capacity"];
   optional uint64 year = 7 [json_name = "year"];
   optional string color = 8 [json_name = "color"];
+  optional uint64 truck_type_id = 9 [json_name = "truck_type_id"];
 }
 
 message TruckUpdate {
@@ -45,6 +46,7 @@ message TruckUpdate {
   optional uint64 capacity = 7 [json_name = "capacity"];
   optional uint64 year = 8 [json_name = "year"];
   optional string color = 9 [json_name = "color"];
+  optional uint64 truck_type_id = 10 [json_name = "truck_type_id"];
 }
 
 message TruckStatusUpdate {

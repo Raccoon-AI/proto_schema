@@ -124,3 +124,10 @@ message PickupLocationGroupCreate {
 message PickupLocationGroupList {
   repeated PickupLocationGroup pickup_location_groups = 1 [json_name = "pickup_location_groups"];
 }
+
+message PickupLocationGroupUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  optional string group_name = 2 [json_name = "name"];
+  repeated uint64 pickup_location_ids = 3 [json_name = "pickup_location_ids"];
+  optional uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
+}
