@@ -31,6 +31,8 @@ enum WasteType {
   WASTE_TYPE_PRESSED_MSW = 17; // Хвосты
   WASTE_TYPE_SORTED_MSW = 18; // Хвосты росыпь - Not Pressed, but sorted
   WASTE_TYPE_NOT_SORTED_MSW = 19; // Хвосты росыпь 1 - Not Pressed and not sorted, due to overload
+  WASTE_TYPE_SEPTAGE = 20; // Септик | Ассенизатор
+  WASTE_TYPE_OVERSIZED_BUNKER = 21; // Негабарит бункер
 }
 
 message ScaleBruttoRequest {
@@ -64,7 +66,7 @@ message ScaleRecord {
   optional bool is_guest_record = 9 [json_name = "is_guest_record"];
   required WasteType waste_type = 10 [json_name = "waste_type"];
   required Truck truck = 11 [json_name = "truck"];
-  required User driver = 12 [json_name = "driver"];
+  optional User driver = 12 [json_name = "driver"];
   optional Route route = 13 [json_name = "route"];
   optional string integration_comments = 14 [json_name = "integration_comments"];
   optional RawScaleRecord origin = 15 [json_name = "origin"];
