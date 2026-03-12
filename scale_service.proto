@@ -70,6 +70,7 @@ message ScaleRecord {
   optional Route route = 13 [json_name = "route"];
   optional string integration_comments = 14 [json_name = "integration_comments"];
   optional RawScaleRecord origin = 15 [json_name = "origin"];
+  repeated string photos = 16 [json_name = "photos"];
 }
 
 message ScaleRecordListRequest {
