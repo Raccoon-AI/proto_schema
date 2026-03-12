@@ -63,6 +63,7 @@ message Job {
   optional uint64 container_type_id = 41 [json_name = "container_type_id"];
   optional ContainerType container_type = 42 [json_name = "container_type"];
   optional string order_number = 43 [json_name = "order_number"];
+  optional bool receiver_notified = 44 [json_name = "receiver_notified"];
 }
 
 message JobCreate {
@@ -120,6 +121,7 @@ message JobUpdate {
   optional bool visible_to_ai = 30 [json_name = "visible_to_ai"];
   optional JobCategory job_category = 31 [json_name = "job_category"];
   optional uint64 container_type_id = 32 [json_name = "container_type_id"];
+  optional bool receiver_notified = 33 [json_name = "receiver_notified"];
 }
 
 message JobStatusUpdate {
