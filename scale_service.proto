@@ -2,6 +2,7 @@ syntax = "proto2";
 
 package raccoonai;
 
+import "general.proto";
 import "google/protobuf/timestamp.proto";
 import "organization.proto";
 import "route.proto";
@@ -130,4 +131,5 @@ service ScaleService {
   rpc ScaleBrutto(ScaleBruttoRequest) returns (ScaleResponse) {}
   rpc ScaleNetto(ScaleNettoRequest) returns (ScaleResponse) {}
   rpc ScaleRecordList(ScaleRecordListRequest) returns (ScaleRecordListResponse) {}
+  rpc ScaleRecordByID(IdRequest) returns (ScaleResponse) {}
 }
