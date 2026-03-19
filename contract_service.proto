@@ -1,0 +1,24 @@
+syntax = "proto2";
+package raccoonai;
+
+import "contract.proto";
+import "general.proto";
+
+option go_package = "./pb";
+
+message ContractListRequest {
+  optional uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  optional uint64 target_organization_id = 2 [json_name = "target_organization_id"];
+  optional string status = 3 [json_name = "status"];
+  optional string type = 4 [json_name = "type"];
+  optional uint64 pickup_location_id = 5 [json_name = "pickup_location_id"];
+  optional uint64 container_group_id = 6 [json_name = "container_group_id"];
+}
+
+service ContractService {
+  rpc CreateContract(ContractCreate) returns (Contract);
+  rpc GetContract(IdRequest) returns (Contract);
+  rpc UpdateContract(ContractUpdate) returns (Contract);
+  rpc ListContracts(ContractListRequest) returns (ContractList);
+  rpc ArchiveContract(IdRequest) returns (Contract);
+}
