@@ -48,6 +48,7 @@ message ContainerGroup {
   required uint32 number_of_containers = 4 [json_name = "number_of_containers"];
   required uint64 pickup_location_id = 5 [json_name = "pickup_location_id"];
   optional google.protobuf.Struct service_schedule_by_job_type = 6 [json_name = "service_schedule_by_job_type"];
+  optional uint64 contract_id = 7 [json_name = "contract_id"];
 
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -59,6 +60,7 @@ message ContainerGroupCreate {
   required uint32 number_of_containers = 3 [json_name = "number_of_containers"];
   required uint64 pickup_location_id = 4 [json_name = "pickup_location_id"];
   optional google.protobuf.Struct service_schedule_by_job_type = 5 [json_name = "service_schedule_by_job_type"];
+  optional uint64 contract_id = 7 [json_name = "contract_id"];
 }
 
 message ContainerGroupUpdate {
