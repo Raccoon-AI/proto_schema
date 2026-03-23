@@ -81,7 +81,7 @@ message ContractDetailed {
   optional ContractType type = 3 [json_name = "type"];
   required string deal_number = 4 [json_name = "deal_number"];
   optional string name = 5 [json_name = "name"];
-  required uint64 service_provider_id = 6 [json_name = "service_provider_id"];
+  required uint64 service_provider_id = 6 [json_name = "service_provider_id"]; // To deprecate
   required uint64 target_organization_id = 7 [json_name = "target_organization_id"];
   required google.protobuf.Timestamp start_at = 8 [json_name = "start_at"];
   required google.protobuf.Timestamp end_at = 9 [json_name = "end_at"];
@@ -90,12 +90,13 @@ message ContractDetailed {
   optional string contract_file_key = 12 [json_name = "contract_file_key"];
   optional ContractStatus status = 13 [json_name = "status"];
   optional uint64 tariff = 14 [json_name = "tariff"];
-  required Organization target_organization = 15 [json_name = "target_organization"];
-  repeated PickupLocation pickup_locations = 16 [json_name = "pickup_locations"];
-  optional string contract_file_url = 17 [json_name = "contract_file_url"];
-  optional uint64 rent_cost = 18 [json_name = "rent_cost"];
-  repeated ContainerGroup container_groups = 19 [json_name = "container_groups"];
-  optional google.protobuf.Struct tariff_rate_by_job_type = 20 [json_name = "tariff_rate_by_job_type"];
+  optional Organization service_provider = 15 [json_name = "service_provider"];
+  required Organization target_organization = 16 [json_name = "target_organization"];
+  repeated PickupLocation pickup_locations = 17 [json_name = "pickup_locations"];
+  optional string contract_file_url = 18 [json_name = "contract_file_url"];
+  optional uint64 rent_cost = 19 [json_name = "rent_cost"];
+  repeated ContainerGroup container_groups = 20 [json_name = "container_groups"];
+  optional google.protobuf.Struct tariff_rate_by_job_type = 21 [json_name = "tariff_rate_by_job_type"];
 }
 
 message ContractList {
