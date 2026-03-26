@@ -60,6 +60,10 @@ message GroupMembershipList {
   repeated GroupMembership memberships = 1 [json_name = "memberships"];
 }
 
+message GroupMembershipListRequest {
+  optional uint64 custom_group_id = 1 [json_name = "custom_group_id"];
+}
+
 // --- Access Grants ---
 
 message ResourceAccessGrant {
@@ -110,7 +114,7 @@ service GroupMembershipService {
   rpc AddUserToGroup(GroupMembershipCreate) returns (GroupMembership);
   rpc GetGroupMembership(IdRequest) returns (GroupMembership);
   rpc UpdateGroupMembership(GroupMembershipUpdate) returns (GroupMembership);
-  rpc ListGroupMembers(IdRequest) returns (GroupMembershipList);
+  rpc ListGroupMembers(GroupMembershipListRequest) returns (GroupMembershipList);
   rpc RemoveUserFromGroup(IdRequest) returns (EmptyMessageResponse);
 }
 
