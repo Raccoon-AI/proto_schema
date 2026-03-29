@@ -47,4 +47,5 @@ service PickupLocationService {
   rpc CreatePickupLocationGroup(PickupLocationGroupCreate) returns (PickupLocationGroup) {}
   rpc GetPickupLocationGroupByID(PickupLocationGroupIDRequest) returns (PickupLocationGroup) {}
   rpc ListPickupLocationGroups(PickupLocationGroupListRequest) returns (PickupLocationGroupList) {}
+  rpc UpdatePickupLocationGroup(PickupLocationGroupUpdate) returns (PickupLocationGroup) {}
 }
