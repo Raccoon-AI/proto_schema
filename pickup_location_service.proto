@@ -15,8 +15,13 @@ message PickupLocationListRequest {
   optional uint64 service_receiver_id = 2 [json_name = "service_receiver_id"];
 }
 
-message PickupLocationListToGroupRequest {
-  repeated uint64 pickup_location_ids = 1 [json_name = "pickup_location_ids"];
+message ContainerGroupListToPickupLocationGroupRequest {
+  repeated uint64 container_group_ids = 1 [json_name = "container_group_ids"];
+  required uint64 pickup_location_group_id = 2 [json_name = "pickup_location_group_id"];
+}
+
+message RemoveContainerGroupRequest {
+  required uint64 container_group_id = 1 [json_name = "container_group_id"];
   required uint64 pickup_location_group_id = 2 [json_name = "pickup_location_group_id"];
 }
 
@@ -41,11 +46,14 @@ service PickupLocationService {
   rpc UpdatePickupLocation(PickupLocationUpdate) returns (PickupLocation) {}
   rpc DeletePickupLocation(PickupLocationIDRequest) returns (MessageResponse) {}
   rpc ListPickupLocations(PickupLocationListRequest) returns (PickupLocationList) {}
-  rpc AddPickupLocationToGroup(PickupLocationListToGroupRequest) returns (MessageResponse) {}
   rpc BindPickupLocationListToContract(PickupLocationListToContractRequest) returns (MessageResponse) {}
+
   // Pickup Location Group operations
   rpc CreatePickupLocationGroup(PickupLocationGroupCreate) returns (PickupLocationGroup) {}
   rpc GetPickupLocationGroupByID(PickupLocationGroupIDRequest) returns (PickupLocationGroup) {}
   rpc ListPickupLocationGroups(PickupLocationGroupListRequest) returns (PickupLocationGroupList) {}
   rpc UpdatePickupLocationGroup(PickupLocationGroupUpdate) returns (PickupLocationGroup) {}
+
+  rpc BindContainerGroupsToPickupLocationGroup(ContainerGroupListToPickupLocationGroupRequest) returns (MessageResponse) {}
+  rpc RemoveContainerGroupFromPickupLocationGroup(RemoveContainerGroupRequest) returns (MessageResponse) {}
 }
