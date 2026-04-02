@@ -52,6 +52,10 @@ message ChildrenOrganizationListRequest {
 }
 
 service OrganizationService {
+  rpc CreateOrganization(OrganizationCreate) returns (Organization) {}
+  rpc UpdateOrganization(OrganizationUpdate) returns (Organization) {}
+  rpc DeleteOrganization(OrganizationRequest) returns (EmptyMessageResponse) {}
+
   rpc OrganizationList(OrganizationListRequest) returns (OrganizationListResponse) {}
   rpc AddGuest(AddGuestRequest) returns (AddGuestResponse) {}
   rpc ServiceProviderList(EmptyMessageRequest) returns (OrganizationListResponse) {}
