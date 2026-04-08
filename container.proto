@@ -49,7 +49,7 @@ message ContainerGroup {
   required uint64 pickup_location_id = 5 [json_name = "pickup_location_id"];
   optional google.protobuf.Struct service_schedule_by_job_type = 6 [json_name = "service_schedule_by_job_type"];
   optional uint64 pickup_location_group_id = 7 [json_name = "pickup_location_group_id"];
-  optional uint64 contract_id = 8 [json_name = "contract_id"]; //resolve conflicts
+  optional uint64 contract_id = 8 [json_name = "contract_id"]; //trunk check
 
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
