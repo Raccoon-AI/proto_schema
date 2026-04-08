@@ -45,6 +45,7 @@ message PickupLocation {
   optional uint64 primary_contact_id = 23 [json_name = "primary_contact_id"]; // ID of primary contact
   optional string plan_waste_volume = 24 [json_name = "plan_waste_volume"];
   optional string plan_waste_mass = 25 [json_name = "plan_waste_mass"];
+  optional uint64 service_provider_id = 26 [json_name = "service_provider_id"];
 }
 
 message PickupLocationCreate {
