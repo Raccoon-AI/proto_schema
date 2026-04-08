@@ -43,7 +43,7 @@ message PickupLocationInfo {
 service GovDashService {
   rpc GetGovGeoAccess(EmptyMessageRequest) returns (GovGeoAccessList) {}
 
-  rpc ServiceProviders(GovOrganizationRequest) returns (OrganizationListResponse) {}
+  rpc ServiceProviders(GovOrganizationRequest) returns (ServiceProviderInfoList) {}
   rpc ServiceReceivers(GovOrganizationRequest) returns (OrganizationListResponse) {}
   rpc PickupLocations(GovOrganizationRequest) returns (PickupLocationList) {}
   rpc DisposalSites(EmptyMessageRequest) returns (OrganizationListResponse) {}
