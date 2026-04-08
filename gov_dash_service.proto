@@ -4,6 +4,7 @@ package raccoonai;
 import "general.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
+import "gov_geo_access.proto";
 import "location.proto";
 import "organization.proto";
 import "organization_service.proto";
@@ -11,17 +12,6 @@ import "pickup_location.proto";
 import "truck.proto";
 
 option go_package = "./pb";
-
-message GovGeoAccess {
-  required uint64 id = 1 [json_name = "id"];
-  required string area_name = 2 [json_name = "area_name"];
-  required uint64 organization_id = 3 [json_name = "organization_id"];
-  repeated Organization service_providers = 4 [json_name = "service_providers"];
-  repeated PickupLocation pickup_locations = 5 [json_name = "pickup_locations"];
-  repeated google.protobuf.Struct geometry = 6 [json_name = "geometry"];
-  required google.protobuf.Timestamp created_at = 7 [json_name = "created_at"];
-  required google.protobuf.Timestamp updated_at = 8 [json_name = "updated_at"];
-}
 
 message GovOrganizationRequest {
   repeated uint64 district_organization_ids = 1 [json_name = "district_organization_ids"];

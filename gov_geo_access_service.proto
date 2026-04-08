@@ -1,0 +1,15 @@
+syntax = "proto2";
+package raccoonai;
+
+import "general.proto";
+import "gov_geo_access.proto";
+
+option go_package = "./pb";
+
+service GovGeoAccessService {
+  rpc CreateGovGeoAccess(GovGeoAccessCreate) returns (GovGeoAccess) {}
+  rpc UpdateGovGeoAccess(GovGeoAccessUpdate) returns (GovGeoAccess) {}
+  rpc GetGovGeoAccess(IdRequest) returns (GovGeoAccess) {}
+  rpc UpdateServiceProviders(GovGeoAccessAssociationRequest) returns (GovGeoAccess) {}
+  rpc UpdateDisposalSites(GovGeoAccessAssociationRequest) returns (GovGeoAccess) {}
+}
