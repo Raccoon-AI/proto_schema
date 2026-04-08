@@ -49,6 +49,7 @@ message ContainerGroup {
   required uint64 pickup_location_id = 5 [json_name = "pickup_location_id"];
   optional google.protobuf.Struct service_schedule_by_job_type = 6 [json_name = "service_schedule_by_job_type"];
   optional uint64 pickup_location_group_id = 7 [json_name = "pickup_location_group_id"];
+  optional uint64 contract_id = 8 [json_name = "contract_id"];
 
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -60,6 +61,7 @@ message ContainerGroupCreate {
   required uint32 number_of_containers = 3 [json_name = "number_of_containers"];
   required uint64 pickup_location_id = 4 [json_name = "pickup_location_id"];
   optional google.protobuf.Struct service_schedule_by_job_type = 5 [json_name = "service_schedule_by_job_type"];
+  optional uint64 contract_id = 7 [json_name = "contract_id"];
 }
 
 message ContainerGroupUpdate {
@@ -100,6 +102,7 @@ message Container {
   optional uint64 pickup_location_id = 8 [json_name = "pickup_location_id"];
   optional ContainerTrackingEvent last_event = 9 [json_name = "last_event"];
   optional google.protobuf.Timestamp last_event_at = 10 [json_name = "last_event_at"];
+  optional ContainerGroup container_group = 11 [json_name = "container_group"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   required google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -113,6 +116,7 @@ message ContainerCreate {
   optional bool is_tracked = 5 [json_name = "is_tracked"];
   optional ContainerTrackingEvent last_event = 6 [json_name = "last_event"];
   optional google.protobuf.Timestamp last_event_at = 7 [json_name = "last_event_at"];
+  optional uint64 container_group_id = 8 [json_name = "container_group_id"];
 }
 
 message ContainerUpdate {
@@ -124,6 +128,7 @@ message ContainerUpdate {
   optional uint64 pickup_location_id = 6 [json_name = "pickup_location_id"];
   optional ContainerTrackingEvent last_event = 7 [json_name = "last_event"];
   optional google.protobuf.Timestamp last_event_at = 8 [json_name = "last_event_at"];
+  optional uint64 container_group_id = 9 [json_name = "container_group_id"];
 }
 
 message ContainerStatusUpdate {

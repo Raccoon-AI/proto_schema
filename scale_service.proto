@@ -2,6 +2,7 @@ syntax = "proto2";
 
 package raccoonai;
 
+import "general.proto";
 import "google/protobuf/timestamp.proto";
 import "organization.proto";
 import "route.proto";
@@ -31,6 +32,8 @@ enum WasteType {
   WASTE_TYPE_PRESSED_MSW = 17; // Хвосты
   WASTE_TYPE_SORTED_MSW = 18; // Хвосты росыпь - Not Pressed, but sorted
   WASTE_TYPE_NOT_SORTED_MSW = 19; // Хвосты росыпь 1 - Not Pressed and not sorted, due to overload
+  WASTE_TYPE_SEPTAGE = 20; // Септик | Ассенизатор
+  WASTE_TYPE_OVERSIZED_BUNKER = 21; // Негабарит бункер
 }
 
 message ScaleBruttoRequest {
@@ -64,10 +67,11 @@ message ScaleRecord {
   optional bool is_guest_record = 9 [json_name = "is_guest_record"];
   required WasteType waste_type = 10 [json_name = "waste_type"];
   required Truck truck = 11 [json_name = "truck"];
-  required User driver = 12 [json_name = "driver"];
+  optional User driver = 12 [json_name = "driver"];
   optional Route route = 13 [json_name = "route"];
   optional string integration_comments = 14 [json_name = "integration_comments"];
   optional RawScaleRecord origin = 15 [json_name = "origin"];
+  repeated string photos = 16 [json_name = "photos"];
 }
 
 message ScaleRecordListRequest {
@@ -99,7 +103,7 @@ message RawScaleRecord {
   optional string sender = 12 [json_name = "sender"];
   optional string receiver = 13 [json_name = "receiver"];
   optional string bin = 14 [json_name = "bin"];
-  optional string photo_path = 15 [json_name = "photo_path"];
+  repeated string photos = 15 [json_name = "photos"];
 
   optional string product_code = 16 [json_name = "product_code"]; // Код номенклатуры в 1С (продукция)
   optional string sender_code = 17 [json_name = "sender_code"]; // Код контрагента в 1С (поставщик)
@@ -123,8 +127,24 @@ message RawScaleRecord {
   optional double nettomodif = 35 [json_name = "nettomodif"]; // Чистый вес нетто с учетом тары и влажности
 }
 
+message RawScaleRecordListRequest {
+  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional string sender = 2 [json_name = "sender"];
+  optional string receiver = 3 [json_name = "receiver"];
+  optional string waste_type = 4 [json_name = "waste_type"];
+  optional string truck_number = 5 [json_name = "truck_number"];
+  optional google.protobuf.Timestamp brutto_scale_ts_from = 6 [json_name = "brutto_scale_ts_from"];
+  optional google.protobuf.Timestamp brutto_scale_ts_to = 7 [json_name = "brutto_scale_ts_to"];
+}
+
+message RawScaleRecordListResponse {
+  repeated RawScaleRecord raw_scale_records = 1 [json_name = "raw_scale_records"];
+}
+
 service ScaleService {
   rpc ScaleBrutto(ScaleBruttoRequest) returns (ScaleResponse) {}
   rpc ScaleNetto(ScaleNettoRequest) returns (ScaleResponse) {}
   rpc ScaleRecordList(ScaleRecordListRequest) returns (ScaleRecordListResponse) {}
+  rpc ScaleRecordByID(IdRequest) returns (ScaleResponse) {}
+  rpc RawScaleRecordList(RawScaleRecordListRequest) returns (RawScaleRecordListResponse) {}
 }

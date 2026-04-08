@@ -1,9 +1,12 @@
 syntax = "proto2";
 package raccoonai;
 
+import "general.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
+
+// --- Custom Group ---
 
 message CustomGroup {
   required uint64 id = 1 [json_name = "id"];
@@ -22,6 +25,16 @@ message CustomGroupUpdate {
   required uint64 id = 1 [json_name = "id"];
   optional string name = 2 [json_name = "name"];
 }
+
+message CustomGroupListRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+}
+
+message CustomGroupList {
+  repeated CustomGroup groups = 1 [json_name = "groups"];
+}
+
+// --- Membership ---
 
 message GroupMembership {
   required uint64 id = 1 [json_name = "id"];
@@ -42,6 +55,16 @@ message GroupMembershipUpdate {
   required uint64 id = 1 [json_name = "id"];
   optional string role = 2 [json_name = "role"];
 }
+
+message GroupMembershipList {
+  repeated GroupMembership memberships = 1 [json_name = "memberships"];
+}
+
+message GroupMembershipListRequest {
+  optional uint64 custom_group_id = 1 [json_name = "custom_group_id"];
+}
+
+// --- Access Grants ---
 
 message ResourceAccessGrant {
   required uint64 id = 1 [json_name = "id"];
@@ -65,4 +88,41 @@ message ResourceAccessGrantUpdate {
   optional uint64 organization_id = 2 [json_name = "organization_id"];
   optional string resource_type = 3 [json_name = "resource_type"];
   optional string access_level = 4 [json_name = "access_level"];
+}
+
+message ResourceAccessGrantListRequest {
+  optional uint64 custom_group_id = 1 [json_name = "custom_group_id"];
+  optional uint64 organization_id = 2 [json_name = "organization_id"];
+}
+
+message ResourceAccessGrantList {
+  repeated ResourceAccessGrant grants = 1 [json_name = "grants"];
+}
+// --- Custom Group Service ---
+
+service CustomGroupService {
+  rpc CreateCustomGroup(CustomGroupCreate) returns (CustomGroup);
+  rpc GetCustomGroup(IdRequest) returns (CustomGroup);
+  rpc UpdateCustomGroup(CustomGroupUpdate) returns (CustomGroup);
+  rpc ListOrgGroups(CustomGroupListRequest) returns (CustomGroupList);
+  rpc DeleteCustomGroup(IdRequest) returns (EmptyMessageResponse);
+}
+
+// --- Group Membership Service ---
+
+service GroupMembershipService {
+  rpc AddUserToGroup(GroupMembershipCreate) returns (GroupMembership);
+  rpc GetGroupMembership(IdRequest) returns (GroupMembership);
+  rpc UpdateGroupMembership(GroupMembershipUpdate) returns (GroupMembership);
+  rpc ListGroupMembers(GroupMembershipListRequest) returns (GroupMembershipList);
+  rpc RemoveUserFromGroup(IdRequest) returns (EmptyMessageResponse);
+}
+
+// --- Resource Access Grant Service ---
+
+service ResourceAccessGrantService {
+  rpc GrantRoleAccessToScope(ResourceAccessGrantCreate) returns (ResourceAccessGrant);
+  rpc ListGroupGrants(ResourceAccessGrantListRequest) returns (ResourceAccessGrantList);
+  rpc UpdateResourceAccessGrant(ResourceAccessGrantUpdate) returns (ResourceAccessGrant);
+  rpc RevokeGrant(IdRequest) returns (EmptyMessageResponse);
 }

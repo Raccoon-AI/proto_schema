@@ -54,6 +54,9 @@ service DriverService {
 
   // ******** New Event Calls *********** //
 
+  // Start shift. Changes driver status to ACTIVE.
+  rpc StartShift(EmptyMessageRequest) returns (DriverOnShift) {}
+
   // Choose route from the list of assigned routes
   // Changes route status to IN_PROGRESS
   rpc ChooseRoute(IdRequest) returns (Route) {}

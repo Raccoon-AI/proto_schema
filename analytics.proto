@@ -27,3 +27,9 @@ message ServiceProviderRoutesStatsByCategory {
   optional int32 active_routes = 4 [json_name = "active_routes"];
   optional RouteCategory route_category = 5 [json_name = "route_category"];
 }
+
+message ServiceProviderTruckStats {
+  optional int32 all_trucks = 1 [json_name = "all_trucks"];
+  optional int32 active_trucks = 2 [json_name = "active_trucks"];
+  optional int32 inactive_trucks = 3 [json_name = "inactive_trucks"];
+}
