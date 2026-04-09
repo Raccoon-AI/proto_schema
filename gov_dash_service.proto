@@ -2,11 +2,8 @@ syntax = "proto2";
 package raccoonai;
 
 import "general.proto";
-import "google/protobuf/struct.proto";
-import "google/protobuf/timestamp.proto";
 import "gov_geo_access.proto";
 import "location.proto";
-import "organization.proto";
 import "organization_service.proto";
 import "pickup_location.proto";
 import "truck.proto";
