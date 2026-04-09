@@ -18,6 +18,11 @@ message GovGeoAccess {
   repeated google.protobuf.Struct geometry = 7 [json_name = "geometry"];
   required google.protobuf.Timestamp created_at = 8 [json_name = "created_at"];
   required google.protobuf.Timestamp updated_at = 9 [json_name = "updated_at"];
+  repeated Organization receivers = 10 [json_name = "receivers"];
+}
+
+message GovGeoAccessList {
+  repeated GovGeoAccess gov_geo_accesses = 1 [json_name = "gov_geo_accesses"];
 }
 
 message GovGeoAccessCreate {
@@ -36,6 +41,7 @@ message GovGeoAccessUpdate {
   repeated google.protobuf.Struct geometry = 7 [json_name = "geometry"];
   required google.protobuf.Timestamp created_at = 8 [json_name = "created_at"];
   required google.protobuf.Timestamp updated_at = 9 [json_name = "updated_at"];
+  repeated Organization receivers = 10 [json_name = "receivers"];
 }
 
 message GovGeoAccessAssociationRequest {

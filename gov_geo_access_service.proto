@@ -1,4 +1,5 @@
 syntax = "proto2";
+
 package raccoonai;
 
 import "general.proto";
@@ -12,4 +13,5 @@ service GovGeoAccessService {
   rpc GetGovGeoAccess(IdRequest) returns (GovGeoAccess) {}
   rpc UpdateServiceProviders(GovGeoAccessAssociationRequest) returns (GovGeoAccess) {}
   rpc UpdateDisposalSites(GovGeoAccessAssociationRequest) returns (GovGeoAccess) {}
+  rpc UpdateReceivers(GovGeoAccessAssociationRequest) returns (GovGeoAccess) {}
 }
