@@ -4,7 +4,7 @@ package raccoonai;
 import "general.proto";
 import "gov_geo_access.proto";
 import "location.proto";
-import "organization_service.proto";
+import "organization.proto";
 import "pickup_location.proto";
 import "truck.proto";
 
@@ -40,9 +40,9 @@ service GovDashService {
   rpc GetGovGeoAccess(EmptyMessageRequest) returns (GovGeoAccessList) {}
 
   rpc ServiceProviders(GovOrganizationRequest) returns (ServiceProviderInfoList) {}
-  rpc ServiceReceivers(GovOrganizationRequest) returns (OrganizationListResponse) {}
+  rpc ServiceReceivers(GovOrganizationRequest) returns (OrganizationList) {}
   rpc PickupLocations(GovOrganizationRequest) returns (PickupLocationList) {}
-  rpc DisposalSites(EmptyMessageRequest) returns (OrganizationListResponse) {}
+  rpc DisposalSites(EmptyMessageRequest) returns (OrganizationList) {}
   rpc Trucks(GovOrganizationRequest) returns (TruckList) {}
   rpc Depots(GovOrganizationRequest) returns (LocationList) {}
 }
