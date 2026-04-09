@@ -1,0 +1,48 @@
+syntax = "proto2";
+package raccoonai;
+
+import "general.proto";
+import "gov_geo_access.proto";
+import "location.proto";
+import "organization.proto";
+import "pickup_location.proto";
+import "truck.proto";
+
+option go_package = "./pb";
+
+message GovOrganizationRequest {
+  repeated uint64 district_organization_ids = 1 [json_name = "district_organization_ids"];
+  repeated uint64 service_provider_ids = 2 [json_name = "service_provider_ids"];
+}
+
+message GovGeoAccessList {
+  repeated GovGeoAccess gov_geo_accesses = 1 [json_name = "gov_geo_accesses"];
+}
+
+message ServiceProviderInfo {
+  required uint64 id = 1 [json_name = "id"];
+  required string name = 2 [json_name = "name"];
+  required uint64 number_of_trucks = 3 [json_name = "number_of_trucks"];
+}
+
+message ServiceProviderInfoList {
+  repeated ServiceProviderInfo organizations = 1 [json_name = "organizations"];
+}
+
+message PickupLocationInfo {
+  required uint64 id = 1 [json_name = "id"];
+  required string name = 2 [json_name = "name"];
+  required double lat = 3 [json_name = "lat"];
+  required double lon = 4 [json_name = "lon"];
+}
+
+service GovDashService {
+  rpc GetGovGeoAccess(EmptyMessageRequest) returns (GovGeoAccessList) {}
+
+  rpc ServiceProviders(GovOrganizationRequest) returns (ServiceProviderInfoList) {}
+  rpc ServiceReceivers(GovOrganizationRequest) returns (OrganizationList) {}
+  rpc PickupLocations(GovOrganizationRequest) returns (PickupLocationList) {}
+  rpc DisposalSites(EmptyMessageRequest) returns (OrganizationList) {}
+  rpc Trucks(GovOrganizationRequest) returns (TruckList) {}
+  rpc Depots(GovOrganizationRequest) returns (LocationList) {}
+}
