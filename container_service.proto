@@ -2,6 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "container.proto";
+import "general.proto";
 
 option go_package = "./pb";
 
@@ -35,4 +36,5 @@ service ContainerService {
   rpc GetContainerGroupByID(ContainerGroupIDRequest) returns (ContainerGroup) {}
   rpc UpdateContainerGroup(ContainerGroupUpdate) returns (ContainerGroup) {}
   rpc ListContainerGroups(ContainerGroupListRequest) returns (ContainerGroupList) {}
+  rpc DeleteContainerGroup(ContainerGroupIDRequest) returns (MessageResponse) {}
 }
