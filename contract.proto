@@ -39,6 +39,7 @@ message Contract {
   optional uint64 tariff = 14 [json_name = "tariff"];
   optional uint64 rent_cost = 15 [json_name = "rent_cost"];
   optional string tariff_rate_by_job_type = 16 [json_name = "tariff_rate_by_job_type"];
+  optional Organization service_provider = 17 [json_name = "service_provider"];
 }
 
 message ContractCreate {

@@ -2,6 +2,8 @@ syntax = "proto2";
 
 package raccoonai;
 
+import "container.proto";
+import "contract.proto";
 import "general.proto";
 import "gov_geo_access.proto";
 import "location.proto";
@@ -16,32 +18,93 @@ message GovOrganizationRequest {
   repeated uint64 service_provider_ids = 2 [json_name = "service_provider_ids"];
 }
 
-message ServiceProviderInfo {
+message GovServiceProviderInfo {
   required uint64 id = 1 [json_name = "id"];
   required string name = 2 [json_name = "name"];
-  required uint64 number_of_trucks = 3 [json_name = "number_of_trucks"];
+  required string bin = 3 [json_name = "bin"];
+  required uint64 number_of_trucks = 4 [json_name = "number_of_trucks"];
 }
 
-message ServiceProviderInfoList {
-  repeated ServiceProviderInfo organizations = 1 [json_name = "organizations"];
+message GovServiceProviderInfoList {
+  repeated GovServiceProviderInfo organizations = 1 [json_name = "organizations"];
 }
 
-message PickupLocationInfo {
+message GovServiceProviderStats {
+  required Organization organization = 1 [json_name = "organization"];
+  required uint64 affiliated_receivers = 2 [json_name = "affiliated_receivers"];
+  required uint64 affiliated_trucks = 3 [json_name = "affiliated_trucks"];
+  required uint64 affiliated_pickup_locations = 4 [json_name = "affiliated_pickup_locations"];
+  required uint64 affiliated_disposal_sites = 5 [json_name = "affiliated_disposal_sites"];
+  required uint64 affiliated_depots = 6 [json_name = "affiliated_depots"];
+}
+
+message GovServiceReceiverStats {
+  required Organization organization = 1 [json_name = "organization"];
+  repeated Contract contracts = 2 [json_name = "contracts"];
+}
+
+message GovPickupLocationInfo {
   required uint64 id = 1 [json_name = "id"];
   required string name = 2 [json_name = "name"];
   required double lat = 3 [json_name = "lat"];
   required double lon = 4 [json_name = "lon"];
+  optional uint64 service_provider_id = 5 [json_name = "service_provider_id"];
+  optional string service_provider_name = 6 [json_name = "service_provider_name"];
+}
+
+message GovPickupLocationList {
+  repeated GovPickupLocationInfo pickup_locations = 1 [json_name = "pickup_locations"];
+}
+
+message GovPickupLocationStats {
+  required PickupLocation pickup_location = 1 [json_name = "pickup_location"];
+  required Organization service_provider = 3 [json_name = "service_provider"];
+  repeated ContainerGroup container_groups = 4 [json_name = "container_groups"];
+}
+
+message GovTruckInfo {
+  required Truck truck = 1 [json_name = "truck"];
+  required Organization service_provider = 2 [json_name = "service_provider"];
+  optional double lat = 3 [json_name = "lat"];
+  optional double lon = 4 [json_name = "lon"];
+}
+
+message GovTruckList {
+  repeated GovTruckInfo trucks = 1 [json_name = "trucks"];
+}
+
+message GovTruckStats {
+  required GovTruckInfo truck = 1 [json_name = "truck"];
+  optional Location depot = 3 [json_name = "depot"];
+}
+
+message GovDepotInfo {
+  required Location depot = 1 [json_name = "depot"];
+  required Organization owner_organization = 2 [json_name = "owner_organization"];
+  required uint64 number_of_trucks = 3 [json_name = "number_of_trucks"];
+}
+
+message GovDepotInfoList {
+  repeated GovDepotInfo depots = 1 [json_name = "depots"];
 }
 
 service GovDashService {
   rpc GetGovGeoAccess(EmptyMessageRequest) returns (GovGeoAccessList) {}
-  rpc ServiceProviders(GovOrganizationRequest) returns (ServiceProviderInfoList) {}
+  rpc ServiceProviders(GovOrganizationRequest) returns (GovServiceProviderInfoList) {}
   rpc ServiceReceivers(GovOrganizationRequest) returns (OrganizationList) {}
-  rpc PickupLocations(GovOrganizationRequest) returns (PickupLocationList) {}
+  rpc PickupLocations(GovOrganizationRequest) returns (GovPickupLocationList) {}
   rpc DisposalSites(EmptyMessageRequest) returns (OrganizationList) {}
-  rpc Trucks(GovOrganizationRequest) returns (TruckList) {}
-  rpc Depots(GovOrganizationRequest) returns (LocationList) {}
-  rpc GetServiceProviderById(IdRequest) returns (Organization) {}
-  rpc GetPickupLocationById(IdRequest) returns (PickupLocation) {}
-  rpc GetTruckById(IdRequest) returns (Truck) {}
+  rpc Trucks(GovOrganizationRequest) returns (GovTruckList) {}
+  rpc Depots(GovOrganizationRequest) returns (GovDepotInfoList) {}
+
+  rpc GetServiceProviderStatsById(IdRequest) returns (GovServiceProviderStats) {}
+  rpc GetServiceReceiverStatsById(IdRequest) returns (GovServiceReceiverStats) {}
+  rpc GetDisposalSiteById(IdRequest) returns (Organization) {}
+  rpc GetPickupLocationStatsById(IdRequest) returns (GovPickupLocationStats) {}
+  rpc GetTruckStatsById(IdRequest) returns (GovTruckStats) {}
+  rpc GetDepotById(IdRequest) returns (GovDepotInfo) {}
+
+  rpc SuspiciousLocations(EmptyMessageRequest) returns (LocationList) {}
+  rpc CreateSuspiciousLocation(LocationCreate) returns (Location) {}
+  rpc UpdateSuspiciousLocation(LocationUpdate) returns (Location) {}
 }
