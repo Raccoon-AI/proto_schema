@@ -86,8 +86,7 @@ message GovTruckStats {
 
 message GovAnalyticsByIdRequest {
   required uint64 id = 1 [json_name = "id"];
-  required google.protobuf.Timestamp from = 2 [json_name = "from"];
-  required google.protobuf.Timestamp to = 3 [json_name = "to"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
 }
 
 message GovDepotInfo {
