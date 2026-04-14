@@ -2,9 +2,11 @@ syntax = "proto2";
 
 package raccoonai;
 
+import "driver_on_shift.proto";
 import "enums.proto";
 import "general.proto";
 import "organization.proto";
+import "route.proto";
 import "truck.proto";
 
 option go_package = "./pb";
@@ -14,9 +16,9 @@ message SearchTruckRequest {
 }
 
 message SearchTruckResult {
-  optional bool is_guest = 2 [json_name = "is_guest"];
-  optional Truck truck = 3 [json_name = "truck"];
-  optional Organization org = 4 [json_name = "org"];
+  optional bool is_guest = 1 [json_name = "is_guest"];
+  optional Truck truck = 2 [json_name = "truck"];
+  optional Organization org = 3 [json_name = "org"];
 }
 
 message SearchTruckResponse {
@@ -24,8 +26,11 @@ message SearchTruckResponse {
 }
 
 message TruckListRequest {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"]; // filter by org
-  optional TruckType type = 2 [json_name = "type"]; // filter by truck type
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"]; // filter by org
+  repeated TruckType types = 2 [json_name = "type"]; // filter by truck type
+  repeated uint64 truck_type_ids = 3 [json_name = "custom_truck_type_ids"]; // filter by custom truck type
+  repeated JobType job_types = 4 [json_name = "job_types"]; // filter by job types
+  repeated uint64 container_type_ids = 5 [json_name = "container_type_ids"]; // filter by container types (for trucks with specific container compatibility)
 }
 
 message TruckListResponse {
@@ -43,16 +48,22 @@ message TruckWeightRequest {
   required double truck_weight = 2 [json_name = "truck_weight"];
 }
 
-message TruckRequest {
-  required uint64 truck_id = 1 [json_name = "truck_id"];
-}
-
-message CustomTruckTypeIDRequest {
-  required uint64 id = 1 [json_name = "id"];
-}
-
 message CustomTruckTypeListRequest {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
+  repeated TruckType types = 2 [json_name = "type"]; // filter by truck type
+  repeated JobType job_types = 3 [json_name = "job_types"]; // filter by job types
+  repeated uint64 container_type_ids = 5 [json_name = "container_type_ids"]; // filter by container types
+}
+
+message CurrentTruckStatus {
+  required Truck truck = 1 [json_name = "truck"];
+  optional DriverOnShift current_shift = 2 [json_name = "current_shift"];
+  optional DriverOnShift latest_shift = 3 [json_name = "latest_shift"];
+  optional Route current_route = 4 [json_name = "current_route"];
+}
+
+message CurrentTruckStatusList {
+  repeated CurrentTruckStatus truck_statuses = 1 [json_name = "truck_statuses"];
 }
 
 service TruckService {
@@ -60,10 +71,15 @@ service TruckService {
   rpc TruckList(TruckListRequest) returns (TruckListResponse) {}
   rpc CreateGuestTruck(CreateGuestTruckRequest) returns (Truck) {}
   rpc UpdateTruckWeight(TruckWeightRequest) returns (Truck) {}
+  rpc CreateTruck(TruckCreate) returns (Truck) {}
+  rpc UpdateTruck(TruckUpdate) returns (Truck) {}
+  rpc GetTruckById(IdRequest) returns (Truck) {}
+  rpc DeleteTruckById(IdRequest) returns (MessageResponse) {}
+  rpc AllTruckStatuses(TruckListRequest) returns (CurrentTruckStatusList) {}
 
   rpc CreateTruckType(CustomTruckTypeCreate) returns (CustomTruckType) {}
-  rpc GetTruckTypeByID(CustomTruckTypeIDRequest) returns (CustomTruckType) {}
+  rpc GetTruckTypeById(IdRequest) returns (CustomTruckType) {}
   rpc UpdateTruckType(CustomTruckTypeUpdate) returns (CustomTruckType) {}
-  rpc DeleteTruckType(CustomTruckTypeIDRequest) returns (MessageResponse) {}
+  rpc DeleteTruckType(IdRequest) returns (MessageResponse) {}
   rpc ListTruckTypes(CustomTruckTypeListRequest) returns (CustomTruckTypeList) {}
 }
