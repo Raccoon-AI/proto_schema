@@ -63,3 +63,7 @@ message TokenRequest {
   optional uint64 user_id = 1 [json_name = "user_id"];
   optional google.protobuf.Timestamp expiration_date = 2 [json_name = "expiration_date"];
 }
+
+message ImpersonateRequest {
+  required uint64 target_user_id = 1 [json_name = "target_user_id"];
+}
