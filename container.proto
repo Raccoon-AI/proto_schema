@@ -3,6 +3,7 @@ package raccoonai;
 
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
+import "organization.proto";
 
 option go_package = "./pb";
 
@@ -44,12 +45,13 @@ message ContainerTypeList {
 message ContainerGroup {
   required uint64 id = 1 [json_name = "id"];
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
-  required ContainerType container_type = 3 [json_name = "container_type"];
-  required uint32 number_of_containers = 4 [json_name = "number_of_containers"];
-  required uint64 pickup_location_id = 5 [json_name = "pickup_location_id"];
-  optional google.protobuf.Struct service_schedule_by_job_type = 6 [json_name = "service_schedule_by_job_type"];
-  optional uint64 pickup_location_group_id = 7 [json_name = "pickup_location_group_id"];
-  optional uint64 contract_id = 8 [json_name = "contract_id"]; //trunk check
+  optional Organization owner_organization = 3 [json_name = "owner_organization"];
+  required ContainerType container_type = 4 [json_name = "container_type"];
+  required uint32 number_of_containers = 5 [json_name = "number_of_containers"];
+  required uint64 pickup_location_id = 6 [json_name = "pickup_location_id"];
+  optional google.protobuf.Struct service_schedule_by_job_type = 7 [json_name = "service_schedule_by_job_type"];
+  optional uint64 pickup_location_group_id = 8 [json_name = "pickup_location_group_id"];
+  optional uint64 contract_id = 9 [json_name = "contract_id"]; //trunk check
 
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];

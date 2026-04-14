@@ -79,3 +79,7 @@ message OrganizationUpdate {
   optional string fact_address = 8 [json_name = "fact_address"];
   optional string director_full_name = 9 [json_name = "director_full_name"];
 }
+
+message OrganizationList {
+  repeated Organization organizations = 1 [json_name = "organizations"];
+}
