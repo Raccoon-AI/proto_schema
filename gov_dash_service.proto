@@ -6,6 +6,7 @@ import "container.proto";
 import "contract.proto";
 import "general.proto";
 import "gov_geo_access.proto";
+import "gps_tables.proto";
 import "location.proto";
 import "organization.proto";
 import "pickup_location.proto";
@@ -41,6 +42,7 @@ message GovServiceProviderStats {
 message GovServiceReceiverStats {
   required Organization organization = 1 [json_name = "organization"];
   repeated Contract contracts = 2 [json_name = "contracts"];
+  optional uint64 number_of_visits = 3 [json_name = "number_of_visits"];
 }
 
 message GovPickupLocationInfo {
@@ -76,6 +78,14 @@ message GovTruckList {
 message GovTruckStats {
   required GovTruckInfo truck = 1 [json_name = "truck"];
   optional Location depot = 3 [json_name = "depot"];
+  optional uint64 number_of_gps_stops = 4 [json_name = "number_of_gps_stops"];
+  optional uint64 number_of_routes = 5 [json_name = "number_of_routes"];
+  optional bool is_latest_route_active = 6 [json_name = "is_latest_route_active"];
+}
+
+message GovAnalyticsByIdRequest {
+  required uint64 id = 1 [json_name = "id"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
 }
 
 message GovDepotInfo {
@@ -88,6 +98,92 @@ message GovDepotInfoList {
   repeated GovDepotInfo depots = 1 [json_name = "depots"];
 }
 
+message GovServiceProviderAnalyticsRequest {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+}
+
+message GovServiceProviderAnalyticsResponse {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  required uint64 total_location_stops = 2 [json_name = "total_location_stops"];
+  required uint64 total_locations = 3 [json_name = "total_locations"];
+  required uint64 trucks_active = 4 [json_name = "trucks_active"];
+  required uint64 total_trucks = 5 [json_name = "total_trucks"];
+}
+
+message GovServiceReceiverAnalyticsRequest {
+  required uint64 service_receiver_id = 1 [json_name = "service_receiver_id"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+  optional uint64 container_group_id = 3 [json_name = "container_group_id"];
+}
+
+message GovServiceReceiverAnalyticsResponse {
+  required uint64 service_receiver_id = 1 [json_name = "service_receiver_id"];
+  required uint64 total_location_stops = 2 [json_name = "total_location_stops"];
+  repeated GpsStop gps_stops = 3 [json_name = "gps_stops"];
+}
+
+message GovPickupLocationAnalyticsRequest {
+  required uint64 pickup_location_id = 1 [json_name = "pickup_location_id"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+}
+
+message GovPickupLocationAnalyticsResponse {
+  required uint64 pickup_location_id = 1 [json_name = "pickup_location_id"];
+  required uint64 total_location_stops = 2 [json_name = "total_location_stops"];
+  repeated GpsStop gps_stops = 3 [json_name = "gps_stops"];
+}
+
+message GovTruckAnalyticsRequest {
+  required uint64 truck_id = 1 [json_name = "truck_id"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+}
+
+message GovTruckAnalyticsResponse {
+  required uint64 truck_id = 1 [json_name = "truck_id"];
+  required uint64 total_location_stops = 2 [json_name = "total_location_stops"];
+  required uint64 disposal_stops = 3 [json_name = "disposal_stops"];
+  repeated GpsStop gps_stops = 4 [json_name = "gps_stops"];
+  optional uint64 anomalies = 5 [json_name = "anomalies"];
+}
+
+message GovDepotAnalyticsRequest {
+  required uint64 depot_id = 1 [json_name = "depot_id"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+}
+
+message GovDepotAnalyticsResponse {
+  required uint64 depot_id = 1 [json_name = "depot_id"];
+  required uint64 total_trucks = 2 [json_name = "total_trucks"];
+  required uint64 trucks_active = 3 [json_name = "trucks_active"];
+}
+
+message GovSuspiciousLocationAnalyticsRequest {
+  required uint64 suspicious_location_id = 1 [json_name = "suspicious_location_id"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+}
+
+message GovSuspiciousLocationAnalyticsResponse {
+  required uint64 suspicious_location_id = 1 [json_name = "suspicious_location_id"];
+  required uint64 total_location_stops = 2 [json_name = "total_location_stops"];
+  repeated GpsStop gps_stops = 3 [json_name = "gps_stops"];
+  optional uint64 anomalies = 4 [json_name = "anomalies"];
+}
+
+message GovDashboardAnalyticsRequest {
+  required GovOrganizationRequest filter = 1 [json_name = "filter"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+}
+
+message GovDashboardAnalyticsResponse {
+  required uint64 total_location_stops = 1 [json_name = "total_location_stops"];
+  required uint64 total_locations = 2 [json_name = "total_locations"];
+  required uint64 unique_location_stops = 3 [json_name = "unique_location_stops"];
+  required uint64 trucks_active = 4 [json_name = "trucks_active"];
+  required uint64 total_trucks = 5 [json_name = "total_trucks"];
+  required uint64 total_anomalies = 6 [json_name = "total_anomalies"];
+  required uint64 service_providers_with_anomalies = 7 [json_name = "service_providers_with_anomalies"];
+}
 service GovDashService {
   rpc GetGovGeoAccess(EmptyMessageRequest) returns (GovGeoAccessList) {}
   rpc ServiceProviders(GovOrganizationRequest) returns (GovServiceProviderInfoList) {}
@@ -103,6 +199,14 @@ service GovDashService {
   rpc GetPickupLocationStatsById(IdRequest) returns (GovPickupLocationStats) {}
   rpc GetTruckStatsById(IdRequest) returns (GovTruckStats) {}
   rpc GetDepotById(IdRequest) returns (GovDepotInfo) {}
+
+  rpc GetGovDashboardAnalytics(GovDashboardAnalyticsRequest) returns (GovDashboardAnalyticsResponse) {}
+  rpc GetGovServiceProviderAnalytics(GovServiceProviderAnalyticsRequest) returns (GovServiceProviderAnalyticsResponse) {}
+  rpc GetGovServiceReceiverAnalytics(GovServiceReceiverAnalyticsRequest) returns (GovServiceReceiverAnalyticsResponse) {}
+  rpc GetGovPickupLocationAnalytics(GovPickupLocationAnalyticsRequest) returns (GovPickupLocationAnalyticsResponse) {}
+  rpc GetGovTruckAnalytics(GovTruckAnalyticsRequest) returns (GovTruckAnalyticsResponse) {}
+  rpc GetGovDepotAnalytics(GovDepotAnalyticsRequest) returns (GovDepotAnalyticsResponse) {}
+  rpc GetGovSuspiciousLocationAnalytics(GovSuspiciousLocationAnalyticsRequest) returns (GovSuspiciousLocationAnalyticsResponse) {}
 
   rpc SuspiciousLocations(EmptyMessageRequest) returns (LocationList) {}
   rpc CreateSuspiciousLocation(LocationCreate) returns (Location) {}
