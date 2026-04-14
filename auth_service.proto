@@ -18,5 +18,4 @@ service AuthService {
   rpc ResetPassword(PasswordReset) returns (MessageResponse) {}
   rpc RefreshToken(EmptyMessageRequest) returns (AuthResponse) {}
   rpc ForgotPasswordViaOtp(PasswordResetViaOtp) returns (MessageResponse) {}
-  rpc Impersonate(ImpersonateRequest) returns (AuthResponse);
 }
