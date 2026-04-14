@@ -5,7 +5,6 @@ package raccoonai;
 import "container.proto";
 import "contract.proto";
 import "general.proto";
-import "google/protobuf/timestamp.proto";
 import "gov_geo_access.proto";
 import "gps_tables.proto";
 import "location.proto";
