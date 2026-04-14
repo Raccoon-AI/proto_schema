@@ -79,9 +79,9 @@ message GovTruckList {
 message GovTruckStats {
   required GovTruckInfo truck = 1 [json_name = "truck"];
   optional Location depot = 3 [json_name = "depot"];
-  required uint64 number_of_gps_stops = 4 [json_name = "number_of_gps_stops"];
-  required uint64 number_of_routes = 5 [json_name = "number_of_routes"];
-  required bool is_latest_route_active = 6 [json_name = "is_latest_route_active"];
+  optional uint64 number_of_gps_stops = 4 [json_name = "number_of_gps_stops"];
+  optional uint64 number_of_routes = 5 [json_name = "number_of_routes"];
+  optional bool is_latest_route_active = 6 [json_name = "is_latest_route_active"];
 }
 
 message GovAnalyticsByIdRequest {
