@@ -3,6 +3,7 @@ package raccoonai;
 
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
+import "truck.proto";
 
 option go_package = "./pb";
 
@@ -23,6 +24,7 @@ message GpsStop {
   required uint64 step_idx = 14 [json_name = "step_idx"];
   required google.protobuf.Timestamp gps_start_at = 15 [json_name = "gps_start_at"];
   required google.protobuf.Timestamp gps_end_at = 16 [json_name = "gps_end_at"];
+  optional Truck truck = 17 [json_name = "truck"];
 }
 
 message GpsRoute {
