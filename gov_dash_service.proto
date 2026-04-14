@@ -5,6 +5,7 @@ package raccoonai;
 import "container.proto";
 import "contract.proto";
 import "general.proto";
+import "google/protobuf/timestamp.proto";
 import "gov_geo_access.proto";
 import "location.proto";
 import "organization.proto";
@@ -41,6 +42,7 @@ message GovServiceProviderStats {
 message GovServiceReceiverStats {
   required Organization organization = 1 [json_name = "organization"];
   repeated Contract contracts = 2 [json_name = "contracts"];
+  required uint64 number_of_visits = 3 [json_name = "number_of_visits"];
 }
 
 message GovPickupLocationInfo {
@@ -76,6 +78,15 @@ message GovTruckList {
 message GovTruckStats {
   required GovTruckInfo truck = 1 [json_name = "truck"];
   optional Location depot = 3 [json_name = "depot"];
+  required uint64 number_of_gps_stops = 4 [json_name = "number_of_gps_stops"];
+  required uint64 number_of_routes = 5 [json_name = "number_of_routes"];
+  required bool is_latest_route_active = 6 [json_name = "is_latest_route_active"];
+}
+
+message GovAnalyticsByIdRequest {
+  required uint64 id = 1 [json_name = "id"];
+  required google.protobuf.Timestamp from = 2 [json_name = "from"];
+  required google.protobuf.Timestamp to = 3 [json_name = "to"];
 }
 
 message GovDepotInfo {
@@ -88,6 +99,29 @@ message GovDepotInfoList {
   repeated GovDepotInfo depots = 1 [json_name = "depots"];
 }
 
+message GovServiceProviderAnalyticsRequest {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+}
+
+message GovServiceProviderAnalyticsResponse {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+}
+
+message GovDashboardAnalyticsRequest {
+  required GovOrganizationRequest filter = 1 [json_name = "filter"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+}
+
+message GovDashboardAnalyticsResponse {
+  required uint64 total_location_stops = 1 [json_name = "total_location_stops"];
+  required uint64 total_locations = 2 [json_name = "total_locations"];
+  required uint64 unique_location_stops = 3 [json_name = "unique_location_stops"];
+  required uint64 trucks_active = 4 [json_name = "trucks_active"];
+  required uint64 total_trucks = 5 [json_name = "total_trucks"];
+  required uint64 total_anomalies = 6 [json_name = "total_anomalies"];
+  required uint64 service_providers_with_anomalies = 7 [json_name = "service_providers_with_anomalies"];
+}
 service GovDashService {
   rpc GetGovGeoAccess(EmptyMessageRequest) returns (GovGeoAccessList) {}
   rpc ServiceProviders(GovOrganizationRequest) returns (GovServiceProviderInfoList) {}
