@@ -43,7 +43,7 @@ message GovServiceProviderStats {
 message GovServiceReceiverStats {
   required Organization organization = 1 [json_name = "organization"];
   repeated Contract contracts = 2 [json_name = "contracts"];
-  required uint64 number_of_visits = 3 [json_name = "number_of_visits"];
+  optional uint64 number_of_visits = 3 [json_name = "number_of_visits"];
 }
 
 message GovPickupLocationInfo {
