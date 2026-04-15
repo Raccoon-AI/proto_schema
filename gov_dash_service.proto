@@ -5,6 +5,7 @@ package raccoonai;
 import "container.proto";
 import "contract.proto";
 import "general.proto";
+import "google/protobuf/timestamp.proto";
 import "gov_geo_access.proto";
 import "gps_tables.proto";
 import "location.proto";
@@ -152,10 +153,16 @@ message GovDepotAnalyticsRequest {
   required DateTimeFilter from_to = 2 [json_name = "from_to"];
 }
 
+message GovTruckActiveResponse {
+  required Truck truck = 1 [json_name = "truck"];
+  optional google.protobuf.Timestamp last_active = 2 [json_name = "last_active"];
+}
+
 message GovDepotAnalyticsResponse {
   required uint64 depot_id = 1 [json_name = "depot_id"];
   required uint64 total_trucks = 2 [json_name = "total_trucks"];
   required uint64 trucks_active = 3 [json_name = "trucks_active"];
+  repeated GovTruckActiveResponse truck_actities = 4 [json_name = "trucks"];
 }
 
 message GovSuspiciousLocationAnalyticsRequest {
