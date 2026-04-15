@@ -184,6 +184,22 @@ message GovDashboardAnalyticsResponse {
   required uint64 total_anomalies = 6 [json_name = "total_anomalies"];
   required uint64 service_providers_with_anomalies = 7 [json_name = "service_providers_with_anomalies"];
 }
+
+message SuspiciousLocation {
+  required Location location = 1 [json_name = "location"];
+  required uint64 total_stops = 2 [json_name = "total_stops"];
+}
+
+message SuspiciousLocationResponse {
+  repeated SuspiciousLocation locations = 1 [json_name = "locations"];
+}
+
+message AnomalieRouteResponse {
+  required Truck truck = 1 [json_name = "truck"];
+  required Organization owner_organization = 2 [json_name = "owner_organization"];
+  repeated GpsStop gps_stops = 3 [json_name = "gps_stops"];
+}
+
 service GovDashService {
   rpc GetGovGeoAccess(EmptyMessageRequest) returns (GovGeoAccessList) {}
   rpc ServiceProviders(GovOrganizationRequest) returns (GovServiceProviderInfoList) {}
@@ -208,7 +224,9 @@ service GovDashService {
   rpc GetGovDepotAnalytics(GovDepotAnalyticsRequest) returns (GovDepotAnalyticsResponse) {}
   rpc GetGovSuspiciousLocationAnalytics(GovSuspiciousLocationAnalyticsRequest) returns (GovSuspiciousLocationAnalyticsResponse) {}
 
-  rpc SuspiciousLocations(EmptyMessageRequest) returns (LocationList) {}
+  rpc SuspiciousLocations(EmptyMessageRequest) returns (SuspiciousLocationResponse) {}
   rpc CreateSuspiciousLocation(LocationCreate) returns (Location) {}
   rpc UpdateSuspiciousLocation(LocationUpdate) returns (Location) {}
+  rpc AnomaliesList(GovDashboardAnalyticsRequest) returns (GpsStopList) {}
+  rpc AnomalieRoute(IdRequest) returns (AnomalieRouteResponse) {}
 }
