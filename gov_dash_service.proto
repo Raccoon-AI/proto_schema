@@ -208,15 +208,14 @@ message AnomalieRouteResponse {
 }
 
 message GovRawScaleAnalyticsRequest {
-  required GovOrganizationRequest filter = 1 [json_name = "filter"];
-  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+  required DateTimeFilter from_to = 1 [json_name = "from_to"];
+  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
 }
 
 message GovRawScaleAnalyticsResponse {
   required double total_netto_kg = 1 [json_name = "total_netto_kg"];
-  required double total_construction_kg = 2 [json_name = "total_construction_kg"];
-  required double total_msw_kg = 3 [json_name = "total_msw_kg"];
   required uint64 total_records = 4 [json_name = "total_records"];
+  map<string, double> weights_by_waste_type = 3 [json_name = "weights_by_waste_type"];
 }
 
 service GovDashService {
