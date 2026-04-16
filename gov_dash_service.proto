@@ -214,7 +214,7 @@ message GovRawScaleAnalyticsRequest {
 
 message GovRawScaleAnalyticsResponse {
   required double total_netto_kg = 1 [json_name = "total_netto_kg"];
-  required uint64 total_records = 4 [json_name = "total_records"];
+  required uint64 total_records = 2 [json_name = "total_records"];
   map<string, double> weights_by_waste_type = 3 [json_name = "weights_by_waste_type"];
 }
 
