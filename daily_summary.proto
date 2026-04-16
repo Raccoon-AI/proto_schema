@@ -2,7 +2,6 @@ syntax = "proto2";
 
 package raccoonai;
 
-import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
@@ -93,8 +92,4 @@ message DailySummary {
   repeated DistrictVolume district_volumes = 44 [json_name = "district_volumes"];
   repeated ContainerStat container_stats = 45 [json_name = "container_stats"];
   repeated VisitPointStat visit_point_stats = 46 [json_name = "visit_point_stats"];
-}
-
-message DailySummaryList {
-  repeated DailySummary summaries = 1 [json_name = "summaries"];
 }
