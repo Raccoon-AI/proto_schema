@@ -207,6 +207,17 @@ message AnomalieRouteResponse {
   repeated GpsStop gps_stops = 3 [json_name = "gps_stops"];
 }
 
+message GovRawScaleAnalyticsRequest {
+  required GovOrganizationRequest filter = 1 [json_name = "filter"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+}
+
+message GovRawScaleAnalyticsResponse {
+  required double total_netto_kg = 1 [json_name = "total_netto_kg"];
+  required double total_construction_kg = 2 [json_name = "total_construction_kg"];
+  required double total_msw_kg = 3 [json_name = "total_msw_kg"];
+}
+
 service GovDashService {
   rpc GetGovGeoAccess(EmptyMessageRequest) returns (GovGeoAccessList) {}
   rpc ServiceProviders(GovOrganizationRequest) returns (GovServiceProviderInfoList) {}
@@ -230,6 +241,7 @@ service GovDashService {
   rpc GetGovTruckAnalytics(GovTruckAnalyticsRequest) returns (GovTruckAnalyticsResponse) {}
   rpc GetGovDepotAnalytics(GovDepotAnalyticsRequest) returns (GovDepotAnalyticsResponse) {}
   rpc GetGovSuspiciousLocationAnalytics(GovSuspiciousLocationAnalyticsRequest) returns (GovSuspiciousLocationAnalyticsResponse) {}
+  rpc GetGovRawScaleAnalytics(GovRawScaleAnalyticsRequest) returns (GovRawScaleAnalyticsResponse) {}
 
   rpc SuspiciousLocations(EmptyMessageRequest) returns (SuspiciousLocationResponse) {}
   rpc CreateSuspiciousLocation(LocationCreate) returns (Location) {}
