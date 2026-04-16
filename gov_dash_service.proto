@@ -216,6 +216,7 @@ message GovRawScaleAnalyticsResponse {
   required double total_netto_kg = 1 [json_name = "total_netto_kg"];
   required double total_construction_kg = 2 [json_name = "total_construction_kg"];
   required double total_msw_kg = 3 [json_name = "total_msw_kg"];
+  required uint64 total_records = 4 [json_name = "total_records"];
 }
 
 service GovDashService {
