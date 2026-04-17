@@ -230,6 +230,7 @@ service GovDashService {
   rpc ServiceReceivers(GovOrganizationRequest) returns (OrganizationList) {}
   rpc PickupLocations(GovOrganizationRequest) returns (GovPickupLocationList) {}
   rpc DisposalSites(EmptyMessageRequest) returns (OrganizationList) {}
+  rpc DisposalSiteLocations(EmptyMessageRequest) returns (LocationList) {}
   rpc Trucks(GovOrganizationRequest) returns (GovTruckList) {}
   rpc Depots(GovOrganizationRequest) returns (GovDepotInfoList) {}
   rpc GetGovRawScaleRecordList(GovRawScaleRecordListRequest) returns (RawScaleRecordListResponse) {}
