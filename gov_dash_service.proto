@@ -11,6 +11,7 @@ import "gps_tables.proto";
 import "location.proto";
 import "organization.proto";
 import "pickup_location.proto";
+import "scale_service.proto";
 import "truck.proto";
 
 option go_package = "./pb";
@@ -218,6 +219,11 @@ message GovRawScaleAnalyticsResponse {
   map<string, double> weights_by_waste_type = 3 [json_name = "weights_by_waste_type"];
 }
 
+message GovRawScaleRecordListRequest {
+  required DateTimeFilter from_to = 1 [json_name = "from_to"];
+  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+}
+
 service GovDashService {
   rpc GetGovGeoAccess(EmptyMessageRequest) returns (GovGeoAccessList) {}
   rpc ServiceProviders(GovOrganizationRequest) returns (GovServiceProviderInfoList) {}
@@ -226,6 +232,7 @@ service GovDashService {
   rpc DisposalSites(EmptyMessageRequest) returns (OrganizationList) {}
   rpc Trucks(GovOrganizationRequest) returns (GovTruckList) {}
   rpc Depots(GovOrganizationRequest) returns (GovDepotInfoList) {}
+  rpc GetGovRawScaleRecordList(GovRawScaleRecordListRequest) returns (RawScaleRecordListResponse) {}
 
   rpc GetServiceProviderStatsById(IdRequest) returns (GovServiceProviderStats) {}
   rpc GetServiceReceiverStatsById(IdRequest) returns (GovServiceReceiverStats) {}
