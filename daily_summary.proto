@@ -1,0 +1,95 @@
+syntax = "proto2";
+
+package raccoonai;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+message VehicleTypeCount {
+  optional string type = 1 [json_name = "type"];
+  optional int32 count = 2 [json_name = "count"];
+}
+message DistrictVolume {
+  optional uint64 summary_id = 1 [json_name = "summary_id"];
+  optional string district_name = 2 [json_name = "district_name"];
+  optional float plan_volume = 3 [json_name = "plan_volume"];
+  optional float fact_volume = 4 [json_name = "fact_volume"];
+}
+
+message ContainerStat {
+  optional uint64 summary_id = 1 [json_name = "summary_id"];
+  optional string container_type = 2 [json_name = "container_type"];
+  optional int32 plan_count = 3 [json_name = "plan_count"];
+  optional int32 fact_count = 4 [json_name = "fact_count"];
+}
+
+message VisitPointStat {
+  optional uint64 summary_id = 1 [json_name = "summary_id"];
+  optional string point_name = 2 [json_name = "point_name"];
+  optional float volume = 3 [json_name = "volume"];
+}
+
+message DailySummary {
+  // Metadata
+  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional string report_date = 2 [json_name = "report_date"]; // date as ISO string
+  optional google.protobuf.Timestamp last_updated = 3 [json_name = "last_updated"];
+
+  // --- newVolumesInfo Fields ---
+  optional float vol_ordered = 4 [json_name = "vol_ordered"];
+  optional float vol_nominal_handled = 5 [json_name = "vol_nominal_handled"];
+  optional float vol_fact_handled = 6 [json_name = "vol_fact_handled"];
+  optional float vol_confirmed_fail = 7 [json_name = "vol_confirmed_fail"];
+  optional float vol_not_distributed = 8 [json_name = "vol_not_distributed"];
+  optional float vol_not_visited = 9 [json_name = "vol_not_visited"];
+  optional float vol_success_percent = 10 [json_name = "vol_success_percent"];
+  optional float vol_failed_percent = 11 [json_name = "vol_failed_percent"];
+  optional float vol_not_handled_percent = 12 [json_name = "vol_not_handled_percent"];
+
+  // --- newCountInfo Fields ---
+  optional int32 count_ordered = 13 [json_name = "count_ordered"];
+  optional int32 count_fact = 14 [json_name = "count_fact"];
+  optional int32 count_confirmed_fail = 15 [json_name = "count_confirmed_fail"];
+  optional int32 count_not_distributed = 16 [json_name = "count_not_distributed"];
+  optional int32 count_not_visited = 17 [json_name = "count_not_visited"];
+  optional float count_success_percent = 18 [json_name = "count_success_percent"];
+  optional float count_failed_percent = 19 [json_name = "count_failed_percent"];
+  optional float count_not_handled_percent = 20 [json_name = "count_not_handled_percent"];
+
+  // --- vehicleInfo Fields ---
+  optional int32 veh_total_count = 21 [json_name = "veh_total_count"];
+  optional int32 veh_unit_count = 22 [json_name = "veh_unit_count"];
+  optional int32 veh_working = 23 [json_name = "veh_working"];
+  optional int32 veh_finished = 24 [json_name = "veh_finished"];
+  optional int32 veh_waiting = 25 [json_name = "veh_waiting"];
+  optional int32 veh_garbage_truck_count = 26 [json_name = "veh_garbage_truck_count"];
+  optional float veh_avg_run = 27 [json_name = "veh_avg_run"];
+  optional int32 veh_max_run = 28 [json_name = "veh_max_run"];
+
+  // Flattened Vehicle Metrics
+  optional float average_weighted_run = 29 [json_name = "average_weighted_run"];
+  optional int32 min_run = 30 [json_name = "min_run"];
+  optional float last_run_average_percent = 31 [json_name = "last_run_average_percent"];
+  optional float last_run_max_percent = 32 [json_name = "last_run_max_percent"];
+  optional float last_run_min_percent = 33 [json_name = "last_run_min_percent"];
+  optional float last_run_average_weighted_percent = 34 [json_name = "last_run_average_weighted_percent"];
+
+  // JSONB field
+  repeated VehicleTypeCount veh_type_counts = 35 [json_name = "veh_type_counts"];
+
+  // --- dayHandlingStands Fields ---
+  optional int32 stands_plan = 36 [json_name = "stands_plan"];
+  optional int32 stands_visited = 37 [json_name = "stands_visited"];
+  optional int32 stands_gps_confirmed = 38 [json_name = "stands_gps_confirmed"];
+  optional int32 stands_not_gps_confirmed = 39 [json_name = "stands_not_gps_confirmed"];
+  optional int32 stands_not_visited = 40 [json_name = "stands_not_visited"];
+  optional float stands_visited_percent = 41 [json_name = "stands_visited_percent"];
+  optional int32 stands_climb_count = 42 [json_name = "stands_climb_count"];
+  optional int32 stands_visit_count = 43 [json_name = "stands_visit_count"];
+
+  // Relationships
+  repeated DistrictVolume district_volumes = 44 [json_name = "district_volumes"];
+  repeated ContainerStat container_stats = 45 [json_name = "container_stats"];
+  repeated VisitPointStat visit_point_stats = 46 [json_name = "visit_point_stats"];
+}
