@@ -71,6 +71,7 @@ message GovTruckInfo {
   required Organization service_provider = 2 [json_name = "service_provider"];
   optional double lat = 3 [json_name = "lat"];
   optional double lon = 4 [json_name = "lon"];
+  optional uint32 angle = 5 [json_name = "angle"];
 }
 
 message GovTruckList {
@@ -230,6 +231,7 @@ service GovDashService {
   rpc ServiceReceivers(GovOrganizationRequest) returns (OrganizationList) {}
   rpc PickupLocations(GovOrganizationRequest) returns (GovPickupLocationList) {}
   rpc DisposalSites(EmptyMessageRequest) returns (OrganizationList) {}
+  rpc DisposalSiteLocations(EmptyMessageRequest) returns (LocationList) {}
   rpc Trucks(GovOrganizationRequest) returns (GovTruckList) {}
   rpc Depots(GovOrganizationRequest) returns (GovDepotInfoList) {}
   rpc GetGovRawScaleRecordList(GovRawScaleRecordListRequest) returns (RawScaleRecordListResponse) {}
