@@ -1,0 +1,30 @@
+syntax = "proto2";
+package raccoonai;
+
+import "enums.proto";
+import "general.proto";
+import "job.proto";
+
+option go_package = "./pb";
+
+message JobListRequest {
+  optional uint64 service_receiver_id = 1 [json_name = "service_receiver_id"];
+  optional uint64 service_provider_id = 2 [json_name = "service_provider_id"];
+  optional JobType job_type = 3 [json_name = "job_type"];
+  optional JobCategory job_category = 4 [json_name = "job_category"];
+  optional JobStatus job_status = 5 [json_name = "job_status"];
+  optional uint64 driver_id = 6 [json_name = "driver_id"];
+}
+
+message JobListResponse {
+  repeated Job jobs = 1 [json_name = "jobs"];
+}
+
+service JobService {
+  rpc CreateJob(JobCreate) returns (Job) {}
+  rpc GetJobById(IdRequest) returns (Job) {}
+  rpc UpdateJob(JobUpdate) returns (Job) {}
+  rpc JobList(JobListRequest) returns (JobListResponse) {}
+  rpc CancelJob(IdRequest) returns (Job) {}
+  rpc ForceCompleteJob(IdRequest) returns (Job) {}
+}
