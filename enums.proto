@@ -26,9 +26,10 @@ enum TruckType {
 
 enum TruckLoadType {
   TRUCK_LOAD_TYPE_UNDEFINED = 0;
-  TRUCK_LOAD_TYPE_FROND = 1;
+  TRUCK_LOAD_TYPE_FRONT = 1;
   TRUCK_LOAD_TYPE_BACK = 2;
   TRUCK_LOAD_TYPE_SIDE = 3;
+  TRUCK_LOAD_TYPE_TOP = 4;
 }
 
 enum TruckStandard {
