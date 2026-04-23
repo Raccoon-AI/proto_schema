@@ -225,6 +225,17 @@ message GovRawScaleRecordListRequest {
   optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
 }
 
+message GovRawScaleRecordByCompany {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required double total_netto_kg = 2 [json_name = "total_netto_kg"];
+  required uint64 total_records = 3 [json_name = "total_records"];
+  map<string, double> weights_by_waste_type = 4 [json_name = "weights_by_waste_type"];
+}
+
+message GovRawScaleRecordByCompanyResponse {
+  repeated GovRawScaleRecordByCompany records = 1 [json_name = "records"];
+}
+
 service GovDashService {
   rpc GetGovGeoAccess(EmptyMessageRequest) returns (GovGeoAccessList) {}
   rpc ServiceProviders(GovOrganizationRequest) returns (GovServiceProviderInfoList) {}
@@ -251,6 +262,7 @@ service GovDashService {
   rpc GetGovDepotAnalytics(GovDepotAnalyticsRequest) returns (GovDepotAnalyticsResponse) {}
   rpc GetGovSuspiciousLocationAnalytics(GovSuspiciousLocationAnalyticsRequest) returns (GovSuspiciousLocationAnalyticsResponse) {}
   rpc GetGovRawScaleAnalytics(GovRawScaleAnalyticsRequest) returns (GovRawScaleAnalyticsResponse) {}
+  rpc GetGovRawScaleRecordByCompany(GovDashboardAnalyticsRequest) returns (GovRawScaleRecordByCompanyResponse) {}
 
   rpc SuspiciousLocations(EmptyMessageRequest) returns (SuspiciousLocationResponse) {}
   rpc CreateSuspiciousLocation(LocationCreate) returns (Location) {}
