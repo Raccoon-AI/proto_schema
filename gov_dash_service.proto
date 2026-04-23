@@ -238,10 +238,10 @@ message GovRawScaleRecordListRequest {
 
 message GovRawScaleRecordByCompany {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
-  optional string organization_name = 5 [json_name = "organization_name"];
   required double total_netto_kg = 2 [json_name = "total_netto_kg"];
   required uint64 total_records = 3 [json_name = "total_records"];
   map<string, double> weights_by_waste_type = 4 [json_name = "weights_by_waste_type"];
+  optional string organization_name = 5 [json_name = "organization_name"];
 }
 
 message GovRawScaleRecordByCompanyResponse {
