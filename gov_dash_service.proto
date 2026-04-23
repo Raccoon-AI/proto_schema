@@ -5,6 +5,7 @@ package raccoonai;
 import "container.proto";
 import "contract.proto";
 import "general.proto";
+import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "gov_geo_access.proto";
 import "gps_tables.proto";
@@ -150,6 +151,33 @@ message GovTruckAnalyticsResponse {
   optional uint64 anomalies = 5 [json_name = "anomalies"];
 }
 
+message GovTruckTravelPathRequest {
+  required uint64 truck_id = 1 [json_name = "truck_id"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+  optional uint64 organization_id = 3 [json_name = "organization_id"];
+}
+
+message GovGpsRawDataPoint {
+  required uint64 truck_id = 1 [json_name = "truck_id"];
+  required int64 timestamp = 2 [json_name = "timestamp"];
+  required double latitude = 3 [json_name = "latitude"];
+  required double longitude = 4 [json_name = "longitude"];
+  required float speed = 5 [json_name = "speed"];
+  required float angle = 6 [json_name = "angle"];
+  optional float gas_level1 = 7 [json_name = "gas_level1"];
+  optional float gas_level2 = 8 [json_name = "gas_level2"];
+  optional float total_engine_hours = 9 [json_name = "total_engine_hours"];
+  optional float rpm = 10 [json_name = "rpm"];
+  optional float engine_coolant_temp = 11 [json_name = "engine_coolant_temp"];
+  required uint64 organization_id = 12 [json_name = "organization_id"];
+}
+
+message GovTruckTravelPathResponse {
+  required uint64 truck_id = 1 [json_name = "truck_id"];
+  repeated GovGpsRawDataPoint points = 2 [json_name = "points"];
+  required google.protobuf.Struct geojson_feature = 3 [json_name = "geojson_feature"];
+}
+
 message GovDepotAnalyticsRequest {
   required uint64 depot_id = 1 [json_name = "depot_id"];
   required DateTimeFilter from_to = 2 [json_name = "from_to"];
@@ -259,6 +287,7 @@ service GovDashService {
   rpc GetGovServiceReceiverAnalytics(GovServiceReceiverAnalyticsRequest) returns (GovServiceReceiverAnalyticsResponse) {}
   rpc GetGovPickupLocationAnalytics(GovPickupLocationAnalyticsRequest) returns (GovPickupLocationAnalyticsResponse) {}
   rpc GetGovTruckAnalytics(GovTruckAnalyticsRequest) returns (GovTruckAnalyticsResponse) {}
+  rpc GetGovTruckTravelPath(GovTruckTravelPathRequest) returns (GovTruckTravelPathResponse) {}
   rpc GetGovDepotAnalytics(GovDepotAnalyticsRequest) returns (GovDepotAnalyticsResponse) {}
   rpc GetGovSuspiciousLocationAnalytics(GovSuspiciousLocationAnalyticsRequest) returns (GovSuspiciousLocationAnalyticsResponse) {}
   rpc GetGovRawScaleAnalytics(GovRawScaleAnalyticsRequest) returns (GovRawScaleAnalyticsResponse) {}
