@@ -24,6 +24,25 @@ enum TruckType {
   TRUCK_TYPE_LIQUID_WASTE = 5;
 }
 
+enum TruckLoadType {
+  TRUCK_LOAD_TYPE_UNDEFINED = 0;
+  TRUCK_LOAD_TYPE_FRONT = 1;
+  TRUCK_LOAD_TYPE_BACK = 2;
+  TRUCK_LOAD_TYPE_SIDE = 3;
+  TRUCK_LOAD_TYPE_TOP = 4;
+}
+
+enum TruckStandard {
+  TRUCK_STANDARD_UNDEFINED = 0;
+  TRUCK_STANDARD_EURO_1 = 1;
+  TRUCK_STANDARD_EURO_2 = 2;
+  TRUCK_STANDARD_EURO_3 = 3;
+  TRUCK_STANDARD_EURO_4 = 4;
+  TRUCK_STANDARD_EURO_5 = 5;
+  TRUCK_STANDARD_EURO_6 = 6;
+  TRUCK_STANDARD_EURO_7 = 7;
+}
+
 // *****************************************************
 // JOB ENUMS
 // *****************************************************

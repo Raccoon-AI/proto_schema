@@ -5,6 +5,7 @@ package raccoonai;
 import "container.proto";
 import "contract.proto";
 import "general.proto";
+import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "gov_geo_access.proto";
 import "gps_tables.proto";
@@ -150,6 +151,16 @@ message GovTruckAnalyticsResponse {
   optional uint64 anomalies = 5 [json_name = "anomalies"];
 }
 
+message GovTruckTravelPathRequest {
+  required uint64 truck_id = 1 [json_name = "truck_id"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+}
+
+message GovTruckTravelPathResponse {
+  required uint64 truck_id = 1 [json_name = "truck_id"];
+  required google.protobuf.Struct geojson_feature = 3 [json_name = "geojson_feature"];
+}
+
 message GovDepotAnalyticsRequest {
   required uint64 depot_id = 1 [json_name = "depot_id"];
   required DateTimeFilter from_to = 2 [json_name = "from_to"];
@@ -225,6 +236,18 @@ message GovRawScaleRecordListRequest {
   optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
 }
 
+message GovRawScaleRecordByCompany {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required double total_netto_kg = 2 [json_name = "total_netto_kg"];
+  required uint64 total_records = 3 [json_name = "total_records"];
+  map<string, double> weights_by_waste_type = 4 [json_name = "weights_by_waste_type"];
+  optional string organization_name = 5 [json_name = "organization_name"];
+}
+
+message GovRawScaleRecordByCompanyResponse {
+  repeated GovRawScaleRecordByCompany records = 1 [json_name = "records"];
+}
+
 service GovDashService {
   rpc GetGovGeoAccess(EmptyMessageRequest) returns (GovGeoAccessList) {}
   rpc ServiceProviders(GovOrganizationRequest) returns (GovServiceProviderInfoList) {}
@@ -248,9 +271,11 @@ service GovDashService {
   rpc GetGovServiceReceiverAnalytics(GovServiceReceiverAnalyticsRequest) returns (GovServiceReceiverAnalyticsResponse) {}
   rpc GetGovPickupLocationAnalytics(GovPickupLocationAnalyticsRequest) returns (GovPickupLocationAnalyticsResponse) {}
   rpc GetGovTruckAnalytics(GovTruckAnalyticsRequest) returns (GovTruckAnalyticsResponse) {}
+  rpc GetGovTruckTravelPath(GovTruckTravelPathRequest) returns (GovTruckTravelPathResponse) {}
   rpc GetGovDepotAnalytics(GovDepotAnalyticsRequest) returns (GovDepotAnalyticsResponse) {}
   rpc GetGovSuspiciousLocationAnalytics(GovSuspiciousLocationAnalyticsRequest) returns (GovSuspiciousLocationAnalyticsResponse) {}
   rpc GetGovRawScaleAnalytics(GovRawScaleAnalyticsRequest) returns (GovRawScaleAnalyticsResponse) {}
+  rpc GetGovRawScaleRecordByCompany(GovRawScaleAnalyticsRequest) returns (GovRawScaleRecordByCompanyResponse) {}
 
   rpc SuspiciousLocations(EmptyMessageRequest) returns (SuspiciousLocationResponse) {}
   rpc CreateSuspiciousLocation(LocationCreate) returns (Location) {}
