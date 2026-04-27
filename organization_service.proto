@@ -51,6 +51,7 @@ message ChildrenOrganizationListRequest {
   optional uint64 parent_organization_id = 1 [json_name = "parent_organization_id"];
 }
 
+// TODO: refactor and add interceptor
 service OrganizationService {
   rpc OrganizationList(OrganizationListRequest) returns (OrganizationListResponse) {}
   rpc AddGuest(AddGuestRequest) returns (AddGuestResponse) {}
