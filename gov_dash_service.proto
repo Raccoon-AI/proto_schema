@@ -248,6 +248,46 @@ message GovRawScaleRecordByCompanyResponse {
   repeated GovRawScaleRecordByCompany records = 1 [json_name = "records"];
 }
 
+message GovAnalyticsDisposalSiteVisit {
+  required uint64 disposal_site_id = 1 [json_name = "disposal_site_id"];
+  required uint64 total_visits = 2 [json_name = "total_visits"];
+  required string disposal_site_name = 3 [json_name = "disposal_site_name"];
+}
+
+message GovAnalyticsDisposalVisitPerProvider {
+  required uint64 organization_id = 1 [json_name = "organization_id"];
+  required string organization_name = 2 [json_name = "organization_name"];
+  repeated GovAnalyticsDisposalSiteVisit disposal_visits = 3 [json_name = "disposal_visits"];
+  optional uint64 suspicious_count = 4 [json_name = "suspicious_location"];
+}
+
+message GovAnalyticsDisposalVisitsForAll {
+  repeated GovAnalyticsDisposalVisitPerProvider disposal_visit_per_provider = 1 [json_name = "disposal_visit_per_provider"];
+}
+
+message GovAnalyticsLocationVisitsPerProvider {
+  required uint64 organization_id = 1 [json_name = "organization_id"];
+  required string organization_name = 2 [json_name = "organization_name"];
+  required uint64 visit_planned = 3 [json_name = "planned_visits"];
+  required uint64 visit_fact = 4 [json_name = "visit_fact"];
+  required uint64 visit_confirmed_fail = 5 [json_name = "visit_confirmed_fail"];
+}
+
+message GovAnalyticsLocationVisitsForAll {
+  repeated GovAnalyticsLocationVisitsPerProvider location_visit_per_provider = 1 [json_name = "location_visit_per_provider"];
+}
+
+message GovAnalyticsAnomalyPerProvider {
+  required uint64 organization_id = 1 [json_name = "organization_id"];
+  required string organization_name = 2 [json_name = "organization_name"];
+  required uint64 daily_disposal_fail = 3 [json_name = "daily_disposal_fail"];
+  required uint64 anomaly_stop = 4 [json_name = "anomaly_stop"];
+}
+
+message GovAnalyticsAnomaliesForAll {
+  repeated GovAnalyticsAnomalyPerProvider anomaly_per_provider = 1 [json_name = "anomaly_per_provider"];
+}
+
 service GovDashService {
   rpc GetGovGeoAccess(EmptyMessageRequest) returns (GovGeoAccessList) {}
   rpc ServiceProviders(GovOrganizationRequest) returns (GovServiceProviderInfoList) {}
@@ -266,20 +306,28 @@ service GovDashService {
   rpc GetTruckStatsById(IdRequest) returns (GovTruckStats) {}
   rpc GetDepotById(IdRequest) returns (GovDepotInfo) {}
 
+  // endpoints based on internal tables, stable structure
   rpc GetGovDashboardAnalytics(GovDashboardAnalyticsRequest) returns (GovDashboardAnalyticsResponse) {}
   rpc GetGovServiceProviderAnalytics(GovServiceProviderAnalyticsRequest) returns (GovServiceProviderAnalyticsResponse) {}
   rpc GetGovServiceReceiverAnalytics(GovServiceReceiverAnalyticsRequest) returns (GovServiceReceiverAnalyticsResponse) {}
-  rpc GetGovPickupLocationAnalytics(GovPickupLocationAnalyticsRequest) returns (GovPickupLocationAnalyticsResponse) {}
-  rpc GetGovTruckAnalytics(GovTruckAnalyticsRequest) returns (GovTruckAnalyticsResponse) {}
   rpc GetGovTruckTravelPath(GovTruckTravelPathRequest) returns (GovTruckTravelPathResponse) {}
   rpc GetGovDepotAnalytics(GovDepotAnalyticsRequest) returns (GovDepotAnalyticsResponse) {}
-  rpc GetGovSuspiciousLocationAnalytics(GovSuspiciousLocationAnalyticsRequest) returns (GovSuspiciousLocationAnalyticsResponse) {}
   rpc GetGovRawScaleAnalytics(GovRawScaleAnalyticsRequest) returns (GovRawScaleAnalyticsResponse) {}
   rpc GetGovRawScaleRecordByCompany(GovRawScaleAnalyticsRequest) returns (GovRawScaleRecordByCompanyResponse) {}
 
+  // Suspicious location, new feature during gov dash
   rpc SuspiciousLocations(EmptyMessageRequest) returns (SuspiciousLocationResponse) {}
   rpc CreateSuspiciousLocation(LocationCreate) returns (Location) {}
   rpc UpdateSuspiciousLocation(LocationUpdate) returns (Location) {}
+
+  // Endpoints Based on GPS Stop, might be refactored
+  rpc GetGovTruckAnalytics(GovTruckAnalyticsRequest) returns (GovTruckAnalyticsResponse) {}
+  rpc GetGovPickupLocationAnalytics(GovPickupLocationAnalyticsRequest) returns (GovPickupLocationAnalyticsResponse) {}
+  rpc GetGovSuspiciousLocationAnalytics(GovSuspiciousLocationAnalyticsRequest) returns (GovSuspiciousLocationAnalyticsResponse) {}
   rpc AnomaliesList(GovDashboardAnalyticsRequest) returns (GpsStopList) {}
   rpc AnomalieRoute(IdRequest) returns (AnomalieRouteResponse) {}
+
+  rpc GetGovAnalyticsDisposalVisitsForAll(GovDashboardAnalyticsRequest) returns (GovAnalyticsDisposalVisitsForAll) {}
+  rpc GetGovAnalyticsLocationVisitsForAll(GovDashboardAnalyticsRequest) returns (GovAnalyticsLocationVisitsForAll) {}
+  rpc GetGovAnalyticsAnomaliesForAll(GovDashboardAnalyticsRequest) returns (GovAnalyticsAnomaliesForAll) {}
 }
