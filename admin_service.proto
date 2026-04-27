@@ -4,6 +4,7 @@ package raccoonai;
 import "auth.proto";
 import "general.proto";
 import "organization.proto";
+import "organization_service.proto";
 import "user.proto";
 
 option go_package = "./pb";
@@ -12,4 +13,9 @@ service AdminService {
   rpc CreateUser(UserCreate) returns (User) {}
   rpc CreateOrganization(OrganizationCreate) returns (Organization) {}
   rpc ImpersonateUser(IdRequest) returns (AuthResponse) {}
+  rpc OrganizationList(OrganizationListRequest) returns (OrganizationListResponse) {}
+  rpc UserList(UserListRequest) returns (UserListResponse) {}
+  // Related to permissions
+  rpc PopulateDefaultPermissions(IdRequest) returns (MessageResponse) {}
+  rpc SetDefaultRolesToAllOrganizationUsers(IdRequest) returns (MessageResponse) {}
 }

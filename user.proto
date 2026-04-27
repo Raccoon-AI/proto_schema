@@ -105,3 +105,13 @@ message PasswordUpdate {
   required string old_pwd = 2 [json_name = "old_pwd"];
   required string new_pwd = 3 [json_name = "new_pwd"];
 }
+
+message UserListRequest {
+  optional UserRole role = 1 [json_name = "role"];
+  optional UserStatus status = 2 [json_name = "status"];
+  optional uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+}
+
+message UserListResponse {
+  repeated User users = 1 [json_name = "users"];
+}
