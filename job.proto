@@ -92,8 +92,8 @@ message JobCreate {
 
 message JobUpdate {
   required uint64 id = 1 [json_name = "id"];
-  optional uint64 service_provider_id = 2 [json_name = "service_provider_id"]; // Must be removed
-  optional uint64 service_receiver_id = 3 [json_name = "service_receiver_id"]; // Must be removed
+  optional uint64 service_provider_id = 2 [json_name = "service_provider_id"]; // To be switched to required in the future
+  optional uint64 service_receiver_id = 3 [json_name = "service_receiver_id"]; // To be switched to required in the future
   optional google.protobuf.Timestamp tw_start_at = 4 [json_name = "tw_start_at"];
   optional google.protobuf.Timestamp tw_end_at = 5 [json_name = "tw_end_at"];
   optional uint64 step_idx = 6 [json_name = "step_idx"];

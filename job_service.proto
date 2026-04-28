@@ -20,11 +20,18 @@ message JobListResponse {
   repeated Job jobs = 1 [json_name = "jobs"];
 }
 
+message JobRequest {
+  required uint64 id = 1 [json_name = "id"];
+  // either one of these must be provided for permify check
+  optional uint64 service_receiver_id = 2 [json_name = "service_receiver_id"];
+  optional uint64 service_provider_id = 3 [json_name = "service_provider_id"];
+}
+
 service JobService {
   rpc CreateJob(JobCreate) returns (Job) {}
-  rpc GetJobById(IdRequest) returns (Job) {}
+  rpc GetJobById(JobRequest) returns (Job) {}
   rpc UpdateJob(JobUpdate) returns (Job) {}
   rpc JobList(JobListRequest) returns (JobListResponse) {}
-  rpc CancelJob(IdRequest) returns (Job) {}
-  rpc ForceCompleteJob(IdRequest) returns (Job) {}
+  rpc CancelJob(JobRequest) returns (Job) {}
+  rpc ForceCompleteJob(JobRequest) returns (Job) {}
 }
