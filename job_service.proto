@@ -2,7 +2,6 @@ syntax = "proto2";
 package raccoonai;
 
 import "enums.proto";
-import "general.proto";
 import "job.proto";
 
 option go_package = "./pb";
@@ -22,9 +21,8 @@ message JobListResponse {
 
 message JobRequest {
   required uint64 id = 1 [json_name = "id"];
-  // either one of these must be provided for permify check
-  optional uint64 service_receiver_id = 2 [json_name = "service_receiver_id"];
-  optional uint64 service_provider_id = 3 [json_name = "service_provider_id"];
+  required uint64 service_receiver_id = 2 [json_name = "service_receiver_id"];
+  required uint64 service_provider_id = 3 [json_name = "service_provider_id"];
 }
 
 service JobService {
