@@ -19,7 +19,6 @@ message JobEventIn {
   optional google.protobuf.Struct payload = 3 [json_name = "payload"];
 }
 
-// GET => /v1/platform/job/{id}
 message Job {
   required uint64 id = 1 [json_name = "id"];
   required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
@@ -45,11 +44,11 @@ message Job {
   optional DriverOnShift driver_on_shift = 23 [json_name = "driver_on_shift"];
   required JobType type = 24 [json_name = "type"];
   required DispatcherReviewStatus dispatcher_review_status = 25 [json_name = "dispatcher_review_status"];
-  optional double service_start_photo_lat = 26 [json_name = "service_start_photo_lat"];
-  optional double service_start_photo_lon = 27 [json_name = "service_start_photo_lon"];
-  optional double service_end_photo_lat = 28 [json_name = "service_end_photo_lat"];
-  optional double service_end_photo_lon = 29 [json_name = "service_end_photo_lon"];
-  optional string container_name = 30 [json_name = "container_name"];
+  optional double service_start_photo_lat = 26 [json_name = "service_start_photo_lat"]; // To be deprecated in favor of file_reports with type SERVICE_START_PHOTO
+  optional double service_start_photo_lon = 27 [json_name = "service_start_photo_lon"]; // To be deprecated in favor of file_reports with type SERVICE_START_PHOTO
+  optional double service_end_photo_lat = 28 [json_name = "service_end_photo_lat"]; // To be deprecated in favor of file_reports with type SERVICE_END_PHOTO
+  optional double service_end_photo_lon = 29 [json_name = "service_end_photo_lon"]; // To be deprecated in favor of file_reports with type SERVICE_END_PHOTO
+  optional string container_name = 30 [json_name = "container_name"]; // To be deprecated in favor of container_group.container_type.name
   optional uint64 job_tariff = 31 [json_name = "job_tariff"];
   optional bool is_pseudo = 32 [json_name = "is_pseudo"];
   optional google.protobuf.Timestamp gps_start_at = 33 [json_name = "gps_start_at"];
@@ -60,24 +59,25 @@ message Job {
   repeated FileUpload file_reports = 38 [json_name = "file_reports"];
   optional bool visible_to_ai = 39 [json_name = "visible_to_ai"];
   optional JobCategory job_category = 40 [json_name = "job_category"];
-  optional uint64 container_type_id = 41 [json_name = "container_type_id"];
-  optional ContainerType container_type = 42 [json_name = "container_type"];
+  optional uint64 container_type_id = 41 [json_name = "container_type_id"]; // To be deprecated in favor of container_group.container_type
+  optional ContainerType container_type = 42 [json_name = "container_type"]; // To be deprecated in favor of container_group.container_type
   optional string order_number = 43 [json_name = "order_number"];
   optional bool receiver_notified = 44 [json_name = "receiver_notified"];
+  optional ContainerGroup container_group = 45 [json_name = "container_group"];
 }
 
 message JobCreate {
-  optional uint64 service_provider_id = 1 [json_name = "service_provider_id"];
-  optional uint64 service_receiver_id = 2 [json_name = "service_receiver_id"];
+  optional uint64 service_provider_id = 1 [json_name = "service_provider_id"]; // To be switched to required in the future
+  optional uint64 service_receiver_id = 2 [json_name = "service_receiver_id"]; // To be switched to required in the future
   optional google.protobuf.Timestamp tw_start_at = 3 [json_name = "tw_start_at"];
   optional google.protobuf.Timestamp tw_end_at = 4 [json_name = "tw_end_at"];
   optional uint64 step_idx = 5 [json_name = "step_idx"];
   optional uint64 author_id = 6 [json_name = "author_id"];
   optional uint64 driver_on_shift_id = 7 [json_name = "driver_on_shift_id"];
-  required uint64 pickup_location_id = 8 [json_name = "pickup_location_id"];
-  optional string service_started_report_url = 9 [json_name = "service_started_report_url"];
-  optional string service_ended_report_url = 10 [json_name = "service_ended_report_url"];
-  optional uint64 route_id = 11 [json_name = "route_id"];
+  required uint64 pickup_location_id = 8 [json_name = "pickup_location_id"]; // To be switched to optional in the future
+  optional string service_started_report_url = 9 [json_name = "service_started_report_url"]; // To be deprecated
+  optional string service_ended_report_url = 10 [json_name = "service_ended_report_url"]; // To be deprecated
+  optional uint64 route_id = 11 [json_name = "route_id"]; // To be deprecated
   optional string driver_comment = 12 [json_name = "driver_comment"];
   optional google.protobuf.Timestamp plan_start_at = 13 [json_name = "plan_start_at"];
   optional google.protobuf.Timestamp plan_end_at = 14 [json_name = "plan_end_at"];
@@ -86,20 +86,21 @@ message JobCreate {
   optional bool is_pseudo = 17 [json_name = "is_pseudo"];
   optional bool visible_to_ai = 18 [json_name = "visible_to_ai"];
   optional JobCategory job_category = 19 [json_name = "job_category"];
-  optional uint64 container_type_id = 20 [json_name = "container_type_id"];
+  optional uint64 container_type_id = 20 [json_name = "container_type_id"]; // We don't need this
+  optional uint64 container_group_id = 21 [json_name = "container_group_id"]; // To be switched to required in the future
 }
 
 message JobUpdate {
   required uint64 id = 1 [json_name = "id"];
-  optional uint64 service_provider_id = 2 [json_name = "service_provider_id"];
-  optional uint64 service_receiver_id = 3 [json_name = "service_receiver_id"];
+  optional uint64 service_provider_id = 2 [json_name = "service_provider_id"]; // Must be removed
+  optional uint64 service_receiver_id = 3 [json_name = "service_receiver_id"]; // Must be removed
   optional google.protobuf.Timestamp tw_start_at = 4 [json_name = "tw_start_at"];
   optional google.protobuf.Timestamp tw_end_at = 5 [json_name = "tw_end_at"];
   optional uint64 step_idx = 6 [json_name = "step_idx"];
   optional uint64 driver_on_shift_id = 7 [json_name = "driver_on_shift_id"];
-  optional uint64 pickup_location_id = 8 [json_name = "pickup_location_id"];
-  optional string service_started_report_url = 9 [json_name = "service_started_report_url"];
-  optional string service_ended_report_url = 10 [json_name = "service_ended_report_url"];
+  optional uint64 pickup_location_id = 8 [json_name = "pickup_location_id"]; // To be deprecated
+  optional string service_started_report_url = 9 [json_name = "service_started_report_url"]; // To be deprecated
+  optional string service_ended_report_url = 10 [json_name = "service_ended_report_url"]; // To be deprecated
   optional uint64 route_id = 11 [json_name = "route_id"];
   optional string driver_comment = 12 [json_name = "driver_comment"];
   optional google.protobuf.Timestamp plan_start_at = 13 [json_name = "plan_start_at"];
@@ -109,11 +110,11 @@ message JobUpdate {
   optional JobStatus status = 17 [json_name = "status"];
   optional JobType type = 18 [json_name = "type"];
   optional DispatcherReviewStatus dispatcher_review_status = 19 [json_name = "dispatcher_review_status"];
-  optional double service_start_photo_lat = 20 [json_name = "service_start_photo_lat"];
-  optional double service_start_photo_lon = 21 [json_name = "service_start_photo_lon"];
-  optional double service_end_photo_lat = 22 [json_name = "service_end_photo_lat"];
-  optional double service_end_photo_lon = 23 [json_name = "service_end_photo_lon"];
-  optional string container_name = 24 [json_name = "container_name"];
+  optional double service_start_photo_lat = 20 [json_name = "service_start_photo_lat"]; // To be deprecated
+  optional double service_start_photo_lon = 21 [json_name = "service_start_photo_lon"]; // To be deprecated
+  optional double service_end_photo_lat = 22 [json_name = "service_end_photo_lat"]; // To be deprecated
+  optional double service_end_photo_lon = 23 [json_name = "service_end_photo_lon"]; // To be deprecated
+  optional string container_name = 24 [json_name = "container_name"]; // To be deprecated
   optional uint64 job_tariff = 25 [json_name = "job_tariff"];
   optional bool is_pseudo = 26 [json_name = "is_pseudo"];
   optional google.protobuf.Timestamp gps_start_at = 28 [json_name = "gps_start_at"];
@@ -124,23 +125,6 @@ message JobUpdate {
   optional bool receiver_notified = 33 [json_name = "receiver_notified"];
 }
 
-message JobStatusUpdate {
-  required uint64 id = 1 [json_name = "id"];
-  required JobStatus status = 2 [json_name = "status"];
-}
-
-message JobPickUpStart {
-  required uint64 id = 1 [json_name = "id"];
-}
-
-message JobPickUpFinish {
-  required uint64 id = 1 [json_name = "id"];
-}
-
 message JobList {
   repeated Job jobs = 1 [json_name = "jobs"];
-}
-
-message JobRequest {
-  required uint64 job_id = 1 [json_name = "job_id"];
 }
