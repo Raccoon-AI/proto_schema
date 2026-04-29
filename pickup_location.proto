@@ -51,7 +51,7 @@ message PickupLocation {
 
 message PickupLocationCreate {
   required string name = 1 [json_name = "name"];
-  optional PickupLocationType type = 2 [json_name = "type"];
+  required PickupLocationType type = 2 [json_name = "type"];
   optional uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
   required double lon = 4 [json_name = "lon"];
   required double lat = 5 [json_name = "lat"];
