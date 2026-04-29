@@ -58,7 +58,7 @@ message Job {
   optional User author = 37 [json_name = "author"];
   repeated FileUpload file_reports = 38 [json_name = "file_reports"];
   optional bool visible_to_ai = 39 [json_name = "visible_to_ai"];
-  optional JobCategory job_category = 40 [json_name = "job_category"];
+  required JobCategory job_category = 40 [json_name = "job_category"];
   optional uint64 container_type_id = 41 [json_name = "container_type_id"]; // To be deprecated in favor of container_group.container_type
   optional ContainerType container_type = 42 [json_name = "container_type"]; // To be deprecated in favor of container_group.container_type
   optional string order_number = 43 [json_name = "order_number"];
@@ -81,11 +81,11 @@ message JobCreate {
   optional string driver_comment = 12 [json_name = "driver_comment"];
   optional google.protobuf.Timestamp plan_start_at = 13 [json_name = "plan_start_at"];
   optional google.protobuf.Timestamp plan_end_at = 14 [json_name = "plan_end_at"];
-  optional JobType type = 15 [json_name = "type"];
+  required JobType type = 15 [json_name = "type"];
   optional uint64 job_tariff = 16 [json_name = "job_tariff"];
   optional bool is_pseudo = 17 [json_name = "is_pseudo"];
   optional bool visible_to_ai = 18 [json_name = "visible_to_ai"];
-  optional JobCategory job_category = 19 [json_name = "job_category"];
+  required JobCategory job_category = 19 [json_name = "job_category"];
   optional uint64 container_type_id = 20 [json_name = "container_type_id"]; // We don't need this
   optional uint64 container_group_id = 21 [json_name = "container_group_id"]; // To be switched to required in the future
 }
