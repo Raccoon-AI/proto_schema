@@ -40,7 +40,7 @@ message Route {
   optional google.protobuf.Timestamp gps_start_at = 21 [json_name = "gps_start_at"];
   optional google.protobuf.Timestamp gps_end_at = 22 [json_name = "gps_end_at"];
   optional uint64 scale_record_id = 23 [json_name = "scale_record_id"];
-  optional RouteCategory route_category = 24 [json_name = "route_category"];
+  required RouteCategory route_category = 24 [json_name = "route_category"];
   repeated Job jobs = 25 [json_name = "jobs"];
   optional DriverOnShift driver_on_shift = 26 [json_name = "driver_on_shift"];
   optional uint64 reward = 27 [json_name = "reward"];
@@ -62,7 +62,7 @@ message RouteCreate {
   optional double netto = 12 [json_name = "netto"];
   optional uint64 source_location_id = 13 [json_name = "source_location_id"];
   required uint64 destination_location_id = 14 [json_name = "destination_location_id"];
-  optional RouteCategory route_category = 15 [json_name = "route_category"];
+  required RouteCategory route_category = 15 [json_name = "route_category"];
 }
 
 message RouteUpdate {
