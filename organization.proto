@@ -58,11 +58,10 @@ message ContractCreateItem {
 message OrganizationCreate {
   required string name = 1 [json_name = "name"];
   required OrganizationType type = 2 [json_name = "type"];
-  optional uint64 bank_details_id = 3 [json_name = "bank_details_id"];
-  optional string bin = 4 [json_name = "bin"];
-  optional string jur_address = 5 [json_name = "jur_address"];
-  optional string fact_address = 6 [json_name = "fact_address"];
-  optional string director_full_name = 7 [json_name = "director_full_name"];
+  optional string bin = 3 [json_name = "bin"];
+  optional string jur_address = 4 [json_name = "jur_address"];
+  optional string fact_address = 5 [json_name = "fact_address"];
+  optional string director_full_name = 6 [json_name = "director_full_name"];
 }
 
 message ServiceReceiverCreate {
@@ -84,6 +83,11 @@ message OrganizationUpdate {
   optional string director_full_name = 9 [json_name = "director_full_name"];
 }
 
-message OrganizationList {
+message OrganizationListRequest {
+  optional OrganizationType type = 1 [json_name = "type"];
+  optional OrganizationStatus status = 2 [json_name = "status"];
+}
+
+message OrganizationListResponse {
   repeated Organization organizations = 1 [json_name = "organizations"];
 }

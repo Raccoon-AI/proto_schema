@@ -5,17 +5,9 @@ package raccoonai;
 import "enums.proto";
 import "general.proto";
 import "organization.proto";
+import "organization_settings.proto";
 
 option go_package = "./pb";
-
-message OrganizationListRequest {
-  optional OrganizationType type = 1 [json_name = "type"];
-  optional OrganizationStatus status = 2 [json_name = "status"];
-}
-
-message OrganizationListResponse {
-  repeated Organization organizations = 1 [json_name = "organizations"];
-}
 
 message AddGuestRequest {
   required string org_name = 1 [json_name = "org_name"];
@@ -51,13 +43,32 @@ message ChildrenOrganizationListRequest {
   optional uint64 parent_organization_id = 1 [json_name = "parent_organization_id"];
 }
 
-// TODO: refactor and add interceptor
+message ServiceReceiverCreateRequest {
+  required OrganizationCreate organization = 1 [json_name = "organization"];
+  required uint64 service_provider_id = 2 [json_name = "service_provider_id"];
+}
+
 service OrganizationService {
-  rpc OrganizationList(OrganizationListRequest) returns (OrganizationListResponse) {}
-  rpc AddGuest(AddGuestRequest) returns (AddGuestResponse) {}
-  rpc ServiceProviderList(EmptyMessageRequest) returns (OrganizationListResponse) {}
+  // requests releted to guest orgs and users, which will be used by waste disposals
+  // to register in their system one-time clients
   rpc GuestOrganizationList(EmptyMessageRequest) returns (OrganizationListResponse) {}
+  rpc AddGuest(AddGuestRequest) returns (AddGuestResponse) {}
   rpc CreateGuestOrganization(CreateGuestOrganizationRequest) returns (CreateGuestOrganizationResponse) {}
-  rpc ChildrenOrganizationList(ChildrenOrganizationListRequest) returns (OrganizationListResponse) {}
+
+  // organization settings related requests
+  rpc GetSetting(EmptyMessageRequest) returns (OrganizationSettings) {}
+  rpc UpdateSetting(OrganizationSettingsUpdate) returns (OrganizationSettings) {}
+
+  // can be used by service providers
+  rpc ServiceReceiverList(EmptyMessageRequest) returns (OrganizationListResponse) {}
+  rpc CreateServiceReceiver(ServiceReceiverCreateRequest) returns (Organization) {}
+
+  // can be used by service receivers
+  rpc ServiceProviderList(EmptyMessageRequest) returns (OrganizationListResponse) {}
+
+  // general organization requests
+  rpc DisposalSiteOperators(EmptyMessageRequest) returns (OrganizationListResponse) {}
+  rpc ChildrenOrganizationList(EmptyMessageRequest) returns (OrganizationListResponse) {}
   rpc GetOrganization(OrganizationRequest) returns (Organization) {}
+  rpc MyOrganization(EmptyMessageRequest) returns (Organization) {}
 }

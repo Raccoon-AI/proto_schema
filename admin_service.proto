@@ -4,7 +4,6 @@ package raccoonai;
 import "auth.proto";
 import "general.proto";
 import "organization.proto";
-import "organization_service.proto";
 import "user.proto";
 
 option go_package = "./pb";
