@@ -2,22 +2,29 @@ syntax = "proto2";
 package raccoonai;
 
 import "auth.proto";
+import "enums.proto";
 import "general.proto";
 import "organization.proto";
 import "user.proto";
 
 option go_package = "./pb";
 
+message UserListRequest {
+  repeated UserRole role = 1 [json_name = "role"];
+  repeated UserStatus status = 2 [json_name = "status"];
+  repeated uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+}
+
 service AdminService {
   // Organization manipulation
   rpc CreateOrganization(OrganizationCreate) returns (Organization) {}
-  rpc OrganizationList(OrganizationListRequest) returns (OrganizationListResponse) {}
+  rpc ListOrganizations(OrganizationListRequest) returns (OrganizationList) {}
   rpc UpdateOrganization(OrganizationUpdate) returns (Organization) {}
   // User manipulation
   rpc CreateUser(UserCreate) returns (User) {}
   rpc UpdateUser(UserUpdate) returns (User) {}
   rpc ImpersonateUser(IdRequest) returns (AuthResponse) {}
-  rpc UserList(UserListRequest) returns (UserListResponse) {}
+  rpc ListUsers(UserListRequest) returns (UserList) {}
   // Related to permissions
   rpc PopulateDefaultPermissions(IdRequest) returns (MessageResponse) {}
   rpc SetDefaultRolesToAllOrganizationUsers(IdRequest) returns (MessageResponse) {}

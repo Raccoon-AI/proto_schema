@@ -40,7 +40,8 @@ message OrganizationRequest {
 }
 
 message ChildrenOrganizationListRequest {
-  optional uint64 parent_organization_id = 1 [json_name = "parent_organization_id"];
+  optional uint64 parent_organization_id = 1 [json_name = "parent_organization_id"]; // To be required
+  optional Pagination pagination = 10 [json_name = "pagination"];
 }
 
 message ServiceReceiverCreateRequest {
@@ -51,7 +52,7 @@ message ServiceReceiverCreateRequest {
 service OrganizationService {
   // requests releted to guest orgs and users, which will be used by waste disposals
   // to register in their system one-time clients
-  rpc GuestOrganizationList(EmptyMessageRequest) returns (OrganizationListResponse) {}
+  rpc ListGuestOrganizations(EmptyMessageRequest) returns (OrganizationList) {}
   rpc AddGuest(AddGuestRequest) returns (AddGuestResponse) {}
   rpc CreateGuestOrganization(CreateGuestOrganizationRequest) returns (CreateGuestOrganizationResponse) {}
 
@@ -60,15 +61,15 @@ service OrganizationService {
   rpc UpdateSetting(OrganizationSettingsUpdate) returns (OrganizationSettings) {}
 
   // can be used by service providers
-  rpc ServiceReceiverList(EmptyMessageRequest) returns (OrganizationListResponse) {}
+  rpc ListServiceReceivers(EmptyMessageRequest) returns (OrganizationList) {}
   rpc CreateServiceReceiver(ServiceReceiverCreateRequest) returns (Organization) {}
 
   // can be used by service receivers
-  rpc ServiceProviderList(EmptyMessageRequest) returns (OrganizationListResponse) {}
+  rpc ListServiceProvider(EmptyMessageRequest) returns (OrganizationList) {}
 
   // general organization requests
-  rpc DisposalSiteOperators(EmptyMessageRequest) returns (OrganizationListResponse) {}
-  rpc ChildrenOrganizationList(EmptyMessageRequest) returns (OrganizationListResponse) {}
+  rpc ListDisposalSiteOperators(EmptyMessageRequest) returns (OrganizationList) {}
+  rpc ListChildrenOrganization(EmptyMessageRequest) returns (OrganizationList) {}
   rpc GetOrganization(OrganizationRequest) returns (Organization) {}
   rpc MyOrganization(EmptyMessageRequest) returns (Organization) {}
 }

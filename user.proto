@@ -1,35 +1,12 @@
 syntax = "proto2";
 package raccoonai;
 
+import "enums.proto";
 import "google/protobuf/timestamp.proto";
 import "organization.proto";
 
 option go_package = "./pb";
 
-enum UserRole {
-  USER_ROLE_UNDEFINED = 0;
-  USER_ROLE_ADMIN = 1;
-  USER_ROLE_RECEIVER_USER = 2;
-  USER_ROLE_DRIVER = 3;
-  USER_ROLE_PROVIDER_DISPATCHER = 4;
-  USER_ROLE_SUPPORT = 6;
-  USER_ROLE_PROVIDER_OWNER = 7;
-  USER_ROLE_DISPOSAL_SITE_OWNER = 8;
-  USER_ROLE_GOVERNMENT_AUDITOR = 9;
-  USER_ROLE_PROVIDER_MECHANIC = 10;
-  USER_ROLE_GPS_INNER_SERVICE = 11;
-  USER_ROLE_PROVIDER_OWNER_VIEW_ONLY = 12;
-  USER_ROLE_PROVIDER_SALES = 13;
-}
-
-enum UserStatus {
-  USER_STATUS_UNDEFINED = 0;
-  USER_STATUS_INACTIVE = 1;
-  USER_STATUS_ACTIVE = 2;
-  USER_STATUS_GUEST = 3;
-}
-
-// GET => /v1/platform/me/
 message User {
   required uint64 id = 1 [json_name = "id"];
   required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
@@ -47,7 +24,7 @@ message User {
 
 message UserCreate {
   required UserRole role = 1 [json_name = "role"];
-  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"]; // to be required
   optional string first_name = 3 [json_name = "first_name"];
   optional string last_name = 4 [json_name = "last_name"];
   optional string phone_number = 5 [json_name = "phone_number"];
@@ -63,14 +40,15 @@ message UserCreate {
 
 message UserUpdate {
   required uint64 id = 1 [json_name = "id"];
-  optional string first_name = 2 [json_name = "first_name"];
-  optional string last_name = 3 [json_name = "last_name"];
-  optional string phone_number = 4 [json_name = "phone_number"];
-  optional string email = 5 [json_name = "email"];
-  optional UserStatus status = 6 [json_name = "status"];
-  optional string driver_license_number = 7 [json_name = "driver_license_number"];
-  optional string fcm_token = 8 [json_name = "fcm_token"];
-  optional UserRole role = 9 [json_name = "role"];
+  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"]; // to be required
+  optional string first_name = 3 [json_name = "first_name"];
+  optional string last_name = 4 [json_name = "last_name"];
+  optional string phone_number = 5 [json_name = "phone_number"];
+  optional string email = 6 [json_name = "email"];
+  optional UserStatus status = 7 [json_name = "status"];
+  optional string driver_license_number = 8 [json_name = "driver_license_number"];
+  optional string fcm_token = 9 [json_name = "fcm_token"];
+  optional UserRole role = 10 [json_name = "role"];
 }
 
 message UserUpdateRole {
@@ -106,12 +84,6 @@ message PasswordUpdate {
   required string new_pwd = 3 [json_name = "new_pwd"];
 }
 
-message UserListRequest {
-  optional UserRole role = 1 [json_name = "role"];
-  optional UserStatus status = 2 [json_name = "status"];
-  optional uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
-}
-
-message UserListResponse {
+message UserList {
   repeated User users = 1 [json_name = "users"];
 }

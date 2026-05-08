@@ -31,9 +31,10 @@ message TruckListRequest {
   repeated uint64 truck_type_ids = 3 [json_name = "custom_truck_type_ids"]; // filter by custom truck type
   repeated JobType job_types = 4 [json_name = "job_types"]; // filter by job types
   repeated uint64 container_type_ids = 5 [json_name = "container_type_ids"]; // filter by container types (for trucks with specific container compatibility)
+  optional Pagination pagination = 10 [json_name = "pagination"];
 }
 
-message TruckListResponse {
+message TruckList {
   repeated Truck trucks = 1 [json_name = "trucks"];
 }
 
@@ -53,6 +54,7 @@ message CustomTruckTypeListRequest {
   repeated TruckType types = 2 [json_name = "type"]; // filter by truck type
   repeated JobType job_types = 3 [json_name = "job_types"]; // filter by job types
   repeated uint64 container_type_ids = 5 [json_name = "container_type_ids"]; // filter by container types
+  optional Pagination pagination = 10 [json_name = "pagination"];
 }
 
 message CurrentTruckStatus {
@@ -66,20 +68,30 @@ message CurrentTruckStatusList {
   repeated CurrentTruckStatus truck_statuses = 1 [json_name = "truck_statuses"];
 }
 
+message TruckRequest {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+}
+
+message TruckTypeRequest {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+}
+
 service TruckService {
   rpc SearchTruck(SearchTruckRequest) returns (SearchTruckResponse) {}
-  rpc TruckList(TruckListRequest) returns (TruckListResponse) {}
+  rpc ListTrucks(TruckListRequest) returns (TruckList) {}
   rpc CreateGuestTruck(CreateGuestTruckRequest) returns (Truck) {}
   rpc UpdateTruckWeight(TruckWeightRequest) returns (Truck) {}
   rpc CreateTruck(TruckCreate) returns (Truck) {}
   rpc UpdateTruck(TruckUpdate) returns (Truck) {}
-  rpc GetTruckById(IdRequest) returns (Truck) {}
-  rpc DeleteTruckById(IdRequest) returns (MessageResponse) {}
+  rpc GetTruckById(TruckRequest) returns (Truck) {}
+  rpc DeleteTruckById(TruckRequest) returns (MessageResponse) {}
   rpc AllTruckStatuses(TruckListRequest) returns (CurrentTruckStatusList) {}
 
   rpc CreateTruckType(CustomTruckTypeCreate) returns (CustomTruckType) {}
-  rpc GetTruckTypeById(IdRequest) returns (CustomTruckType) {}
+  rpc GetTruckTypeById(TruckTypeRequest) returns (CustomTruckType) {}
   rpc UpdateTruckType(CustomTruckTypeUpdate) returns (CustomTruckType) {}
-  rpc DeleteTruckType(IdRequest) returns (MessageResponse) {}
+  rpc DeleteTruckType(TruckTypeRequest) returns (MessageResponse) {}
   rpc ListTruckTypes(CustomTruckTypeListRequest) returns (CustomTruckTypeList) {}
 }

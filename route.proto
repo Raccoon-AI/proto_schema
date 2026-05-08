@@ -9,16 +9,15 @@ import "job.proto";
 
 option go_package = "./pb";
 
+// to be deprecated
 message RouteEventIn {
   required RouteEvent event = 1 [json_name = "event"];
   required uint64 route_id = 2 [json_name = "route_id"];
   optional google.protobuf.Struct payload = 3 [json_name = "payload"];
 }
 
-// GET => /v1/platform/route/{id}
 message Route {
   required uint64 id = 1 [json_name = "id"];
-  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
   required uint64 driver_on_shift_id = 4 [json_name = "driver_on_shift_id"];
   optional double source_lon = 5 [json_name = "source_lon"];
@@ -45,10 +44,13 @@ message Route {
   optional DriverOnShift driver_on_shift = 26 [json_name = "driver_on_shift"];
   optional uint64 reward = 27 [json_name = "reward"];
   optional double design_duration = 28 [json_name = "design_duration"];
+
+  required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+  optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
 }
 
 message RouteCreate {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"]; // to be required
   required uint64 driver_on_shift_id = 2 [json_name = "driver_on_shift_id"];
   required double source_lon = 3 [json_name = "source_lon"];
   required double source_lat = 4 [json_name = "source_lat"];
@@ -67,24 +69,25 @@ message RouteCreate {
 
 message RouteUpdate {
   required uint64 id = 1 [json_name = "id"];
-  optional uint64 driver_on_shift_id = 2 [json_name = "driver_on_shift_id"];
-  optional double source_lon = 3 [json_name = "source_lon"];
-  optional double source_lat = 4 [json_name = "source_lat"];
-  optional double destination_lon = 5 [json_name = "destination_lon"];
-  optional double destination_lat = 6 [json_name = "destination_lat"];
-  optional google.protobuf.Timestamp plan_start_at = 7 [json_name = "plan_start_at"];
-  optional google.protobuf.Timestamp plan_end_at = 8 [json_name = "plan_end_at"];
-  optional google.protobuf.Timestamp fact_start_at = 9 [json_name = "fact_start_at"];
-  optional google.protobuf.Timestamp fact_end_at = 10 [json_name = "fact_end_at"];
-  optional RouteStatus status = 11 [json_name = "status"];
-  optional bool is_pseudo = 12 [json_name = "is_pseudo"];
-  optional double netto = 13 [json_name = "netto"];
-  optional uint64 source_location_id = 14 [json_name = "source_location_id"];
-  optional uint64 destination_location_id = 15 [json_name = "destination_location_id"];
-  optional uint64 current_step_idx = 16 [json_name = "current_step_idx"];
-  optional google.protobuf.Timestamp gps_start_at = 17 [json_name = "gps_start_at"];
-  optional google.protobuf.Timestamp gps_end_at = 18 [json_name = "gps_end_at"];
-  optional RouteCategory route_category = 19 [json_name = "route_category"];
+  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"]; // to be required
+  optional uint64 driver_on_shift_id = 3 [json_name = "driver_on_shift_id"];
+  optional double source_lon = 4 [json_name = "source_lon"];
+  optional double source_lat = 5 [json_name = "source_lat"];
+  optional double destination_lon = 7 [json_name = "destination_lon"];
+  optional double destination_lat = 8 [json_name = "destination_lat"];
+  optional google.protobuf.Timestamp plan_start_at = 9 [json_name = "plan_start_at"];
+  optional google.protobuf.Timestamp plan_end_at = 10 [json_name = "plan_end_at"];
+  optional google.protobuf.Timestamp fact_start_at = 11 [json_name = "fact_start_at"];
+  optional google.protobuf.Timestamp fact_end_at = 12 [json_name = "fact_end_at"];
+  optional RouteStatus status = 13 [json_name = "status"];
+  optional bool is_pseudo = 14 [json_name = "is_pseudo"];
+  optional double netto = 15 [json_name = "netto"]; // to be deprecated
+  optional uint64 source_location_id = 16 [json_name = "source_location_id"];
+  optional uint64 destination_location_id = 17 [json_name = "destination_location_id"];
+  optional uint64 current_step_idx = 18 [json_name = "current_step_idx"];
+  optional google.protobuf.Timestamp gps_start_at = 19 [json_name = "gps_start_at"];
+  optional google.protobuf.Timestamp gps_end_at = 20 [json_name = "gps_end_at"];
+  optional RouteCategory route_category = 21 [json_name = "route_category"];
 }
 
 message RouteCreateWithJobs {

@@ -1,15 +1,28 @@
 syntax = "proto2";
 package raccoonai;
 
+import "enums.proto";
 import "general.proto";
 import "user.proto";
 
 option go_package = "./pb";
 
+message UserRequest {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+}
+
+message UserListRequest {
+  optional UserRole role = 1 [json_name = "role"];
+  optional UserStatus status = 2 [json_name = "status"];
+  optional uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+  optional Pagination pagination = 10 [json_name = "pagination"];
+}
+
 // TODO: refactor and add interceptor
 service UserService {
   rpc CreateUser(UserCreate) returns (User) {}
-  rpc GetUser(IdRequest) returns (User) {}
+  rpc GetUser(UserRequest) returns (User) {}
   rpc UpdateUser(UserUpdate) returns (User) {}
-  rpc UserList(UserListRequest) returns (UserListResponse) {}
+  rpc ListUsers(UserListRequest) returns (UserList) {}
 }

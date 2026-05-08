@@ -4,10 +4,10 @@ package raccoonai;
 import "container.proto";
 import "enums.proto";
 import "google/protobuf/timestamp.proto";
+import "organization.proto";
 
 option go_package = "./pb";
 
-// GET => /v1/platform/truck/{id}
 message Truck {
   required uint64 id = 1 [json_name = "id"];
   required TruckType type = 3 [json_name = "type"]; // To be deprecated in favor of truck_type.type
@@ -22,15 +22,16 @@ message Truck {
   optional string color = 12 [json_name = "color"];
   optional CustomTruckType truck_type = 13 [json_name = "truck_type"];
   optional string tech_passport = 14 [json_name = "tech_passport"];
+  optional Organization owner_organization = 15 [json_name = "owner_organization"];
 
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
 }
 
 message TruckCreate {
-  optional TruckType type = 1 [json_name = "type"]; // To be deprecated
+  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"]; // to be required
   required string plate_number = 2 [json_name = "plate_number"];
-  optional uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+  optional TruckType type = 3 [json_name = "type"]; // To be deprecated
   optional string model = 4 [json_name = "model"]; // To be deprecated
   optional double truck_weight = 5 [json_name = "truck_weight"];
   optional uint64 capacity = 6 [json_name = "capacity"]; // To be deprecated
@@ -42,16 +43,17 @@ message TruckCreate {
 
 message TruckUpdate {
   required uint64 id = 1 [json_name = "id"];
-  optional TruckType type = 2 [json_name = "type"]; // To be deprecated
-  optional string plate_number = 3 [json_name = "plate_number"];
-  optional TruckStatus status = 4 [json_name = "status"];
-  optional string model = 5 [json_name = "model"]; // To be deprecated
-  optional double truck_weight = 6 [json_name = "truck_weight"];
-  optional uint64 capacity = 7 [json_name = "capacity"]; // To be deprecated
-  optional uint64 year = 8 [json_name = "year"];
-  optional string color = 9 [json_name = "color"]; // To be deprecated
-  optional uint64 truck_type_id = 10 [json_name = "custom_truck_type_id"];
-  optional string tech_passport = 11 [json_name = "tech_passport"];
+  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"]; // to be required
+  optional TruckType type = 3 [json_name = "type"]; // To be deprecated
+  optional string plate_number = 4 [json_name = "plate_number"];
+  optional TruckStatus status = 5 [json_name = "status"];
+  optional string model = 6 [json_name = "model"]; // To be deprecated
+  optional double truck_weight = 7 [json_name = "truck_weight"];
+  optional uint64 capacity = 8 [json_name = "capacity"]; // To be deprecated
+  optional uint64 year = 9 [json_name = "year"];
+  optional string color = 10 [json_name = "color"]; // To be deprecated
+  optional uint64 truck_type_id = 11 [json_name = "custom_truck_type_id"];
+  optional string tech_passport = 12 [json_name = "tech_passport"];
 }
 
 message TruckStatusUpdate {
@@ -113,20 +115,23 @@ message CustomTruckTypeCreate {
 
 message CustomTruckTypeUpdate {
   required uint64 id = 1 [json_name = "id"];
-  required string name = 2 [json_name = "name"];
-  optional string manufacturer = 3 [json_name = "manufacturer"];
-  optional string model = 4 [json_name = "model"];
-  optional float volume = 5 [json_name = "volume"];
-  optional double weight_kg = 6 [json_name = "weight_kg"];
-  optional float compaction_factor = 7 [json_name = "compaction_factor"];
-  optional TruckType type = 8 [json_name = "type"];
-  repeated TruckCapabilityUpsert truck_type_capabilities = 9 [json_name = "truck_type_capabilities_upsert"];
-  optional bool to_update_matrix = 10 [
+  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"]; // to be required
+  required string name = 3 [json_name = "name"];
+  optional string manufacturer = 4 [json_name = "manufacturer"];
+  optional string model = 5 [json_name = "model"];
+  optional float volume = 6 [json_name = "volume"];
+  optional double weight_kg = 7 [json_name = "weight_kg"];
+  optional float compaction_factor = 8 [json_name = "compaction_factor"];
+  optional TruckType type = 9 [json_name = "type"];
+  repeated TruckCapabilityUpsert truck_type_capabilities = 10 [json_name = "truck_type_capabilities_upsert"];
+  // If true, existing capabilities not included in the request will be deleted.
+  // If false, existing capabilities will be retained and only upserted/updated.
+  optional bool to_update_matrix = 11 [
     default = true,
     json_name = "update_matrix"
-  ]; // If true, existing capabilities not included in the request will be deleted. If false, existing capabilities will be retained and only upserted/updated.
-  optional TruckLoadType load_type = 11 [json_name = "load_type"];
-  optional TruckStandard euro_type = 12 [json_name = "euro_type"];
+  ];
+  optional TruckLoadType load_type = 12 [json_name = "load_type"];
+  optional TruckStandard euro_type = 13 [json_name = "euro_type"];
 }
 
 message CustomTruckTypeList {

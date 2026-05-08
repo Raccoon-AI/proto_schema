@@ -1,0 +1,24 @@
+syntax = "proto2";
+package raccoonai;
+
+import "contact.proto";
+import "general.proto";
+
+option go_package = "./pb";
+
+message ContactRequest {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+}
+
+message ContactListRequest {
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
+  optional Pagination pagination = 10 [json_name = "pagination"];
+}
+
+service ContactService {
+  rpc CreateContact(ContactCreate) returns (Contact) {}
+  rpc GetContact(ContactRequest) returns (Contact) {}
+  rpc UpdateContact(ContactUpdate) returns (Contact) {}
+  rpc ListContacts(ContactListRequest) returns (ContactList) {}
+}

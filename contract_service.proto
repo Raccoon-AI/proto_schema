@@ -6,19 +6,27 @@ import "general.proto";
 
 option go_package = "./pb";
 
+// Contract Requests - either service provider or target organization can request contract details
 message ContractListRequest {
-  optional uint64 service_provider_id = 1 [json_name = "service_provider_id"];
-  optional uint64 target_organization_id = 2 [json_name = "target_organization_id"];
+  repeated uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  repeated uint64 target_organization_id = 2 [json_name = "target_organization_id"];
   optional string status = 3 [json_name = "status"];
   optional string type = 4 [json_name = "type"];
   optional uint64 pickup_location_id = 5 [json_name = "pickup_location_id"];
   optional uint64 container_group_id = 6 [json_name = "container_group_id"];
+  optional Pagination pagination = 10 [json_name = "pagination"];
+}
+
+message ContractRequest {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 service_provider_id = 2 [json_name = "service_provider_id"];
+  required uint64 target_organization_id = 3 [json_name = "target_organization_id"];
 }
 
 service ContractService {
   rpc CreateContract(ContractCreate) returns (Contract);
-  rpc GetContract(IdRequest) returns (Contract);
+  rpc GetContract(ContractRequest) returns (Contract);
   rpc UpdateContract(ContractUpdate) returns (Contract);
   rpc ListContracts(ContractListRequest) returns (ContractList);
-  rpc ArchiveContract(IdRequest) returns (Contract);
+  rpc ArchiveContract(ContractRequest) returns (Contract);
 }

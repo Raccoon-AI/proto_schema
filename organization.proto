@@ -2,25 +2,11 @@ syntax = "proto2";
 package raccoonai;
 
 import "contact.proto";
+import "enums.proto";
+import "general.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
-
-enum OrganizationStatus {
-  ORGANIZATION_STATUS_UNDEFINED = 0;
-  ORGANIZATION_STATUS_INACTIVE = 1;
-  ORGANIZATION_STATUS_ACTIVE = 2;
-  ORGANIZATION_STATUS_GUEST = 3;
-}
-
-enum OrganizationType {
-  ORGANIZATION_TYPE_UNDEFINED = 0;
-  ORGANIZATION_TYPE_RACCOONAI = 1;
-  ORGANIZATION_TYPE_SERVICE_PROVIDER = 2;
-  ORGANIZATION_TYPE_SERVICE_RECEIVER = 3;
-  ORGANIZATION_TYPE_DISPOSAL_SITE_OPERATOR = 4;
-  ORGANIZATION_TYPE_GOVERNMENT = 5;
-}
 
 message Organization {
   required uint64 id = 1 [json_name = "id"];
@@ -86,8 +72,9 @@ message OrganizationUpdate {
 message OrganizationListRequest {
   optional OrganizationType type = 1 [json_name = "type"];
   optional OrganizationStatus status = 2 [json_name = "status"];
+  optional Pagination pagination = 10 [json_name = "pagination"];
 }
 
-message OrganizationListResponse {
+message OrganizationList {
   repeated Organization organizations = 1 [json_name = "organizations"];
 }

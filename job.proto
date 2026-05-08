@@ -13,6 +13,7 @@ import "user.proto";
 
 option go_package = "./pb";
 
+// To be deprecated
 message JobEventIn {
   required JobEvent event = 1 [json_name = "event"];
   required uint64 job_id = 2 [json_name = "job_id"];

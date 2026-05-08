@@ -3,8 +3,10 @@ package raccoonai;
 
 import "general.proto";
 import "groups.proto";
-// --- Custom Group Service ---
 
+option go_package = "./pb";
+
+// --- Custom Group Service ---
 service CustomGroupService {
   rpc CreateCustomGroup(CustomGroupCreate) returns (CustomGroup);
   rpc CreateCustomGroupWithGrants(CustomGroupWithGrantsCreate) returns (CustomGroupWithGrants);
@@ -15,7 +17,6 @@ service CustomGroupService {
 }
 
 // --- Group Membership Service ---
-
 service GroupMembershipService {
   rpc AddUserToGroup(GroupMembershipCreate) returns (GroupMembership);
   rpc ListGroupMemberships(GroupMembershipListRequest) returns (GroupMembershipList);
@@ -24,7 +25,6 @@ service GroupMembershipService {
 }
 
 // --- Resource Access Grant Service ---
-
 service ResourceAccessGrantService {
   rpc GrantRoleAccessToScope(ResourceAccessGrantCreate) returns (ResourceAccessGrant);
   rpc ListGroupGrants(ResourceAccessGrantListRequest) returns (ResourceAccessGrantList);
