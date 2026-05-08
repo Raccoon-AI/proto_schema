@@ -12,8 +12,50 @@ message DateTimeFilter {
 
 enum ErrorCode {
   ERROR_CODE_UNDEFINED = 0;
-  ERROR_CODE_PHONE_NUMBER_EXISTS = 1000;
-  ERROR_CODE_EMAIL_EXISTS = 1001;
+
+  // Authentication
+  ERROR_CODE_AUTH_HEADER_ISSUE = 101;
+  ERROR_CODE_AUTH_TOKEN_ISSUE = 102;
+  ERROR_CODE_AUTH_MISSING_CTX = 103;
+  ERROR_CODE_INVALID_CREDENTIALS = 104;
+  ERROR_CODE_AUTH_EXPIRED = 105;
+
+  // Permission/Authorization errors
+  ERROR_CODE_PERMISSION_DENIED = 201;
+
+  // Validation errors
+  ERROR_CODE_REQUIRED_FIELD_MISSING = 301;
+  ERROR_CODE_INVALID_FIELD_VALUE = 302;
+  ERROR_CODE_DUPLICATE_ENTRY = 303;
+  ERROR_CODE_INVALID_FORMAT = 304;
+  ERROR_CODE_VALUE_TOO_SHORT = 305;
+  ERROR_CODE_VALUE_TOO_LONG = 306;
+  ERROR_CODE_OUT_OF_RANGE = 307;
+  ERROR_CODE_FILE_REQUIRED = 308;
+  ERROR_CODE_FILTER_REQUIRED = 309;
+  ERROR_CODE_FILTER_INVALID = 310;
+
+  // Not found errors
+  ERROR_CODE_NOT_FOUND = 401;
+  ERROR_CODE_ORGANIZATION_NOT_FOUND = 402;
+  ERROR_CODE_CONTAINER_TYPE_NOT_FOUND = 403;
+  // etc. for other entities...
+
+  // Creation errors
+  ERROR_CODE_CREATION_NOT_ALLOWED = 501;
+  ERROR_CODE_CREATE_ISSUE = 502;
+  // etc. for other entities...
+
+  // Update errors
+  ERROR_CODE_UPDATE_NOT_ALLOWED = 601;
+  // etc. for other entities...
+
+  // Deletion errors
+  ERROR_CODE_DELETION_NOT_ALLOWED = 701;
+  // etc. for other entities...
+
+  // Internal server errors
+  ERROR_CODE_GORM_TO_PROTO_CONVERSION = 901;
 }
 
 enum ResponseStatus {
@@ -24,8 +66,8 @@ enum ResponseStatus {
 }
 
 message ErrorMessage {
-  optional string message = 1 [json_name = "message"];
-  optional ErrorCode code = 2 [json_name = "code"];
+  optional ErrorCode code = 1 [json_name = "code"];
+  repeated string messages = 2 [json_name = "messages"];
 }
 
 message MessageResponse {
@@ -40,4 +82,15 @@ message EmptyMessageResponse {}
 
 message IdRequest {
   required uint64 id = 1 [json_name = "id"];
+}
+
+message Pagination {
+  optional uint32 page = 1 [
+    json_name = "page",
+    default = 0
+  ]; // starting from 0
+  optional uint32 page_size = 2 [
+    json_name = "page_size",
+    default = 20
+  ]; // max 100
 }
