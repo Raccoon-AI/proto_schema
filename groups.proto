@@ -60,8 +60,10 @@ message GroupMembershipList {
   repeated GroupMembership memberships = 1 [json_name = "memberships"];
 }
 
-message GroupMembershipListRequest {
-  optional uint64 custom_group_id = 1 [json_name = "custom_group_id"];
+message GroupMembershipFilter {
+  optional uint64 id = 1 [json_name = "id"];
+  optional uint64 custom_group_id = 2 [json_name = "custom_group_id"];
+  optional uint64 user_id = 3 [json_name = "user_id"];
 }
 
 // --- Access Grants ---
@@ -83,6 +85,25 @@ message ResourceAccessGrantCreate {
   required string access_level = 4 [json_name = "access_level"];
 }
 
+// ResourceAccessGrantInput is used when creating grants as part of a group creation
+// request — custom_group_id is omitted because it is set from the newly created group.
+message ResourceAccessGrantInput {
+  required uint64 organization_id = 1 [json_name = "organization_id"];
+  required string resource_type = 2 [json_name = "resource_type"];
+  required string access_level = 3 [json_name = "access_level"];
+}
+
+message CustomGroupWithGrantsCreate {
+  required string name = 1 [json_name = "name"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  repeated ResourceAccessGrantInput grants = 3 [json_name = "grants"];
+}
+
+message CustomGroupWithGrants {
+  required CustomGroup group = 1 [json_name = "group"];
+  repeated ResourceAccessGrant grants = 2 [json_name = "grants"];
+}
+
 message ResourceAccessGrantUpdate {
   required uint64 id = 1 [json_name = "id"];
   optional uint64 organization_id = 2 [json_name = "organization_id"];
@@ -102,6 +123,7 @@ message ResourceAccessGrantList {
 
 service CustomGroupService {
   rpc CreateCustomGroup(CustomGroupCreate) returns (CustomGroup);
+  rpc CreateCustomGroupWithGrants(CustomGroupWithGrantsCreate) returns (CustomGroupWithGrants);
   rpc GetCustomGroup(IdRequest) returns (CustomGroup);
   rpc UpdateCustomGroup(CustomGroupUpdate) returns (CustomGroup);
   rpc ListOrgGroups(CustomGroupListRequest) returns (CustomGroupList);
@@ -112,9 +134,8 @@ service CustomGroupService {
 
 service GroupMembershipService {
   rpc AddUserToGroup(GroupMembershipCreate) returns (GroupMembership);
-  rpc GetGroupMembership(IdRequest) returns (GroupMembership);
+  rpc GetGroupMemberships(GroupMembershipFilter) returns (GroupMembershipList);
   rpc UpdateGroupMembership(GroupMembershipUpdate) returns (GroupMembership);
-  rpc ListGroupMembers(GroupMembershipListRequest) returns (GroupMembershipList);
   rpc RemoveUserFromGroup(IdRequest) returns (EmptyMessageResponse);
 }
 
