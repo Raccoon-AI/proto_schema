@@ -72,7 +72,7 @@ message OrganizationUpdate {
 message OrganizationListRequest {
   optional OrganizationType type = 1 [json_name = "type"];
   optional OrganizationStatus status = 2 [json_name = "status"];
-  optional Pagination pagination = 10 [json_name = "pagination"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
 message OrganizationList {

@@ -13,7 +13,7 @@ message PickupLocationRequest {
 
 message PickupLocationListRequest {
   repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"]; // At least one organization ID is required
-  optional Pagination pagination = 10 [json_name = "pagination"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
 message ContainerGroupListToPickupLocationGroupRequest {
@@ -38,7 +38,7 @@ message PickupLocationGroupRequest {
 
 message PickupLocationGroupListRequest {
   repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
-  optional Pagination pagination = 10 [json_name = "pagination"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
 service PickupLocationService {

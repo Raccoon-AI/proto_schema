@@ -287,3 +287,38 @@ enum ContractType {
   CONTRACT_TYPE_WASTE_OPERATOR = 1;
   CONTRACT_TYPE_WASTE_POLYGON = 2;
 }
+
+// *****************************************************
+// LOCATION ENUMS
+// *****************************************************
+
+enum LocationStatus {
+  LOCATION_STATUS_UNDEFINED = 0;
+  LOCATION_STATUS_INACTIVE = 1;
+  LOCATION_STATUS_ACTIVE = 2;
+}
+
+enum LocationType {
+  LOCATION_TYPE_UNDEFINED = 0;
+  LOCATION_TYPE_DEPOT = 1;
+  LOCATION_TYPE_DISPOSAL_SITE = 2;
+  LOCATION_TYPE_GAS_STATION = 3;
+  LOCATION_TYPE_SUSPICIOUS = 4;
+}
+
+// *****************************************************
+// PICKUP_LOCATION ENUMS
+// *****************************************************
+
+enum PickupLocationType {
+  PICKUP_LOCATION_TYPE_UNDEFINED = 0;
+  PICKUP_LOCATION_TYPE_CONSTRUCTION = 1;
+  PICKUP_LOCATION_TYPE_HOUSEHOLD = 2;
+}
+
+enum PickupLocationPriority {
+  PICKUP_LOCATION_PRIORITY_UNDEFINED = 0;
+  PICKUP_LOCATION_PRIORITY_LOW = 1;
+  PICKUP_LOCATION_PRIORITY_MEDIUM = 2;
+  PICKUP_LOCATION_PRIORITY_HIGH = 3;
+}

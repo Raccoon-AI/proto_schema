@@ -89,9 +89,10 @@ message UserListRequest {
   repeated UserRole roles = 1 [json_name = "roles"];
   repeated UserStatus statuses = 2 [json_name = "statuses"];
   repeated uint64 owner_organization_ids = 3 [json_name = "owner_organization_ids"];
-  optional Pagination pagination = 10 [json_name = "pagination"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
 message UserList {
   repeated User users = 1 [json_name = "users"];
+  optional ListFilterResponse list_filter = 2 [json_name = "list_filter"];
 }

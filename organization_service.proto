@@ -41,7 +41,7 @@ message OrganizationRequest {
 
 message ChildrenOrganizationListRequest {
   optional uint64 parent_organization_id = 1 [json_name = "parent_organization_id"]; // To be required
-  optional Pagination pagination = 10 [json_name = "pagination"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
 message ServiceReceiverCreateRequest {

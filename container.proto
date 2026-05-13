@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "general.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "organization.proto";
@@ -38,6 +39,7 @@ message ContainerTypeUpdate {
 
 message ContainerTypeList {
   repeated ContainerType container_types = 1 [json_name = "container_types"];
+  optional ListFilterResponse list_filter = 2 [json_name = "list_filter"];
 }
 
 // *****************************************************
@@ -78,6 +80,7 @@ message ContainerGroupUpdate {
 
 message ContainerGroupList {
   repeated ContainerGroup container_groups = 1 [json_name = "container_groups"];
+  optional ListFilterResponse list_filter = 2 [json_name = "list_filter"];
 }
 
 // *****************************************************

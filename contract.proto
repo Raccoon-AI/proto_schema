@@ -4,6 +4,7 @@ package raccoonai;
 import "container.proto";
 import "enums.proto";
 import "file_upload.proto";
+import "general.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "organization.proto";
@@ -29,6 +30,7 @@ message Contract {
   optional uint64 rent_cost = 15 [json_name = "rent_cost"];
   optional google.protobuf.Struct tariff_rate_by_job_type = 16 [json_name = "tariff_rate_by_job_type"];
   optional Organization service_provider = 17 [json_name = "service_provider"];
+  repeated string files = 18 [json_name = "files"];
 }
 
 message ContractCreate {
@@ -67,6 +69,7 @@ message ContractUpdate {
   optional File file = 15 [json_name = "file"];
 }
 
+// To depricate
 message ContractDetailed {
   required uint64 id = 1 [json_name = "id"];
   required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
@@ -92,5 +95,6 @@ message ContractDetailed {
 }
 
 message ContractList {
-  repeated ContractDetailed contracts = 1 [json_name = "contracts"];
+  repeated Contract contracts = 1 [json_name = "contracts"];
+  optional ListFilterResponse list_filter = 2 [json_name = "list_filter"];
 }

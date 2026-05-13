@@ -3,6 +3,7 @@ package raccoonai;
 
 import "container.proto";
 import "enums.proto";
+import "general.proto";
 import "google/protobuf/timestamp.proto";
 import "organization.proto";
 
@@ -136,4 +137,5 @@ message CustomTruckTypeUpdate {
 
 message CustomTruckTypeList {
   repeated CustomTruckType custom_truck_types = 1 [json_name = "custom_truck_types"];
+  optional ListFilterResponse list_filter = 2 [json_name = "list_filter"];
 }

@@ -31,11 +31,12 @@ message TruckListRequest {
   repeated uint64 truck_type_ids = 3 [json_name = "custom_truck_type_ids"]; // filter by custom truck type
   repeated JobType job_types = 4 [json_name = "job_types"]; // filter by job types
   repeated uint64 container_type_ids = 5 [json_name = "container_type_ids"]; // filter by container types (for trucks with specific container compatibility)
-  optional Pagination pagination = 10 [json_name = "pagination"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
 message TruckList {
   repeated Truck trucks = 1 [json_name = "trucks"];
+  optional ListFilterResponse list_filter = 2 [json_name = "list_filter"];
 }
 
 message CreateGuestTruckRequest {
@@ -54,7 +55,7 @@ message CustomTruckTypeListRequest {
   repeated TruckType types = 2 [json_name = "type"]; // filter by truck type
   repeated JobType job_types = 3 [json_name = "job_types"]; // filter by job types
   repeated uint64 container_type_ids = 5 [json_name = "container_type_ids"]; // filter by container types
-  optional Pagination pagination = 10 [json_name = "pagination"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
 message CurrentTruckStatus {
@@ -66,6 +67,7 @@ message CurrentTruckStatus {
 
 message CurrentTruckStatusList {
   repeated CurrentTruckStatus truck_statuses = 1 [json_name = "truck_statuses"];
+  optional ListFilterResponse list_filter = 2 [json_name = "list_filter"];
 }
 
 message TruckRequest {

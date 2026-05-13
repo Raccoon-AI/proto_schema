@@ -13,7 +13,7 @@ message ContactRequest {
 
 message ContactListRequest {
   repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
-  optional Pagination pagination = 10 [json_name = "pagination"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
 service ContactService {
