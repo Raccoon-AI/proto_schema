@@ -2,18 +2,11 @@ syntax = "proto2";
 package raccoonai;
 
 import "auth.proto";
-import "enums.proto";
 import "general.proto";
 import "organization.proto";
 import "user.proto";
 
 option go_package = "./pb";
-
-message UserListRequest {
-  repeated UserRole role = 1 [json_name = "role"];
-  repeated UserStatus status = 2 [json_name = "status"];
-  repeated uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
-}
 
 service AdminService {
   // Organization manipulation

@@ -16,8 +16,8 @@ message SavedDashboard {
   optional string description = 7 [json_name = "description"];
   required string status = 8 [json_name = "status"];
   optional google.protobuf.Struct plot_config = 9 [json_name = "plot_config"];
-  required google.protobuf.Timestamp created_at = 10 [json_name = "created_at"];
-  required google.protobuf.Timestamp updated_at = 11 [json_name = "updated_at"];
+  required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+  required google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
 }
 
 message DashboardCreate {

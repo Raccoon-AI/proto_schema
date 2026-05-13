@@ -2,6 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "enums.proto";
+import "general.proto";
 import "google/protobuf/timestamp.proto";
 import "organization.proto";
 
@@ -82,6 +83,13 @@ message PasswordUpdate {
   required uint64 id = 1 [json_name = "id"];
   required string old_pwd = 2 [json_name = "old_pwd"];
   required string new_pwd = 3 [json_name = "new_pwd"];
+}
+
+message UserListRequest {
+  repeated UserRole roles = 1 [json_name = "roles"];
+  repeated UserStatus statuses = 2 [json_name = "statuses"];
+  repeated uint64 owner_organization_ids = 3 [json_name = "owner_organization_ids"];
+  optional Pagination pagination = 10 [json_name = "pagination"];
 }
 
 message UserList {

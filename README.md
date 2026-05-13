@@ -10,3 +10,4 @@ Conventions:
 - Use `snake_case` for field names, and `PascalCase` for message names.
 - For fields like `created_at` and `updated_at`, use `google.protobuf.Timestamp` type, and start their field numbers from 101 to avoid conflicts with other fields.
 - For frontend facing RPC methods, the requests must check if organization should be included in the request, and if so, it should be used to scope the data access. This is to ensure that users can only access data that belongs to their organization.
+- For `repeated` fields use plural naming

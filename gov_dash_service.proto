@@ -288,11 +288,6 @@ message GovAnalyticsAnomaliesForAll {
   repeated GovAnalyticsAnomalyPerProvider anomaly_per_provider = 1 [json_name = "anomaly_per_provider"];
 }
 
-// Must be replace by OrganizationListResponse
-message OrganizationList {
-  repeated Organization organizations = 1 [json_name = "organizations"];
-}
-
 service GovDashService {
   rpc GetGovGeoAccess(EmptyMessageRequest) returns (GovGeoAccessList) {}
   rpc ServiceProviders(GovOrganizationRequest) returns (GovServiceProviderInfoList) {}

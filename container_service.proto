@@ -21,7 +21,7 @@ message ContainerGroupRequest {
 }
 
 message ContainerGroupListRequest {
-  repeated uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
   repeated uint64 container_type_ids = 2 [json_name = "container_type_ids"];
   repeated uint64 pickup_location_ids = 3 [json_name = "pickup_location_ids"];
 }
@@ -35,7 +35,7 @@ service ContainerService {
 
   // Container Group operations
   rpc CreateContainerGroup(ContainerGroupCreate) returns (ContainerGroup) {}
-  rpc GetContainerGroupByID(ContainerGroupRequest) returns (ContainerGroup) {}
+  rpc GetContainerGroupById(ContainerGroupRequest) returns (ContainerGroup) {}
   rpc UpdateContainerGroup(ContainerGroupUpdate) returns (ContainerGroup) {}
   rpc ListContainerGroups(ContainerGroupListRequest) returns (ContainerGroupList) {}
   rpc DeleteContainerGroup(ContainerGroupRequest) returns (MessageResponse) {}
