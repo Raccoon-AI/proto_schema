@@ -44,6 +44,8 @@ enum ErrorCode {
   // Creation errors
   ERROR_CODE_CREATION_NOT_ALLOWED = 501;
   ERROR_CODE_CREATE_ISSUE = 502;
+  ERROR_CODE_DUPLICATE_PHONE_NUMBER = 503;
+  ERROR_CODE_DUPLICATE_EMAIL = 504;
   // etc. for other entities...
 
   // Update errors
@@ -66,8 +68,8 @@ enum ResponseStatus {
 }
 
 message ErrorMessage {
-  optional ErrorCode code = 1 [json_name = "code"];
-  repeated string messages = 2 [json_name = "messages"];
+  optional ErrorCode code = 1 [json_name = "code"]; // To show clients what exactly went wrong, useful for client-side handling
+  repeated string messages = 2 [json_name = "messages"]; // For developers
 }
 
 message MessageResponse {
@@ -84,13 +86,41 @@ message IdRequest {
   required uint64 id = 1 [json_name = "id"];
 }
 
-message Pagination {
-  optional uint32 page = 1 [
-    json_name = "page",
+enum SortDirection {
+  SORT_DIRECTION_UNDEFINED = 0;
+  SORT_DIRECTION_ASCENDING = 1;
+  SORT_DIRECTION_DESCENDING = 2;
+}
+
+message ListFilter {
+  optional uint32 current_page = 1 [
+    json_name = "current_page",
     default = 0
-  ]; // starting from 0
+  ]; // starting from 0 (OFFSET)
   optional uint32 page_size = 2 [
     json_name = "page_size",
-    default = 20
-  ]; // max 100
+    default = 50
+  ]; // max 100 (LIMIT)
+  optional string sort_by = 3 [
+    json_name = "sort_by",
+    default = "id"
+  ]; // field name to sort by, default is "id"
+  optional SortDirection sort_direction = 4 [
+    json_name = "sort_direction",
+    default = SORT_DIRECTION_DESCENDING
+  ];
+}
+
+message ListFilterResponse {
+  required uint32 total_items = 1 [json_name = "total_items"];
+  required uint32 current_page = 2 [json_name = "current_page"]; // <-- ListFilter.current_page
+  required uint32 page_size = 3 [json_name = "page_size"]; // <-- ListFilter.page_size
+  optional string sort_by = 4 [
+    json_name = "sort_by",
+    default = "id"
+  ];
+  optional SortDirection sort_direction = 5 [
+    json_name = "sort_direction",
+    default = SORT_DIRECTION_DESCENDING
+  ];
 }

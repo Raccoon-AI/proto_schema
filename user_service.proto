@@ -1,15 +1,19 @@
 syntax = "proto2";
 package raccoonai;
 
-import "general.proto";
 import "user.proto";
 
 option go_package = "./pb";
 
+message UserRequest {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+}
+
 // TODO: refactor and add interceptor
 service UserService {
   rpc CreateUser(UserCreate) returns (User) {}
-  rpc GetUser(IdRequest) returns (User) {}
+  rpc GetUser(UserRequest) returns (User) {}
   rpc UpdateUser(UserUpdate) returns (User) {}
-  rpc UserList(UserListRequest) returns (UserListResponse) {}
+  rpc ListUsers(UserListRequest) returns (UserList) {}
 }

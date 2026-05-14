@@ -223,3 +223,102 @@ enum DriverOnShiftEvent {
   DRIVER_ON_SHIFT_EVENT_COMPLETE_SHIFT = 11;
   DRIVER_ON_SHIFT_EVENT_FORCE_COMPLETE_ROUTE = 12;
 }
+
+// *****************************************************
+// ORGANIZATION ENUMS
+// *****************************************************
+
+enum OrganizationStatus {
+  ORGANIZATION_STATUS_UNDEFINED = 0;
+  ORGANIZATION_STATUS_INACTIVE = 1;
+  ORGANIZATION_STATUS_ACTIVE = 2;
+  ORGANIZATION_STATUS_GUEST = 3;
+}
+
+enum OrganizationType {
+  ORGANIZATION_TYPE_UNDEFINED = 0;
+  ORGANIZATION_TYPE_RACCOONAI = 1;
+  ORGANIZATION_TYPE_SERVICE_PROVIDER = 2;
+  ORGANIZATION_TYPE_SERVICE_RECEIVER = 3;
+  ORGANIZATION_TYPE_DISPOSAL_SITE_OPERATOR = 4;
+  ORGANIZATION_TYPE_GOVERNMENT = 5;
+}
+
+// *****************************************************
+// ORGANIZATION ENUMS
+// *****************************************************
+
+enum UserRole {
+  USER_ROLE_UNDEFINED = 0;
+  USER_ROLE_ADMIN = 1;
+  USER_ROLE_RECEIVER_USER = 2;
+  USER_ROLE_DRIVER = 3;
+  USER_ROLE_PROVIDER_DISPATCHER = 4;
+  USER_ROLE_SUPPORT = 6;
+  USER_ROLE_PROVIDER_OWNER = 7;
+  USER_ROLE_DISPOSAL_SITE_OWNER = 8;
+  USER_ROLE_GOVERNMENT_AUDITOR = 9;
+  USER_ROLE_PROVIDER_MECHANIC = 10;
+  USER_ROLE_GPS_INNER_SERVICE = 11;
+  USER_ROLE_PROVIDER_OWNER_VIEW_ONLY = 12;
+  USER_ROLE_PROVIDER_SALES = 13;
+}
+
+enum UserStatus {
+  USER_STATUS_UNDEFINED = 0;
+  USER_STATUS_INACTIVE = 1;
+  USER_STATUS_ACTIVE = 2;
+  USER_STATUS_GUEST = 3;
+}
+
+// *****************************************************
+// CONTRACT ENUMS
+// *****************************************************
+
+enum ContractStatus {
+  CONTRACT_STATUS_UNDEFINED = 0;
+  CONTRACT_STATUS_INACTIVE = 1;
+  CONTRACT_STATUS_ACTIVE = 2;
+  CONTRACT_STATUS_HIDDEN = 3;
+}
+
+enum ContractType {
+  CONTRACT_TYPE_UNDEFINED = 0;
+  CONTRACT_TYPE_WASTE_OPERATOR = 1;
+  CONTRACT_TYPE_WASTE_POLYGON = 2;
+}
+
+// *****************************************************
+// LOCATION ENUMS
+// *****************************************************
+
+enum LocationStatus {
+  LOCATION_STATUS_UNDEFINED = 0;
+  LOCATION_STATUS_INACTIVE = 1;
+  LOCATION_STATUS_ACTIVE = 2;
+}
+
+enum LocationType {
+  LOCATION_TYPE_UNDEFINED = 0;
+  LOCATION_TYPE_DEPOT = 1;
+  LOCATION_TYPE_DISPOSAL_SITE = 2;
+  LOCATION_TYPE_GAS_STATION = 3;
+  LOCATION_TYPE_SUSPICIOUS = 4;
+}
+
+// *****************************************************
+// PICKUP_LOCATION ENUMS
+// *****************************************************
+
+enum PickupLocationType {
+  PICKUP_LOCATION_TYPE_UNDEFINED = 0;
+  PICKUP_LOCATION_TYPE_CONSTRUCTION = 1;
+  PICKUP_LOCATION_TYPE_HOUSEHOLD = 2;
+}
+
+enum PickupLocationPriority {
+  PICKUP_LOCATION_PRIORITY_UNDEFINED = 0;
+  PICKUP_LOCATION_PRIORITY_LOW = 1;
+  PICKUP_LOCATION_PRIORITY_MEDIUM = 2;
+  PICKUP_LOCATION_PRIORITY_HIGH = 3;
+}

@@ -2,28 +2,15 @@ syntax = "proto2";
 package raccoonai;
 
 import "container.proto";
+import "enums.proto";
+import "general.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
-import "location.proto";
 
 option go_package = "./pb";
 
-enum PickupLocationType {
-  PICKUP_LOCATION_TYPE_UNDEFINED = 0;
-  PICKUP_LOCATION_TYPE_CONSTRUCTION = 1;
-  PICKUP_LOCATION_TYPE_HOUSEHOLD = 2;
-}
-
-enum PickupLocationPriority {
-  PICKUP_LOCATION_PRIORITY_UNDEFINED = 0;
-  PICKUP_LOCATION_PRIORITY_LOW = 1;
-  PICKUP_LOCATION_PRIORITY_MEDIUM = 2;
-  PICKUP_LOCATION_PRIORITY_HIGH = 3;
-}
-
 message PickupLocation {
   required uint64 id = 1 [json_name = "id"];
-  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
   required string name = 3 [json_name = "name"];
   required PickupLocationType type = 4 [json_name = "type"];
   required uint64 owner_organization_id = 5 [json_name = "owner_organization_id"];
@@ -47,54 +34,57 @@ message PickupLocation {
   optional string plan_waste_volume = 24 [json_name = "plan_waste_volume"];
   optional string plan_waste_mass = 25 [json_name = "plan_waste_mass"];
   optional uint64 service_provider_id = 26 [json_name = "service_provider_id"];
+
+  required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
 }
 
 message PickupLocationCreate {
-  required string name = 1 [json_name = "name"];
-  required PickupLocationType type = 2 [json_name = "type"];
-  optional uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"]; // to be required
+  required string name = 2 [json_name = "name"];
+  required PickupLocationType type = 3 [json_name = "type"];
   required double lon = 4 [json_name = "lon"];
   required double lat = 5 [json_name = "lat"];
   optional google.protobuf.Struct geometry = 6 [json_name = "geometry"];
   optional string address = 7 [json_name = "address"];
   optional string availability_schedule = 8 [json_name = "availability_schedule"];
   optional string notification_schedule = 9 [json_name = "notification_schedule"];
-  optional uint64 num_containers = 10 [json_name = "num_containers"];
-  optional PickupLocationPriority priority = 11 [json_name = "priority"];
-  optional string geo_group = 12 [json_name = "geo_group"];
-  optional uint64 tariff = 13 [json_name = "tariff"];
-  optional uint64 receiver_user_id = 14 [json_name = "receiver_user_id"];
+  optional uint64 num_containers = 10 [json_name = "num_containers"]; // To be deprecated in favor of container_groups
+  optional PickupLocationPriority priority = 11 [json_name = "priority"]; // To be deprecated
+  optional string geo_group = 12 [json_name = "geo_group"]; // To be deprecated
+  optional uint64 tariff = 13 [json_name = "tariff"]; // To be deprecated
+  optional uint64 receiver_user_id = 14 [json_name = "receiver_user_id"]; // To be deprecated
   optional uint64 contract_id = 15 [json_name = "contract_id"];
   optional string comment = 16 [json_name = "comment"];
   optional string gis_link = 17 [json_name = "gis_link"];
-  optional uint64 service_time = 18 [json_name = "service_time"];
-  optional string plan_waste_volume = 19 [json_name = "plan_waste_volume"];
-  optional string plan_waste_mass = 20 [json_name = "plan_waste_mass"];
+  optional uint64 service_time = 18 [json_name = "service_time"]; // To be deprecated
+  optional string plan_waste_volume = 19 [json_name = "plan_waste_volume"]; // To be deprecated
+  optional string plan_waste_mass = 20 [json_name = "plan_waste_mass"]; // To be deprecated
 }
 
 message PickupLocationUpdate {
   required uint64 id = 1 [json_name = "id"];
-  optional string name = 2 [json_name = "name"];
-  optional PickupLocationType type = 3 [json_name = "type"];
-  optional LocationStatus status = 4 [json_name = "status"];
-  optional double lon = 5 [json_name = "lon"];
-  optional double lat = 6 [json_name = "lat"];
-  optional google.protobuf.Struct geometry = 7 [json_name = "geometry"];
-  optional string address = 8 [json_name = "address"];
-  optional string availability_schedule = 9 [json_name = "availability_schedule"];
-  optional string notification_schedule = 10 [json_name = "notification_schedule"];
-  optional uint64 num_containers = 11 [json_name = "num_containers"];
-  optional PickupLocationPriority priority = 12 [json_name = "priority"];
-  optional string geo_group = 13 [json_name = "geo_group"];
-  optional uint64 tariff = 14 [json_name = "tariff"];
-  optional uint64 receiver_user_id = 15 [json_name = "receiver_user_id"];
-  optional uint64 contract_id = 16 [json_name = "contract_id"];
-  optional string comment = 17 [json_name = "comment"];
-  optional string gis_link = 18 [json_name = "gis_link"];
-  optional uint64 service_time = 19 [json_name = "service_time"];
-  optional uint64 primary_contact_id = 20 [json_name = "primary_contact_id"];
-  optional string plan_waste_volume = 21 [json_name = "plan_waste_volume"];
-  optional string plan_waste_mass = 22 [json_name = "plan_waste_mass"];
+  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"]; // to be required
+  optional string name = 3 [json_name = "name"];
+  optional PickupLocationType type = 4 [json_name = "type"];
+  optional LocationStatus status = 5 [json_name = "status"];
+  optional double lon = 6 [json_name = "lon"];
+  optional double lat = 7 [json_name = "lat"];
+  optional google.protobuf.Struct geometry = 8 [json_name = "geometry"];
+  optional string address = 9 [json_name = "address"];
+  optional string availability_schedule = 10 [json_name = "availability_schedule"];
+  optional string notification_schedule = 11 [json_name = "notification_schedule"];
+  optional uint64 num_containers = 12 [json_name = "num_containers"];
+  optional PickupLocationPriority priority = 13 [json_name = "priority"];
+  optional string geo_group = 14 [json_name = "geo_group"];
+  optional uint64 tariff = 15 [json_name = "tariff"];
+  optional uint64 receiver_user_id = 16 [json_name = "receiver_user_id"];
+  optional uint64 contract_id = 17 [json_name = "contract_id"];
+  optional string comment = 18 [json_name = "comment"];
+  optional string gis_link = 19 [json_name = "gis_link"];
+  optional uint64 service_time = 20 [json_name = "service_time"];
+  optional uint64 primary_contact_id = 21 [json_name = "primary_contact_id"];
+  optional string plan_waste_volume = 22 [json_name = "plan_waste_volume"];
+  optional string plan_waste_mass = 23 [json_name = "plan_waste_mass"];
 }
 
 message PickupLocationListContract {
@@ -104,10 +94,7 @@ message PickupLocationListContract {
 
 message PickupLocationList {
   repeated PickupLocation pickup_locations = 1 [json_name = "pickup_locations"];
-}
-
-message PickupLocationRequest {
-  required uint64 pickup_location_id = 1 [json_name = "pickup_location_id"];
+  optional ListFilterResponse list_filter = 2 [json_name = "list_filter"];
 }
 
 message PickupLocationGroup {
@@ -127,6 +114,7 @@ message PickupLocationGroupCreate {
 
 message PickupLocationGroupList {
   repeated PickupLocationGroup pickup_location_groups = 1 [json_name = "pickup_location_groups"];
+  optional ListFilterResponse list_filter = 2 [json_name = "list_filter"];
 }
 
 message PickupLocationGroupUpdate {

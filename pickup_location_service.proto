@@ -6,13 +6,14 @@ import "pickup_location.proto";
 
 option go_package = "./pb";
 
-message PickupLocationIDRequest {
+message PickupLocationRequest {
   required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
 }
 
 message PickupLocationListRequest {
-  optional uint64 service_provider_id = 1 [json_name = "service_provider_id"];
-  optional uint64 service_receiver_id = 2 [json_name = "service_receiver_id"];
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"]; // At least one organization ID is required
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
 message ContainerGroupListToPickupLocationGroupRequest {
@@ -30,27 +31,28 @@ message PickupLocationListToContractRequest {
   required uint64 contract_id = 2 [json_name = "contract_id"];
 }
 
-message PickupLocationGroupIDRequest {
+message PickupLocationGroupRequest {
   required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
 }
 
 message PickupLocationGroupListRequest {
-  optional uint64 service_provider_id = 1 [json_name = "service_provider_id"];
-  optional uint64 service_receiver_id = 2 [json_name = "service_receiver_id"];
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
 service PickupLocationService {
   // Pickup Location operations
   rpc CreatePickupLocation(PickupLocationCreate) returns (PickupLocation) {}
-  rpc GetPickupLocationByID(PickupLocationIDRequest) returns (PickupLocation) {}
+  rpc GetPickupLocationById(PickupLocationRequest) returns (PickupLocation) {}
   rpc UpdatePickupLocation(PickupLocationUpdate) returns (PickupLocation) {}
-  rpc DeletePickupLocation(PickupLocationIDRequest) returns (MessageResponse) {}
+  rpc DeletePickupLocation(PickupLocationRequest) returns (MessageResponse) {}
   rpc ListPickupLocations(PickupLocationListRequest) returns (PickupLocationList) {}
   rpc BindPickupLocationListToContract(PickupLocationListToContractRequest) returns (MessageResponse) {}
 
   // Pickup Location Group operations
   rpc CreatePickupLocationGroup(PickupLocationGroupCreate) returns (PickupLocationGroup) {}
-  rpc GetPickupLocationGroupByID(PickupLocationGroupIDRequest) returns (PickupLocationGroup) {}
+  rpc GetPickupLocationGroupById(PickupLocationGroupRequest) returns (PickupLocationGroup) {}
   rpc ListPickupLocationGroups(PickupLocationGroupListRequest) returns (PickupLocationGroupList) {}
   rpc UpdatePickupLocationGroup(PickupLocationGroupUpdate) returns (PickupLocationGroup) {}
 

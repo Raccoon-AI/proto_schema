@@ -1,24 +1,12 @@
 syntax = "proto2";
 package raccoonai;
 
+import "enums.proto";
+import "general.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
-
-enum LocationStatus {
-  LOCATION_STATUS_UNDEFINED = 0;
-  LOCATION_STATUS_INACTIVE = 1;
-  LOCATION_STATUS_ACTIVE = 2;
-}
-
-enum LocationType {
-  LOCATION_TYPE_UNDEFINED = 0;
-  LOCATION_TYPE_DEPOT = 1;
-  LOCATION_TYPE_DISPOSAL_SITE = 2;
-  LOCATION_TYPE_GAS_STATION = 3;
-  LOCATION_TYPE_SUSPICIOUS = 4;
-}
 
 message Location {
   required uint64 id = 1 [json_name = "id"];
@@ -62,13 +50,16 @@ message LocationUpdate {
 
 message LocationList {
   repeated Location locations = 1 [json_name = "locations"];
+  optional ListFilterResponse list_filter = 2 [json_name = "list_filter"];
 }
 
 message LocationRequest {
-  required uint64 location_id = 1 [json_name = "location_id"];
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
 }
 
 message LocationListRequest {
-  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
-  optional LocationType type = 2 [json_name = "type"];
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
+  repeated LocationType types = 2 [json_name = "types"];
+  optional ListFilter list_filter = 3 [json_name = "list_filter"];
 }

@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "general.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "organization.proto";
@@ -30,13 +31,15 @@ message ContainerTypeCreate {
 
 message ContainerTypeUpdate {
   required uint64 id = 1 [json_name = "id"];
-  optional string name = 2 [json_name = "name"];
-  optional float volume = 3 [json_name = "volume"];
-  optional float weight_kg = 4 [json_name = "weight_kg"];
+  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"]; // to be required
+  optional string name = 3 [json_name = "name"];
+  optional float volume = 4 [json_name = "volume"];
+  optional float weight_kg = 5 [json_name = "weight_kg"];
 }
 
 message ContainerTypeList {
   repeated ContainerType container_types = 1 [json_name = "container_types"];
+  optional ListFilterResponse list_filter = 2 [json_name = "list_filter"];
 }
 
 // *****************************************************
@@ -68,14 +71,16 @@ message ContainerGroupCreate {
 
 message ContainerGroupUpdate {
   required uint64 id = 1 [json_name = "id"];
-  optional uint64 container_type_id = 2 [json_name = "container_type_id"];
-  optional uint32 number_of_containers = 3 [json_name = "number_of_containers"];
-  optional uint64 pickup_location_id = 4 [json_name = "pickup_location_id"];
-  optional google.protobuf.Struct service_schedule_by_job_type = 5 [json_name = "service_schedule_by_job_type"];
+  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"]; // to be required
+  optional uint64 container_type_id = 3 [json_name = "container_type_id"];
+  optional uint32 number_of_containers = 4 [json_name = "number_of_containers"];
+  optional uint64 pickup_location_id = 5 [json_name = "pickup_location_id"];
+  optional google.protobuf.Struct service_schedule_by_job_type = 6 [json_name = "service_schedule_by_job_type"];
 }
 
 message ContainerGroupList {
   repeated ContainerGroup container_groups = 1 [json_name = "container_groups"];
+  optional ListFilterResponse list_filter = 2 [json_name = "list_filter"];
 }
 
 // *****************************************************
@@ -123,14 +128,15 @@ message ContainerCreate {
 
 message ContainerUpdate {
   required uint64 id = 1 [json_name = "id"];
-  optional string name = 2 [json_name = "name"];
-  optional uint64 type_id = 3 [json_name = "type_id"];
-  optional ContainerStatus status = 4 [json_name = "status"];
-  optional bool is_tracked = 5 [json_name = "is_tracked"];
-  optional uint64 pickup_location_id = 6 [json_name = "pickup_location_id"];
-  optional ContainerTrackingEvent last_event = 7 [json_name = "last_event"];
-  optional google.protobuf.Timestamp last_event_at = 8 [json_name = "last_event_at"];
-  optional uint64 container_group_id = 9 [json_name = "container_group_id"];
+  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"]; // to be required
+  optional string name = 3 [json_name = "name"];
+  optional uint64 type_id = 4 [json_name = "type_id"];
+  optional ContainerStatus status = 5 [json_name = "status"];
+  optional bool is_tracked = 6 [json_name = "is_tracked"];
+  optional uint64 pickup_location_id = 7 [json_name = "pickup_location_id"];
+  optional ContainerTrackingEvent last_event = 8 [json_name = "last_event"];
+  optional google.protobuf.Timestamp last_event_at = 9 [json_name = "last_event_at"];
+  optional uint64 container_group_id = 10 [json_name = "container_group_id"];
 }
 
 message ContainerStatusUpdate {

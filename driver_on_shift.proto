@@ -17,30 +17,32 @@ message DriverOnShiftEventIn {
 
 message DriverOnShift {
   required uint64 id = 1 [json_name = "id"];
-  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
-  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
-  required uint64 author_id = 4 [json_name = "author_id"];
-  optional uint64 odometer_reading = 5 [json_name = "odometer_reading"];
-  optional double fuel_level = 6 [json_name = "fuel_level"];
-  required uint64 driver_id = 7 [json_name = "driver_id"];
-  required uint64 truck_id = 8 [json_name = "truck_id"];
-  required DriverOnShiftStatus status = 9 [json_name = "status"];
-  optional string comment = 10 [json_name = "comment"];
-  optional User driver = 11 [json_name = "driver"];
-  optional Truck truck = 12 [json_name = "truck"];
-  optional google.protobuf.Timestamp completed_at = 13 [json_name = "completed_at"];
-  optional google.protobuf.Timestamp last_idle_at = 14 [json_name = "last_idle_at"];
-  optional google.protobuf.Timestamp tw_start_at = 15 [json_name = "tw_start_at"];
-  optional google.protobuf.Timestamp tw_end_at = 16 [json_name = "tw_end_at"];
-  optional uint64 capacity = 17 [json_name = "capacity"];
-  optional bool visible_to_ai = 18 [json_name = "visible_to_ai"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required uint64 author_id = 3 [json_name = "author_id"];
+  optional uint64 odometer_reading = 4 [json_name = "odometer_reading"]; // to be deprecated
+  optional double fuel_level = 5 [json_name = "fuel_level"]; // to be deprecated
+  required uint64 driver_id = 6 [json_name = "driver_id"];
+  required uint64 truck_id = 7 [json_name = "truck_id"];
+  required DriverOnShiftStatus status = 8 [json_name = "status"];
+  optional string comment = 9 [json_name = "comment"];
+  optional User driver = 10 [json_name = "driver"];
+  optional Truck truck = 11 [json_name = "truck"];
+  optional google.protobuf.Timestamp completed_at = 12 [json_name = "completed_at"];
+  optional google.protobuf.Timestamp last_idle_at = 13 [json_name = "last_idle_at"];
+  optional google.protobuf.Timestamp tw_start_at = 14 [json_name = "tw_start_at"];
+  optional google.protobuf.Timestamp tw_end_at = 15 [json_name = "tw_end_at"];
+  optional uint64 capacity = 16 [json_name = "capacity"];
+  optional bool visible_to_ai = 17 [json_name = "visible_to_ai"];
+
+  required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+  optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
 }
 
 message DriverOnShiftCreate {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"]; // to be required
   optional uint64 author_id = 2 [json_name = "author_id"];
-  optional uint64 odometer_reading = 3 [json_name = "odometer_reading"];
-  optional double fuel_level = 4 [json_name = "fuel_level"];
+  optional uint64 odometer_reading = 3 [json_name = "odometer_reading"]; // to be deprecated
+  optional double fuel_level = 4 [json_name = "fuel_level"]; // to be deprecated
   required uint64 driver_id = 5 [json_name = "driver_id"];
   required uint64 truck_id = 6 [json_name = "truck_id"];
   optional string comment = 7 [json_name = "comment"];
@@ -52,19 +54,20 @@ message DriverOnShiftCreate {
 
 message DriverOnShiftUpdate {
   required uint64 id = 1 [json_name = "id"];
-  optional uint64 odometer_reading = 2 [json_name = "odometer_reading"];
-  optional double fuel_level = 3 [json_name = "fuel_level"];
-  optional uint64 driver_id = 4 [json_name = "driver_id"];
-  optional uint64 truck_id = 5 [json_name = "truck_id"];
-  optional DriverOnShiftStatus status = 6 [json_name = "status"];
-  optional string comment = 7 [json_name = "comment"];
-  optional google.protobuf.Timestamp completed_at = 8 [json_name = "completed_at"];
-  optional google.protobuf.Timestamp last_idle_at = 9 [json_name = "last_idle_at"];
-  optional uint64 current_route_id = 10 [json_name = "current_route_id"];
-  optional google.protobuf.Timestamp tw_start_at = 11 [json_name = "tw_start_at"];
-  optional google.protobuf.Timestamp tw_end_at = 12 [json_name = "tw_end_at"];
-  optional uint64 capacity = 13 [json_name = "capacity"];
-  optional bool visible_to_ai = 14 [json_name = "visible_to_ai"];
+  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"]; // to be required
+  optional uint64 odometer_reading = 3 [json_name = "odometer_reading"];
+  optional double fuel_level = 4 [json_name = "fuel_level"];
+  optional uint64 driver_id = 5 [json_name = "driver_id"];
+  optional uint64 truck_id = 6 [json_name = "truck_id"];
+  optional DriverOnShiftStatus status = 7 [json_name = "status"];
+  optional string comment = 8 [json_name = "comment"];
+  optional google.protobuf.Timestamp completed_at = 9 [json_name = "completed_at"];
+  optional google.protobuf.Timestamp last_idle_at = 10 [json_name = "last_idle_at"];
+  optional uint64 current_route_id = 11 [json_name = "current_route_id"];
+  optional google.protobuf.Timestamp tw_start_at = 12 [json_name = "tw_start_at"];
+  optional google.protobuf.Timestamp tw_end_at = 13 [json_name = "tw_end_at"];
+  optional uint64 capacity = 14 [json_name = "capacity"];
+  optional bool visible_to_ai = 15 [json_name = "visible_to_ai"];
 }
 
 message DriverOnShiftStatusUpdate {
@@ -73,5 +76,10 @@ message DriverOnShiftStatusUpdate {
 }
 
 message DriverOnShiftRequest {
-  required uint64 driver_on_shift_id = 1 [json_name = "driver_on_shift_id"];
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 id = 2 [json_name = "id"];
+}
+
+message DriverOnShiftList {
+  repeated DriverOnShift driver_on_shifts = 1 [json_name = "driver_on_shifts"];
 }

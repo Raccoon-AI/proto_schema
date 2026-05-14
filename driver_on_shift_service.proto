@@ -1,0 +1,22 @@
+syntax = "proto2";
+package raccoonai;
+
+import "driver_on_shift.proto";
+import "general.proto";
+
+option go_package = "./pb";
+
+message DriverOnShiftListRequest {
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
+  required DateTimeFilter date_time_filter = 2 [json_name = "date_time_filter"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
+}
+
+service DriverOnShiftService {
+  rpc ListDriverOnShift(DateTimeFilter) returns (DriverOnShiftList) {}
+  rpc GetDriverOnShiftById(DriverOnShiftRequest) returns (DriverOnShift) {}
+  rpc DeleteDriverOnShift(DriverOnShiftRequest) returns (MessageResponse) {}
+  rpc CreateDriverOnShift(DriverOnShiftCreate) returns (DriverOnShift) {}
+  rpc UpdateDriverOnShift(DriverOnShiftUpdate) returns (DriverOnShift) {}
+  rpc CompleteDriverOnShift(DriverOnShiftRequest) returns (DriverOnShift) {}
+}

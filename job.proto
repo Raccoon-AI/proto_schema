@@ -5,6 +5,7 @@ import "container.proto";
 import "driver_on_shift.proto";
 import "enums.proto";
 import "file_upload.proto";
+import "general.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "organization.proto";
@@ -13,6 +14,7 @@ import "user.proto";
 
 option go_package = "./pb";
 
+// To be deprecated
 message JobEventIn {
   required JobEvent event = 1 [json_name = "event"];
   required uint64 job_id = 2 [json_name = "job_id"];
@@ -127,4 +129,5 @@ message JobUpdate {
 
 message JobList {
   repeated Job jobs = 1 [json_name = "jobs"];
+  optional ListFilterResponse list_filter = 2 [json_name = "list_filter"];
 }
