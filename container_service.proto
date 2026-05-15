@@ -28,6 +28,11 @@ message ContainerGroupListRequest {
   optional ListFilter list_filter = 4 [json_name = "list_filter"];
 }
 
+message CompatibleContainerGroupsRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 truck_id = 2 [json_name = "truck_id"];
+}
+
 service ContainerService {
   // Container Type operations
   rpc CreateContainerType(ContainerTypeCreate) returns (ContainerType) {}
@@ -41,4 +46,5 @@ service ContainerService {
   rpc UpdateContainerGroup(ContainerGroupUpdate) returns (ContainerGroup) {}
   rpc ListContainerGroups(ContainerGroupListRequest) returns (ContainerGroupList) {}
   rpc DeleteContainerGroup(ContainerGroupRequest) returns (MessageResponse) {}
+  rpc ListCompatibleContainerGroupsForTruck(CompatibleContainerGroupsRequest) returns (ContainerGroupList) {}
 }
