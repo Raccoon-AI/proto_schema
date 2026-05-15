@@ -2,6 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "google/protobuf/timestamp.proto";
+import "organization.proto";
 
 option go_package = "./pb";
 
@@ -11,6 +12,8 @@ message CustomGroup {
   required uint64 id = 1 [json_name = "id"];
   required string name = 2 [json_name = "name"];
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+  optional Organization owner_organization = 4 [json_name = "owner_organization"];
+  optional uint64 group_membership_count = 5 [json_name = "group_membership_count"];
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   required google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
 }
@@ -40,6 +43,7 @@ message GroupMembership {
   required uint64 custom_group_id = 2 [json_name = "custom_group_id"];
   required uint64 user_id = 3 [json_name = "user_id"];
   required string role = 4 [json_name = "role"];
+  optional CustomGroup custom_group = 5 [json_name = "custom_group"];
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   required google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
 }
