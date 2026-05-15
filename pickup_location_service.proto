@@ -61,6 +61,7 @@ service PickupLocationService {
   rpc GetPickupLocationGroupById(PickupLocationGroupRequest) returns (PickupLocationGroup) {}
   rpc ListPickupLocationGroups(PickupLocationGroupListRequest) returns (PickupLocationGroupList) {}
   rpc UpdatePickupLocationGroup(PickupLocationGroupUpdate) returns (PickupLocationGroup) {}
+  rpc DeletePickupLocationGroup(PickupLocationGroupRequest) returns (MessageResponse) {}
 
   rpc BindContainerGroupsToPickupLocationGroup(BindContainerGroupsRequest) returns (MessageResponse) {}
   rpc UnbindContainerGroupFromPickupLocationGroup(RemoveContainerGroupRequest) returns (MessageResponse) {}
