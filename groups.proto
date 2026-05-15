@@ -12,7 +12,7 @@ message CustomGroup {
   required uint64 id = 1 [json_name = "id"];
   required string name = 2 [json_name = "name"];
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
-  optional Organization owner_organization = 4 [json_name = "organization"];
+  optional Organization owner_organization = 4 [json_name = "owner_organization"];
   optional uint64 group_membership_count = 5 [json_name = "group_membership_count"];
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   required google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
