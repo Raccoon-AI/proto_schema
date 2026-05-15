@@ -10,6 +10,11 @@ message DateTimeFilter {
   required google.protobuf.Timestamp to = 2 [json_name = "to"];
 }
 
+message DateFilter {
+  required string from = 1 [json_name = "from"];
+  required string to = 2 [json_name = "to"];
+}
+
 enum ErrorCode {
   ERROR_CODE_UNDEFINED = 0;
 
