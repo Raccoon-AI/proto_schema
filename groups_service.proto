@@ -29,5 +29,6 @@ service ResourceAccessGrantService {
   rpc GrantRoleAccessToScope(ResourceAccessGrantCreate) returns (ResourceAccessGrant);
   rpc ListGroupGrants(ResourceAccessGrantListRequest) returns (ResourceAccessGrantList);
   rpc UpdateResourceAccessGrant(ResourceAccessGrantUpdate) returns (ResourceAccessGrant);
+  rpc BulkUpdateGrantsOrganization(ResourceAccessGrantBulkOrganizationUpdate) returns (ResourceAccessGrantList);
   rpc RevokeGrant(IdRequest) returns (EmptyMessageResponse);
 }
