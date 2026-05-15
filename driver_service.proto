@@ -46,12 +46,6 @@ service DriverService {
   rpc MyShift(EmptyMessageRequest) returns (DriverOnShift) {}
   rpc SendMyLocation(MyLocationRequest) returns (MessageResponse) {}
 
-  // ******** Old Event Calls *********** //
-  // event calls
-  rpc SendDriverOnShiftEvent(DriverOnShiftEventIn) returns (DriverOnShift) {} // To deprecate
-  rpc SendJobEvent(JobEventIn) returns (Job) {} // To deprecate
-  rpc SendRouteEvent(RouteEventIn) returns (Route) {} // To deprecate
-
   // ******** New Event Calls *********** //
 
   // Start shift. Changes driver status to ACTIVE.
@@ -93,9 +87,9 @@ service DriverService {
   rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
 
   // ******** Route Related RPCs *********** //
-  rpc AssignedRoutes(EmptyMessageRequest) returns (RouteList) {}
+  rpc AssignedRoutes(EmptyMessageRequest) returns (RouteListResponse) {}
   // history of routes assigned to driver
-  rpc GetRouteHistory(DateTimeFilter) returns (RouteList) {}
+  rpc GetRouteHistory(DateTimeFilter) returns (RouteListResponse) {}
   // update container's location
   rpc UpdateContainerLocation(ContainerStatusUpdate) returns (MessageResponse) {}
 
