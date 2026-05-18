@@ -122,3 +122,8 @@ message ResourceAccessGrantListRequest {
 message ResourceAccessGrantList {
   repeated ResourceAccessGrant grants = 1 [json_name = "grants"];
 }
+
+message ResourceAccessGrantBulkOrganizationUpdate {
+  required uint64 custom_group_id = 1 [json_name = "custom_group_id"];
+  required uint64 organization_id = 2 [json_name = "organization_id"];
+}
