@@ -96,4 +96,9 @@ service CompositeCostProvider {
 service ValhallaCostProvider {
   rpc SourcesToTargets(SourcesToTargetsIn) returns (SourcesToTargetsOut);
   rpc OptimizedRoute(RouteWaypointsIn) returns (RouteWaypointsOut);
+  rpc Route(RouteWaypointsIn) returns (RouteWaypointsOut);
+}
+
+service YandexCostProvider {
+  rpc Route(RouteWaypointsIn) returns (RouteWaypointsOut);
 }
