@@ -10,6 +10,15 @@ message DateTimeFilter {
   required google.protobuf.Timestamp to = 2 [json_name = "to"];
 }
 
+message DateFilter {
+  // Inclusive start date in RFC 3339 full-date format: YYYY-MM-DD.
+  // This field is date-only and must not include a time or timezone.
+  required string from = 1 [json_name = "from"];
+  // Inclusive end date in RFC 3339 full-date format: YYYY-MM-DD.
+  // This field is date-only and must not include a time or timezone.
+  required string to = 2 [json_name = "to"];
+}
+
 enum ErrorCode {
   ERROR_CODE_UNDEFINED = 0;
 
@@ -155,7 +164,7 @@ message ListFilter {
   ];
 }
 
-message ListFilterResponse {
+message ListInfo {
   required uint32 total_items = 1 [json_name = "total_items"];
   required uint32 current_page = 2 [json_name = "current_page"]; // <-- ListFilter.current_page
   required uint32 page_size = 3 [json_name = "page_size"]; // <-- ListFilter.page_size

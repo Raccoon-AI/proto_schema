@@ -96,5 +96,5 @@ message ContractDetailed {
 
 message ContractList {
   repeated Contract contracts = 1 [json_name = "contracts"];
-  optional ListFilterResponse list_filter = 2 [json_name = "list_filter"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
 }

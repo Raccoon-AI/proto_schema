@@ -94,7 +94,7 @@ message PickupLocationListContract {
 
 message PickupLocationList {
   repeated PickupLocation pickup_locations = 1 [json_name = "pickup_locations"];
-  optional ListFilterResponse list_filter = 2 [json_name = "list_filter"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
 }
 
 message PickupLocationGroup {
@@ -113,7 +113,7 @@ message PickupLocationGroupCreate {
 
 message PickupLocationGroupList {
   repeated PickupLocationGroup pickup_location_groups = 1 [json_name = "pickup_location_groups"];
-  optional ListFilterResponse list_filter = 2 [json_name = "list_filter"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
 }
 
 message PickupLocationGroupUpdate {

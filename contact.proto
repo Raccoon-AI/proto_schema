@@ -42,5 +42,5 @@ message ContactUpdate {
 
 message ContactList {
   repeated Contact contacts = 1 [json_name = "contacts"];
-  optional ListFilterResponse list_filter = 2 [json_name = "list_filter"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
 }

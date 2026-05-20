@@ -46,12 +46,6 @@ service DriverService {
   rpc MyShift(EmptyMessageRequest) returns (DriverOnShift) {}
   rpc SendMyLocation(MyLocationRequest) returns (MessageResponse) {}
 
-  // ******** Old Event Calls *********** //
-  // event calls
-  rpc SendDriverOnShiftEvent(DriverOnShiftEventIn) returns (DriverOnShift) {} // To deprecate
-  rpc SendJobEvent(JobEventIn) returns (Job) {} // To deprecate
-  rpc SendRouteEvent(RouteEventIn) returns (Route) {} // To deprecate
-
   // ******** New Event Calls *********** //
 
   // Start shift. Changes driver status to ACTIVE.
