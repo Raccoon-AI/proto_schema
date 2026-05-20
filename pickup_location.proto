@@ -107,7 +107,6 @@ message PickupLocationGroup {
 
 message PickupLocationGroupCreate {
   required string group_name = 1 [json_name = "name"];
-  repeated uint64 container_group_ids = 2 [json_name = "container_group_ids"];
   optional uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
   optional uint64 truck_id = 5 [json_name = "truck_id"];
 }
@@ -120,7 +119,6 @@ message PickupLocationGroupList {
 message PickupLocationGroupUpdate {
   required uint64 id = 1 [json_name = "id"];
   optional string group_name = 2 [json_name = "name"];
-  repeated uint64 container_group_ids = 3 [json_name = "container_group_ids"];
   optional uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
   optional uint64 truck_id = 5 [json_name = "truck_id"];
 }
