@@ -11,7 +11,11 @@ message DateTimeFilter {
 }
 
 message DateFilter {
+  // Inclusive start date in RFC 3339 full-date format: YYYY-MM-DD.
+  // This field is date-only and must not include a time or timezone.
   required string from = 1 [json_name = "from"];
+  // Inclusive end date in RFC 3339 full-date format: YYYY-MM-DD.
+  // This field is date-only and must not include a time or timezone.
   required string to = 2 [json_name = "to"];
 }
 
