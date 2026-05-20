@@ -87,9 +87,9 @@ service DriverService {
   rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
 
   // ******** Route Related RPCs *********** //
-  rpc AssignedRoutes(EmptyMessageRequest) returns (RouteListResponse) {}
+  rpc AssignedRoutes(EmptyMessageRequest) returns (RouteList) {}
   // history of routes assigned to driver
-  rpc GetRouteHistory(DateTimeFilter) returns (RouteListResponse) {}
+  rpc GetRouteHistory(DateTimeFilter) returns (RouteList) {}
   // update container's location
   rpc UpdateContainerLocation(ContainerStatusUpdate) returns (MessageResponse) {}
 
