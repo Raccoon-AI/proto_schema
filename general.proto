@@ -116,7 +116,7 @@ message ListFilter {
   ];
 }
 
-message ListFilterResponse {
+message ListInfo {
   required uint32 total_items = 1 [json_name = "total_items"];
   required uint32 current_page = 2 [json_name = "current_page"]; // <-- ListFilter.current_page
   required uint32 page_size = 3 [json_name = "page_size"]; // <-- ListFilter.page_size

@@ -50,7 +50,7 @@ message LocationUpdate {
 
 message LocationList {
   repeated Location locations = 1 [json_name = "locations"];
-  optional ListFilterResponse list_filter = 2 [json_name = "list_filter"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
 }
 
 message LocationRequest {
