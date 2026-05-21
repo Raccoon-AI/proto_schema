@@ -93,14 +93,14 @@ message RouteUpdate {
 
 message RouteCreateWithJobsRequest { // deprecate and move to route create once migration from old BE finishes
   required RouteCreate create = 1 [json_name = "create"];
-  required uint64 service_provider_id = 2 [json_name = "service_provider_id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
   repeated uint64 job_ids = 10 [json_name = "job_ids"];
 }
 
 message RouteListRequest {
   optional DateTimeFilter datetime_filter = 1 [json_name = "datetime_filter"];
   optional ListFilter list_filter = 2 [json_name = "list_filter"];
-  repeated uint64 service_provider_id = 3 [json_name = "service_provider_id"];
+  repeated uint64 owner_organization_ids = 3 [json_name = "owner_organization_ids"];
 }
 
 message RouteList {
@@ -110,27 +110,27 @@ message RouteList {
 
 message RouteIdRequest {
   required uint64 id = 1 [json_name = "id"];
-  required uint64 service_provider_id = 2 [json_name = "service_provider_id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
 }
 
 message RouteUpdateWithJobsRequest { // deprecate and move to route update once migration from old BE finishes
   required RouteUpdate route = 1 [json_name = "route"];
   repeated uint64 job_ids = 2 [json_name = "job_ids"];
-  required uint64 service_provider_id = 3 [json_name = "service_provider_id"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
 }
 
 message RouteForceCompleteRequest {
   required uint64 id = 1 [json_name = "id"];
   repeated uint64 jobs_to_complete = 2 [json_name = "jobs_to_complete"];
   repeated uint64 jobs_to_unassign = 3 [json_name = "jobs_to_unassign"];
-  required uint64 service_provider_id = 4 [json_name = "service_provider_id"];
+  required uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
 }
 
 message RouteCancelRequest {
   required uint64 id = 1 [json_name = "id"];
   repeated uint64 jobs_to_cancel = 2 [json_name = "jobs_to_cancel"];
   repeated uint64 jobs_to_unassign = 3 [json_name = "jobs_to_unassign"];
-  required uint64 service_provider_id = 4 [json_name = "service_provider_id"];
+  required uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
 }
 
 service RouteService {
