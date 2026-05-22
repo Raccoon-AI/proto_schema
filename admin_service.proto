@@ -8,6 +8,25 @@ import "user.proto";
 
 option go_package = "./pb";
 
+// Reward formulas per scenario for an organization.
+message RewardFormulas {
+  optional string version = 1 [json_name = "version"];
+  optional string both = 2 [json_name = "both"];
+  optional string yandex_only = 3 [json_name = "yandex_only"];
+  optional string valhalla_only = 4 [json_name = "valhalla_only"];
+  optional string fallback = 5 [json_name = "fallback"];
+}
+
+message SetRewardFormulasRequest {
+  required uint64 organization_id = 1 [json_name = "organization_id"];
+  optional RewardFormulas formulas = 2 [json_name = "formulas"];
+}
+
+message SetRewardFormulasResponse {
+  optional bool enabled = 1 [json_name = "enabled"];
+  optional string version = 2 [json_name = "version"];
+}
+
 service AdminService {
   // Organization manipulation
   rpc CreateOrganization(OrganizationCreate) returns (Organization) {}
@@ -21,4 +40,6 @@ service AdminService {
   // Related to permissions
   rpc PopulateDefaultPermissions(IdRequest) returns (MessageResponse) {}
   rpc SetDefaultRolesToAllOrganizationUsers(IdRequest) returns (MessageResponse) {}
+  // Reward formulas
+  rpc SetRewardFormulas(SetRewardFormulasRequest) returns (SetRewardFormulasResponse) {}
 }
