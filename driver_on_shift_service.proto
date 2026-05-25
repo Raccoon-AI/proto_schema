@@ -13,7 +13,7 @@ message DriverOnShiftListRequest {
 }
 
 service DriverOnShiftService {
-  rpc ListDriverOnShift(DateTimeFilter) returns (DriverOnShiftList) {}
+  rpc ListDriverOnShift(DriverOnShiftListRequest) returns (DriverOnShiftList) {}
   rpc GetDriverOnShiftById(DriverOnShiftRequest) returns (DriverOnShift) {}
   rpc DeleteDriverOnShift(DriverOnShiftRequest) returns (MessageResponse) {}
   rpc CreateDriverOnShift(DriverOnShiftCreate) returns (DriverOnShift) {}

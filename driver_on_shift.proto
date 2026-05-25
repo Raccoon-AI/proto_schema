@@ -2,6 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "enums.proto";
+import "general.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "truck.proto";
@@ -82,4 +83,5 @@ message DriverOnShiftRequest {
 
 message DriverOnShiftList {
   repeated DriverOnShift driver_on_shifts = 1 [json_name = "driver_on_shifts"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
 }

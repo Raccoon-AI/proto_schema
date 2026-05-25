@@ -24,7 +24,7 @@ message JobRequest {
   required uint64 service_provider_id = 3 [json_name = "service_provider_id"];
 }
 
-message ActiveJobListRequest {
+message OperationTwJobListRequest {
   repeated uint64 service_provider_ids = 1 [json_name = "service_provider_ids"];
 }
 
@@ -33,7 +33,7 @@ service JobService {
   rpc GetJobById(JobRequest) returns (Job) {}
   rpc UpdateJob(JobUpdate) returns (Job) {}
   rpc ListJobs(JobListRequest) returns (JobList) {}
-  rpc ListActiveJobs(ActiveJobListRequest) returns (JobList) {}
+  rpc ListOperationTimeWindowJobs(OperationTwJobListRequest) returns (JobList) {}
   rpc CancelJob(JobRequest) returns (Job) {}
   rpc ForceCompleteJob(JobRequest) returns (Job) {}
 }
