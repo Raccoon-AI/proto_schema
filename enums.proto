@@ -74,6 +74,9 @@ enum JobType {
   JOB_TYPE_INSTALL_LID = 43; // Установить крышку
   JOB_TYPE_REMOVE_LID = 44; // Снять крышку
   JOB_TYPE_INSTALL_TAG = 45; // Установить идентификатор
+
+  // Liquid Waste
+  JOB_TYPE_LIQUID_WASTE = 50; // Liquid Waste
 }
 
 enum JobCategory {

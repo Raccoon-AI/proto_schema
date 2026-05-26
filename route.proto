@@ -76,61 +76,61 @@ message RouteUpdate {
   optional double source_lat = 5 [json_name = "source_lat"];
   optional double destination_lon = 7 [json_name = "destination_lon"];
   optional double destination_lat = 8 [json_name = "destination_lat"];
-  optional google.protobuf.Timestamp plan_start_at = 9 [json_name = "plan_start_at"];
+  optional google.protobuf.Timestamp plan_start_at = 9 [json_name = "plan_start_at"]; // todo deprecate start/end updates
   optional google.protobuf.Timestamp plan_end_at = 10 [json_name = "plan_end_at"];
   optional google.protobuf.Timestamp fact_start_at = 11 [json_name = "fact_start_at"];
   optional google.protobuf.Timestamp fact_end_at = 12 [json_name = "fact_end_at"];
-  optional RouteStatus status = 13 [json_name = "status"];
-  optional bool is_pseudo = 14 [json_name = "is_pseudo"];
+  optional RouteStatus status = 13 [json_name = "status"]; // to be deprecated
+  optional bool is_pseudo = 14 [json_name = "is_pseudo"]; // to be deprecated
   optional double netto = 15 [json_name = "netto"]; // to be deprecated
-  optional uint64 source_location_id = 16 [json_name = "source_location_id"];
+  optional uint64 source_location_id = 16 [json_name = "source_location_id"]; // to be deprecated
   optional uint64 destination_location_id = 17 [json_name = "destination_location_id"];
-  optional uint64 current_step_idx = 18 [json_name = "current_step_idx"];
+  optional uint64 current_step_idx = 18 [json_name = "current_step_idx"]; // to be deprecated
   optional google.protobuf.Timestamp gps_start_at = 19 [json_name = "gps_start_at"];
-  optional google.protobuf.Timestamp gps_end_at = 20 [json_name = "gps_end_at"];
-  optional RouteCategory route_category = 21 [json_name = "route_category"];
+  optional google.protobuf.Timestamp gps_end_at = 20 [json_name = "gps_end_at"]; // to be deprecated
+  optional RouteCategory route_category = 21 [json_name = "route_category"]; // to be deprecated
 }
 
 message RouteCreateWithJobsRequest { // deprecate and move to route create once migration from old BE finishes
   required RouteCreate create = 1 [json_name = "create"];
-  required uint64 service_provider_id = 2 [json_name = "service_provider_id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
   repeated uint64 job_ids = 10 [json_name = "job_ids"];
 }
 
 message RouteListRequest {
   optional DateTimeFilter datetime_filter = 1 [json_name = "datetime_filter"];
   optional ListFilter list_filter = 2 [json_name = "list_filter"];
-  repeated uint64 service_provider_id = 3 [json_name = "service_provider_id"];
+  repeated uint64 owner_organization_ids = 3 [json_name = "owner_organization_ids"];
 }
 
 message RouteList {
-  required ListInfo list_info = 1 [json_name = "list_info"];
+  optional ListInfo list_info = 1 [json_name = "list_info"];
   repeated Route routes = 2 [json_name = "routes"];
 }
 
 message RouteIdRequest {
   required uint64 id = 1 [json_name = "id"];
-  required uint64 service_provider_id = 2 [json_name = "service_provider_id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
 }
 
 message RouteUpdateWithJobsRequest { // deprecate and move to route update once migration from old BE finishes
   required RouteUpdate route = 1 [json_name = "route"];
   repeated uint64 job_ids = 2 [json_name = "job_ids"];
-  required uint64 service_provider_id = 3 [json_name = "service_provider_id"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
 }
 
 message RouteForceCompleteRequest {
   required uint64 id = 1 [json_name = "id"];
   repeated uint64 jobs_to_complete = 2 [json_name = "jobs_to_complete"];
   repeated uint64 jobs_to_unassign = 3 [json_name = "jobs_to_unassign"];
-  required uint64 service_provider_id = 4 [json_name = "service_provider_id"];
+  required uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
 }
 
 message RouteCancelRequest {
   required uint64 id = 1 [json_name = "id"];
   repeated uint64 jobs_to_cancel = 2 [json_name = "jobs_to_cancel"];
   repeated uint64 jobs_to_unassign = 3 [json_name = "jobs_to_unassign"];
-  required uint64 service_provider_id = 4 [json_name = "service_provider_id"];
+  required uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
 }
 
 service RouteService {
