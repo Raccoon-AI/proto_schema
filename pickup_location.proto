@@ -34,7 +34,7 @@ message PickupLocation {
   optional string plan_waste_volume = 24 [json_name = "plan_waste_volume"];
   optional string plan_waste_mass = 25 [json_name = "plan_waste_mass"];
   optional uint64 service_provider_id = 26 [json_name = "service_provider_id"];
-
+  repeated ContainerGroup container_groups = 27 [json_name = "container_groups"];
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
 }
 
