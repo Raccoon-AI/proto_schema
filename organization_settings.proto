@@ -39,6 +39,8 @@ message OrganizationSettings {
   optional bool ai_enabled = 11 [json_name = "ai_enabled"];
   optional TableColumnsConfig table_columns_config = 12 [json_name = "table_columns_config"];
   optional double reward_coeff = 13 [json_name = "reward_coeff"];
+  // If empty, select all
+  repeated uint64 disposal_site_location_ids = 14 [json_name = "disposal_site_location_ids"];
 }
 
 message OrganizationSettingsCreate {
@@ -52,6 +54,7 @@ message OrganizationSettingsCreate {
   optional double map_center_lon = 8 [json_name = "map_center_lon"];
   optional bool ai_enabled = 9 [json_name = "ai_enabled"];
   optional TableColumnsConfig table_columns_config = 10 [json_name = "table_columns_config"];
+  repeated uint64 disposal_site_location_ids = 11 [json_name = "disposal_site_location_ids"];
 }
 
 message OrganizationSettingsUpdate {
@@ -65,4 +68,5 @@ message OrganizationSettingsUpdate {
   optional double map_center_lon = 8 [json_name = "map_center_lon"];
   optional bool ai_enabled = 9 [json_name = "ai_enabled"];
   optional TableColumnsConfig table_columns_config = 10 [json_name = "table_columns_config"];
+  repeated uint64 disposal_site_location_ids = 11 [json_name = "disposal_site_location_ids"];
 }
