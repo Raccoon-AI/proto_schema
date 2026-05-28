@@ -160,6 +160,9 @@ enum RouteStatus {
   // Marks all jobs in the route as FORCE_COMPLETED, regardless of their individual statuses.
   // Can be done only by dispatcher.
   ROUTE_STATUS_FORCE_COMPLETED = 6;
+
+  // Marks Planned Routes for drivers but not Approved, can not be triggered by driver
+  ROUTE_STATUS_NOT_APPROVED = 7;
 }
 
 enum RouteCategory {
@@ -208,6 +211,9 @@ enum DriverOnShiftStatus {
   // Shift is ended, either by driver or dispatcher. Driver
   // is off shift and is not available for assignment.
   DRIVER_ON_SHIFT_STATUS_ENDED = 12;
+
+  // Unapproved Shift for driver, only to be approved by dispatcher
+  DRIVER_ON_SHIFT_STATUS_NOT_APPROVED = 13;
 }
 
 // To be deprecated

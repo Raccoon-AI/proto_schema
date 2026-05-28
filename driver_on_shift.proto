@@ -85,3 +85,20 @@ message DriverOnShiftList {
   repeated DriverOnShift driver_on_shifts = 1 [json_name = "driver_on_shifts"];
   optional ListInfo list_info = 2 [json_name = "list_info"];
 }
+
+message TruckDriverOnShiftListRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required DateTimeFilter datetime_filter = 2 [json_name = "datetime_filter"];
+  repeated uint64 truck_ids = 3 [json_name = "truck_ids"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
+}
+
+message TruckDriverOnShift {
+  required Truck truck = 1 [json_name = "truck"];
+  repeated DriverOnShift driver_on_shifts = 2 [json_name = "driver_on_shifts"];
+}
+
+message TruckDriverOnShiftList {
+  repeated TruckDriverOnShift truck_driver_on_shifts = 1 [json_name = "truck_driver_on_shifts"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
+}
