@@ -19,7 +19,7 @@ message Truck {
   optional double truck_weight = 8 [json_name = "truck_weight"]; // To be deprecated in favor of truck_type.weight_kg
   optional google.protobuf.Timestamp last_weight_ts = 9 [json_name = "last_weight_ts"];
   optional uint64 capacity = 10 [json_name = "capacity"]; // To be deprecated in favor of truck_type.volume
-  optional uint64 year = 11 [json_name = "year"];
+  optional uint32 year = 11 [json_name = "year"];
   optional string color = 12 [json_name = "color"];
   optional CustomTruckType truck_type = 13 [json_name = "truck_type"];
   optional string tech_passport = 14 [json_name = "tech_passport"];
@@ -36,7 +36,7 @@ message TruckCreate {
   optional string model = 4 [json_name = "model"]; // To be deprecated
   optional double truck_weight = 5 [json_name = "truck_weight"];
   optional uint64 capacity = 6 [json_name = "capacity"]; // To be deprecated
-  optional uint64 year = 7 [json_name = "year"];
+  optional uint32 year = 7 [json_name = "year"];
   optional string color = 8 [json_name = "color"];
   optional uint64 truck_type_id = 9 [json_name = "truck_type_id"]; // To be required
   optional string tech_passport = 10 [json_name = "tech_passport"];
@@ -51,7 +51,7 @@ message TruckUpdate {
   optional string model = 6 [json_name = "model"]; // To be deprecated
   optional double truck_weight = 7 [json_name = "truck_weight"];
   optional uint64 capacity = 8 [json_name = "capacity"]; // To be deprecated
-  optional uint64 year = 9 [json_name = "year"];
+  optional uint32 year = 9 [json_name = "year"];
   optional string color = 10 [json_name = "color"]; // To be deprecated
   optional uint64 truck_type_id = 11 [json_name = "truck_type_id"];
   optional string tech_passport = 12 [json_name = "tech_passport"];
