@@ -34,6 +34,14 @@ enum WasteType {
   WASTE_TYPE_NOT_SORTED_MSW = 19; // Хвосты росыпь 1 - Not Pressed and not sorted, due to overload
   WASTE_TYPE_SEPTAGE = 20; // Септик | Ассенизатор
   WASTE_TYPE_OVERSIZED_BUNKER = 21; // Негабарит бункер
+  WASTE_TYPE_SCRAP_METAL = 22; // Лом черного металла, Металл, Проволока стальная
+  WASTE_TYPE_PAPER = 23; // Макулатура
+  WASTE_TYPE_HDPE_FILM = 24; // Пленка б/у ПВД
+  WASTE_TYPE_PP = 25; // Мешки ПП, Отходы пластмасс ПП
+  WASTE_TYPE_TEXTILE = 26; // Отходы текстиля
+  WASTE_TYPE_TIRES = 27; // Шины
+  WASTE_TYPE_LEACHATE = 28; // Фильтрат завод
+  WASTE_TYPE_VEHICLE_WEIGHING = 29; // Взвешивание ТС
 }
 
 message ScaleBruttoRequest {
