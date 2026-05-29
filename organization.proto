@@ -48,6 +48,7 @@ message OrganizationCreate {
   optional string jur_address = 4 [json_name = "jur_address"];
   optional string fact_address = 5 [json_name = "fact_address"];
   optional string director_full_name = 6 [json_name = "director_full_name"];
+  optional uint64 parent_id = 7 [json_name = "parent_id"];
 }
 
 message ServiceReceiverCreate {
