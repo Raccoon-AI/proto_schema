@@ -37,15 +37,16 @@ message LocationCreate {
 
 message LocationUpdate {
   required uint64 id = 1 [json_name = "id"];
-  optional string name = 2 [json_name = "name"];
-  optional LocationType type = 3 [json_name = "type"];
-  optional LocationStatus status = 4 [json_name = "status"];
-  optional double lon = 5 [json_name = "lon"];
-  optional double lat = 6 [json_name = "lat"];
-  optional google.protobuf.Struct geometry = 7 [json_name = "geometry"];
-  optional string address = 8 [json_name = "address"];
-  optional string gis_link = 9 [json_name = "gis_link"];
-  optional uint64 service_time = 10 [json_name = "service_time"];
+  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"]; // to be required
+  optional string name = 3 [json_name = "name"];
+  optional LocationType type = 4 [json_name = "type"];
+  optional LocationStatus status = 5 [json_name = "status"];
+  optional double lon = 6 [json_name = "lon"];
+  optional double lat = 7 [json_name = "lat"];
+  optional google.protobuf.Struct geometry = 8 [json_name = "geometry"];
+  optional string address = 9 [json_name = "address"];
+  optional string gis_link = 10 [json_name = "gis_link"];
+  optional uint64 service_time = 11 [json_name = "service_time"];
 }
 
 message LocationList {

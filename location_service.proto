@@ -1,0 +1,18 @@
+syntax = "proto2";
+package raccoonai;
+
+import "general.proto";
+import "location.proto";
+
+option go_package = "./pb";
+
+service LocationService {
+  // Service provider can manage DEPOTS
+  rpc CreateDepot(LocationCreate) returns (Location) {}
+  rpc ListDepots(LocationListRequest) returns (LocationList) {}
+  rpc GetDepotById(LocationRequest) returns (Location) {}
+  rpc UpdateDepot(LocationUpdate) returns (Location) {}
+  rpc DeleteDepot(LocationRequest) returns (MessageResponse) {}
+  // Lists all disposal sites, filter by organization settings
+  rpc ListDisposalSites(EmptyMessageRequest) returns (LocationList) {}
+}
