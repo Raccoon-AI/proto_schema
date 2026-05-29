@@ -49,7 +49,7 @@ message ServiceReceiverCreateRequest {
   required uint64 service_provider_id = 2 [json_name = "service_provider_id"];
 }
 
-message GrantParentAccessRequest {
+message GrantParentAccessToChildOrgRequest {
   required uint64 child_org_id = 1 [json_name = "child_org_id"];
   required string role = 2 [json_name = "role"];
 }
@@ -75,7 +75,7 @@ service OrganizationService {
   // can be used by parent org owners to create a sub-organization under their org
   rpc CreateChildOrganization(OrganizationCreate) returns (Organization) {}
   // grants parent org users with the given role membership in the matching child org group
-  rpc GrantParentAccessToChildOrg(GrantParentAccessRequest) returns (EmptyMessageResponse) {}
+  rpc GrantParentAccessToChildOrg(GrantParentAccessToChildOrgRequest) returns (EmptyMessageResponse) {}
 
   // general organization requests
   rpc ListDisposalSiteOperators(EmptyMessageRequest) returns (OrganizationList) {}
