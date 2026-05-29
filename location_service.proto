@@ -6,10 +6,15 @@ import "location.proto";
 
 option go_package = "./pb";
 
+message DepotListRequest {
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"]; // filter by org
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
+}
+
 service LocationService {
   // Service provider can manage DEPOTS
   rpc CreateDepot(LocationCreate) returns (Location) {}
-  rpc ListDepots(LocationListRequest) returns (LocationList) {}
+  rpc ListDepots(DepotListRequest) returns (LocationList) {}
   rpc GetDepotById(LocationRequest) returns (Location) {}
   rpc UpdateDepot(LocationUpdate) returns (Location) {}
   rpc DeleteDepot(LocationRequest) returns (MessageResponse) {}
