@@ -102,6 +102,11 @@ message RouteListRequest {
   optional ListFilter list_filter = 2 [json_name = "list_filter"];
   repeated uint64 owner_organization_ids = 3 [json_name = "owner_organization_ids"];
   repeated uint64 driver_on_shift_ids = 4 [json_name = "driver_on_shift_ids"];
+  optional uint64 driver_id = 5 [json_name = "driver_id"];
+  optional uint64 truck_id = 6 [json_name = "truck_id"];
+  optional RouteStatus route_status = 7 [json_name = "route_status"];
+  optional JobType job_type = 8 [json_name = "job_type"];
+  optional RouteCategory route_category = 9 [json_name = "route_category"];
 }
 
 message RouteList {
@@ -147,14 +152,28 @@ message ChangeRouteDriverOnShiftRequest {
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
 }
 
+message CreateRouteFromPickupLocationGroupRequest {
+  required uint64 pickup_location_group_id = 1 [json_name = "pickup_location_group_id"];
+  required google.protobuf.Timestamp date = 2 [json_name = "date"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+}
+
+message AddDriverToShiftRequest {
+  required uint64 driver_on_shift_id = 1 [json_name = "driver_on_shift_id"];
+  required uint64 driver_id = 2 [json_name = "driver_id"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+}
+
 service RouteService {
   rpc CreateRouteWithJobs(RouteCreateWithJobsRequest) returns (Route) {}
+  rpc CreateRouteFromPickupLocationGroup(CreateRouteFromPickupLocationGroupRequest) returns (Route) {}
   rpc UpdateRouteWithJobs(RouteUpdateWithJobsRequest) returns (Route) {}
   rpc ForceCompleteRoute(RouteForceCompleteRequest) returns (Route) {}
   rpc CancelRoute(RouteCancelRequest) returns (Route) {}
   rpc ListRoutes(RouteListRequest) returns (RouteList) {}
   rpc GetRoute(RouteIdRequest) returns (Route) {}
   rpc ApproveRoute(RouteIdRequest) returns (Route) {}
+  rpc AddDriverToShift(AddDriverToShiftRequest) returns (DriverOnShift) {}
   rpc MoveJobsBetweenRoutes(MoveJobsBetweenRoutesRequest) returns (RouteList) {}
   rpc ChangeRouteDriverOnShift(ChangeRouteDriverOnShiftRequest) returns (Route) {}
 }

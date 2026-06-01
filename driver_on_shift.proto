@@ -22,7 +22,7 @@ message DriverOnShift {
   required uint64 author_id = 3 [json_name = "author_id"];
   optional uint64 odometer_reading = 4 [json_name = "odometer_reading"]; // to be deprecated
   optional double fuel_level = 5 [json_name = "fuel_level"]; // to be deprecated
-  required uint64 driver_id = 6 [json_name = "driver_id"];
+  optional uint64 driver_id = 6 [json_name = "driver_id"];
   required uint64 truck_id = 7 [json_name = "truck_id"];
   required DriverOnShiftStatus status = 8 [json_name = "status"];
   optional string comment = 9 [json_name = "comment"];
@@ -44,7 +44,7 @@ message DriverOnShiftCreate {
   optional uint64 author_id = 2 [json_name = "author_id"];
   optional uint64 odometer_reading = 3 [json_name = "odometer_reading"]; // to be deprecated
   optional double fuel_level = 4 [json_name = "fuel_level"]; // to be deprecated
-  required uint64 driver_id = 5 [json_name = "driver_id"];
+  optional uint64 driver_id = 5 [json_name = "driver_id"];
   required uint64 truck_id = 6 [json_name = "truck_id"];
   optional string comment = 7 [json_name = "comment"];
   optional google.protobuf.Timestamp tw_start_at = 8 [json_name = "tw_start_at"];
