@@ -93,7 +93,7 @@ message TruckDriverOnShiftListRequest {
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
-message TruckDriverOnShift {
+message TruckDriverOnShift { // endpoint for shift for truck for day
   required Truck truck = 1 [json_name = "truck"];
   repeated DriverOnShift driver_on_shifts = 2 [json_name = "driver_on_shifts"];
 }
