@@ -47,3 +47,7 @@ service AIDispatcherV4 {
   rpc OnDispatcherHeartbeat(AIDispatcherRequest) returns (BulkAssignmentResponse);
   rpc OnCapacityPlan(AIDispatcherRequest) returns (CapacityPlanResponse);
 }
+
+service ResursDispatcher {
+  rpc OnDispatcherHeartbeat(AIDispatcherRequest) returns (BulkAssignmentResponse);
+}
