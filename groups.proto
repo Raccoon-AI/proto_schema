@@ -67,6 +67,7 @@ message GroupMembershipListRequest {
   optional uint64 id = 1 [json_name = "id"];
   optional uint64 custom_group_id = 2 [json_name = "custom_group_id"];
   optional uint64 user_id = 3 [json_name = "user_id"];
+  optional uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
 }
 
 // --- Access Grants ---
