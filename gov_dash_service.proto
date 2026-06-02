@@ -87,11 +87,6 @@ message GovTruckStats {
   optional bool is_latest_route_active = 6 [json_name = "is_latest_route_active"];
 }
 
-message GovAnalyticsByIdRequest {
-  required uint64 id = 1 [json_name = "id"];
-  required DateTimeFilter from_to = 2 [json_name = "from_to"];
-}
-
 message GovDepotInfo {
   required Location depot = 1 [json_name = "depot"];
   required Organization owner_organization = 2 [json_name = "owner_organization"];

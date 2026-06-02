@@ -14,9 +14,11 @@ message DriverOnShiftListRequest {
 
 service DriverOnShiftService {
   rpc ListDriverOnShift(DriverOnShiftListRequest) returns (DriverOnShiftList) {}
+  rpc ListTruckDriverOnShifts(TruckDriverOnShiftListRequest) returns (TruckDriverOnShiftList) {}
   rpc GetDriverOnShiftById(DriverOnShiftRequest) returns (DriverOnShift) {}
   rpc DeleteDriverOnShift(DriverOnShiftRequest) returns (MessageResponse) {}
   rpc CreateDriverOnShift(DriverOnShiftCreate) returns (DriverOnShift) {}
   rpc UpdateDriverOnShift(DriverOnShiftUpdate) returns (DriverOnShift) {}
   rpc CompleteDriverOnShift(DriverOnShiftRequest) returns (DriverOnShift) {}
+  rpc ApproveDriverOnShift(DriverOnShiftRequest) returns (DriverOnShift) {}
 }

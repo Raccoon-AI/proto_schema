@@ -101,6 +101,7 @@ message RouteListRequest {
   optional DateTimeFilter datetime_filter = 1 [json_name = "datetime_filter"];
   optional ListFilter list_filter = 2 [json_name = "list_filter"];
   repeated uint64 owner_organization_ids = 3 [json_name = "owner_organization_ids"];
+  repeated uint64 driver_on_shift_ids = 4 [json_name = "driver_on_shift_ids"];
 }
 
 message RouteList {
@@ -133,6 +134,19 @@ message RouteCancelRequest {
   required uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
 }
 
+message MoveJobsBetweenRoutesRequest {
+  required uint64 source_route_id = 1 [json_name = "source_route_id"];
+  required uint64 destination_route_id = 2 [json_name = "destination_route_id"];
+  repeated uint64 job_ids = 3 [json_name = "job_ids"];
+  required uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
+}
+
+message ChangeRouteDriverOnShiftRequest {
+  required uint64 route_id = 1 [json_name = "route_id"];
+  required uint64 driver_on_shift_id = 2 [json_name = "driver_on_shift_id"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+}
+
 service RouteService {
   rpc CreateRouteWithJobs(RouteCreateWithJobsRequest) returns (Route) {}
   rpc UpdateRouteWithJobs(RouteUpdateWithJobsRequest) returns (Route) {}
@@ -140,4 +154,7 @@ service RouteService {
   rpc CancelRoute(RouteCancelRequest) returns (Route) {}
   rpc ListRoutes(RouteListRequest) returns (RouteList) {}
   rpc GetRoute(RouteIdRequest) returns (Route) {}
+  rpc ApproveRoute(RouteIdRequest) returns (Route) {}
+  rpc MoveJobsBetweenRoutes(MoveJobsBetweenRoutesRequest) returns (RouteList) {}
+  rpc ChangeRouteDriverOnShift(ChangeRouteDriverOnShiftRequest) returns (Route) {}
 }
