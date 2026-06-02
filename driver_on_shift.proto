@@ -89,7 +89,6 @@ message DriverOnShiftList {
 message TruckDriverOnShiftListRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   required DateTimeFilter datetime_filter = 2 [json_name = "datetime_filter"];
-  repeated uint64 truck_ids = 3 [json_name = "truck_ids"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
