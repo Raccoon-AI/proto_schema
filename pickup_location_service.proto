@@ -8,11 +8,11 @@ option go_package = "./pb";
 
 message PickupLocationRequest {
   required uint64 id = 1 [json_name = "id"];
-  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required uint64 service_provider_id = 2 [json_name = "service_provider_id"];
 }
 
 message PickupLocationListRequest {
-  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"]; // At least one organization ID is required
+  repeated uint64 service_provider_ids = 1 [json_name = "service_provider_ids"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
