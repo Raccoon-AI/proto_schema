@@ -13,7 +13,7 @@ message PickupLocation {
   required uint64 id = 1 [json_name = "id"];
   required string name = 3 [json_name = "name"];
   required PickupLocationType type = 4 [json_name = "type"];
-  required uint64 owner_organization_id = 5 [json_name = "owner_organization_id"]; // will be deprecated
+  optional uint64 owner_organization_id = 5 [json_name = "owner_organization_id"]; // will be deprecated
   optional uint64 service_provider_id = 6 [json_name = "service_provider_id"]; // will be required
   required LocationStatus status = 7 [json_name = "status"];
   required double lon = 8 [json_name = "lon"];
