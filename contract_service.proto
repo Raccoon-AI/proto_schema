@@ -2,7 +2,6 @@ syntax = "proto2";
 package raccoonai;
 
 import "contract.proto";
-import "file_upload.proto";
 import "general.proto";
 
 option go_package = "./pb";
@@ -24,18 +23,10 @@ message ContractRequest {
   required uint64 target_organization_id = 3 [json_name = "target_organization_id"];
 }
 
-message ContractFileUploadRequest {
-  required uint64 id = 1 [json_name = "id"];
-  required uint64 service_provider_id = 2 [json_name = "service_provider_id"];
-  required uint64 target_organization_id = 3 [json_name = "target_organization_id"];
-  required File file = 4 [json_name = "file"];
-}
-
 service ContractService {
   rpc CreateContract(ContractCreate) returns (Contract);
   rpc GetContract(ContractRequest) returns (Contract);
   rpc UpdateContract(ContractUpdate) returns (Contract);
   rpc ListContracts(ContractListRequest) returns (ContractList);
   rpc ArchiveContract(ContractRequest) returns (Contract);
-  rpc UploadContractFile(ContractFileUploadRequest) returns (Contract);
 }
