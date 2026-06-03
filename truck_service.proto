@@ -31,6 +31,7 @@ message TruckListRequest {
   repeated uint64 truck_type_ids = 3 [json_name = "custom_truck_type_ids"]; // filter by custom truck type
   repeated JobType job_types = 4 [json_name = "job_types"]; // filter by job types
   repeated uint64 container_type_ids = 5 [json_name = "container_type_ids"]; // filter by container types (for trucks with specific container compatibility)
+  repeated TruckStatus statuses = 6 [json_name = "statuses"]; // filter by truck status
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
