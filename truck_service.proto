@@ -5,6 +5,7 @@ package raccoonai;
 import "driver_on_shift.proto";
 import "enums.proto";
 import "general.proto";
+import "google/protobuf/struct.proto";
 import "organization.proto";
 import "route.proto";
 import "truck.proto";
@@ -81,6 +82,17 @@ message TruckTypeRequest {
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
 }
 
+message TruckTravelPathRequest {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required DateTimeFilter from_to = 3 [json_name = "from_to"];
+}
+
+message TruckTravelPathResponse {
+  required uint64 truck_id = 1 [json_name = "truck_id"];
+  required google.protobuf.Struct geojson_feature = 2 [json_name = "geojson_feature"];
+}
+
 service TruckService {
   rpc SearchTruck(SearchTruckRequest) returns (SearchTruckResponse) {}
   rpc ListTrucks(TruckListRequest) returns (TruckList) {}
@@ -97,4 +109,6 @@ service TruckService {
   rpc UpdateTruckType(CustomTruckTypeUpdate) returns (CustomTruckType) {}
   rpc DeleteTruckType(TruckTypeRequest) returns (MessageResponse) {}
   rpc ListTruckTypes(CustomTruckTypeListRequest) returns (CustomTruckTypeList) {}
+
+  rpc GetTruckTravelPath(TruckTravelPathRequest) returns (TruckTravelPathResponse) {}
 }

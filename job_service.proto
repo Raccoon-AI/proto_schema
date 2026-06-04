@@ -14,6 +14,7 @@ message JobListRequest {
   optional JobCategory job_category = 4 [json_name = "job_category"];
   optional JobStatus job_status = 5 [json_name = "job_status"];
   optional uint64 driver_id = 6 [json_name = "driver_id"];
+  optional uint64 truck_id = 7 [json_name = "truck_id"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
   optional DateTimeFilter time_filter = 11 [json_name = "time_filter"];
 }
