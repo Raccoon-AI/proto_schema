@@ -9,12 +9,18 @@ import "user.proto";
 option go_package = "./pb";
 
 // Reward formulas per scenario for an organization.
+// Night multiplier config is included here so the admin API can set all reward
+// parameters in a single request, keeping the JSON schema flat.
 message RewardFormulas {
   optional string version = 1 [json_name = "version"];
   optional string both = 2 [json_name = "both"];
   optional string yandex_only = 3 [json_name = "yandex_only"];
   optional string valhalla_only = 4 [json_name = "valhalla_only"];
   optional string fallback = 5 [json_name = "fallback"];
+  optional double night_multiplier = 6 [json_name = "night_multiplier"];
+  optional int32 night_start_hour = 7 [json_name = "night_start_hour"];
+  optional int32 night_end_hour = 8 [json_name = "night_end_hour"];
+  optional string timezone = 9 [json_name = "timezone"];
 }
 
 message SetRewardFormulasRequest {
