@@ -21,6 +21,8 @@ message RewardFormulas {
   optional int32 night_start_hour = 7 [json_name = "night_start_hour"];
   optional int32 night_end_hour = 8 [json_name = "night_end_hour"];
   optional string timezone = 9 [json_name = "timezone"];
+  optional double depot_lat = 10 [json_name = "depot_lat"];
+  optional double depot_lon = 11 [json_name = "depot_lon"];
 }
 
 message SetRewardFormulasRequest {
