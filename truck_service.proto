@@ -20,6 +20,8 @@ message SearchTruckResult {
   optional bool is_guest = 1 [json_name = "is_guest"];
   optional Truck truck = 2 [json_name = "truck"];
   optional Organization org = 3 [json_name = "org"];
+  optional DriverOnShift current_shift = 4 [json_name = "current_shift"];
+  optional Route current_route = 5 [json_name = "current_route"];
 }
 
 message SearchTruckResponse {
