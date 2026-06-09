@@ -51,6 +51,7 @@ message DriverOnShiftCreate {
   optional google.protobuf.Timestamp tw_end_at = 9 [json_name = "tw_end_at"];
   optional uint64 capacity = 10 [json_name = "capacity"];
   optional bool visible_to_ai = 11 [json_name = "visible_to_ai"];
+  optional DriverOnShiftStatus status = 12 [json_name = "status"];
 }
 
 message DriverOnShiftUpdate {
