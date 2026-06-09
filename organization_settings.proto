@@ -41,6 +41,7 @@ message OrganizationSettings {
   optional double reward_coeff = 13 [json_name = "reward_coeff"];
   // If empty, select all
   repeated uint64 disposal_site_location_ids = 14 [json_name = "disposal_site_location_ids"];
+  optional default_depot_id = 15 [json_name = "default_depot_id"];
 }
 
 message OrganizationSettingsCreate {
@@ -55,6 +56,7 @@ message OrganizationSettingsCreate {
   optional bool ai_enabled = 9 [json_name = "ai_enabled"];
   optional TableColumnsConfig table_columns_config = 10 [json_name = "table_columns_config"];
   repeated uint64 disposal_site_location_ids = 11 [json_name = "disposal_site_location_ids"];
+  optional default_depot_id = 12 [json_name = "default_depot_id"];
 }
 
 message OrganizationSettingsUpdate {
@@ -69,4 +71,5 @@ message OrganizationSettingsUpdate {
   optional bool ai_enabled = 9 [json_name = "ai_enabled"];
   optional TableColumnsConfig table_columns_config = 10 [json_name = "table_columns_config"];
   repeated uint64 disposal_site_location_ids = 11 [json_name = "disposal_site_location_ids"];
+  optional default_depot_id = 12 [json_name = "default_depot_id"];
 }
