@@ -66,7 +66,7 @@ service OrganizationService {
   rpc UpdateSetting(OrganizationSettingsUpdate) returns (OrganizationSettings) {}
 
   // can be used by service providers
-  rpc ListServiceReceivers(EmptyMessageRequest) returns (OrganizationList) {}
+  rpc ListServiceReceivers(OrganizationRequest) returns (OrganizationList) {}
   rpc CreateServiceReceiver(ServiceReceiverCreateRequest) returns (Organization) {}
 
   // can be used by service receivers

@@ -12,9 +12,10 @@ message DriverOnShiftListRequest {
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
-message DriverOnShiftByTruckIdRequest {
+message DriverOnShiftExistsRequest {
   required uint64 truck_id = 1 [json_name = "truck_id"];
-  repeated uint64 owner_organization_ids = 2 [json_name = "owner_organization_ids"];
+  required uint64 driver_id = 2 [json_name = "driver_id"];
+  repeated uint64 owner_organization_ids = 3 [json_name = "owner_organization_ids"];
 }
 
 service DriverOnShiftService {
@@ -26,5 +27,5 @@ service DriverOnShiftService {
   rpc UpdateDriverOnShift(DriverOnShiftUpdate) returns (DriverOnShift) {}
   rpc CompleteDriverOnShift(DriverOnShiftRequest) returns (DriverOnShift) {}
   rpc ApproveDriverOnShift(DriverOnShiftRequest) returns (DriverOnShift) {}
-  rpc GetActiveShiftByTruckId(DriverOnShiftByTruckIdRequest) returns (DriverOnShift) {}
+  rpc DriverOnShiftExists(DriverOnShiftExistsRequest) returns (DriverOnShift) {}
 }
