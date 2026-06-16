@@ -6,25 +6,10 @@ import "driver_on_shift.proto";
 import "enums.proto";
 import "general.proto";
 import "google/protobuf/struct.proto";
-import "organization.proto";
 import "route.proto";
 import "truck.proto";
 
 option go_package = "./pb";
-
-message SearchTruckRequest {
-  required string plate_number = 1 [json_name = "plate_number"];
-}
-
-message SearchTruckResult {
-  optional bool is_guest = 1 [json_name = "is_guest"];
-  optional Truck truck = 2 [json_name = "truck"];
-  optional Organization org = 3 [json_name = "org"];
-}
-
-message SearchTruckResponse {
-  repeated SearchTruckResult results = 1 [json_name = "results"];
-}
 
 message TruckListRequest {
   repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"]; // filter by org

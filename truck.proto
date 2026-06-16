@@ -24,6 +24,7 @@ message Truck {
   optional CustomTruckType truck_type = 13 [json_name = "truck_type"];
   optional string tech_passport = 14 [json_name = "tech_passport"];
   optional Organization owner_organization = 15 [json_name = "owner_organization"];
+  optional EmissionRecord last_emission_record = 16 [json_name = "last_emission_record"];
 
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -96,6 +97,7 @@ message CustomTruckType {
   optional TruckLoadType load_type = 11 [json_name = "load_type"];
   optional TruckStandard euro_type = 12 [json_name = "euro_type"];
   optional uint32 truck_count = 13 [json_name = "truck_count"];
+  optional TruckEngineType engine_type = 14 [json_name = "engine_type"];
 
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -139,4 +141,32 @@ message CustomTruckTypeUpdate {
 message CustomTruckTypeList {
   repeated CustomTruckType custom_truck_types = 1 [json_name = "custom_truck_types"];
   optional ListInfo list_info = 2 [json_name = "list_info"];
+}
+
+// Same as TruckEmissionRecord, but is part of a truck information.
+// To avoid circular dependency between truck.proto and emission_service.proto.
+message EmissionRecord {
+  // Exhaust metrics for petrol engine type
+  optional float co_percent = 1 [json_name = "co_percent"]; // Carbon monoxide (CO) in %
+  optional float co2_percent = 2 [json_name = "co2_percent"]; // Carbon dioxide (CO2) in %
+  optional float o2_percent = 3 [json_name = "o2_percent"]; // Oxygen (O2) in %
+  optional int32 ch_ppm = 4 [json_name = "ch_ppm"]; // Hydrocarbons (CH) in ppm (10^-6)
+
+  // Exhaust metrics for diesel engine type
+  optional float k_percent = 5 [json_name = "k_percent"]; // Light Absorption Coefficient (K) in %
+  optional float n_percent = 6 [json_name = "n_percent"]; // Light Attenuation Coefficient (N) in %
+}
+
+message SearchTruckRequest {
+  required string plate_number = 1 [json_name = "plate_number"];
+}
+
+message SearchTruckResult {
+  optional bool is_guest = 1 [json_name = "is_guest"];
+  optional Truck truck = 2 [json_name = "truck"];
+  optional Organization org = 3 [json_name = "org"];
+}
+
+message SearchTruckResponse {
+  repeated SearchTruckResult results = 1 [json_name = "results"];
 }

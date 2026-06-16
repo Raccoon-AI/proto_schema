@@ -1,0 +1,84 @@
+syntax = "proto2";
+
+package raccoonai;
+
+import "enums.proto";
+import "general.proto";
+import "google/protobuf/timestamp.proto";
+import "organization.proto";
+import "truck.proto";
+import "user.proto";
+
+option go_package = "./pb";
+
+message TruckEmissionRecord {
+  required Truck truck = 1 [json_name = "truck"];
+  required Organization owner_organization = 2 [json_name = "owner_organization"]; // Disposal site organization that made the measurement
+  required User author = 3 [json_name = "author"];
+  // Required to distinguish between different emission records, as diffent engines
+  // are measured by different metrics.
+  required TruckEngineType truck_engine_type = 4 [json_name = "truck_engine_type"];
+
+  // Exhaust metrics for petrol engine type
+  optional float co_percent = 5 [json_name = "co_percent"]; // Carbon monoxide (CO) in %
+  optional float co2_percent = 6 [json_name = "co2_percent"]; // Carbon dioxide (CO2) in %
+  optional float o2_percent = 7 [json_name = "o2_percent"]; // Oxygen (O2) in %
+  optional int32 ch_ppm = 8 [json_name = "ch_ppm"]; // Hydrocarbons (CH) in ppm (10^-6)
+
+  // Exhaust metrics for diesel engine type
+  optional float k_percent = 9 [json_name = "k_percent"]; // Light Absorption Coefficient (K) in %
+  optional float n_percent = 10 [json_name = "n_percent"]; // Light Attenuation Coefficient (N) in %
+
+  required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+  required google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
+}
+
+// Create request for TruckEmissionRecord.
+// - Truck is identified by plate number and if not found, new guest truck is created
+// with provided plate number and assigned to the same organization as author.
+// - Author is determined from the authentication context.
+// - OwnerOrganization is determined from author's organization.
+message TruckEmissionRecordCreate {
+  required uint64 truck_id = 1 [json_name = "truck_id"];
+  optional float co_percent = 2 [json_name = "co_percent"];
+  optional float co2_percent = 3 [json_name = "co2_percent"];
+  optional float o2_percent = 4 [json_name = "o2_percent"];
+  optional int32 ch_ppm = 5 [json_name = "ch_ppm"];
+  optional float k_percent = 6 [json_name = "k_percent"];
+  optional float n_percent = 7 [json_name = "n_percent"];
+}
+
+message EmissionRecordList {
+  repeated TruckEmissionRecord records = 1 [json_name = "records"];
+}
+
+message CreateGuestTruckWithOrganizationRequest {
+  // Fields to create trucks' guest organization
+  required string org_name = 1 [json_name = "org_name"];
+  required string bin = 2 [json_name = "bin"];
+  // Fields to create guest truck
+  required string plate_number = 3 [json_name = "plate_number"];
+  required string manufacturer = 4 [json_name = "manufacturer"];
+  required string model = 5 [json_name = "model"];
+  required TruckEngineType engine_type = 6 [json_name = "engine_type"];
+}
+
+message TruckEngineTypeUpdateRequest {
+  required uint64 truck_id = 1 [json_name = "truck_id"];
+  required TruckEngineType engine_type = 2 [json_name = "engine_type"];
+}
+
+// Separate service that will be used by emission analyzers to submit measurements and retrieve records.
+// Permissions are granted only for users with role=USER_ROLE_DISPOSAL_SITE_ECO_INSPECTOR
+service EmissionService {
+  // Search truck by plate number and return the truck information along with its latest emission record.
+  // Does partial search by plate number, so that users can type in the first few characters of the
+  // plate number and get a list of matching trucks.
+  rpc SearchTruck(SearchTruckRequest) returns (SearchTruckResponse) {}
+  // create guest truck with new organization if truck is not found by plate number
+  rpc CreateGuestTruck(CreateGuestTruckWithOrganizationRequest) returns (Truck) {}
+  // update the engine type of an existing truck only if truck.truck_type.engine_type is NULL or UNDEFINED.
+  rpc UpdateTruckEngineType(TruckEngineTypeUpdateRequest) returns (Truck) {}
+  rpc CreateTruckEmissionRecord(TruckEmissionRecordCreate) returns (TruckEmissionRecord);
+  rpc ListTruckEmissionRecords(EmptyMessageRequest) returns (EmissionRecordList);
+}
