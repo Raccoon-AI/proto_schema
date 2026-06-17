@@ -53,7 +53,9 @@ message ContainerGroup {
   required uint32 number_of_containers = 5 [json_name = "number_of_containers"];
   required uint64 pickup_location_id = 6 [json_name = "pickup_location_id"];
   optional google.protobuf.Struct service_schedule_by_job_type = 7 [json_name = "service_schedule_by_job_type"];
-  optional uint64 contract_id = 8 [json_name = "contract_id"]; //trunk check
+  optional uint64 contract_id = 8 [json_name = "contract_id"];
+  optional uint64 service_receiver_id = 9 [json_name = "service_receiver_id"];
+  optional Organization service_receiver = 10 [json_name = "service_receiver"];
 
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -66,6 +68,7 @@ message ContainerGroupCreate {
   required uint64 pickup_location_id = 4 [json_name = "pickup_location_id"];
   optional google.protobuf.Struct service_schedule_by_job_type = 5 [json_name = "service_schedule_by_job_type"];
   optional uint64 contract_id = 7 [json_name = "contract_id"];
+  optional uint64 service_receiver_id = 8 [json_name = "service_receiver_id"];
 }
 
 message ContainerGroupUpdate {
@@ -75,6 +78,7 @@ message ContainerGroupUpdate {
   optional uint32 number_of_containers = 4 [json_name = "number_of_containers"];
   optional uint64 pickup_location_id = 5 [json_name = "pickup_location_id"];
   optional google.protobuf.Struct service_schedule_by_job_type = 6 [json_name = "service_schedule_by_job_type"];
+  optional uint64 service_receiver_id = 7 [json_name = "service_receiver_id"];
 }
 
 message ContainerGroupList {
