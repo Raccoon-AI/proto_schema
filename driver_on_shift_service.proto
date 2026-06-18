@@ -18,6 +18,12 @@ message DriverOnShiftExistsRequest {
   repeated uint64 owner_organization_ids = 3 [json_name = "owner_organization_ids"];
 }
 
+message AddDriverToShiftRequest {
+  required uint64 driver_on_shift_id = 1 [json_name = "driver_on_shift_id"];
+  required uint64 driver_id = 2 [json_name = "driver_id"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+}
+
 service DriverOnShiftService {
   rpc ListDriverOnShift(DriverOnShiftListRequest) returns (DriverOnShiftList) {}
   rpc ListTruckDriverOnShifts(TruckDriverOnShiftListRequest) returns (TruckDriverOnShiftList) {}
@@ -28,4 +34,5 @@ service DriverOnShiftService {
   rpc CompleteDriverOnShift(DriverOnShiftRequest) returns (DriverOnShift) {}
   rpc ApproveDriverOnShift(DriverOnShiftRequest) returns (DriverOnShift) {}
   rpc DriverOnShiftExists(DriverOnShiftExistsRequest) returns (DriverOnShiftList) {}
+  rpc AddDriverToShift(AddDriverToShiftRequest) returns (DriverOnShift) {}
 }

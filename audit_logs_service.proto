@@ -1,0 +1,21 @@
+syntax = "proto2";
+package raccoonai;
+
+import "audit_logs.proto";
+import "general.proto";
+
+option go_package = "./pb";
+
+message AuditLogListRequest {
+  optional uint64 organization_id = 1 [json_name = "organization_id"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
+}
+
+message AuditLogList {
+  repeated AuditLog audit_logs = 1 [json_name = "audit_logs"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
+}
+
+service AuditLogsService {
+  rpc ListAuditLogs(AuditLogListRequest) returns (AuditLogList) {}
+}

@@ -157,23 +157,3 @@ message CreateRouteFromPickupLocationGroupRequest {
   required google.protobuf.Timestamp date = 2 [json_name = "date"];
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
 }
-
-message AddDriverToShiftRequest {
-  required uint64 driver_on_shift_id = 1 [json_name = "driver_on_shift_id"];
-  required uint64 driver_id = 2 [json_name = "driver_id"];
-  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
-}
-
-service RouteService {
-  rpc CreateRouteWithJobs(RouteCreateWithJobsRequest) returns (Route) {}
-  rpc CreateRouteFromPickupLocationGroup(CreateRouteFromPickupLocationGroupRequest) returns (Route) {}
-  rpc UpdateRouteWithJobs(RouteUpdateWithJobsRequest) returns (Route) {}
-  rpc ForceCompleteRoute(RouteForceCompleteRequest) returns (Route) {}
-  rpc CancelRoute(RouteCancelRequest) returns (Route) {}
-  rpc ListRoutes(RouteListRequest) returns (RouteList) {}
-  rpc GetRoute(RouteIdRequest) returns (Route) {}
-  rpc ApproveRoute(RouteIdRequest) returns (Route) {}
-  rpc AddDriverToShift(AddDriverToShiftRequest) returns (DriverOnShift) {}
-  rpc MoveJobsBetweenRoutes(MoveJobsBetweenRoutesRequest) returns (RouteList) {}
-  rpc ChangeRouteDriverOnShift(ChangeRouteDriverOnShiftRequest) returns (Route) {}
-}
