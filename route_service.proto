@@ -1,0 +1,34 @@
+syntax = "proto2";
+package raccoonai;
+
+import "route.proto";
+import "truck.proto";
+
+option go_package = "./pb";
+
+message ActiveTruckListWithRoutesRequest {
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
+}
+
+message ActiveTruckListWithRoutes {
+  repeated TruckWithRoute trucks_with_routes = 1 [json_name = "trucks_with_routes"];
+}
+
+message TruckWithRoute {
+  optional Truck truck = 1 [json_name = "truck"];
+  repeated Route routes = 2 [json_name = "routes"];
+}
+
+service RouteService {
+  rpc CreateRouteWithJobs(RouteCreateWithJobsRequest) returns (Route) {}
+  rpc CreateRouteFromPickupLocationGroup(CreateRouteFromPickupLocationGroupRequest) returns (Route) {}
+  rpc UpdateRouteWithJobs(RouteUpdateWithJobsRequest) returns (Route) {}
+  rpc ForceCompleteRoute(RouteForceCompleteRequest) returns (Route) {}
+  rpc CancelRoute(RouteCancelRequest) returns (Route) {}
+  rpc ListRoutes(RouteListRequest) returns (RouteList) {}
+  rpc GetRoute(RouteIdRequest) returns (Route) {}
+  rpc ApproveRoute(RouteIdRequest) returns (Route) {}
+  rpc MoveJobsBetweenRoutes(MoveJobsBetweenRoutesRequest) returns (RouteList) {}
+  rpc ChangeRouteDriverOnShift(ChangeRouteDriverOnShiftRequest) returns (Route) {}
+  rpc ListActiveTrucksWithRoutes(ActiveTruckListWithRoutesRequest) returns (ActiveTruckListWithRoutes) {}
+}
