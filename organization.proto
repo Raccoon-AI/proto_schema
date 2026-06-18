@@ -73,9 +73,11 @@ message OrganizationUpdate {
 message OrganizationListRequest {
   optional OrganizationType type = 1 [json_name = "type"];
   optional OrganizationStatus status = 2 [json_name = "status"];
+  optional string search_query = 3 [json_name = "search_query"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
 message OrganizationList {
   repeated Organization organizations = 1 [json_name = "organizations"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
 }
