@@ -78,4 +78,5 @@ message OrganizationListRequest {
 
 message OrganizationList {
   repeated Organization organizations = 1 [json_name = "organizations"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
 }
