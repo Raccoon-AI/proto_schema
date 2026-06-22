@@ -6,14 +6,14 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
-// Contact can belong to a pickup location or directly to an organization
-// - If pickup_location_id is set: contact belongs to that pickup location
-// - If pickup_location_id is null: contact belongs directly to the organization
-// Primary contacts are referenced via primary_contact_id in PickupLocation/Organization
+// Contact can belong to a container group or directly to an organization
+// - If container_group_id is set: contact belongs to that pickup location
+// - If container_group_id is null: contact belongs directly to the organization
+// Primary contacts are referenced via primary_contact_id in ContainerGroup/Organization
 message Contact {
   required uint64 id = 1 [json_name = "id"];
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
-  optional uint64 pickup_location_id = 3 [json_name = "pickup_location_id"];
+  optional uint64 container_group_id = 3 [json_name = "container_group_id"];
   required string name = 4 [json_name = "name"];
   optional string phone = 5 [json_name = "phone"];
   optional string email = 6 [json_name = "email"];
@@ -21,9 +21,9 @@ message Contact {
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
 }
 
-// Create a contact for a pickup location or organization
+// Create a contact for a container group or organization
 message ContactCreate {
-  optional uint64 pickup_location_id = 1 [json_name = "pickup_location_id"];
+  optional uint64 container_group_id = 1 [json_name = "container_group_id"];
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
   required string name = 3 [json_name = "name"];
   optional string phone = 4 [json_name = "phone"];
@@ -38,7 +38,7 @@ message ContactUpdate {
   optional string phone = 4 [json_name = "phone"];
   optional string email = 5 [json_name = "email"];
   optional string position = 6 [json_name = "position"];
-  optional uint64 pickup_location_id = 7 [json_name = "pickup_location_id"];
+  optional uint64 container_group_id = 7 [json_name = "container_group_id"];
 }
 
 message ContactList {
