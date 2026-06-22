@@ -81,5 +81,6 @@ service OrganizationService {
   rpc ListDisposalSiteOperators(EmptyMessageRequest) returns (OrganizationList) {}
   rpc ListChildrenOrganization(EmptyMessageRequest) returns (OrganizationList) {}
   rpc GetOrganization(OrganizationRequest) returns (Organization) {}
+  rpc UpdateOrganization(OrganizationUpdate) returns (Organization) {}
   rpc MyOrganization(EmptyMessageRequest) returns (Organization) {}
 }
