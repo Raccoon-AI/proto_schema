@@ -54,6 +54,11 @@ message GrantParentAccessToChildOrgRequest {
   required string role = 2 [json_name = "role"];
 }
 
+message ListRelatedOrganizationsRequest {
+  required uint64 organization_id = 1 [json_name = "organization_id"];
+  required ContractStatus status = 2 [json_name = "status"];
+}
+
 service OrganizationService {
   // requests releted to guest orgs and users, which will be used by waste disposals
   // to register in their system one-time clients
@@ -80,6 +85,7 @@ service OrganizationService {
   // general organization requests
   rpc ListDisposalSiteOperators(EmptyMessageRequest) returns (OrganizationList) {}
   rpc ListChildrenOrganization(EmptyMessageRequest) returns (OrganizationList) {}
+  rpc ListRelatedOrganizations(ListRelatedOrganizationsRequest) returns (OrganizationList) {}
   rpc GetOrganization(OrganizationRequest) returns (Organization) {}
   rpc MyOrganization(EmptyMessageRequest) returns (Organization) {}
 }
