@@ -13,22 +13,24 @@ option go_package = "./pb";
 message Contact {
   required uint64 id = 1 [json_name = "id"];
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
-  optional uint64 container_group_id = 3 [json_name = "container_group_id"];
+  optional uint64 pickup_location_id = 3 [json_name = "pickup_location_id"];
   required string name = 4 [json_name = "name"];
   optional string phone = 5 [json_name = "phone"];
   optional string email = 6 [json_name = "email"];
   optional string position = 7 [json_name = "position"];
+  optional uint64 container_group_id = 8 [json_name = "container_group_id"];
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
 }
 
 // Create a contact for a container group or organization
 message ContactCreate {
-  optional uint64 container_group_id = 1 [json_name = "container_group_id"];
+  optional uint64 pickup_location_id = 1 [json_name = "pickup_location_id"]; //
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
   required string name = 3 [json_name = "name"];
   optional string phone = 4 [json_name = "phone"];
   optional string email = 5 [json_name = "email"];
   optional string position = 6 [json_name = "position"];
+  optional uint64 container_group_id = 7 [json_name = "container_group_id"];
 }
 
 message ContactUpdate {
@@ -38,7 +40,8 @@ message ContactUpdate {
   optional string phone = 4 [json_name = "phone"];
   optional string email = 5 [json_name = "email"];
   optional string position = 6 [json_name = "position"];
-  optional uint64 container_group_id = 7 [json_name = "container_group_id"];
+  optional uint64 pickup_location_id = 7 [json_name = "pickup_location_id"];
+  optional uint64 container_group_id = 8 [json_name = "container_group_id"];
 }
 
 message ContactList {
