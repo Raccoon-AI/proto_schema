@@ -104,7 +104,7 @@ enum PreferredMethod {
 
 message InviteUserRequest {
   required UserRole role = 1 [json_name = "role"];
-  required int32 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
   required PreferredMethod preferred_method = 3 [json_name = "preferred_method"];
   required string recipient = 4 [json_name = "recipient"];
   required string lang = 5 [json_name = "lang"];
