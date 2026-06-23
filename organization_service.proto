@@ -54,7 +54,7 @@ message GrantParentAccessToChildOrgRequest {
   required string role = 2 [json_name = "role"];
 }
 
-message ListRelatedOrganizationsRequest {
+message ListCounterpartiesRequest {
   required uint64 organization_id = 1 [json_name = "organization_id"];
   required ContractStatus status = 2 [json_name = "status"];
 }
@@ -85,7 +85,7 @@ service OrganizationService {
   // general organization requests
   rpc ListDisposalSiteOperators(EmptyMessageRequest) returns (OrganizationList) {}
   rpc ListChildrenOrganization(EmptyMessageRequest) returns (OrganizationList) {}
-  rpc ListRelatedOrganizations(ListRelatedOrganizationsRequest) returns (OrganizationList) {}
+  rpc ListCounterparties(ListCounterpartiesRequest) returns (OrganizationList) {}
   rpc GetOrganization(OrganizationRequest) returns (Organization) {}
   rpc MyOrganization(EmptyMessageRequest) returns (Organization) {}
 }
