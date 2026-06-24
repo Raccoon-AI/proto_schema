@@ -4,8 +4,19 @@ package raccoonai;
 
 import "auth.proto";
 import "general.proto";
+import "user.proto";
 
 option go_package = "./pb";
+
+message SelfRegistrationRequest {
+  required string registration_token = 1 [json_name = "registration_token"];
+  required string first_name = 2 [json_name = "first_name"];
+  required string last_name = 3 [json_name = "last_name"];
+  optional string phone_number = 4 [json_name = "phone_number"];
+  optional string email = 5 [json_name = "email"];
+  required string password = 6 [json_name = "password"];
+  optional string driver_license_number = 7 [json_name = "driver_license_number"];
+}
 
 service AuthService {
   rpc Login(LoginRequest) returns (AuthResponse) {}
@@ -18,4 +29,5 @@ service AuthService {
   rpc ResetPassword(PasswordReset) returns (MessageResponse) {}
   rpc RefreshToken(EmptyMessageRequest) returns (AuthResponse) {}
   rpc ForgotPasswordViaOtp(PasswordResetViaOtp) returns (MessageResponse) {}
+  rpc SelfRegisterViaLink(SelfRegistrationRequest) returns (User) {}
 }

@@ -48,4 +48,6 @@ service AdminService {
   rpc SetDefaultRolesToAllOrganizationUsers(IdRequest) returns (MessageResponse) {}
   // Reward formulas
   rpc SetRewardFormulas(SetRewardFormulasRequest) returns (SetRewardFormulasResponse) {}
+  // Invite user via registration link
+  rpc InviteUser(InviteUserRequest) returns (InviteUserResponse) {}
 }
