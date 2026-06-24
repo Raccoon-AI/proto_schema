@@ -87,5 +87,6 @@ service OrganizationService {
   rpc ListChildrenOrganization(EmptyMessageRequest) returns (OrganizationList) {}
   rpc ListCounterparties(ListCounterpartiesRequest) returns (OrganizationList) {}
   rpc GetOrganization(OrganizationRequest) returns (Organization) {}
+  rpc UpdateOrganization(OrganizationUpdate) returns (Organization) {}
   rpc MyOrganization(EmptyMessageRequest) returns (Organization) {}
 }
