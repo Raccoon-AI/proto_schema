@@ -27,6 +27,7 @@ message GovServiceProviderInfo {
   required string name = 2 [json_name = "name"];
   required string bin = 3 [json_name = "bin"];
   required uint64 number_of_trucks = 4 [json_name = "number_of_trucks"];
+  optional uint64 parent_id = 5 [json_name = "parent_id"];
 }
 
 message GovServiceProviderInfoList {
