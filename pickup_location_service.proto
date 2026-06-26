@@ -55,6 +55,7 @@ service PickupLocationService {
   rpc UpdatePickupLocation(PickupLocationUpdate) returns (PickupLocation) {}
   rpc DeletePickupLocation(PickupLocationRequest) returns (MessageResponse) {}
   rpc ListPickupLocations(PickupLocationListRequest) returns (PickupLocationList) {}
+  // @todeprecate
   rpc BindPickupLocationListToContract(PickupLocationListToContractRequest) returns (MessageResponse) {}
 
   // Pickup Location Group operations

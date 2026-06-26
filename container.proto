@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "contact.proto";
 import "contract.proto";
 import "general.proto";
 import "google/protobuf/struct.proto";
@@ -56,7 +57,9 @@ message ContainerGroup {
   optional google.protobuf.Struct service_schedule_by_job_type = 7 [json_name = "service_schedule_by_job_type"];
   optional uint64 contract_id = 8 [json_name = "contract_id"]; //trunk check
   optional Contract contract = 9 [json_name = "contract"]; //trunk check
-
+  optional string pickup_location_name = 10 [json_name = "pickup_location_name"];
+  optional uint64 primary_contact_id = 11 [json_name = "primary_contact_id"];
+  optional Contact primary_contact = 12 [json_name = "primary_contact"];
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
 }
@@ -68,6 +71,7 @@ message ContainerGroupCreate {
   required uint64 pickup_location_id = 4 [json_name = "pickup_location_id"];
   optional google.protobuf.Struct service_schedule_by_job_type = 5 [json_name = "service_schedule_by_job_type"];
   optional uint64 contract_id = 7 [json_name = "contract_id"];
+  optional uint64 primary_contact_id = 8 [json_name = "primary_contact_id"];
 }
 
 message ContainerGroupUpdate {
@@ -78,6 +82,7 @@ message ContainerGroupUpdate {
   optional uint64 pickup_location_id = 5 [json_name = "pickup_location_id"];
   optional google.protobuf.Struct service_schedule_by_job_type = 6 [json_name = "service_schedule_by_job_type"];
   optional uint64 contract_id = 7 [json_name = "contract_id"];
+  optional uint64 primary_contact_id = 8 [json_name = "primary_contact_id"];
 }
 
 message ContainerGroupList {

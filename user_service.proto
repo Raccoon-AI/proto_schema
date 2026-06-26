@@ -10,10 +10,10 @@ message UserRequest {
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
 }
 
-// TODO: refactor and add interceptor
 service UserService {
   rpc CreateUser(UserCreate) returns (User) {}
   rpc GetUser(UserRequest) returns (User) {}
   rpc UpdateUser(UserUpdate) returns (User) {}
   rpc ListUsers(UserListRequest) returns (UserList) {}
+  rpc InviteUser(InviteUserRequest) returns (InviteUserResponse) {}
 }
