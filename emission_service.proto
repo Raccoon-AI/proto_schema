@@ -1,0 +1,46 @@
+syntax = "proto2";
+
+package raccoonai;
+
+import "general.proto";
+import "google/protobuf/timestamp.proto";
+import "organization.proto";
+import "truck.proto";
+import "user.proto";
+
+option go_package = "./pb";
+
+message TruckEmissionRecord {
+  required Truck truck = 1 [json_name = "truck"];
+  required Organization owner_organization = 2 [json_name = "owner_organization"]; // Disposal site organization that made the measurement
+  required User author = 3 [json_name = "author"];
+
+  // Exhaust gas components
+  required double co_percent = 4 [json_name = "co_percent"]; // Carbon monoxide (CO) in %
+  required int32 ch_ppm = 5 [json_name = "ch_ppm"]; // Hydrocarbons (CH) in ppm (10^-6)
+
+  required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+  required google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
+}
+
+// Create request for TruckEmissionRecord.
+// - Truck is identified by plate number and if not found, new guest truck is created
+// with provided plate number and assigned to the same organization as author.
+// - Author is determined from the authentication context.
+// - OwnerOrganization is determined from author's organization.
+message TruckEmissionRecordCreate {
+  required double co_percent = 1 [json_name = "co_percent"];
+  required int32 ch_ppm = 2 [json_name = "ch_ppm"];
+  required string truck_plate_number = 3 [json_name = "truck_plate_number"];
+}
+
+message EmissionRecordList {
+  repeated TruckEmissionRecord records = 1 [json_name = "records"];
+}
+
+// Separate service that will be used by emission analyzers to submit measurements and retrieve records.
+// Permissions are granted only for users with role=USER_ROLE_DISPOSAL_SITE_ECO_INSPECTOR
+service EmissionService {
+  rpc CreateTruckEmissionRecord(TruckEmissionRecordCreate) returns (TruckEmissionRecord);
+  rpc ListTruckEmissionRecords(EmptyMessageRequest) returns (EmissionRecordList);
+}

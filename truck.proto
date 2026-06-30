@@ -24,6 +24,7 @@ message Truck {
   optional CustomTruckType truck_type = 13 [json_name = "truck_type"];
   optional string tech_passport = 14 [json_name = "tech_passport"];
   optional Organization owner_organization = 15 [json_name = "owner_organization"];
+  optional EmissionRecord last_emission_record = 16 [json_name = "last_emission_record"];
 
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -138,4 +139,11 @@ message CustomTruckTypeUpdate {
 message CustomTruckTypeList {
   repeated CustomTruckType custom_truck_types = 1 [json_name = "custom_truck_types"];
   optional ListInfo list_info = 2 [json_name = "list_info"];
+}
+
+// Same as TruckEmissionRecord, but is part of a truck information.
+// To avoid circular dependency between truck.proto and emission_service.proto.
+message EmissionRecord {
+  required double co_percent = 3 [json_name = "co_percent"];
+  required int32 ch_ppm = 5 [json_name = "ch_ppm"];
 }
