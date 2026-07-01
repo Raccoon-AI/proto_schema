@@ -93,6 +93,17 @@ message TruckTravelPathResponse {
   required google.protobuf.Struct geojson_feature = 2 [json_name = "geojson_feature"];
 }
 
+message TruckPositionList {
+  message TruckPosition {
+    required uint64 truck_id = 1 [json_name = "truck_id"];
+    required double latitude = 2 [json_name = "latitude"];
+    required double longitude = 3 [json_name = "longitude"];
+    optional uint32 angle = 4 [json_name = "angle"];
+  }
+  // map of truck_id to TruckPosition
+  map<uint64, TruckPosition> truck_positions = 1 [json_name = "truck_positions"];
+}
+
 service TruckService {
   rpc SearchTruck(SearchTruckRequest) returns (SearchTruckResponse) {}
   rpc ListTrucks(TruckListRequest) returns (TruckList) {}
@@ -111,4 +122,5 @@ service TruckService {
   rpc ListTruckTypes(CustomTruckTypeListRequest) returns (CustomTruckTypeList) {}
 
   rpc GetTruckTravelPath(TruckTravelPathRequest) returns (TruckTravelPathResponse) {}
+  rpc GetTruckListLatestPositions(TruckListRequest) returns (TruckPositionList) {}
 }
