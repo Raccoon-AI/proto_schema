@@ -61,8 +61,8 @@ message Route {
 // TODO: refactor this, probably making separate file for all model messages to avoid circular imports.
 message ScaleRecord {
   required uint64 id = 1 [json_name = "id"];
-  required Organization owner_organization = 2 [json_name = "owner_organization"];
-  required Organization service_provider = 3 [json_name = "service_provider"];
+  optional Organization owner_organization = 2 [json_name = "owner_organization"];
+  optional Organization service_provider = 3 [json_name = "service_provider"];
   required double brutto_weight_kg = 4 [json_name = "brutto_weight_kg"];
   required google.protobuf.Timestamp brutto_scale_ts = 5 [json_name = "brutto_scale_ts"];
   optional double netto_weight_kg = 6 [json_name = "netto_weight_kg"];
@@ -70,7 +70,7 @@ message ScaleRecord {
   optional double volume = 8 [json_name = "volume"];
   optional bool is_guest_record = 9 [json_name = "is_guest_record"];
   required WasteType waste_type = 10 [json_name = "waste_type"];
-  required Truck truck = 11 [json_name = "truck"];
+  optional Truck truck = 11 [json_name = "truck"];
   optional User driver = 12 [json_name = "driver"];
   optional Route route = 13 [json_name = "route"];
   optional string integration_comments = 14 [json_name = "integration_comments"];
