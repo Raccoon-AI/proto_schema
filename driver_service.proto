@@ -16,6 +16,7 @@ message JobFileUploadRequest {
   required File file = 1 [json_name = "file"];
   required FileUploadType type = 2 [json_name = "type"];
   optional uint64 job_id = 3 [json_name = "job_id"];
+  optional string container_name = 4 [json_name = "container_name"];
 }
 
 message MyLocationRequest {
