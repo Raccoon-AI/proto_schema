@@ -2,47 +2,12 @@ syntax = "proto2";
 
 package raccoonai;
 
+import "enums.proto";
 import "general.proto";
 import "google/protobuf/timestamp.proto";
-import "organization.proto";
-import "route.proto";
-import "truck.proto";
-import "user.proto";
+import "route.proto"; // ScaleRecord and RawScaleRecord are defined in route.proto
 
 option go_package = "./pb";
-
-enum WasteType {
-  WASTE_TYPE_UNDEFINED = 0;
-  WASTE_TYPE_CONSTRUCTION = 1; // СО
-  WASTE_TYPE_MSW = 2; // Municipal Solid Waste - ТБО
-  WASTE_TYPE_LIQUID = 3;
-  WASTE_TYPE_ORGANIC = 4;
-  WASTE_TYPE_LOW_DENSITY_POLYETHYLENE = 5; // ПНД - полиэтилена низкого давления
-  WASTE_TYPE_BULKY = 6; // КГМ - крупногабаритный мусор
-  WASTE_TYPE_BALLAST = 7; // Балласт
-  WASTE_TYPE_OVERSIZED = 8; // Негабарит
-  WASTE_TYPE_MIXED = 9; // Отходы микс
-  WASTE_TYPE_CELLOPHANE = 10; // Целлофан
-  WASTE_TYPE_GLASS_CULLET = 11; // Стеклобой
-  WASTE_TYPE_MEDICAL_AND_BIO = 12; // Мед и био отходы
-  WASTE_TYPE_ALUMINUM_CANS = 13; // Алюминиевые банки
-  WASTE_TYPE_FLAKES = 14; // Флейки
-  WASTE_TYPE_PET = 15; // Polyethylene Terephthalate - ПЭТ
-  WASTE_TYPE_PETRO_PRODUCTS = 16; // Fuel and lubricants - ГСМ
-  WASTE_TYPE_PRESSED_MSW = 17; // Хвосты
-  WASTE_TYPE_SORTED_MSW = 18; // Хвосты росыпь - Not Pressed, but sorted
-  WASTE_TYPE_NOT_SORTED_MSW = 19; // Хвосты росыпь 1 - Not Pressed and not sorted, due to overload
-  WASTE_TYPE_SEPTAGE = 20; // Септик | Ассенизатор
-  WASTE_TYPE_OVERSIZED_BUNKER = 21; // Негабарит бункер
-  WASTE_TYPE_SCRAP_METAL = 22; // Лом черного металла, Металл, Проволока стальная
-  WASTE_TYPE_PAPER = 23; // Макулатура
-  WASTE_TYPE_HDPE_FILM = 24; // Пленка б/у ПВД
-  WASTE_TYPE_PP = 25; // Мешки ПП, Отходы пластмасс ПП
-  WASTE_TYPE_TEXTILE = 26; // Отходы текстиля
-  WASTE_TYPE_TIRES = 27; // Шины
-  WASTE_TYPE_LEACHATE = 28; // Фильтрат завод
-  WASTE_TYPE_VEHICLE_WEIGHING = 29; // Взвешивание ТС
-}
 
 message ScaleBruttoRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
@@ -63,25 +28,6 @@ message ScaleResponse {
   required ScaleRecord scale_record = 1 [json_name = "scale_record"];
 }
 
-message ScaleRecord {
-  required uint64 id = 1 [json_name = "id"];
-  required Organization owner_organization = 2 [json_name = "owner_organization"];
-  required Organization service_provider = 3 [json_name = "service_provider"];
-  required double brutto_weight_kg = 4 [json_name = "brutto_weight_kg"];
-  required google.protobuf.Timestamp brutto_scale_ts = 5 [json_name = "brutto_scale_ts"];
-  optional double netto_weight_kg = 6 [json_name = "netto_weight_kg"];
-  optional google.protobuf.Timestamp netto_scale_ts = 7 [json_name = "netto_scale_ts"];
-  optional double volume = 8 [json_name = "volume"];
-  optional bool is_guest_record = 9 [json_name = "is_guest_record"];
-  required WasteType waste_type = 10 [json_name = "waste_type"];
-  required Truck truck = 11 [json_name = "truck"];
-  optional User driver = 12 [json_name = "driver"];
-  optional Route route = 13 [json_name = "route"];
-  optional string integration_comments = 14 [json_name = "integration_comments"];
-  optional RawScaleRecord origin = 15 [json_name = "origin"];
-  repeated string photos = 16 [json_name = "photos"];
-}
-
 message ScaleRecordListRequest {
   optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional uint64 service_provider_id = 2 [json_name = "service_provider_id"];
@@ -94,45 +40,6 @@ message ScaleRecordListRequest {
 
 message ScaleRecordListResponse {
   repeated ScaleRecord scale_records = 1 [json_name = "scale_records"];
-}
-
-message RawScaleRecord {
-  required uint64 id = 1 [json_name = "id"];
-  required uint64 legacy_id = 2 [json_name = "legacy_id"];
-  optional string truck_number = 3 [json_name = "truck_number"];
-  optional string driver_full_name = 4 [json_name = "driver_full_name"];
-  optional google.protobuf.Timestamp first_time_scaled_at = 5 [json_name = "first_time_scaled_at"];
-  optional google.protobuf.Timestamp second_time_scaled_at = 6 [json_name = "second_time_scaled_at"];
-  optional double brutto_kg = 7 [json_name = "brutto_kg"];
-  optional double netto_kg = 8 [json_name = "netto_kg"];
-  optional double tare_kg = 9 [json_name = "tare_kg"];
-  optional double volume = 10 [json_name = "volume"];
-  optional string waste_type = 11 [json_name = "waste_type"];
-  optional string sender = 12 [json_name = "sender"];
-  optional string receiver = 13 [json_name = "receiver"];
-  optional string bin = 14 [json_name = "bin"];
-  repeated string photos = 15 [json_name = "photos"];
-
-  optional string product_code = 16 [json_name = "product_code"]; // Код номенклатуры в 1С (продукция)
-  optional string sender_code = 17 [json_name = "sender_code"]; // Код контрагента в 1С (поставщик)
-  optional string receiver_code = 18 [json_name = "receiver_code"]; // Код контрагента в 1С (получатель)
-  optional string invoice_num = 19 [json_name = "invoice_num"]; // Номер накладной(с весовой)
-  optional string operation_code = 20 [json_name = "operation_code"]; // Код операции с 1С
-  optional string document_invoice_num = 21 [json_name = "document_invoice_num"]; // Номер накладной(от поставщика по документам)
-  optional double document_brutto_kg = 22 [json_name = "document_brutto_kg"]; // Брутто по документам(поставщика)
-  optional double document_netto_kg = 23 [json_name = "document_netto_kg"]; // Нетто по документам(поставщика)
-  optional double document_tare_kg = 24 [json_name = "document_tare_kg"]; // Тара по документам(поставщика)
-  optional double document_volume = 25 [json_name = "document_volume"]; // Объем по документам(поставщика)
-  optional string permit_num = 26 [json_name = "permit_num"]; // Номер пропуска
-  optional string order_num = 27 [json_name = "order_num"]; // Номер заказа
-  optional string seal_num = 28 [json_name = "seal_num"]; // Номер пломбы
-  optional string scale_net_num = 29 [json_name = "scale_net_num"]; // Сетевой номер автовесов
-  optional string delete_mark = 30 [json_name = "delete_mark"]; // Метка на удаление записи
-  optional string commentary = 31 [json_name = "commentary"]; // Комментарий
-  optional double weight1 = 32 [json_name = "weight1"]; // Вес при первом завесе
-  optional double weight2 = 33 [json_name = "weight2"]; // Вес при втором завесе
-  optional double humidity = 34 [json_name = "humidity"]; // Влажность
-  optional double nettomodif = 35 [json_name = "nettomodif"]; // Чистый вес нетто с учетом тары и влажности
 }
 
 message RawScaleRecordListRequest {

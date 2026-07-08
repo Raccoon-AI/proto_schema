@@ -7,6 +7,9 @@ import "general.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "job.proto";
+import "organization.proto";
+import "truck.proto";
+import "user.proto";
 
 option go_package = "./pb";
 
@@ -45,9 +48,73 @@ message Route {
   optional DriverOnShift driver_on_shift = 26 [json_name = "driver_on_shift"];
   optional uint64 reward = 27 [json_name = "reward"];
   optional double design_duration = 28 [json_name = "design_duration"];
+  optional ScaleRecord scale_record = 29 [json_name = "scale_record"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
+}
+
+// ScaleRecord and RawScaleRecord live here (rather than in scale_service.proto)
+// because Route and ScaleRecord reference each other; mutual references must
+// share a file to avoid a circular import between route.proto and
+// scale_service.proto.
+// TODO: refactor this, probably making separate file for all model messages to avoid circular imports.
+message ScaleRecord {
+  required uint64 id = 1 [json_name = "id"];
+  required Organization owner_organization = 2 [json_name = "owner_organization"];
+  required Organization service_provider = 3 [json_name = "service_provider"];
+  required double brutto_weight_kg = 4 [json_name = "brutto_weight_kg"];
+  required google.protobuf.Timestamp brutto_scale_ts = 5 [json_name = "brutto_scale_ts"];
+  optional double netto_weight_kg = 6 [json_name = "netto_weight_kg"];
+  optional google.protobuf.Timestamp netto_scale_ts = 7 [json_name = "netto_scale_ts"];
+  optional double volume = 8 [json_name = "volume"];
+  optional bool is_guest_record = 9 [json_name = "is_guest_record"];
+  required WasteType waste_type = 10 [json_name = "waste_type"];
+  required Truck truck = 11 [json_name = "truck"];
+  optional User driver = 12 [json_name = "driver"];
+  optional Route route = 13 [json_name = "route"];
+  optional string integration_comments = 14 [json_name = "integration_comments"];
+  optional RawScaleRecord origin = 15 [json_name = "origin"];
+  repeated string photos = 16 [json_name = "photos"];
+}
+
+message RawScaleRecord {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 legacy_id = 2 [json_name = "legacy_id"];
+  optional string truck_number = 3 [json_name = "truck_number"];
+  optional string driver_full_name = 4 [json_name = "driver_full_name"];
+  optional google.protobuf.Timestamp first_time_scaled_at = 5 [json_name = "first_time_scaled_at"];
+  optional google.protobuf.Timestamp second_time_scaled_at = 6 [json_name = "second_time_scaled_at"];
+  optional double brutto_kg = 7 [json_name = "brutto_kg"];
+  optional double netto_kg = 8 [json_name = "netto_kg"];
+  optional double tare_kg = 9 [json_name = "tare_kg"];
+  optional double volume = 10 [json_name = "volume"];
+  optional string waste_type = 11 [json_name = "waste_type"];
+  optional string sender = 12 [json_name = "sender"];
+  optional string receiver = 13 [json_name = "receiver"];
+  optional string bin = 14 [json_name = "bin"];
+  repeated string photos = 15 [json_name = "photos"];
+
+  optional string product_code = 16 [json_name = "product_code"]; // Код номенклатуры в 1С (продукция)
+  optional string sender_code = 17 [json_name = "sender_code"]; // Код контрагента в 1С (поставщик)
+  optional string receiver_code = 18 [json_name = "receiver_code"]; // Код контрагента в 1С (получатель)
+  optional string invoice_num = 19 [json_name = "invoice_num"]; // Номер накладной(с весовой)
+  optional string operation_code = 20 [json_name = "operation_code"]; // Код операции с 1С
+  optional string document_invoice_num = 21 [json_name = "document_invoice_num"]; // Номер накладной(от поставщика по документам)
+  optional double document_brutto_kg = 22 [json_name = "document_brutto_kg"]; // Брутто по документам(поставщика)
+  optional double document_netto_kg = 23 [json_name = "document_netto_kg"]; // Нетто по документам(поставщика)
+  optional double document_tare_kg = 24 [json_name = "document_tare_kg"]; // Тара по документам(поставщика)
+  optional double document_volume = 25 [json_name = "document_volume"]; // Объем по документам(поставщика)
+  optional string permit_num = 26 [json_name = "permit_num"]; // Номер пропуска
+  optional string order_num = 27 [json_name = "order_num"]; // Номер заказа
+  optional string seal_num = 28 [json_name = "seal_num"]; // Номер пломбы
+  optional string scale_net_num = 29 [json_name = "scale_net_num"]; // Сетевой номер автовесов
+  optional string delete_mark = 30 [json_name = "delete_mark"]; // Метка на удаление записи
+  optional string commentary = 31 [json_name = "commentary"]; // Комментарий
+  optional double weight1 = 32 [json_name = "weight1"]; // Вес при первом завесе
+  optional double weight2 = 33 [json_name = "weight2"]; // Вес при втором завесе
+  optional double humidity = 34 [json_name = "humidity"]; // Влажность
+  optional double nettomodif = 35 [json_name = "nettomodif"]; // Чистый вес нетто с учетом тары и влажности
 }
 
 message RouteCreate {

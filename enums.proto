@@ -331,3 +331,40 @@ enum PickupLocationPriority {
   PICKUP_LOCATION_PRIORITY_MEDIUM = 2;
   PICKUP_LOCATION_PRIORITY_HIGH = 3;
 }
+
+// *****************************************************
+// SCALE_RECORD ENUMS
+// *****************************************************
+
+enum WasteType {
+  WASTE_TYPE_UNDEFINED = 0;
+  WASTE_TYPE_CONSTRUCTION = 1; // СО
+  WASTE_TYPE_MSW = 2; // Municipal Solid Waste - ТБО
+  WASTE_TYPE_LIQUID = 3;
+  WASTE_TYPE_ORGANIC = 4;
+  WASTE_TYPE_LOW_DENSITY_POLYETHYLENE = 5; // ПНД - полиэтилена низкого давления
+  WASTE_TYPE_BULKY = 6; // КГМ - крупногабаритный мусор
+  WASTE_TYPE_BALLAST = 7; // Балласт
+  WASTE_TYPE_OVERSIZED = 8; // Негабарит
+  WASTE_TYPE_MIXED = 9; // Отходы микс
+  WASTE_TYPE_CELLOPHANE = 10; // Целлофан
+  WASTE_TYPE_GLASS_CULLET = 11; // Стеклобой
+  WASTE_TYPE_MEDICAL_AND_BIO = 12; // Мед и био отходы
+  WASTE_TYPE_ALUMINUM_CANS = 13; // Алюминиевые банки
+  WASTE_TYPE_FLAKES = 14; // Флейки
+  WASTE_TYPE_PET = 15; // Polyethylene Terephthalate - ПЭТ
+  WASTE_TYPE_PETRO_PRODUCTS = 16; // Fuel and lubricants - ГСМ
+  WASTE_TYPE_PRESSED_MSW = 17; // Хвосты
+  WASTE_TYPE_SORTED_MSW = 18; // Хвосты росыпь - Not Pressed, but sorted
+  WASTE_TYPE_NOT_SORTED_MSW = 19; // Хвосты росыпь 1 - Not Pressed and not sorted, due to overload
+  WASTE_TYPE_SEPTAGE = 20; // Септик | Ассенизатор
+  WASTE_TYPE_OVERSIZED_BUNKER = 21; // Негабарит бункер
+  WASTE_TYPE_SCRAP_METAL = 22; // Лом черного металла, Металл, Проволока стальная
+  WASTE_TYPE_PAPER = 23; // Макулатура
+  WASTE_TYPE_HDPE_FILM = 24; // Пленка б/у ПВД
+  WASTE_TYPE_PP = 25; // Мешки ПП, Отходы пластмасс ПП
+  WASTE_TYPE_TEXTILE = 26; // Отходы текстиля
+  WASTE_TYPE_TIRES = 27; // Шины
+  WASTE_TYPE_LEACHATE = 28; // Фильтрат завод
+  WASTE_TYPE_VEHICLE_WEIGHING = 29; // Взвешивание ТС
+}
