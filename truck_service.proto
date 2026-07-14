@@ -93,6 +93,19 @@ message TruckTravelPathResponse {
   required google.protobuf.Struct geojson_feature = 2 [json_name = "geojson_feature"];
 }
 
+message TruckGeoZonesResponse {
+  // Geo zone (pickup_location.geo_group) of each completed job in the truck's
+  // active shift, ordered by job completion time.
+  repeated string geo_zones = 1 [json_name = "geo_zones"];
+}
+
+message TruckLatestDataList {
+  // GeoJSON Feature per truck: Point geometry with telemetry properties
+  // (truck_id, timestamp, latitude, longitude, speed, angle, gas_level1,
+  // gas_level2, gas_level, engine_hours, rpm, engine_temp, mileage).
+  repeated google.protobuf.Struct geojson_features = 1 [json_name = "geojson_features"];
+}
+
 message TruckPositionList {
   message TruckPosition {
     required uint64 truck_id = 1 [json_name = "truck_id"];
@@ -123,4 +136,6 @@ service TruckService {
 
   rpc GetTruckTravelPath(TruckTravelPathRequest) returns (TruckTravelPathResponse) {}
   rpc GetTruckListLatestPositions(TruckListRequest) returns (TruckPositionList) {}
+  rpc GetTruckLatestData(TruckListRequest) returns (TruckLatestDataList) {}
+  rpc GetTruckGeoZones(TruckRequest) returns (TruckGeoZonesResponse) {}
 }
