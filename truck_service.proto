@@ -93,12 +93,6 @@ message TruckTravelPathResponse {
   required google.protobuf.Struct geojson_feature = 2 [json_name = "geojson_feature"];
 }
 
-message TruckGeoZonesResponse {
-  // Geo zone (pickup_location.geo_group) of each completed job in the truck's
-  // active shift, ordered by job completion time.
-  repeated string geo_zones = 1 [json_name = "geo_zones"];
-}
-
 message TruckPositionList {
   message TruckPosition {
     required uint64 truck_id = 1 [json_name = "truck_id"];
@@ -129,5 +123,4 @@ service TruckService {
 
   rpc GetTruckTravelPath(TruckTravelPathRequest) returns (TruckTravelPathResponse) {}
   rpc GetTruckListLatestPositions(TruckListRequest) returns (TruckPositionList) {}
-  rpc GetTruckGeoZones(TruckRequest) returns (TruckGeoZonesResponse) {}
 }
