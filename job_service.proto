@@ -17,6 +17,7 @@ message JobListRequest {
   optional uint64 truck_id = 7 [json_name = "truck_id"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
   optional DateTimeFilter time_filter = 11 [json_name = "time_filter"];
+  repeated uint64 pickup_location_ids = 12 [json_name = "pickup_location_ids"];
 }
 
 message JobRequest {

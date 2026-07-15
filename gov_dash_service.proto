@@ -37,6 +37,11 @@ message GovJobListRequest {
   optional DateTimeFilter time_filter = 10 [json_name = "time_filter"];
 }
 
+message GovJobsReportResponse {
+  required bytes content = 1 [json_name = "content"];
+  required string filename = 2 [json_name = "filename"];
+}
+
 message GovServiceProviderInfo {
   required uint64 id = 1 [json_name = "id"];
   required string name = 2 [json_name = "name"];
@@ -309,6 +314,7 @@ service GovDashService {
   rpc Trucks(GovOrganizationRequest) returns (GovTruckList) {}
   rpc Depots(GovOrganizationRequest) returns (GovDepotInfoList) {}
   rpc Jobs(GovJobListRequest) returns (JobList) {}
+  rpc ExportJobsReport(GovJobListRequest) returns (GovJobsReportResponse) {}
   rpc GetGovRawScaleRecordList(GovRawScaleRecordListRequest) returns (RawScaleRecordListResponse) {}
 
   rpc GetServiceProviderStatsById(IdRequest) returns (GovServiceProviderStats) {}
