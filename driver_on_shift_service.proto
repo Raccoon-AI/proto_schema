@@ -10,7 +10,7 @@ option go_package = "./pb";
 message DriverOnShiftListRequest {
   repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
   required DateTimeFilter date_time_filter = 2 [json_name = "date_time_filter"];
-  repeated DriverOnShiftStatus status = 3 [json_name = "status"];
+  repeated DriverOnShiftStatus statuses = 3 [json_name = "statuses"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
