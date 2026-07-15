@@ -171,9 +171,9 @@ message RouteListRequest {
   repeated uint64 driver_on_shift_ids = 4 [json_name = "driver_on_shift_ids"];
   optional uint64 driver_id = 5 [json_name = "driver_id"];
   optional uint64 truck_id = 6 [json_name = "truck_id"];
-  optional RouteStatus route_status = 7 [json_name = "route_status"];
-  optional JobType job_type = 8 [json_name = "job_type"];
-  optional RouteCategory route_category = 9 [json_name = "route_category"];
+  repeated RouteStatus route_statuses = 7 [json_name = "route_statuses"];
+  repeated JobType job_types = 8 [json_name = "job_types"];
+  repeated RouteCategory route_categories = 9 [json_name = "route_categories"];
 }
 
 message RouteList {
