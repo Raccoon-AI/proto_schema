@@ -2,6 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "enums.proto";
+import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
@@ -32,4 +33,85 @@ message ServiceProviderTruckStats {
   optional int32 all_trucks = 1 [json_name = "all_trucks"];
   optional int32 active_trucks = 2 [json_name = "active_trucks"];
   optional int32 inactive_trucks = 3 [json_name = "inactive_trucks"];
+}
+
+message JobPerDay {
+  optional string completed_date = 1 [json_name = "completed_date"];
+  optional int32 jobs_completed = 2 [json_name = "jobs_completed"];
+}
+
+message RevenuePerDay {
+  optional string completed_date = 1 [json_name = "completed_date"];
+  optional double revenue = 2 [json_name = "revenue"];
+}
+
+message JobOrderedPerDay {
+  optional string created_date = 1 [json_name = "created_date"];
+  optional int32 jobs_ordered = 2 [json_name = "jobs_ordered"];
+}
+
+message DriverJobSummary {
+  optional uint64 driver_id = 1 [json_name = "driver_id"];
+  map<string, int32> jobs_by_category = 2 [json_name = "jobs_by_category"];
+  optional int32 total_shifts = 3 [json_name = "total_shifts"];
+}
+
+message DriverReviewStatusSummary {
+  optional uint64 driver_id = 1 [json_name = "driver_id"];
+  map<string, int32> review_status_counts = 2 [json_name = "review_status_counts"];
+}
+
+message JobOrderData {
+  optional uint64 id = 1 [json_name = "id"];
+  optional string plate_number = 2 [json_name = "plate_number"];
+  optional string driver_fullname = 3 [json_name = "driver_fullname"];
+  optional google.protobuf.Timestamp date_time = 4 [json_name = "date_time"];
+  optional int32 netto = 5 [json_name = "netto"];
+  optional string pickup_location = 6 [json_name = "pickup_location"];
+  optional string receiver = 7 [json_name = "receiver"];
+  optional string product = 8 [json_name = "product"];
+  optional int32 trip = 9 [json_name = "trip"];
+  optional string date = 10 [json_name = "date"];
+  optional int32 volume = 11 [json_name = "volume"];
+  optional int32 tariff = 12 [json_name = "tariff"];
+  optional int32 rent = 13 [json_name = "rent"];
+  optional int32 sum = 14 [json_name = "sum"];
+  optional string type = 15 [json_name = "type"];
+}
+
+message CompletedJobsResponse {
+  repeated JobPerDay jobs_per_day = 1 [json_name = "jobs_per_day"];
+  optional int32 total_jobs_done = 2 [json_name = "total_jobs_done"];
+  optional uint64 driver_id = 3 [json_name = "driver_id"];
+}
+
+message TotalJobsRevenueResponse {
+  repeated RevenuePerDay revenue_per_day = 1 [json_name = "revenue_per_day"];
+  optional double total_jobs_revenue = 2 [json_name = "total_jobs_revenue"];
+}
+
+message JobsOrderedResponse {
+  repeated JobOrderedPerDay jobs_per_day = 1 [json_name = "jobs_per_day"];
+  optional int32 total_jobs_ordered = 2 [json_name = "total_jobs_ordered"];
+  optional uint64 location_id = 3 [json_name = "location_id"];
+}
+
+message DriversSummaryResponse {
+  repeated DriverJobSummary drivers = 1 [json_name = "drivers"];
+}
+
+message MonthlyJobsResponse {
+  repeated JobOrderData jobs = 1 [json_name = "jobs"];
+}
+
+message DriverReviewStatusSummaryResponse {
+  repeated DriverReviewStatusSummary drivers = 1 [json_name = "drivers"];
+}
+
+message ServiceProviderJobsStatsResponse {
+  repeated ServiceProviderJobsStatsByCategory items = 1 [json_name = "items"];
+}
+
+message ServiceProviderRoutesStatsResponse {
+  repeated ServiceProviderRoutesStatsByCategory items = 1 [json_name = "items"];
 }

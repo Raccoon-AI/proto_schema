@@ -1,0 +1,57 @@
+syntax = "proto2";
+package raccoonai;
+
+import "analytics.proto";
+import "general.proto";
+
+option go_package = "./pb";
+
+message CompletedJobsRequest {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+  optional uint64 driver_id = 3 [json_name = "driver_id"];
+}
+
+message TotalJobsRevenueRequest {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+}
+
+message JobsOrderedRequest {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+  optional uint64 location_id = 3 [json_name = "location_id"];
+}
+
+message DriversSummaryRequest {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+  optional uint64 driver_id = 3 [json_name = "driver_id"];
+}
+
+message MonthlyJobsRequest {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+}
+
+message ServiceProviderStatsRequest {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+}
+
+message ServiceProviderPeriodStatsRequest {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+}
+
+service AnalyticsService {
+  rpc DriverCompletedJobs(CompletedJobsRequest) returns (CompletedJobsResponse) {}
+  rpc TotalJobsRevenue(TotalJobsRevenueRequest) returns (TotalJobsRevenueResponse) {}
+  rpc JobsOrderedForLocation(JobsOrderedRequest) returns (JobsOrderedResponse) {}
+  rpc DriversSummaryForPeriod(DriversSummaryRequest) returns (DriversSummaryResponse) {}
+  rpc MonthlyJobsForPeriod(MonthlyJobsRequest) returns (MonthlyJobsResponse) {}
+  rpc DriverReviewStatusSummary(DriversSummaryRequest) returns (DriverReviewStatusSummaryResponse) {}
+  rpc GetServiceProviderStats(ServiceProviderStatsRequest) returns (ServiceProviderStats) {}
+  rpc ServiceProviderJobsStats(ServiceProviderPeriodStatsRequest) returns (ServiceProviderJobsStatsResponse) {}
+  rpc ServiceProviderRoutesStats(ServiceProviderPeriodStatsRequest) returns (ServiceProviderRoutesStatsResponse) {}
+  rpc ServiceProviderTrucksStats(ServiceProviderStatsRequest) returns (ServiceProviderTruckStats) {}
+}
