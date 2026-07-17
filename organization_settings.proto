@@ -6,8 +6,18 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
+// NotificationRecipient is a single destination for audit-event notifications.
+// Each recipient may have an email address, a WhatsApp phone number, or both.
+message NotificationRecipient {
+  optional string email = 1 [json_name = "email"];
+  optional string whatsapp_phone = 2 [json_name = "whatsapp_phone"];
+}
+
 message NotificationConfig {
   repeated AuditLogType log_types = 1 [json_name = "log_types"];
+  repeated NotificationRecipient recipients = 2 [json_name = "recipients"];
+  // BCP-47-ish language code for notification templates: "en" | "ru" | "kk". Defaults to "en".
+  optional string language = 3 [json_name = "language"];
 }
 
 message ColumnConfig {
