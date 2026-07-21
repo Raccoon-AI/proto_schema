@@ -150,4 +150,10 @@ message ContainerStatusUpdate {
   required string name = 1 [json_name = "name"];
   required uint64 pickup_location_id = 2 [json_name = "pickup_location_id"];
   required ContainerTrackingEvent last_event = 3 [json_name = "last_event"];
+  required uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
+}
+
+message ContainerList {
+  repeated Container containers = 1 [json_name = "containers"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
 }
