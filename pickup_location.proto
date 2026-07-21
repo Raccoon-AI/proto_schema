@@ -99,12 +99,20 @@ message PickupLocationList {
   optional ListInfo list_info = 2 [json_name = "list_info"];
 }
 
+// One (container group, job type) binding inside a pickup location group.
+message ContainerGroupJobTypeLink {
+  required uint64 container_group_id = 1 [json_name = "container_group_id"];
+  required string job_type = 2 [json_name = "job_type"];
+  optional uint32 step_idx = 3 [json_name = "step_idx"]; // display position in the group's list
+}
+
 message PickupLocationGroup {
   required uint64 id = 1 [json_name = "id"];
   required string name = 2 [json_name = "name"];
   repeated ContainerGroup container_groups = 3 [json_name = "container_groups"];
   required uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
   optional uint64 default_truck_id = 5 [json_name = "default_truck_id"];
+  repeated ContainerGroupJobTypeLink container_group_links = 6 [json_name = "container_group_links"];
 }
 
 message PickupLocationGroupCreate {
