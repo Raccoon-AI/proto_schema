@@ -2,7 +2,6 @@ syntax = "proto2";
 package raccoonai;
 
 import "enums.proto";
-import "general.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
@@ -27,7 +26,7 @@ enum BreakdownDimension {
 }
 
 message AnalyticsFilter {
-  optional uint64 driver_id = 1 [json_name = "driver_id"];     // completed_jobs, drivers_summary
+  optional uint64 driver_id = 1 [json_name = "driver_id"]; // completed_jobs, drivers_summary
   optional uint64 location_id = 2 [json_name = "location_id"]; // jobs_ordered
 }
 
@@ -37,10 +36,10 @@ message TimeSeriesBucket {
 }
 
 message BreakdownRow {
-  required string key = 1 [json_name = "key"];            // dimension key (driver id, enum value, zone)
-  optional string label = 2 [json_name = "label"];        // resolved label (driver name, category name)
-  required double value = 3 [json_name = "value"];        // primary metric value
-  map<string, double> extra = 4 [json_name = "extra"];    // computed extras (reward, avg_zone, total_shifts...)
+  required string key = 1 [json_name = "key"]; // dimension key (driver id, enum value, zone)
+  optional string label = 2 [json_name = "label"]; // resolved label (driver name, category name)
+  required double value = 3 [json_name = "value"]; // primary metric value
+  map<string, double> extra = 4 [json_name = "extra"]; // computed extras (reward, avg_zone, total_shifts...)
 }
 
 message JobRegistryRow {
