@@ -6,52 +6,61 @@ import "general.proto";
 
 option go_package = "./pb";
 
-message CompletedJobsRequest {
-  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
-  required DateTimeFilter from_to = 2 [json_name = "from_to"];
-  optional uint64 driver_id = 3 [json_name = "driver_id"];
-}
-
-message TotalJobsRevenueRequest {
-  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
-  required DateTimeFilter from_to = 2 [json_name = "from_to"];
-}
-
-message JobsOrderedRequest {
-  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
-  required DateTimeFilter from_to = 2 [json_name = "from_to"];
-  optional uint64 location_id = 3 [json_name = "location_id"];
-}
-
-message DriversSummaryRequest {
-  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
-  required DateTimeFilter from_to = 2 [json_name = "from_to"];
-  optional uint64 driver_id = 3 [json_name = "driver_id"];
-}
-
-message MonthlyJobsRequest {
-  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
-  required DateTimeFilter from_to = 2 [json_name = "from_to"];
-}
-
-message ServiceProviderStatsRequest {
-  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
-}
-
-message ServiceProviderPeriodStatsRequest {
-  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
-  required DateTimeFilter from_to = 2 [json_name = "from_to"];
-}
-
 service AnalyticsService {
-  rpc DriverCompletedJobs(CompletedJobsRequest) returns (CompletedJobsResponse) {}
-  rpc TotalJobsRevenue(TotalJobsRevenueRequest) returns (TotalJobsRevenueResponse) {}
-  rpc JobsOrderedForLocation(JobsOrderedRequest) returns (JobsOrderedResponse) {}
-  rpc DriversSummaryForPeriod(DriversSummaryRequest) returns (DriversSummaryResponse) {}
-  rpc MonthlyJobsForPeriod(MonthlyJobsRequest) returns (MonthlyJobsResponse) {}
-  rpc DriverReviewStatusSummary(DriversSummaryRequest) returns (DriverReviewStatusSummaryResponse) {}
-  rpc GetServiceProviderStats(ServiceProviderStatsRequest) returns (ServiceProviderStats) {}
-  rpc ServiceProviderJobsStats(ServiceProviderPeriodStatsRequest) returns (ServiceProviderJobsStatsResponse) {}
-  rpc ServiceProviderRoutesStats(ServiceProviderPeriodStatsRequest) returns (ServiceProviderRoutesStatsResponse) {}
-  rpc ServiceProviderTrucksStats(ServiceProviderStatsRequest) returns (ServiceProviderTruckStats) {}
+  rpc GetTimeSeries(TimeSeriesRequest) returns (TimeSeriesResponse) {}
+  rpc GetBreakdown(BreakdownRequest) returns (BreakdownResponse) {}
+  rpc GetOperationalSnapshot(OperationalSnapshotRequest) returns (OperationalSnapshotResponse) {}
+  rpc ListJobRegistry(JobRegistryRequest) returns (JobRegistryResponse) {}
+}
+
+message TimeSeriesRequest {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  required DateFilter date_range = 2 [json_name = "date_range"];
+  required AnalyticsMetric metric = 3 [json_name = "metric"];
+  optional TimeGranularity granularity = 4 [
+    json_name = "granularity",
+    default = TIME_GRANULARITY_DAY
+  ];
+  optional AnalyticsFilter filter = 5 [json_name = "filter"];
+}
+
+message TimeSeriesResponse {
+  required AnalyticsMetric metric = 1 [json_name = "metric"];
+  required TimeGranularity granularity = 2 [json_name = "granularity"];
+  repeated TimeSeriesBucket buckets = 3 [json_name = "buckets"]; // server-bucketed + gap-filled
+  optional double total = 4 [json_name = "total"];
+}
+
+message BreakdownRequest {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  required DateFilter date_range = 2 [json_name = "date_range"];
+  required AnalyticsMetric metric = 3 [json_name = "metric"];
+  required BreakdownDimension dimension = 4 [json_name = "dimension"];
+  optional AnalyticsFilter filter = 5 [json_name = "filter"];
+}
+
+message BreakdownResponse {
+  required AnalyticsMetric metric = 1 [json_name = "metric"];
+  required BreakdownDimension dimension = 2 [json_name = "dimension"];
+  repeated BreakdownRow rows = 3 [json_name = "rows"];
+}
+
+message OperationalSnapshotRequest {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+}
+
+message OperationalSnapshotResponse {
+  required int32 idle_truck_count = 1 [json_name = "idle_truck_count"];
+  required int32 unassigned_job_count = 2 [json_name = "unassigned_job_count"];
+  required int32 active_route_count = 3 [json_name = "active_route_count"];
+}
+
+message JobRegistryRequest {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  required DateFilter date_range = 2 [json_name = "date_range"];
+  optional AnalyticsFilter filter = 3 [json_name = "filter"];
+}
+
+message JobRegistryResponse {
+  repeated JobRegistryRow rows = 1 [json_name = "rows"];
 }

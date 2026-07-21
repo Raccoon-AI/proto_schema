@@ -2,116 +2,57 @@ syntax = "proto2";
 package raccoonai;
 
 import "enums.proto";
+import "general.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
-message ServiceProviderStats {
-  optional int32 idle_truck_count = 1 [json_name = "idle_truck_count"];
-  optional int32 unassigned_job_count = 2 [json_name = "unassigned_job_count"];
-  optional int32 active_route_count = 3 [json_name = "active_route_count"];
+enum AnalyticsMetric {
+  ANALYTICS_METRIC_UNDEFINED = 0;
+  ANALYTICS_METRIC_JOBS_ORDERED = 1;
+  ANALYTICS_METRIC_JOBS_COMPLETED = 2;
+  ANALYTICS_METRIC_REVENUE = 3;
 }
 
-message ServiceProviderJobsStatsByCategory {
-  optional int32 assigned_jobs = 1 [json_name = "assigned_jobs"];
-  optional int32 completed_jobs = 2 [json_name = "completed_jobs"];
-  optional int32 active_jobs = 3 [json_name = "active_jobs"];
-  optional int32 all_jobs = 4 [json_name = "all_jobs"];
-  optional int32 unassigned_jobs = 5 [json_name = "unassigned_jobs"];
-  optional JobCategory job_category = 6 [json_name = "job_category"];
+enum TimeGranularity {
+  TIME_GRANULARITY_UNDEFINED = 0;
+  TIME_GRANULARITY_DAY = 1;
+  TIME_GRANULARITY_WEEK = 2; // server-side bucketing (removes client weekly aggregation)
 }
 
-message ServiceProviderRoutesStatsByCategory {
-  optional int32 all_routes = 1 [json_name = "all_routes"];
-  optional int32 completed_routes = 2 [json_name = "completed_routes"];
-  optional int32 planned_routes = 3 [json_name = "planned_routes"];
-  optional int32 active_routes = 4 [json_name = "active_routes"];
-  optional RouteCategory route_category = 5 [json_name = "route_category"];
+// Only DRIVER is live (drivers_summary_for_period). Job/route category and review-status
+enum BreakdownDimension {
+  BREAKDOWN_DIMENSION_UNDEFINED = 0;
+  BREAKDOWN_DIMENSION_DRIVER = 1; // was: drivers_summary_for_period (per-driver zone counts + shifts)
 }
 
-message ServiceProviderTruckStats {
-  optional int32 all_trucks = 1 [json_name = "all_trucks"];
-  optional int32 active_trucks = 2 [json_name = "active_trucks"];
-  optional int32 inactive_trucks = 3 [json_name = "inactive_trucks"];
+message AnalyticsFilter {
+  optional uint64 driver_id = 1 [json_name = "driver_id"];     // completed_jobs, drivers_summary
+  optional uint64 location_id = 2 [json_name = "location_id"]; // jobs_ordered
 }
 
-message JobPerDay {
-  optional string completed_date = 1 [json_name = "completed_date"];
-  optional int32 jobs_completed = 2 [json_name = "jobs_completed"];
+message TimeSeriesBucket {
+  required string bucket_start = 1 [json_name = "bucket_start"]; // YYYY-MM-DD
+  required double value = 2 [json_name = "value"];
 }
 
-message RevenuePerDay {
-  optional string completed_date = 1 [json_name = "completed_date"];
-  optional double revenue = 2 [json_name = "revenue"];
+message BreakdownRow {
+  required string key = 1 [json_name = "key"];            // dimension key (driver id, enum value, zone)
+  optional string label = 2 [json_name = "label"];        // resolved label (driver name, category name)
+  required double value = 3 [json_name = "value"];        // primary metric value
+  map<string, double> extra = 4 [json_name = "extra"];    // computed extras (reward, avg_zone, total_shifts...)
 }
 
-message JobOrderedPerDay {
-  optional string created_date = 1 [json_name = "created_date"];
-  optional int32 jobs_ordered = 2 [json_name = "jobs_ordered"];
-}
-
-message DriverJobSummary {
-  optional uint64 driver_id = 1 [json_name = "driver_id"];
-  map<string, int32> jobs_by_category = 2 [json_name = "jobs_by_category"];
-  optional int32 total_shifts = 3 [json_name = "total_shifts"];
-}
-
-message DriverReviewStatusSummary {
-  optional uint64 driver_id = 1 [json_name = "driver_id"];
-  map<string, int32> review_status_counts = 2 [json_name = "review_status_counts"];
-}
-
-message JobOrderData {
-  optional uint64 id = 1 [json_name = "id"];
+message JobRegistryRow {
+  optional uint64 job_id = 1 [json_name = "job_id"];
   optional string plate_number = 2 [json_name = "plate_number"];
   optional string driver_fullname = 3 [json_name = "driver_fullname"];
-  optional google.protobuf.Timestamp date_time = 4 [json_name = "date_time"];
-  optional int32 netto = 5 [json_name = "netto"];
+  optional google.protobuf.Timestamp completed_at = 4 [json_name = "completed_at"];
+  optional JobCategory category = 5 [json_name = "category"];
   optional string pickup_location = 6 [json_name = "pickup_location"];
   optional string receiver = 7 [json_name = "receiver"];
-  optional string product = 8 [json_name = "product"];
-  optional int32 trip = 9 [json_name = "trip"];
-  optional string date = 10 [json_name = "date"];
-  optional int32 volume = 11 [json_name = "volume"];
-  optional int32 tariff = 12 [json_name = "tariff"];
-  optional int32 rent = 13 [json_name = "rent"];
-  optional int32 sum = 14 [json_name = "sum"];
-  optional string type = 15 [json_name = "type"];
-}
-
-message CompletedJobsResponse {
-  repeated JobPerDay jobs_per_day = 1 [json_name = "jobs_per_day"];
-  optional int32 total_jobs_done = 2 [json_name = "total_jobs_done"];
-  optional uint64 driver_id = 3 [json_name = "driver_id"];
-}
-
-message TotalJobsRevenueResponse {
-  repeated RevenuePerDay revenue_per_day = 1 [json_name = "revenue_per_day"];
-  optional double total_jobs_revenue = 2 [json_name = "total_jobs_revenue"];
-}
-
-message JobsOrderedResponse {
-  repeated JobOrderedPerDay jobs_per_day = 1 [json_name = "jobs_per_day"];
-  optional int32 total_jobs_ordered = 2 [json_name = "total_jobs_ordered"];
-  optional uint64 location_id = 3 [json_name = "location_id"];
-}
-
-message DriversSummaryResponse {
-  repeated DriverJobSummary drivers = 1 [json_name = "drivers"];
-}
-
-message MonthlyJobsResponse {
-  repeated JobOrderData jobs = 1 [json_name = "jobs"];
-}
-
-message DriverReviewStatusSummaryResponse {
-  repeated DriverReviewStatusSummary drivers = 1 [json_name = "drivers"];
-}
-
-message ServiceProviderJobsStatsResponse {
-  repeated ServiceProviderJobsStatsByCategory items = 1 [json_name = "items"];
-}
-
-message ServiceProviderRoutesStatsResponse {
-  repeated ServiceProviderRoutesStatsByCategory items = 1 [json_name = "items"];
+  optional double netto = 8 [json_name = "netto"];
+  optional double volume = 9 [json_name = "volume"];
+  optional double tariff = 10 [json_name = "tariff"];
+  optional double sum = 11 [json_name = "sum"];
 }
