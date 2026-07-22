@@ -1,0 +1,136 @@
+syntax = "proto2";
+package raccoonai;
+
+import "file_upload.proto";
+import "general.proto";
+import "google/protobuf/timestamp.proto";
+import "organization.proto";
+
+option go_package = "./pb";
+
+// GovSituationReportStatus tracks the lifecycle of a field situation report as the
+// gov eco user drives it from "just logged" through "provider must fix" to "resolved".
+enum GovSituationReportStatus {
+  GOV_SITUATION_REPORT_STATUS_UNDEFINED = 0;
+  // Report was just logged by the gov eco user; not yet acted on.
+  GOV_SITUATION_REPORT_STATUS_CREATED = 1;
+  // Handed to the service provider — waiting for them to fix and upload proof.
+  GOV_SITUATION_REPORT_STATUS_WAITING_FOR_RESPONSE = 2;
+  // Provider (or gov user) submitted the fix / after-photo; needs gov eco review.
+  GOV_SITUATION_REPORT_STATUS_NEED_REVIEW = 3;
+  // Gov eco user reviewed the fix and closed the report.
+  GOV_SITUATION_REPORT_STATUS_REVIEWED = 4;
+}
+
+// GovSituationReport is one row in the eco-gov situational-report register: a field
+// situation an eco-gov user logs about a waste service provider (e.g. a broken or
+// overflowing container at a location), the provider is told to fix it, and the gov
+// user reviews the fix against before/after photos. The SPA renders these rows as an
+// editable, Excel-like table.
+message GovSituationReport {
+  required uint64 id = 1 [json_name = "id"];
+
+  // Geo-access area the situation is in (the district / gov geo-access record).
+  required uint64 gov_geo_access_id = 2 [json_name = "gov_geo_access_id"];
+  optional string area_name = 3 [json_name = "area_name"]; // denormalized for display
+
+  // Service provider responsible for fixing the situation (an organization).
+  required uint64 service_provider_id = 4 [json_name = "service_provider_id"];
+  optional Organization service_provider = 5 [json_name = "service_provider"];
+
+  // Free-text location of the situation and a description of the problem / finding
+  // (e.g. "container broken", "not collected").
+  optional string location = 6 [json_name = "location"];
+  optional string reason = 7 [json_name = "reason"];
+
+  // "Before" photo of the problem, taken by the gov eco user (with its own lat/lon
+  // and capture time).
+  optional uint64 photo_before_id = 8 [json_name = "photo_before_id"];
+  optional FileUpload photo_before = 9 [json_name = "photo_before"];
+
+  // "After" photo — the remediation proof, uploaded by the service provider or the
+  // gov eco user. Carries its own capture timestamp (FileUpload.created_at / ts).
+  optional uint64 photo_after_id = 10 [json_name = "photo_after_id"];
+  optional FileUpload photo_after = 11 [json_name = "photo_after"];
+
+  // Review lifecycle status (see GovSituationReportStatus).
+  required GovSituationReportStatus status = 12 [json_name = "status"];
+
+  // Date the situation is officially reported.
+  optional google.protobuf.Timestamp report_date = 13 [json_name = "report_date"];
+  // When the service provider (or gov user) uploaded the fix proof / after-photo.
+  optional google.protobuf.Timestamp provider_report_uploaded_at = 14 [json_name = "provider_report_uploaded_at"];
+
+  // Author (gov eco user who logged the report) and the reviewer who closed it.
+  optional uint64 author_id = 15 [json_name = "author_id"];
+  optional uint64 reviewed_by_id = 16 [json_name = "reviewed_by_id"];
+
+  // Owning gov organization — used for context DB-scoping.
+  required uint64 owner_organization_id = 17 [json_name = "owner_organization_id"];
+
+  required google.protobuf.Timestamp created_at = 18 [json_name = "created_at"];
+  required google.protobuf.Timestamp updated_at = 19 [json_name = "updated_at"];
+}
+
+message GovSituationReportList {
+  repeated GovSituationReport reports = 1 [json_name = "reports"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
+}
+
+message GovSituationReportCreate {
+  required uint64 gov_geo_access_id = 1 [json_name = "gov_geo_access_id"];
+  required uint64 service_provider_id = 2 [json_name = "service_provider_id"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+  optional string location = 4 [json_name = "location"];
+  optional string reason = 5 [json_name = "reason"];
+  // Inline base64 "before" photo; the service persists it via FileUploadService and
+  // links the resulting file id. Alternatively pass photo_before_id for a pre-uploaded file.
+  optional File photo_before = 6 [json_name = "photo_before"];
+  optional uint64 photo_before_id = 7 [json_name = "photo_before_id"];
+  optional google.protobuf.Timestamp report_date = 8 [json_name = "report_date"];
+  // Optional initial status; defaults to GOV_SITUATION_REPORT_STATUS_CREATED.
+  optional GovSituationReportStatus status = 9 [json_name = "status"];
+}
+
+// GovSituationReportUpdate patches an existing row (inline table edit). Only non-nil
+// fields are applied, so the SPA can send a single edited cell.
+message GovSituationReportUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  optional uint64 gov_geo_access_id = 2 [json_name = "gov_geo_access_id"];
+  optional uint64 service_provider_id = 3 [json_name = "service_provider_id"];
+  optional string location = 4 [json_name = "location"];
+  optional string reason = 5 [json_name = "reason"];
+  optional google.protobuf.Timestamp report_date = 6 [json_name = "report_date"];
+  optional GovSituationReportStatus status = 7 [json_name = "status"];
+}
+
+// GovSituationReportPhotoUpload attaches/replaces the before or after photo for a row.
+// Used both by the gov user (before photo) and the service provider (after photo /
+// remediation proof). Setting the after photo stamps provider_report_uploaded_at.
+message GovSituationReportPhotoUpload {
+  required uint64 id = 1 [json_name = "id"];
+  required bool is_after = 2 [json_name = "is_after"]; // false = before, true = after
+  required File photo = 3 [json_name = "photo"];
+}
+
+message GovSituationReportListRequest {
+  optional uint64 gov_geo_access_id = 1 [json_name = "gov_geo_access_id"];
+  optional uint64 service_provider_id = 2 [json_name = "service_provider_id"];
+  optional GovSituationReportStatus status = 3 [json_name = "status"];
+  // Inclusive report_date range filter [from, to]; either bound may be omitted.
+  optional google.protobuf.Timestamp report_date_from = 4 [json_name = "report_date_from"];
+  optional google.protobuf.Timestamp report_date_to = 5 [json_name = "report_date_to"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
+}
+
+// GovSituationReportService backs the eco-gov situational-report SPA: an editable,
+// Excel-like register of field situations reported against waste service providers.
+service GovSituationReportService {
+  rpc CreateGovSituationReport(GovSituationReportCreate) returns (GovSituationReport) {}
+  rpc UpdateGovSituationReport(GovSituationReportUpdate) returns (GovSituationReport) {}
+  rpc GetGovSituationReport(IdRequest) returns (GovSituationReport) {}
+  rpc ListGovSituationReports(GovSituationReportListRequest) returns (GovSituationReportList) {}
+  rpc DeleteGovSituationReport(IdRequest) returns (MessageResponse) {}
+  // Upload / replace the before or after photo for a row.
+  rpc UploadGovSituationReportPhoto(GovSituationReportPhotoUpload) returns (GovSituationReport) {}
+}

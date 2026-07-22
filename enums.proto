@@ -271,6 +271,9 @@ enum UserRole {
   USER_ROLE_GPS_INNER_SERVICE = 11;
   USER_ROLE_PROVIDER_OWNER_VIEW_ONLY = 12;
   USER_ROLE_PROVIDER_SALES = 13;
+  // Government ecology officer who logs and reviews field situation reports
+  // (GovSituationReportService). Distinct from the government auditor role.
+  USER_ROLE_GOVERNMENT_ECO = 14;
 }
 
 enum UserStatus {
