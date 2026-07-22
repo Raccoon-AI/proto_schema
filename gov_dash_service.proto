@@ -39,6 +39,9 @@ message GovJobListRequest {
   optional uint64 truck_id = 8 [json_name = "truck_id"];
   optional ListFilter list_filter = 9 [json_name = "list_filter"];
   optional DateTimeFilter time_filter = 10 [json_name = "time_filter"];
+  // Free-text search, matched against pickup location name (more fields may
+  // be added later - see JobService.GovListJobs).
+  optional string search = 11 [json_name = "search"];
 }
 
 message GovJobsReportResponse {
