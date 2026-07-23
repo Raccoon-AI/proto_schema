@@ -66,6 +66,8 @@ message Job {
   optional string order_number = 43 [json_name = "order_number"];
   optional bool receiver_notified = 44 [json_name = "receiver_notified"];
   optional ContainerGroup container_group = 45 [json_name = "container_group"];
+  optional google.protobuf.Timestamp updated_at = 46 [json_name = "updated_at"];
+  optional Organization service_provider = 47 [json_name = "service_provider"];
 }
 
 message JobCreate {

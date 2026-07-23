@@ -41,6 +41,11 @@ message TruckList {
   optional ListInfo list_info = 2 [json_name = "list_info"];
 }
 
+message CompatibleTrucksForPlgRequest {
+  required uint64 pickup_location_group_id = 1 [json_name = "pickup_location_group_id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+}
+
 message CreateGuestTruckRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   required string plate_number = 2 [json_name = "plate_number"];
@@ -107,6 +112,9 @@ message TruckPositionList {
 service TruckService {
   rpc SearchTruck(SearchTruckRequest) returns (SearchTruckResponse) {}
   rpc ListTrucks(TruckListRequest) returns (TruckList) {}
+  // Trucks whose capability matrix covers every bound (container type, job type)
+  // link of the pickup location group.
+  rpc ListCompatibleTrucksForPickupLocationGroup(CompatibleTrucksForPlgRequest) returns (TruckList) {}
   rpc CreateGuestTruck(CreateGuestTruckRequest) returns (Truck) {}
   rpc UpdateTruckWeight(TruckWeightRequest) returns (Truck) {}
   rpc CreateTruck(TruckCreate) returns (Truck) {}
