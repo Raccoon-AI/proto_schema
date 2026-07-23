@@ -5,6 +5,7 @@ import "contact.proto";
 import "enums.proto";
 import "general.proto";
 import "google/protobuf/timestamp.proto";
+import "organization_settings.proto";
 
 option go_package = "./pb";
 
@@ -22,6 +23,7 @@ message Organization {
   optional string director_full_name = 11 [json_name = "director_full_name"];
   optional uint64 parent_id = 12 [json_name = "parent_id"];
   optional Organization parent = 13 [json_name = "parent"];
+  optional OrganizationSettings organization_settings = 14 [json_name = "organization_settings"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];

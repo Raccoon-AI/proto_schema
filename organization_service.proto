@@ -68,7 +68,6 @@ service OrganizationService {
 
   // organization settings related requests
   rpc GetSetting(EmptyMessageRequest) returns (OrganizationSettings) {}
-  rpc CreateSetting(OrganizationSettingsCreate) returns (OrganizationSettings) {}
   rpc UpdateSetting(OrganizationSettingsUpdate) returns (OrganizationSettings) {}
 
   // can be used by service providers
