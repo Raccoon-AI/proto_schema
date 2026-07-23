@@ -1,0 +1,36 @@
+syntax = "proto2";
+
+package raccoonai;
+
+option go_package = "./pb";
+option java_outer_classname = "VrpRoutingServiceProto";
+option java_package = "com.raccoonai.vrprouting.grpc";
+
+// Basic single-vehicle VRP endpoint (TBO frontend).
+// Plans multi-trip visit sequences for one capacity-constrained truck:
+// trip 1 runs depot -> jobs -> disposal site, subsequent trips run
+// disposal site -> jobs -> disposal site. The depot is resolved from the
+// driver-on-shift's organization; it is not provided by the caller.
+service VrpRoutingService {
+  rpc SolveSingleVehicle(SolveSingleVehicleRequest) returns (SolveSingleVehicleResponse);
+}
+
+message SolveSingleVehicleRequest {
+  repeated uint64 job_ids = 1 [json_name = "job_ids"]; // required, non-empty
+  required uint64 disposal_site_id = 2 [json_name = "disposal_site_id"]; // end location of every trip
+  required uint64 driver_on_shift_id = 3 [json_name = "driver_on_shift_id"]; // -> truck capacity + depot
+}
+
+// One trip of the single vehicle; job_ids are in visit order.
+message VrpTrip {
+  repeated uint64 job_ids = 1 [json_name = "job_ids"];
+}
+
+message SolveSingleVehicleResponse {
+  required string response_status = 1 [json_name = "response_status"]; // "ok" | "error"
+  // Trips in execution order: the depot-started trip first, the remaining
+  // trips all start and end at the disposal site.
+  repeated VrpTrip trips = 2 [json_name = "trips"];
+  repeated uint64 unassigned_job_ids = 3 [json_name = "unassigned_job_ids"];
+  optional string error_message = 4 [json_name = "error_message"];
+}
