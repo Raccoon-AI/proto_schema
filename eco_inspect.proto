@@ -69,8 +69,8 @@ message EcoInspectCreate {
 // are applied, so the SPA can send a single edited cell.
 message EcoInspectUpdate {
   required uint64 id = 1 [json_name = "id"];
-  optional uint64 area_name = 2 [json_name = "area_name"];
-  optional uint64 service_provider_name = 3 [json_name = "service_provider_name"];
+  optional string area_name = 2 [json_name = "area_name"];
+  optional string service_provider_name = 3 [json_name = "service_provider_name"];
   optional string location = 4 [json_name = "location"];
   optional string reason = 5 [json_name = "reason"];
   optional google.protobuf.Timestamp report_date = 6 [json_name = "report_date"];
@@ -91,8 +91,8 @@ message EcoInspectMediaUpload {
 }
 
 message EcoInspectListRequest {
-  optional uint64 area_name = 1 [json_name = "area_name"];
-  optional uint64 service_provider_name = 2 [json_name = "service_provider_name"];
+  optional string area_name = 1 [json_name = "area_name"];
+  optional string service_provider_name = 2 [json_name = "service_provider_name"];
   optional EcoInspectStatus status = 3 [json_name = "status"];
   optional google.protobuf.Timestamp report_date_from = 4 [json_name = "report_date_from"];
   optional google.protobuf.Timestamp report_date_to = 5 [json_name = "report_date_to"];
