@@ -103,6 +103,7 @@ message EcoInspectListRequest {
   optional EcoInspectStatus status = 3 [json_name = "status"];
   optional google.protobuf.Timestamp report_date_from = 4 [json_name = "report_date_from"];
   optional google.protobuf.Timestamp report_date_to = 5 [json_name = "report_date_to"];
+  optional string location = 6 [json_name = "location"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
