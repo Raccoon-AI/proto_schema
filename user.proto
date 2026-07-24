@@ -55,6 +55,12 @@ message UserUpdateRole {
   required UserRole role = 2 [json_name = "role"];
 }
 
+message UserPasswordSet {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required string new_password = 3 [json_name = "new_password"];
+}
+
 message RegistrationTokenCreate {
   required string token = 1 [json_name = "token"];
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
