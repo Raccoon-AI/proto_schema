@@ -1,0 +1,139 @@
+syntax = "proto2";
+package raccoonai;
+
+import "file_upload.proto";
+import "general.proto";
+import "google/protobuf/timestamp.proto";
+import "gov_geo_access.proto";
+import "organization.proto";
+
+option go_package = "./pb";
+
+// EcoInspectStatus tracks the lifecycle of an inspection as the city eco officer
+// drives it from "just logged" through "provider must fix" to "resolved".
+enum EcoInspectStatus {
+  ECO_INSPECT_STATUS_UNDEFINED = 0;
+  // Inspection was just logged by the eco officer; not yet acted on.
+  ECO_INSPECT_STATUS_CREATED = 1;
+  // Handed to the service provider — waiting for them to fix and upload proof.
+  ECO_INSPECT_STATUS_WAITING_FOR_RESPONSE = 2;
+  // Provider (or eco officer) submitted the fix media; needs eco officer review.
+  ECO_INSPECT_STATUS_NEED_REVIEW = 3;
+  // Eco officer reviewed the fix and closed the inspection.
+  ECO_INSPECT_STATUS_REVIEWED = 4;
+}
+
+// EcoInspect is one row in the city situational-center register: a field inspection
+// of a waste service provider's compliance (e.g. a broken or overflowing container
+// at a location). The eco officer logs it with media, the provider is told to fix it,
+// and the officer reviews the fix. The SPA renders these rows as an editable,
+// Excel-like table.
+message EcoInspect {
+  required uint64 id = 1 [json_name = "id"];
+
+  // Geo-access area the inspection is in (the district / gov geo-access record).
+  required uint64 gov_geo_access_id = 2 [json_name = "gov_geo_access_id"];
+  optional string area_name = 3 [json_name = "area_name"]; // denormalized for display
+
+  // Service provider being inspected (an organization).
+  required uint64 service_provider_id = 4 [json_name = "service_provider_id"];
+  optional Organization service_provider = 5 [json_name = "service_provider"];
+
+  // Free-text location of the inspection and a description of the finding
+  // (e.g. "container broken", "not collected").
+  optional string location = 6 [json_name = "location"];
+  optional string reason = 7 [json_name = "reason"];
+
+  // All attached media (images or videos) for this inspection. Each FileUpload's
+  // `type` distinguishes the "before" problem media (CONTAINER_BEFORE) from the
+  // "after" remediation proof (CONTAINER_AFTER), and carries its own lat/lon and
+  // capture time.
+  repeated FileUpload files = 8 [json_name = "files"];
+
+  // Review lifecycle status (see EcoInspectStatus).
+  required EcoInspectStatus status = 9 [json_name = "status"];
+
+  // Date the inspection is officially reported.
+  optional google.protobuf.Timestamp report_date = 10 [json_name = "report_date"];
+  // When the service provider (or eco officer) uploaded the fix proof / after-media.
+  optional google.protobuf.Timestamp provider_report_uploaded_at = 11 [json_name = "provider_report_uploaded_at"];
+
+  // Author (eco officer who logged the inspection) and the reviewer who closed it.
+  optional uint64 author_id = 12 [json_name = "author_id"];
+  optional uint64 reviewed_by_id = 13 [json_name = "reviewed_by_id"];
+
+  // Owning organization — used for context DB-scoping.
+  required uint64 owner_organization_id = 14 [json_name = "owner_organization_id"];
+
+  required google.protobuf.Timestamp created_at = 15 [json_name = "created_at"];
+  required google.protobuf.Timestamp updated_at = 16 [json_name = "updated_at"];
+  optional string comment = 17 [json_name = "comment"];
+}
+
+message EcoInspectList {
+  repeated EcoInspect inspections = 1 [json_name = "inspections"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
+}
+
+message EcoInspectCreate {
+  required uint64 gov_geo_access_id = 1 [json_name = "gov_geo_access_id"];
+  required uint64 service_provider_id = 2 [json_name = "service_provider_id"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+  optional string location = 4 [json_name = "location"];
+  optional string reason = 5 [json_name = "reason"];
+  // Initial "before" media (images or videos) of the problem. Each is persisted via
+  // FileUploadService and linked to the inspection.
+  repeated EcoInspectMediaUpload files = 6 [json_name = "files"];
+  optional google.protobuf.Timestamp report_date = 7 [json_name = "report_date"];
+  // Optional initial status; defaults to ECO_INSPECT_STATUS_CREATED.
+  optional EcoInspectStatus status = 8 [json_name = "status"];
+  optional string comment = 9 [json_name = "comment"];
+}
+
+// EcoInspectUpdate patches an existing row (inline table edit). Only non-nil fields
+// are applied, so the SPA can send a single edited cell.
+message EcoInspectUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  optional uint64 gov_geo_access_id = 2 [json_name = "gov_geo_access_id"];
+  optional uint64 service_provider_id = 3 [json_name = "service_provider_id"];
+  optional string location = 4 [json_name = "location"];
+  optional string reason = 5 [json_name = "reason"];
+  optional google.protobuf.Timestamp report_date = 6 [json_name = "report_date"];
+  optional EcoInspectStatus status = 7 [json_name = "status"];
+  optional string comment = 8 [json_name = "comment"];
+}
+
+// EcoInspectMediaUpload appends one or more media files (images or videos) to a row.
+// Used both by the eco officer (before media) and the service provider (after media /
+// remediation proof). Uploading after-media stamps provider_report_uploaded_at and
+// moves an open inspection into NEED_REVIEW.
+message EcoInspectMediaUpload {
+  // Inspection to attach the media to. Required for the standalone
+  // UploadEcoInspectMedia RPC; omitted when embedded in EcoInspectCreate.files.
+  optional uint64 id = 1 [json_name = "id"];
+  required FileUploadType type = 2 [json_name = "type"];
+  repeated File files = 3 [json_name = "files"];
+}
+
+message EcoInspectListRequest {
+  optional uint64 gov_geo_access_id = 1 [json_name = "gov_geo_access_id"];
+  optional uint64 service_provider_id = 2 [json_name = "service_provider_id"];
+  optional EcoInspectStatus status = 3 [json_name = "status"];
+  optional google.protobuf.Timestamp report_date_from = 4 [json_name = "report_date_from"];
+  optional google.protobuf.Timestamp report_date_to = 5 [json_name = "report_date_to"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
+}
+
+// EcoInspectService backs the city situational-center SPA: an editable, Excel-like
+// register of compliance inspections on waste service providers.
+service EcoInspectService {
+  rpc GetGovGeoAreaNames(EmptyMessageRequest) returns (GovGeoAccessList) {}
+  rpc GetGovServiceProviders(EmptyMessageRequest) returns (OrganizationList) {}
+  rpc CreateEcoInspect(EcoInspectCreate) returns (EcoInspect) {}
+  rpc UpdateEcoInspect(EcoInspectUpdate) returns (EcoInspect) {}
+  rpc GetEcoInspect(IdRequest) returns (EcoInspect) {}
+  rpc ListEcoInspects(EcoInspectListRequest) returns (EcoInspectList) {}
+  rpc DeleteEcoInspect(IdRequest) returns (MessageResponse) {}
+  // Append one or more media files (images or videos) to an inspection.
+  rpc UploadEcoInspectMedia(EcoInspectMediaUpload) returns (EcoInspect) {}
+}
