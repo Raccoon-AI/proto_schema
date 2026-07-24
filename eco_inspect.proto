@@ -23,51 +23,27 @@ enum EcoInspectStatus {
   ECO_INSPECT_STATUS_REVIEWED = 4;
 }
 
-// EcoInspect is one row in the city situational-center register: a field inspection
-// of a waste service provider's compliance (e.g. a broken or overflowing container
-// at a location). The eco officer logs it with media, the provider is told to fix it,
-// and the officer reviews the fix. The SPA renders these rows as an editable,
-// Excel-like table.
 message EcoInspect {
   required uint64 id = 1 [json_name = "id"];
 
-  // Geo-access area the inspection is in (the district / gov geo-access record).
-  required uint64 gov_geo_access_id = 2 [json_name = "gov_geo_access_id"];
-  optional string area_name = 3 [json_name = "area_name"]; // denormalized for display
+  optional string area_name = 2 [json_name = "area_name"];
+  optional string service_provider_name = 3 [json_name = "service_provider_name"];
 
-  // Service provider being inspected (an organization).
-  required uint64 service_provider_id = 4 [json_name = "service_provider_id"];
-  optional Organization service_provider = 5 [json_name = "service_provider"];
+  optional string location = 7 [json_name = "location"];
+  optional string reason = 8 [json_name = "reason"];
 
-  // Free-text location of the inspection and a description of the finding
-  // (e.g. "container broken", "not collected").
-  optional string location = 6 [json_name = "location"];
-  optional string reason = 7 [json_name = "reason"];
+  repeated FileUpload files = 9 [json_name = "files"];
 
-  // All attached media (images or videos) for this inspection. Each FileUpload's
-  // `type` distinguishes the "before" problem media (CONTAINER_BEFORE) from the
-  // "after" remediation proof (CONTAINER_AFTER), and carries its own lat/lon and
-  // capture time.
-  repeated FileUpload files = 8 [json_name = "files"];
+  required EcoInspectStatus status = 10 [json_name = "status"];
 
-  // Review lifecycle status (see EcoInspectStatus).
-  required EcoInspectStatus status = 9 [json_name = "status"];
+  optional google.protobuf.Timestamp report_date = 11 [json_name = "report_date"];
+  optional google.protobuf.Timestamp provider_report_uploaded_at = 12 [json_name = "provider_report_uploaded_at"];
 
-  // Date the inspection is officially reported.
-  optional google.protobuf.Timestamp report_date = 10 [json_name = "report_date"];
-  // When the service provider (or eco officer) uploaded the fix proof / after-media.
-  optional google.protobuf.Timestamp provider_report_uploaded_at = 11 [json_name = "provider_report_uploaded_at"];
+  optional uint64 author_id = 13 [json_name = "author_id"];
 
-  // Author (eco officer who logged the inspection) and the reviewer who closed it.
-  optional uint64 author_id = 12 [json_name = "author_id"];
-  optional uint64 reviewed_by_id = 13 [json_name = "reviewed_by_id"];
-
-  // Owning organization — used for context DB-scoping.
-  required uint64 owner_organization_id = 14 [json_name = "owner_organization_id"];
-
-  required google.protobuf.Timestamp created_at = 15 [json_name = "created_at"];
-  required google.protobuf.Timestamp updated_at = 16 [json_name = "updated_at"];
-  optional string comment = 17 [json_name = "comment"];
+  required google.protobuf.Timestamp created_at = 14 [json_name = "created_at"];
+  required google.protobuf.Timestamp updated_at = 15 [json_name = "updated_at"];
+  optional string comment = 16 [json_name = "comment"];
 }
 
 message EcoInspectList {
@@ -76,9 +52,8 @@ message EcoInspectList {
 }
 
 message EcoInspectCreate {
-  required uint64 gov_geo_access_id = 1 [json_name = "gov_geo_access_id"];
-  required uint64 service_provider_id = 2 [json_name = "service_provider_id"];
-  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+  optional string area_name = 2 [json_name = "area_name"];
+  optional string service_provider_name = 3 [json_name = "service_provider_name"];
   optional string location = 4 [json_name = "location"];
   optional string reason = 5 [json_name = "reason"];
   // Initial "before" media (images or videos) of the problem. Each is persisted via
@@ -94,8 +69,8 @@ message EcoInspectCreate {
 // are applied, so the SPA can send a single edited cell.
 message EcoInspectUpdate {
   required uint64 id = 1 [json_name = "id"];
-  optional uint64 gov_geo_access_id = 2 [json_name = "gov_geo_access_id"];
-  optional uint64 service_provider_id = 3 [json_name = "service_provider_id"];
+  optional uint64 area_name = 2 [json_name = "area_name"];
+  optional uint64 service_provider_name = 3 [json_name = "service_provider_name"];
   optional string location = 4 [json_name = "location"];
   optional string reason = 5 [json_name = "reason"];
   optional google.protobuf.Timestamp report_date = 6 [json_name = "report_date"];
@@ -116,16 +91,14 @@ message EcoInspectMediaUpload {
 }
 
 message EcoInspectListRequest {
-  optional uint64 gov_geo_access_id = 1 [json_name = "gov_geo_access_id"];
-  optional uint64 service_provider_id = 2 [json_name = "service_provider_id"];
+  optional uint64 area_name = 1 [json_name = "area_name"];
+  optional uint64 service_provider_name = 2 [json_name = "service_provider_name"];
   optional EcoInspectStatus status = 3 [json_name = "status"];
   optional google.protobuf.Timestamp report_date_from = 4 [json_name = "report_date_from"];
   optional google.protobuf.Timestamp report_date_to = 5 [json_name = "report_date_to"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
-// EcoInspectService backs the city situational-center SPA: an editable, Excel-like
-// register of compliance inspections on waste service providers.
 service EcoInspectService {
   rpc GetGovGeoAreaNames(EmptyMessageRequest) returns (GovGeoAccessList) {}
   rpc GetGovServiceProviders(EmptyMessageRequest) returns (OrganizationList) {}
