@@ -323,6 +323,7 @@ service GovDashService {
   rpc GetPickupLocationStatsById(IdRequest) returns (GovPickupLocationStats) {}
   rpc GetTruckStatsById(IdRequest) returns (GovTruckStats) {}
   rpc GetDepotById(IdRequest) returns (GovDepotInfo) {}
+  rpc GetJobById(IdRequest) returns (Job) {}
 
   // endpoints based on internal tables, stable structure
   rpc GetGovDashboardAnalytics(GovDashboardAnalyticsRequest) returns (GovDashboardAnalyticsResponse) {}
