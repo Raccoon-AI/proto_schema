@@ -16,4 +16,5 @@ service UserService {
   rpc UpdateUser(UserUpdate) returns (User) {}
   rpc ListUsers(UserListRequest) returns (UserList) {}
   rpc InviteUser(InviteUserRequest) returns (InviteUserResponse) {}
+  rpc SetUserPassword(UserPasswordSet) returns (User) {}
 }

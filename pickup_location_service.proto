@@ -33,6 +33,12 @@ message RemoveContainerGroupRequest {
   required string job_type = 3 [json_name = "job_type"];
 }
 
+message ReorderContainerGroupsRequest {
+  required uint64 pickup_location_group_id = 1 [json_name = "pickup_location_group_id"];
+  // Container group ids in the desired display order (full list).
+  repeated uint64 container_group_ids = 2 [json_name = "container_group_ids"];
+}
+
 message PickupLocationListToContractRequest {
   repeated uint64 pickup_location_ids = 1 [json_name = "pickup_location_ids"];
   required uint64 contract_id = 2 [json_name = "contract_id"];
@@ -67,4 +73,5 @@ service PickupLocationService {
 
   rpc BindContainerGroupsToPickupLocationGroup(BindContainerGroupsRequest) returns (MessageResponse) {}
   rpc UnbindContainerGroupFromPickupLocationGroup(RemoveContainerGroupRequest) returns (MessageResponse) {}
+  rpc ReorderContainerGroupsInPickupLocationGroup(ReorderContainerGroupsRequest) returns (MessageResponse) {}
 }
