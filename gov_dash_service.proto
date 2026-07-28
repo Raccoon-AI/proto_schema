@@ -311,6 +311,24 @@ message GovAnalyticsAnomaliesForAll {
   repeated GovAnalyticsAnomalyPerProvider anomaly_per_provider = 1 [json_name = "anomaly_per_provider"];
 }
 
+// GovDisposalVisit is one (truck, disposal site) visit count, flagged with whether that truck
+// has a matching weighbridge record (scale_record or raw_scale_record) at the site's owner
+// organization within the requested window.
+message GovDisposalVisit {
+  required uint64 organization_id = 1 [json_name = "organization_id"];
+  required string organization_name = 2 [json_name = "organization_name"];
+  required uint64 truck_id = 3 [json_name = "truck_id"];
+  required string plate_number = 4 [json_name = "plate_number"];
+  required uint64 disposal_site_id = 5 [json_name = "disposal_site_id"];
+  required string disposal_site_name = 6 [json_name = "disposal_site_name"];
+  required uint64 total_visits = 7 [json_name = "total_visits"];
+  required bool has_scale_data = 8 [json_name = "has_scale_data"];
+}
+
+message GovDisposalVisitList {
+  repeated GovDisposalVisit visits = 1 [json_name = "visits"];
+}
+
 service GovDashService {
   rpc GetGovGeoAccess(EmptyMessageRequest) returns (GovGeoAccessList) {}
   rpc ServiceProviders(GovOrganizationRequest) returns (GovServiceProviderInfoList) {}
@@ -356,4 +374,5 @@ service GovDashService {
   rpc GetGovAnalyticsDisposalVisitsForAll(GovDashboardAnalyticsRequest) returns (GovAnalyticsDisposalVisitsForAll) {}
   rpc GetGovAnalyticsLocationVisitsForAll(GovDashboardAnalyticsRequest) returns (GovAnalyticsLocationVisitsForAll) {}
   rpc GetGovAnalyticsAnomaliesForAll(GovDashboardAnalyticsRequest) returns (GovAnalyticsAnomaliesForAll) {}
+  rpc GetGovDisposalVisits(GovDashboardAnalyticsRequest) returns (GovDisposalVisitList) {}
 }
