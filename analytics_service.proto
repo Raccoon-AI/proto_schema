@@ -2,65 +2,113 @@ syntax = "proto2";
 package raccoonai;
 
 import "analytics.proto";
+import "enums.proto";
 import "general.proto";
+import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
+// DailyCount is a shared day-bucketed count, reused by count-based time series.
+message DailyCount {
+  optional string date = 1 [json_name = "date"]; // YYYY-MM-DD
+  optional uint64 count = 2 [json_name = "count"];
+}
+
+// 1. total_jobs_revenue — SUM(job_tariff) of completed jobs, bucketed by day.
+message TotalJobsRevenueRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional DateFilter period = 2 [json_name = "period"];
+}
+
+message RevenuePerDay {
+  optional string date = 1 [json_name = "date"]; // YYYY-MM-DD
+  optional uint64 revenue = 2 [json_name = "revenue"]; // whole tenge
+}
+
+message TotalJobsRevenueResponse {
+  optional uint64 total_revenue = 1 [json_name = "total_revenue"];
+  repeated RevenuePerDay per_day = 2 [json_name = "per_day"];
+}
+
+// 2. jobs_ordered — COUNT of non-cancelled jobs, bucketed by created day.
+message JobsOrderedRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional DateFilter period = 2 [json_name = "period"];
+  optional uint64 location_id = 3 [json_name = "location_id"];
+}
+
+message JobsOrderedResponse {
+  optional uint64 total_ordered = 1 [json_name = "total_ordered"];
+  repeated DailyCount per_day = 2 [json_name = "per_day"];
+  optional uint64 location_id = 3 [json_name = "location_id"];
+}
+
+// 3. driver_completed_jobs — COUNT of completed jobs, bucketed by completion day.
+message DriverCompletedJobsRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional DateFilter period = 2 [json_name = "period"];
+  optional uint64 driver_id = 3 [json_name = "driver_id"];
+}
+
+message DriverCompletedJobsResponse {
+  optional uint64 total_completed = 1 [json_name = "total_completed"];
+  repeated DailyCount per_day = 2 [json_name = "per_day"];
+  optional uint64 driver_id = 3 [json_name = "driver_id"];
+}
+
+// 4. drivers_summary_for_period — completed jobs per driver, keyed by geo_group,
+//    plus the driver's shift count over the period.
+message DriversSummaryRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional DateFilter period = 2 [json_name = "period"];
+  optional uint64 driver_id = 3 [json_name = "driver_id"];
+}
+
+message DriverSummary {
+  optional uint64 driver_id = 1 [json_name = "driver_id"];
+  // key = pickup_location.geo_group, value = completed jobs in that group
+  map<string, uint64> jobs_by_geo_group = 2 [json_name = "jobs_by_geo_group"];
+  optional uint64 total_shifts = 3 [json_name = "total_shifts"];
+}
+
+message DriversSummaryResponse {
+  repeated DriverSummary drivers = 1 [json_name = "drivers"];
+}
+
+// 5. monthly_jobs_for_period -> per-job detail rows over the period.
+message JobDetailsRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional DateFilter period = 2 [json_name = "period"];
+}
+
+message JobDetailRow {
+  optional uint64 job_id = 1 [json_name = "job_id"];
+  optional string truck_plate = 2 [json_name = "truck_plate"];
+  optional string driver_name = 3 [json_name = "driver_name"];
+  optional google.protobuf.Timestamp ordered_at = 4 [json_name = "ordered_at"]; // job.created_at
+  optional string completed_on = 5 [json_name = "completed_on"]; // YYYY-MM-DD of COALESCE(fact_end_at, plan_end_at)
+  optional string pickup_location = 6 [json_name = "pickup_location"];
+  optional string receiver = 7 [json_name = "receiver"]; // service receiver org name
+  optional uint64 tariff = 8 [json_name = "tariff"]; // COALESCE(NULLIF(contract.tariff,0), pickup.tariff)
+  optional uint64 rent = 9 [json_name = "rent"]; // contract.rent_cost
+  optional uint64 total = 10 [json_name = "total"]; // job.job_tariff
+  optional JobType type = 11 [json_name = "type"];
+}
+
+message JobDetailsResponse {
+  repeated JobDetailRow rows = 1 [json_name = "rows"];
+}
+
+// 6. service_provider_stats — point-in-time snapshot (reuses ServiceProviderStats).
+message ServiceProviderStatsRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+}
+
 service AnalyticsService {
-  rpc GetTimeSeries(TimeSeriesRequest) returns (TimeSeriesResponse) {}
-  rpc GetBreakdown(BreakdownRequest) returns (BreakdownResponse) {}
-  rpc GetOperationalSnapshot(OperationalSnapshotRequest) returns (OperationalSnapshotResponse) {}
-  rpc ListJobRegistry(JobRegistryRequest) returns (JobRegistryResponse) {}
-}
-
-message TimeSeriesRequest {
-  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
-  required DateFilter date_range = 2 [json_name = "date_range"];
-  required AnalyticsMetric metric = 3 [json_name = "metric"];
-  optional TimeGranularity granularity = 4 [
-    json_name = "granularity",
-    default = TIME_GRANULARITY_DAY
-  ];
-  optional AnalyticsFilter filter = 5 [json_name = "filter"];
-}
-
-message TimeSeriesResponse {
-  required AnalyticsMetric metric = 1 [json_name = "metric"];
-  required TimeGranularity granularity = 2 [json_name = "granularity"];
-  repeated TimeSeriesBucket buckets = 3 [json_name = "buckets"]; // server-bucketed + gap-filled
-  optional double total = 4 [json_name = "total"];
-}
-
-message BreakdownRequest {
-  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
-  required DateFilter date_range = 2 [json_name = "date_range"];
-  required AnalyticsMetric metric = 3 [json_name = "metric"];
-  required BreakdownDimension dimension = 4 [json_name = "dimension"];
-  optional AnalyticsFilter filter = 5 [json_name = "filter"];
-}
-
-message BreakdownResponse {
-  required AnalyticsMetric metric = 1 [json_name = "metric"];
-  required BreakdownDimension dimension = 2 [json_name = "dimension"];
-  repeated BreakdownRow rows = 3 [json_name = "rows"];
-}
-
-message OperationalSnapshotRequest {
-  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
-}
-
-message OperationalSnapshotResponse {
-  required int32 idle_truck_count = 1 [json_name = "idle_truck_count"];
-  required int32 unassigned_job_count = 2 [json_name = "unassigned_job_count"];
-  required int32 active_route_count = 3 [json_name = "active_route_count"];
-}
-
-message JobRegistryRequest {
-  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
-  required DateFilter date_range = 2 [json_name = "date_range"];
-  optional AnalyticsFilter filter = 3 [json_name = "filter"];
-}
-
-message JobRegistryResponse {
-  repeated JobRegistryRow rows = 1 [json_name = "rows"];
+  rpc GetTotalJobsRevenue(TotalJobsRevenueRequest) returns (TotalJobsRevenueResponse) {}
+  rpc GetJobsOrdered(JobsOrderedRequest) returns (JobsOrderedResponse) {}
+  rpc GetDriverCompletedJobs(DriverCompletedJobsRequest) returns (DriverCompletedJobsResponse) {}
+  rpc GetDriversSummary(DriversSummaryRequest) returns (DriversSummaryResponse) {}
+  rpc GetJobDetails(JobDetailsRequest) returns (JobDetailsResponse) {}
+  rpc GetServiceProviderStats(ServiceProviderStatsRequest) returns (ServiceProviderStats) {}
 }
