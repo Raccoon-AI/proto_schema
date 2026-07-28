@@ -8,52 +8,26 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
-// DailyCount is a shared day-bucketed count, reused by count-based time series.
-message DailyCount {
+// 1-3. Job time series — revenue / ordered / completed, unified behind one metric.
+// JobMetric is defined in enums.proto.
+message DailyValue {
   optional string date = 1 [json_name = "date"]; // YYYY-MM-DD
-  optional uint64 count = 2 [json_name = "count"];
+  optional uint64 value = 2 [json_name = "value"]; // revenue (whole tenge) or count, per metric
 }
 
-// 1. total_jobs_revenue — SUM(job_tariff) of completed jobs, bucketed by day.
-message TotalJobsRevenueRequest {
+// GetJobMetricSeries request. location_id applies only to ORDERED, driver_id only to
+// COMPLETED; both are ignored for REVENUE.
+message JobMetricSeriesRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
+  required JobMetric metric = 3 [json_name = "metric"];
+  optional uint64 location_id = 4 [json_name = "location_id"];
+  optional uint64 driver_id = 5 [json_name = "driver_id"];
 }
 
-message RevenuePerDay {
-  optional string date = 1 [json_name = "date"]; // YYYY-MM-DD
-  optional uint64 revenue = 2 [json_name = "revenue"]; // whole tenge
-}
-
-message TotalJobsRevenueResponse {
-  optional uint64 total_revenue = 1 [json_name = "total_revenue"];
-  repeated RevenuePerDay per_day = 2 [json_name = "per_day"];
-}
-
-// 2. jobs_ordered — COUNT of non-cancelled jobs, bucketed by created day.
-message JobsOrderedRequest {
-  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
-  optional DateFilter period = 2 [json_name = "period"];
-  optional uint64 location_id = 3 [json_name = "location_id"];
-}
-
-message JobsOrderedResponse {
-  optional uint64 total_ordered = 1 [json_name = "total_ordered"];
-  repeated DailyCount per_day = 2 [json_name = "per_day"];
-  optional uint64 location_id = 3 [json_name = "location_id"];
-}
-
-// 3. driver_completed_jobs — COUNT of completed jobs, bucketed by completion day.
-message DriverCompletedJobsRequest {
-  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
-  optional DateFilter period = 2 [json_name = "period"];
-  optional uint64 driver_id = 3 [json_name = "driver_id"];
-}
-
-message DriverCompletedJobsResponse {
-  optional uint64 total_completed = 1 [json_name = "total_completed"];
-  repeated DailyCount per_day = 2 [json_name = "per_day"];
-  optional uint64 driver_id = 3 [json_name = "driver_id"];
+message JobMetricSeriesResponse {
+  optional uint64 total = 1 [json_name = "total"];
+  repeated DailyValue per_day = 2 [json_name = "per_day"];
 }
 
 // 4. drivers_summary_for_period — completed jobs per driver, keyed by geo_group,
@@ -105,9 +79,7 @@ message ServiceProviderStatsRequest {
 }
 
 service AnalyticsService {
-  rpc GetTotalJobsRevenue(TotalJobsRevenueRequest) returns (TotalJobsRevenueResponse) {}
-  rpc GetJobsOrdered(JobsOrderedRequest) returns (JobsOrderedResponse) {}
-  rpc GetDriverCompletedJobs(DriverCompletedJobsRequest) returns (DriverCompletedJobsResponse) {}
+  rpc GetJobMetricSeries(JobMetricSeriesRequest) returns (JobMetricSeriesResponse) {}
   rpc GetDriversSummary(DriversSummaryRequest) returns (DriversSummaryResponse) {}
   rpc GetJobDetails(JobDetailsRequest) returns (JobDetailsResponse) {}
   rpc GetServiceProviderStats(ServiceProviderStatsRequest) returns (ServiceProviderStats) {}
