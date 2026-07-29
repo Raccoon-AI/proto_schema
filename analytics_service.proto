@@ -18,10 +18,11 @@ message DailyValue {
 // GetJobMetricSeries request. location_id applies only to ORDERED, driver_id only to
 // COMPLETED; both are ignored for REVENUE.
 //
-// Like every analytics request, this carries no owner_organization_id: the series is always
-// scoped to the caller's own owner organization, resolved server-side.
+// owner_organization_id selects the organization the series is computed for; the caller must
+// hold analytics view access on that organization (Permify decides, so admins can query the
+// orgs they administer).
 message JobMetricSeriesRequest {
-  reserved 1; // was owner_organization_id
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
   required JobMetric metric = 3 [json_name = "metric"];
   optional uint64 location_id = 4 [json_name = "location_id"];
@@ -36,7 +37,7 @@ message JobMetricSeriesResponse {
 // 4. drivers_summary_for_period — completed jobs per driver, keyed by geo_group,
 //    plus the driver's shift count over the period.
 message DriversSummaryRequest {
-  reserved 1; // was owner_organization_id
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
   optional uint64 driver_id = 3 [json_name = "driver_id"];
 }
@@ -54,7 +55,7 @@ message DriversSummaryResponse {
 
 // 5. monthly_jobs_for_period -> per-job detail rows over the period.
 message JobDetailsRequest {
-  reserved 1; // was owner_organization_id
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
 }
 
@@ -77,19 +78,18 @@ message JobDetailsResponse {
 }
 
 // 6. service_provider_stats — point-in-time snapshot (reuses ServiceProviderStats).
-// Empty: the snapshot is always for the caller's own owner organization.
 message ServiceProviderStatsRequest {
-  reserved 1; // was owner_organization_id
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
 }
 
 // 7. gas_levels — calibrated fuel-level series for a single truck, averaged into
 //    interval_minutes-wide buckets. Backed by the ClickHouse `calibrated_gas_level_pm`
 //    materialized view (per-minute calibrated readings from gps_raw_data).
-// Unlike the other analytics requests this one carries no owner_organization_id: the truck's
-// owning organization is resolved server-side from truck_id and authorized against that, so a
-// caller cannot reach another tenant's telemetry by supplying its own org id.
+// owner_organization_id must be the truck's owning organization: authorization runs against
+// the truck's real org (truckCheck) and the service rejects a truck outside the requested org,
+// so a caller cannot reach another tenant's telemetry by pairing org and truck ids.
 message GasLevelSeriesRequest {
-  reserved 1; // was owner_organization_id
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   required uint64 truck_id = 2 [json_name = "truck_id"];
   // Inclusive YYYY-MM-DD range, resolved to [from 00:00:00, to 23:59:59.999999999] UTC.
   required DateFilter period = 3 [json_name = "period"];
