@@ -85,9 +85,9 @@ message ServiceProviderStatsRequest {
 // 7. gas_levels — calibrated fuel-level series for a single truck, averaged into
 //    interval_minutes-wide buckets. Backed by the ClickHouse `calibrated_gas_level_pm`
 //    materialized view (per-minute calibrated readings from gps_raw_data).
-// owner_organization_id must be the truck's owning organization: authorization runs against
-// the truck's real org (truckCheck) and the service rejects a truck outside the requested org,
-// so a caller cannot reach another tenant's telemetry by pairing org and truck ids.
+// Tenancy is authorized against the truck's real owning organization, resolved server-side
+// from truck_id, so a foreign truck id can never expose another tenant's telemetry.
+// owner_organization_id is carried for consistency with the other analytics requests.
 message GasLevelSeriesRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   required uint64 truck_id = 2 [json_name = "truck_id"];
