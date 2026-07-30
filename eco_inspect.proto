@@ -44,8 +44,8 @@ message EcoInspectContact {
   optional string service_provider_name = 2 [json_name = "service_provider_name"];
   optional string contact_name = 3 [json_name = "contact_name"];
   optional string contact_phone = 4 [json_name = "contact_phone"];
-  optional google.protobuf.Timestamp created_at = 5 [json_name = "created_at"];
-  optional google.protobuf.Timestamp updated_at = 6 [json_name = "updated_at"];
+  optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+  optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
 }
 message EcoInspectContactCreate {
   optional string service_provider_name = 1 [json_name = "service_provider_name"];
