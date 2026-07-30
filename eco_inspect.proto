@@ -104,6 +104,9 @@ message EcoInspect {
 
   // Contacts linked to this inspection (via the eco_inspect_contact_link join table).
   repeated EcoInspectContact contacts = 15 [json_name = "contacts"];
+
+  optional string contact_name = 17 [json_name = "contact_name"];
+  optional string contact_phone = 18 [json_name = "contact_phone"];
 }
 
 message EcoInspectList {
