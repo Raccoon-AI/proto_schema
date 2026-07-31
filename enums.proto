@@ -84,6 +84,14 @@ enum JobType {
   JOB_TYPE_DOUBLE_CONSTRUCTION_REMOVE_BUNKER = 62;
 }
 
+// JobMetric selects which per-day job series GetJobMetricSeries returns.
+enum JobMetric {
+  JOB_METRIC_UNDEFINED = 0;
+  JOB_METRIC_REVENUE = 1; // SUM(job_tariff) of completed jobs, bucketed by completion day
+  JOB_METRIC_ORDERED = 2; // COUNT of non-cancelled jobs, bucketed by created day
+  JOB_METRIC_COMPLETED = 3; // COUNT of completed jobs, bucketed by completion day
+}
+
 enum JobCategory {
   JOB_CATEGORY_UNDEFINED = 0;
   JOB_CATEGORY_CO = 1;
