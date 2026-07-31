@@ -2,6 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "enums.proto";
+import "file_upload.proto";
 import "general.proto";
 import "job.proto";
 
@@ -30,6 +31,18 @@ message OperationTwJobListRequest {
   repeated uint64 service_provider_ids = 1 [json_name = "service_provider_ids"];
 }
 
+message AttachJobInstructionsRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+  required uint64 service_provider_id = 2 [json_name = "service_provider_id"];
+  repeated File files = 3 [json_name = "files"];
+}
+
+message DetachJobInstructionsRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+  required uint64 service_provider_id = 2 [json_name = "service_provider_id"];
+  repeated uint64 file_ids = 3 [json_name = "file_ids"];
+}
+
 service JobService {
   rpc CreateJob(JobCreate) returns (Job) {}
   rpc GetJobById(JobRequest) returns (Job) {}
@@ -38,4 +51,6 @@ service JobService {
   rpc ListOperationTimeWindowJobs(OperationTwJobListRequest) returns (JobList) {}
   rpc CancelJob(JobRequest) returns (Job) {}
   rpc ForceCompleteJob(JobRequest) returns (Job) {}
+  rpc AttachJobInstructions(AttachJobInstructionsRequest) returns (Job) {}
+  rpc DetachJobInstructions(DetachJobInstructionsRequest) returns (MessageResponse) {}
 }
