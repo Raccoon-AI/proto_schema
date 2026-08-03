@@ -1,0 +1,37 @@
+syntax = "proto2";
+package raccoonai;
+
+import "file_upload.proto";
+
+option go_package = "./pb";
+
+message AnalyzePhotosRequest {
+  // At least one image across both groups; either group may be empty.
+  repeated File images_before_service = 1 [json_name = "images_before_service"];
+  repeated File images_after_service = 2 [json_name = "images_after_service"];
+  optional string extra_context = 3 [json_name = "extra_context"];
+}
+
+message AnalyzePhotosResponse {
+  required string response_status = 1 [json_name = "response_status"]; // "ok" | "error"
+  optional bool is_photo_valid = 2 [json_name = "is_photo_valid"];
+  optional bool is_service_complete = 3 [json_name = "is_service_complete"];
+  optional uint32 num_containers_visible = 4 [json_name = "num_containers_visible"];
+  repeated uint32 per_container_fill_capacity_percent = 5 [json_name = "per_container_fill_capacity_percent"];
+  map<string, string> comments = 6 [json_name = "comments"];
+  optional string error_message = 7 [json_name = "error_message"];
+
+  // Sanitary condition
+  optional bool site_disinfection_required = 8 [json_name = "site_disinfection_required"];
+  optional bool containers_disinfection_required = 9 [json_name = "containers_disinfection_required"];
+  // Technical condition
+  optional bool container_replacement_required = 10 [json_name = "container_replacement_required"];
+  optional bool container_repair_required = 11 [json_name = "container_repair_required"];
+  optional bool site_repair_required = 12 [json_name = "site_repair_required"];
+  // Overflow
+  optional bool containers_shortage = 13 [json_name = "containers_shortage"];
+}
+
+service PhotoAnalysisService {
+  rpc AnalyzePhotos(AnalyzePhotosRequest) returns (AnalyzePhotosResponse);
+}
