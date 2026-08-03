@@ -1,0 +1,118 @@
+syntax = "proto2";
+package raccoonai;
+
+import "analytics.proto";
+import "enums.proto";
+import "general.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+// 1-3. Job time series — revenue / ordered / completed, unified behind one metric.
+// JobMetric is defined in enums.proto.
+message DailyValue {
+  optional string date = 1 [json_name = "date"]; // YYYY-MM-DD
+  optional uint64 value = 2 [json_name = "value"]; // revenue (whole tenge) or count, per metric
+}
+
+// GetJobMetricSeries request. location_id applies only to ORDERED, driver_id only to
+// COMPLETED; both are ignored for REVENUE.
+//
+// owner_organization_id selects the organization the series is computed for; the caller must
+// hold analytics view access on that organization (Permify decides, so admins can query the
+// orgs they administer).
+message JobMetricSeriesRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional DateFilter period = 2 [json_name = "period"];
+  required JobMetric metric = 3 [json_name = "metric"];
+  optional uint64 location_id = 4 [json_name = "location_id"];
+  optional uint64 driver_id = 5 [json_name = "driver_id"];
+}
+
+message JobMetricSeriesResponse {
+  optional uint64 total = 1 [json_name = "total"];
+  repeated DailyValue per_day = 2 [json_name = "per_day"];
+}
+
+// 4. drivers_summary_for_period — completed jobs per driver, keyed by geo_group,
+//    plus the driver's shift count over the period.
+message DriversSummaryRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional DateFilter period = 2 [json_name = "period"];
+  optional uint64 driver_id = 3 [json_name = "driver_id"];
+}
+
+message DriverSummary {
+  optional uint64 driver_id = 1 [json_name = "driver_id"];
+  // key = pickup_location.geo_group, value = completed jobs in that group
+  map<string, uint64> jobs_by_geo_group = 2 [json_name = "jobs_by_geo_group"];
+  optional uint64 total_shifts = 3 [json_name = "total_shifts"];
+}
+
+message DriversSummaryResponse {
+  repeated DriverSummary drivers = 1 [json_name = "drivers"];
+}
+
+// 5. monthly_jobs_for_period -> per-job detail rows over the period.
+message JobDetailsRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional DateFilter period = 2 [json_name = "period"];
+}
+
+message JobDetailRow {
+  optional uint64 job_id = 1 [json_name = "job_id"];
+  optional string truck_plate = 2 [json_name = "truck_plate"];
+  optional string driver_name = 3 [json_name = "driver_name"];
+  optional google.protobuf.Timestamp ordered_at = 4 [json_name = "ordered_at"]; // job.created_at
+  optional string completed_on = 5 [json_name = "completed_on"]; // YYYY-MM-DD of COALESCE(fact_end_at, plan_end_at)
+  optional string pickup_location = 6 [json_name = "pickup_location"];
+  optional string receiver = 7 [json_name = "receiver"]; // service receiver org name
+  optional uint64 tariff = 8 [json_name = "tariff"]; // COALESCE(NULLIF(contract.tariff,0), pickup.tariff)
+  optional uint64 rent = 9 [json_name = "rent"]; // contract.rent_cost
+  optional uint64 total = 10 [json_name = "total"]; // job.job_tariff
+  optional JobType type = 11 [json_name = "type"];
+}
+
+message JobDetailsResponse {
+  repeated JobDetailRow rows = 1 [json_name = "rows"];
+}
+
+// 6. service_provider_stats — point-in-time snapshot (reuses ServiceProviderStats).
+message ServiceProviderStatsRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+}
+
+// 7. gas_levels — calibrated fuel-level series for a single truck, averaged into
+//    interval_minutes-wide buckets. Backed by the ClickHouse `calibrated_gas_level_pm`
+//    materialized view (per-minute calibrated readings from gps_raw_data).
+// Tenancy is authorized against the truck's real owning organization, resolved server-side
+// from truck_id, so a foreign truck id can never expose another tenant's telemetry.
+// owner_organization_id is carried for consistency with the other analytics requests.
+message GasLevelSeriesRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 truck_id = 2 [json_name = "truck_id"];
+  // Inclusive YYYY-MM-DD range, resolved to [from 00:00:00, to 23:59:59.999999999] UTC.
+  required DateFilter period = 3 [json_name = "period"];
+  // Bucket width in minutes. Defaults to 60 (hourly) when unset or 0.
+  optional uint32 interval_minutes = 4 [json_name = "interval_minutes"];
+}
+
+message GasLevelPoint {
+  // Start of the bucket.
+  optional google.protobuf.Timestamp timestamp = 1 [json_name = "timestamp"];
+  // Average calibrated fuel level over the bucket, in litres.
+  optional double gas_level = 2 [json_name = "gas_level"];
+}
+
+message GasLevelSeriesResponse {
+  optional uint64 truck_id = 1 [json_name = "truck_id"];
+  repeated GasLevelPoint points = 2 [json_name = "points"];
+}
+
+service AnalyticsService {
+  rpc GetJobMetricSeries(JobMetricSeriesRequest) returns (JobMetricSeriesResponse) {}
+  rpc GetDriversSummary(DriversSummaryRequest) returns (DriversSummaryResponse) {}
+  rpc GetJobDetails(JobDetailsRequest) returns (JobDetailsResponse) {}
+  rpc GetServiceProviderStats(ServiceProviderStatsRequest) returns (ServiceProviderStats) {}
+  rpc GetGasLevelSeries(GasLevelSeriesRequest) returns (GasLevelSeriesResponse) {}
+}
