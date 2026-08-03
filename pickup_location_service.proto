@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "enums.proto";
 import "general.proto";
 import "pickup_location.proto";
 
@@ -16,6 +17,8 @@ message PickupLocationListRequest {
   repeated uint64 service_receiver_ids = 2 [json_name = "service_receiver_ids"];
   // Only pickup locations hosting container groups bound to these pickup location groups.
   repeated uint64 pickup_location_group_ids = 3 [json_name = "pickup_location_group_ids"];
+  // Only pickup locations hosting container groups whose group binding carries this job type.
+  optional JobType job_type = 4 [json_name = "job_type"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
@@ -55,6 +58,9 @@ message PickupLocationGroupListRequest {
   repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
   // Only groups containing at least one container group owned by these organizations (service receivers).
   repeated uint64 service_receiver_ids = 2 [json_name = "service_receiver_ids"];
+  // Only groups with a container group binding for this job type (combined with
+  // service_receiver_ids: the same binding must satisfy both).
+  optional JobType job_type = 3 [json_name = "job_type"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 

@@ -2,6 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "container.proto";
+import "enums.proto";
 import "general.proto";
 
 option go_package = "./pb";
@@ -28,6 +29,9 @@ message ContainerGroupListRequest {
   optional ListFilter list_filter = 4 [json_name = "list_filter"];
   // Only container groups bound to these pickup location groups.
   repeated uint64 pickup_location_group_ids = 5 [json_name = "pickup_location_group_ids"];
+  // Only container groups whose pickup location group binding carries this job
+  // type (combined with pickup_location_group_ids: the same binding must satisfy both).
+  optional JobType job_type = 6 [json_name = "job_type"];
 }
 
 message CompatibleContainerGroupsRequest {
