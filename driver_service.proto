@@ -2,6 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "container.proto";
+import "driver_incident.proto";
 import "driver_on_shift.proto";
 import "file_upload.proto";
 import "general.proto";
@@ -29,6 +30,14 @@ message MyLocationRequest {
   optional uint64 current_route_id = 7 [json_name = "route_id"];
   optional uint64 current_job_id = 8 [json_name = "job_id"];
   required google.protobuf.Timestamp sent_at = 9 [json_name = "sent_at"];
+}
+
+message ReportShiftIncidentRequest {
+  required DriverIncidentType type = 1 [json_name = "type"];
+}
+
+message ReportJobIncidentRequest {
+  required DriverIncidentType type = 1 [json_name = "type"];
 }
 
 message FirebaseNotificationsRequest {
@@ -86,6 +95,23 @@ service DriverService {
 
   // Upload job-related file (e.g., photo evidence)
   rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
+
+  // ******** Incident RPCs *********** //
+
+  // Report a problem while on shift ("Сообщить о проблеме на линии").
+  // Requires an active shift. Accepts shift-level incident types only
+  // (TRUCK_BREAKDOWN, TRAFFIC_ACCIDENT, LOADERS_UNWELL, DRIVER_UNWELL, OTHER).
+  // Notifies the dispatcher; no automatic route/job changes.
+  rpc ReportShiftIncident(ReportShiftIncidentRequest) returns (DriverIncident) {}
+
+  // Report a problem on the current job ("Сообщить о проблеме на задаче").
+  // Requires an active route with a current job (ENROUTE or ON_SERVICE);
+  // the backend resolves the job itself. Accepts all incident types.
+  // Depending on the type, the job may be marked NOT_COMPLETED and a retry
+  // copy created (end of the current route, or the unassigned pool for
+  // UNSUITABLE_EQUIPMENT); the route then advances to the next job as if
+  // the job was completed.
+  rpc ReportJobIncident(ReportJobIncidentRequest) returns (DriverIncident) {}
 
   // ******** Route Related RPCs *********** //
   rpc AssignedRoutes(EmptyMessageRequest) returns (RouteList) {}
