@@ -19,6 +19,9 @@ message JobListRequest {
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
   optional DateTimeFilter time_filter = 11 [json_name = "time_filter"];
   repeated uint64 pickup_location_ids = 12 [json_name = "pickup_location_ids"];
+  // Only jobs created with these pickup location groups (jobs created before
+  // the group-based flow carry no group and never match this filter).
+  repeated uint64 pickup_location_group_ids = 13 [json_name = "pickup_location_group_ids"];
 }
 
 message JobRequest {
