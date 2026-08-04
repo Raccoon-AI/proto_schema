@@ -6,18 +6,14 @@ import "location.proto";
 
 option go_package = "./pb";
 
-message DepotListRequest {
-  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"]; // filter by org
-  optional ListFilter list_filter = 10 [json_name = "list_filter"];
-}
-
 service LocationService {
-  // Service provider can manage DEPOTS
-  rpc CreateDepot(LocationCreate) returns (Location) {}
-  rpc ListDepots(DepotListRequest) returns (LocationList) {}
-  rpc GetDepotById(LocationRequest) returns (Location) {}
-  rpc UpdateDepot(LocationUpdate) returns (Location) {}
-  rpc DeleteDepot(LocationRequest) returns (MessageResponse) {}
+  // Service provider can manage its own locations: depots, sorting complexes (МСК),
+  // processing plants (МПЗ) and transfer stations (Перевал).
+  rpc CreateLocation(LocationCreate) returns (Location) {}
+  rpc ListLocations(LocationListRequest) returns (LocationList) {}
+  rpc GetLocationById(LocationRequest) returns (Location) {}
+  rpc UpdateLocation(LocationUpdate) returns (Location) {}
+  rpc DeleteLocation(LocationRequest) returns (MessageResponse) {}
   // Lists all disposal sites, filter by organization settings
   rpc ListDisposalSites(EmptyMessageRequest) returns (LocationList) {}
 }
