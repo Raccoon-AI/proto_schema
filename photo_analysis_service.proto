@@ -62,7 +62,7 @@ message AnalyzePhotosResponse {
   optional string error_message = 13 [json_name = "error_message"];
 }
 
-// Gemini-backed analysis of waste-collection service photos, served by
+// LLM-backed analysis of waste-collection service photos, served by
 // vrp_solver. One request = one service event; one combined verdict out,
 // with errors answered in-band via response_status/error_message.
 service PhotoAnalysisService {
