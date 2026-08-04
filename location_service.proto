@@ -7,8 +7,6 @@ import "location.proto";
 option go_package = "./pb";
 
 service LocationService {
-  // Service provider can manage its own locations: depots, sorting complexes (МСК),
-  // processing plants (МПЗ) and transfer stations (Перевал).
   rpc CreateLocation(LocationCreate) returns (Location) {}
   rpc ListLocations(LocationListRequest) returns (LocationList) {}
   rpc GetLocationById(LocationRequest) returns (Location) {}
