@@ -55,9 +55,14 @@ message AnalyzePhotosResponse {
   // Set when response_status == "error"; names the offending image group
   // and index for validation failures.
   optional string error_message = 13 [json_name = "error_message"];
+  // Reasons a human should re-check this event instead of trusting the
+  // verdict as-is: cross-photo inconsistencies (e.g. before/after show
+  // different sites), low confidence on some answer, ambiguous evidence.
+  // Empty when nothing needs human review.
+  repeated string human_review_reasons = 14 [json_name = "human_review_reasons"];
 }
 
-// Gemini-backed analysis of waste-collection service photos, served by
+// LLM-backed analysis of waste-collection service photos, served by
 // vrp_solver. One request = one service event; one combined verdict out,
 // with errors answered in-band via response_status/error_message.
 service PhotoAnalysisService {
