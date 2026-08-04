@@ -52,14 +52,14 @@ message AnalyzePhotosResponse {
   // field names of this message (e.g. "is_service_complete"); renaming a
   // field renames its key.
   map<string, string> comments = 12 [json_name = "comments"];
+  // Set when response_status == "error"; names the offending image group
+  // and index for validation failures.
+  optional string error_message = 13 [json_name = "error_message"];
   // Reasons a human should re-check this event instead of trusting the
   // verdict as-is: cross-photo inconsistencies (e.g. before/after show
   // different sites), low confidence on some answer, ambiguous evidence.
   // Empty when nothing needs human review.
   repeated string human_review_reasons = 14 [json_name = "human_review_reasons"];
-  // Set when response_status == "error"; names the offending image group
-  // and index for validation failures.
-  optional string error_message = 13 [json_name = "error_message"];
 }
 
 // LLM-backed analysis of waste-collection service photos, served by
