@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "file_upload.proto";
 import "general.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -21,12 +22,11 @@ enum DriverIncidentType {
   DRIVER_INCIDENT_TYPE_OTHER = 5; // Другое (с вами свяжется диспетчер)
 
   // Types available only on a job ("проблема на задаче").
-  // Post-action: job -> NOT_COMPLETED, retry copy appended to the end of
-  // the current route.
+  // Post-action: the jobs currently in progress are marked NOT_COMPLETED (no
+  // copies are created — the dispatcher decides how to handle the missed
+  // pickup) and the route moves on.
   DRIVER_INCIDENT_TYPE_PICKUP_LOCATION_BLOCKED = 6; // КП запаркована машинами
   DRIVER_INCIDENT_TYPE_PICKUP_LOCATION_NO_ACCESS = 7; // Нет доступа к КП (закрыто)
-  // Post-action: job -> NOT_COMPLETED, retry copy goes to the unassigned
-  // pool for the dispatcher to reassign to a suitable truck.
   DRIVER_INCIDENT_TYPE_UNSUITABLE_EQUIPMENT = 8; // Неподходящая техника
   // Notification only, the job continues as usual.
   DRIVER_INCIDENT_TYPE_CONTAINERS_DAMAGED = 9; // Контейнер(ы) повреждены
@@ -42,9 +42,8 @@ message DriverIncident {
   optional uint64 route_id = 6 [json_name = "route_id"];
   // Set for incidents reported on a job (the driver's current job).
   optional uint64 job_id = 7 [json_name = "job_id"];
-  // Retry copy of the job created by the post-action, if any.
-  optional uint64 created_job_id = 8 [json_name = "created_job_id"];
-  required DriverIncidentType type = 9 [json_name = "type"];
+  required DriverIncidentType type = 8 [json_name = "type"];
+  repeated FileUpload files = 9 [json_name = "files"];
   required google.protobuf.Timestamp created_at = 10 [json_name = "created_at"];
 }
 

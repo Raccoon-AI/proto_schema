@@ -32,12 +32,14 @@ message MyLocationRequest {
   required google.protobuf.Timestamp sent_at = 9 [json_name = "sent_at"];
 }
 
-message ReportShiftIncidentRequest {
+// Shared request for ReportShiftIncident and ReportJobIncident. The reporting
+// context (shift vs job) is expressed by which RPC is called, not by a field —
+// each RPC has its own preconditions, allowed types, and side effects.
+message ReportIncidentRequest {
   required DriverIncidentType type = 1 [json_name = "type"];
-}
-
-message ReportJobIncidentRequest {
-  required DriverIncidentType type = 1 [json_name = "type"];
+  // Optional photo/video evidence: the breakdown or accident scene on shift,
+  // the blocked pickup location on a job (proof that the pickup was impossible).
+  repeated File files = 2 [json_name = "files"];
 }
 
 message FirebaseNotificationsRequest {
@@ -102,16 +104,18 @@ service DriverService {
   // Requires an active shift. Accepts shift-level incident types only
   // (TRUCK_BREAKDOWN, TRAFFIC_ACCIDENT, LOADERS_UNWELL, DRIVER_UNWELL, OTHER).
   // Notifies the dispatcher; no automatic route/job changes.
-  rpc ReportShiftIncident(ReportShiftIncidentRequest) returns (DriverIncident) {}
+  rpc ReportShiftIncident(ReportIncidentRequest) returns (DriverIncident) {}
 
   // Report a problem on the current job ("Сообщить о проблеме на задаче").
   // Requires an active route with a current job (ENROUTE or ON_SERVICE);
   // the backend resolves the job itself. Accepts all incident types.
-  // Depending on the type, the job may be marked NOT_COMPLETED and a retry
-  // copy created (end of the current route, or the unassigned pool for
-  // UNSUITABLE_EQUIPMENT); the route then advances to the next job as if
-  // the job was completed.
-  rpc ReportJobIncident(ReportJobIncidentRequest) returns (DriverIncident) {}
+  // For PICKUP_LOCATION_BLOCKED / PICKUP_LOCATION_NO_ACCESS /
+  // UNSUITABLE_EQUIPMENT the jobs currently in progress are marked
+  // NOT_COMPLETED (no copies are created — the dispatcher decides how to
+  // handle the missed pickup) and the route advances to the next job as if
+  // the job was completed; a route left with no assignable jobs moves to
+  // RETURNING. Other types are notification-only.
+  rpc ReportJobIncident(ReportIncidentRequest) returns (DriverIncident) {}
 
   // ******** Route Related RPCs *********** //
   rpc AssignedRoutes(EmptyMessageRequest) returns (RouteList) {}
