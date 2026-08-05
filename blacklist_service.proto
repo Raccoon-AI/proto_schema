@@ -1,0 +1,17 @@
+syntax = "proto2";
+package raccoonai;
+
+import "blacklist.proto";
+import "general.proto";
+
+option go_package = "./pb";
+
+service BlacklistService {
+  // Creates a blacklist entry. Fails with an already-exists error if the
+  // (truck_type_id, pickup_location_id) pair is already blacklisted.
+  rpc CreateBlacklist(BlacklistCreate) returns (Blacklist) {}
+  // Lists blacklist entries, filterable by pickup location and/or truck type.
+  // Entries embed the full truck type and pickup location.
+  rpc ListBlacklists(BlacklistListRequest) returns (BlacklistList) {}
+  rpc DeleteBlacklist(IdRequest) returns (EmptyMessageResponse) {}
+}
