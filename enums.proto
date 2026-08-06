@@ -330,9 +330,9 @@ enum LocationType {
   LOCATION_TYPE_DISPOSAL_SITE = 2;
   LOCATION_TYPE_GAS_STATION = 3;
   LOCATION_TYPE_SUSPICIOUS = 4;
-  LOCATION_TYPE_SORTING_COMPLEX = 5; // МСК — мусоросортировочный комплекс
-  LOCATION_TYPE_PROCESSING_PLANT = 6; // МПЗ — мусороперерабатывающий завод
-  LOCATION_TYPE_TRANSFER_STATION = 7; // Перевал — перевалочная станция
+  LOCATION_TYPE_SORTING_COMPLEX = 5; // MSK
+  LOCATION_TYPE_PROCESSING_PLANT = 6; // MPS
+  LOCATION_TYPE_TRANSFER_STATION = 7; // Transfer Station
 }
 
 // *****************************************************
