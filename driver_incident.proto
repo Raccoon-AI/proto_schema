@@ -54,10 +54,8 @@ message DriverIncidentListRequest {
   optional uint64 driver_id = 4 [json_name = "driver_id"];
   optional uint64 truck_id = 5 [json_name = "truck_id"];
   optional uint64 route_id = 6 [json_name = "route_id"];
-  optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
 message DriverIncidentList {
   repeated DriverIncident driver_incidents = 1 [json_name = "driver_incidents"];
-  optional ListInfo list_info = 2 [json_name = "list_info"];
 }
