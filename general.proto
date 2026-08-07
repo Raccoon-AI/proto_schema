@@ -8,6 +8,10 @@ option go_package = "./pb";
 message DateTimeFilter {
   required google.protobuf.Timestamp from = 1 [json_name = "from"];
   required google.protobuf.Timestamp to = 2 [json_name = "to"];
+  // Which time column the range applies to, snake_case, e.g. "fact_start_at".
+  // Must be a time field of the listed entity; unknown names are rejected.
+  // Omitted = the endpoint's default time column.
+  optional string field = 3 [json_name = "field"];
 }
 
 message DateFilter {
