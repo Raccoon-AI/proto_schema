@@ -40,6 +40,11 @@ message ReportIncidentRequest {
   // Optional photo/video evidence: the breakdown or accident scene on shift,
   // the blocked pickup location on a job (proof that the pickup was impossible).
   repeated File files = 2 [json_name = "files"];
+  // The job the report is about, for ReportJobIncident. Must be a job that is
+  // currently in progress on the driver's active route — a stale or foreign id
+  // is rejected rather than silently replaced. Omit to let the backend use the
+  // driver's current job. Ignored by ReportShiftIncident.
+  optional uint64 job_id = 3 [json_name = "job_id"];
 }
 
 message FirebaseNotificationsRequest {
