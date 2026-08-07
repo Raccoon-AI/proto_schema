@@ -5,6 +5,7 @@ package raccoonai;
 import "ai_verification.proto";
 import "container.proto";
 import "contract.proto";
+import "daily_summary.proto";
 import "enums.proto";
 import "general.proto";
 import "google/protobuf/struct.proto";
@@ -330,6 +331,10 @@ message GovDisposalVisit {
   // Set only when has_scale_data is true. A record whose net weight was never recorded
   // contributes 0, so this can undercount the tonnage total_visits implies.
   optional double total_netto_kg = 9 [json_name = "total_netto_kg"];
+}
+
+message GovDailySummaryList {
+  repeated DailySummary daily_summaries = 1 [json_name = "daily_summaries"];
 }
 
 message GovDisposalVisitList {
