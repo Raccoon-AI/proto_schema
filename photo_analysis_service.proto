@@ -1,0 +1,70 @@
+syntax = "proto2";
+package raccoonai;
+
+import "file_upload.proto";
+
+option go_package = "./pb";
+
+message AnalyzePhotosRequest {
+  // At least one image across both groups; either group may be empty.
+  // Each File must carry base64-encoded `bytes` and a `format` of
+  // jpg/jpeg/png/webp; other File fields are ignored.
+  repeated File images_before_service = 1 [json_name = "images_before_service"];
+  repeated File images_after_service = 2 [json_name = "images_after_service"];
+  // Free-text hints appended to the server-owned prompt (e.g. waste type,
+  // expected container count). Not a full prompt.
+  optional string extra_context = 3 [json_name = "extra_context"];
+}
+
+// One combined verdict for the whole photo set of one service event.
+// All analysis fields (2-12) are populated when response_status == "ok"
+// and absent when it is "error" — unset means the request failed, never
+// "no" or "unknown".
+message AnalyzePhotosResponse {
+  required string response_status = 1 [json_name = "response_status"]; // "ok" | "error"
+
+  // The photos are usable evidence of the service event (right subject,
+  // not blurred/dark/obstructed), judged over the whole set.
+  optional bool is_photo_valid = 2 [json_name = "is_photo_valid"];
+  // The service (containers emptied/replaced, waste removed) was actually
+  // performed; before/after groups are compared when both are present.
+  optional bool is_service_complete = 3 [json_name = "is_service_complete"];
+  // Distinct physical containers visible across all photos.
+  optional uint32 num_containers_visible = 4 [json_name = "num_containers_visible"];
+  // Fill level left after the service, one entry of 0-100 per visible
+  // container in counting order. Aims to match num_containers_visible in
+  // length; the model's answer is passed through unreconciled, so length
+  // may disagree.
+  repeated uint32 per_container_fill_capacity_percents = 5 [json_name = "per_container_fill_capacity_percents"];
+
+  // Sanitary condition
+  optional bool site_disinfection_required = 6 [json_name = "site_disinfection_required"];
+  optional bool containers_disinfection_required = 7 [json_name = "containers_disinfection_required"];
+  // Technical condition
+  optional bool container_replacement_required = 8 [json_name = "container_replacement_required"];
+  optional bool container_repair_required = 9 [json_name = "container_repair_required"];
+  optional bool site_repair_required = 10 [json_name = "site_repair_required"];
+  // Overflow: waste piled up at the site, on the ground, or around the
+  // containers — a sign there are not enough containers.
+  optional bool containers_shortage = 11 [json_name = "containers_shortage"];
+
+  // Model's short justification per response field. Keys are the analysis
+  // field names of this message (e.g. "is_service_complete"); renaming a
+  // field renames its key.
+  map<string, string> comments = 12 [json_name = "comments"];
+  // Set when response_status == "error"; names the offending image group
+  // and index for validation failures.
+  optional string error_message = 13 [json_name = "error_message"];
+  // Reasons a human should re-check this event instead of trusting the
+  // verdict as-is: cross-photo inconsistencies (e.g. before/after show
+  // different sites), low confidence on some answer, ambiguous evidence.
+  // Empty when nothing needs human review.
+  repeated string human_review_reasons = 14 [json_name = "human_review_reasons"];
+}
+
+// LLM-backed analysis of waste-collection service photos, served by
+// vrp_solver. One request = one service event; one combined verdict out,
+// with errors answered in-band via response_status/error_message.
+service PhotoAnalysisService {
+  rpc AnalyzePhotos(AnalyzePhotosRequest) returns (AnalyzePhotosResponse);
+}

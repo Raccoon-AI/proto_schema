@@ -68,6 +68,7 @@ message Job {
   optional ContainerGroup container_group = 45 [json_name = "container_group"];
   optional google.protobuf.Timestamp updated_at = 46 [json_name = "updated_at"];
   optional Organization service_provider = 47 [json_name = "service_provider"];
+  optional uint64 pickup_location_group_id = 48 [json_name = "pickup_location_group_id"];
 }
 
 message JobCreate {
@@ -92,6 +93,7 @@ message JobCreate {
   required JobCategory job_category = 19 [json_name = "job_category"];
   optional uint64 container_type_id = 20 [json_name = "container_type_id"]; // We don't need this
   optional uint64 container_group_id = 21 [json_name = "container_group_id"]; // To be switched to required in the future
+  optional uint64 pickup_location_group_id = 22 [json_name = "pickup_location_group_id"];
 }
 
 message JobUpdate {
