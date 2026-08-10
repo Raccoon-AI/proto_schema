@@ -319,6 +319,9 @@ message GovDisposalVisit {
   required string disposal_site_name = 6 [json_name = "disposal_site_name"];
   required uint64 total_visits = 7 [json_name = "total_visits"];
   required bool has_scale_data = 8 [json_name = "has_scale_data"];
+  // Sum of raw_scale_record.netto_kg behind total_visits. Only set when has_scale_data is
+  // true - the gps_stop fallback branch has no weighings to sum.
+  optional double total_netto_kg = 9 [json_name = "total_netto_kg"];
 }
 
 message GovDisposalVisitList {
