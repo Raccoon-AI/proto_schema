@@ -16,19 +16,42 @@ message AnalyzePhotosRequest {
   optional string extra_context = 3 [json_name = "extra_context"];
 }
 
+// Metadata drawn into one photo's pixels by the capturing app — a
+// watermark-style overlay carrying coordinates, a timestamp, an address, a
+// device or driver name, and so on. Transcribed from the image by the model
+// (this is not EXIF); photos without an overlay yield an empty object.
+message PhotoOverlayMetadata {
+  // Which group the photo came from: "before" or "after".
+  optional string group = 1 [json_name = "group"];
+  // 1-based position of the photo within its group, in request order.
+  optional uint32 index = 2 [json_name = "index"];
+  // Freeform JSON object as text. Keys are whatever the overlay shows
+  // (e.g. "latitude", "longitude", "timestamp", "address"), plus "raw_text"
+  // holding the overlay transcribed verbatim. "{}" when nothing is drawn on
+  // the photo; callers must tolerate any key set, including none.
+  optional string metadata_json = 3 [json_name = "metadata_json"];
+}
+
 // One combined verdict for the whole photo set of one service event.
-// All analysis fields (2-12) are populated when response_status == "ok"
-// and absent when it is "error" — unset means the request failed, never
-// "no" or "unknown".
+// All analysis fields (4, 5, 12, 15-22) are populated when
+// response_status == "ok" and absent when it is "error" — unset means the
+// request failed, never "no" or "unknown".
+//
+// The judgement fields are 0-10 scores, not booleans: 0 = certainly not,
+// 1-3 = unlikely or trivial, 4-6 = borderline (moderate in degree, or the
+// photos do not settle it), 7-9 = likely and significant, 10 = certain and
+// maximal. Each score blends how strongly the condition holds with how sure
+// the model is; the two are not reported separately. 10 always means "the
+// most of what the field name says" — good news for photo_validity_score
+// and service_completeness_score, bad news for the *_required_score fields.
 message AnalyzePhotosResponse {
+  reserved 2, 3, 6, 7, 8, 9, 10, 11;
+  reserved "is_photo_valid", "is_service_complete", "site_disinfection_required",
+           "containers_disinfection_required", "container_replacement_required",
+           "container_repair_required", "site_repair_required", "containers_shortage";
+
   required string response_status = 1 [json_name = "response_status"]; // "ok" | "error"
 
-  // The photos are usable evidence of the service event (right subject,
-  // not blurred/dark/obstructed), judged over the whole set.
-  optional bool is_photo_valid = 2 [json_name = "is_photo_valid"];
-  // The service (containers emptied/replaced, waste removed) was actually
-  // performed; before/after groups are compared when both are present.
-  optional bool is_service_complete = 3 [json_name = "is_service_complete"];
   // Distinct physical containers visible across all photos.
   optional uint32 num_containers_visible = 4 [json_name = "num_containers_visible"];
   // Fill level left after the service, one entry of 0-100 per visible
@@ -37,20 +60,34 @@ message AnalyzePhotosResponse {
   // may disagree.
   repeated uint32 per_container_fill_capacity_percents = 5 [json_name = "per_container_fill_capacity_percents"];
 
-  // Sanitary condition
-  optional bool site_disinfection_required = 6 [json_name = "site_disinfection_required"];
-  optional bool containers_disinfection_required = 7 [json_name = "containers_disinfection_required"];
-  // Technical condition
-  optional bool container_replacement_required = 8 [json_name = "container_replacement_required"];
-  optional bool container_repair_required = 9 [json_name = "container_repair_required"];
-  optional bool site_repair_required = 10 [json_name = "site_repair_required"];
-  // Overflow: waste piled up at the site, on the ground, or around the
-  // containers — a sign there are not enough containers.
-  optional bool containers_shortage = 11 [json_name = "containers_shortage"];
+  // Evidence quality, 0-10: how usable the photos are as evidence of this
+  // service event (right subject, not blurred/dark/obstructed), judged over
+  // the whole set. 10 = unambiguous evidence.
+  optional uint32 photo_validity_score = 15 [json_name = "photo_validity_score"];
+  // Service completion, 0-10: how fully the service (containers
+  // emptied/replaced, waste removed) was actually performed; before/after
+  // groups are compared when both are present. 10 = clearly done in full.
+  optional uint32 service_completeness_score = 16 [json_name = "service_completeness_score"];
+
+  // Sanitary condition, 0-10 (10 = disinfection urgently required)
+  optional uint32 site_disinfection_required_score = 17 [json_name = "site_disinfection_required_score"];
+  optional uint32 containers_disinfection_required_score = 18 [json_name = "containers_disinfection_required_score"];
+  // Technical condition, 0-10 (10 = replacement/repair urgently required)
+  optional uint32 container_replacement_required_score = 19 [json_name = "container_replacement_required_score"];
+  optional uint32 container_repair_required_score = 20 [json_name = "container_repair_required_score"];
+  optional uint32 site_repair_required_score = 21 [json_name = "site_repair_required_score"];
+  // Overflow, 0-10: waste piled up at the site, on the ground, or around the
+  // containers — a sign there are not enough containers. 10 = waste
+  // everywhere.
+  optional uint32 containers_shortage_score = 22 [json_name = "containers_shortage_score"];
+
+  // One entry per image in the request — BEFORE group first, then AFTER,
+  // request order preserved — with whatever metadata is drawn on it.
+  repeated PhotoOverlayMetadata per_image_metadata = 23 [json_name = "per_image_metadata"];
 
   // Model's short justification per response field. Keys are the analysis
-  // field names of this message (e.g. "is_service_complete"); renaming a
-  // field renames its key.
+  // field names of this message (e.g. "service_completeness_score");
+  // renaming a field renames its key.
   map<string, string> comments = 12 [json_name = "comments"];
   // Set when response_status == "error"; names the offending image group
   // and index for validation failures.
