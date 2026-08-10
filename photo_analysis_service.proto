@@ -23,7 +23,9 @@ message AnalyzePhotosRequest {
 message PhotoOverlayMetadata {
   // Which group the photo came from: "before" or "after".
   optional string group = 1 [json_name = "group"];
-  // 1-based position of the photo within its group, in request order.
+  // 1-based position of the photo within its group, in request order. 0
+  // means the producer could not attribute the entry to a specific image;
+  // treat such an entry as unattributed rather than as image 1.
   optional uint32 index = 2 [json_name = "index"];
   // Freeform JSON object as text. Keys are whatever the overlay shows
   // (e.g. "latitude", "longitude", "timestamp", "address"), plus "raw_text"
@@ -86,6 +88,9 @@ message AnalyzePhotosResponse {
 
   // One entry per image in the request — BEFORE group first, then AFTER,
   // request order preserved — with whatever metadata is drawn on it.
+  // Best-effort: the model may return fewer entries than there were images,
+  // and neither uniqueness of (group, index) nor ordering is enforced, so
+  // match on (group, index) rather than on position.
   repeated PhotoOverlayMetadata per_image_metadata = 23 [json_name = "per_image_metadata"];
 
   // Model's short justification per response field. Keys are the analysis
@@ -97,7 +102,9 @@ message AnalyzePhotosResponse {
   optional string error_message = 13 [json_name = "error_message"];
   // Reasons a human should re-check this event instead of trusting the
   // verdict as-is: cross-photo inconsistencies (e.g. before/after show
-  // different sites), low confidence on some answer, ambiguous evidence.
+  // different sites), drawn-on metadata contradicting the photos or itself,
+  // ambiguous evidence a score cannot express. Note a mid-range score is NOT
+  // itself a reason — uncertainty is already carried by the score.
   // Empty when nothing needs human review.
   repeated string human_review_reasons = 14 [json_name = "human_review_reasons"];
 }
