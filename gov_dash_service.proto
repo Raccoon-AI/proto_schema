@@ -307,9 +307,11 @@ message GovAnalyticsAnomaliesForAll {
   repeated GovAnalyticsAnomalyPerProvider anomaly_per_provider = 1 [json_name = "anomaly_per_provider"];
 }
 
-// GovDisposalVisit is one (truck, disposal site) visit count, flagged with whether that truck
-// has a matching weighbridge record (scale_record or raw_scale_record) at the site's owner
-// organization within the requested window.
+// GovDisposalVisit is one truck's visit count at one disposal site in the requested window.
+// has_scale_data says where that count comes from and therefore what it means: true - each
+// visit is a weighbridge record at the site's owner organization; false - each visit is a
+// GPS-detected stop at the site, counted only because the site produced no weighbridge
+// records at all in the window.
 message GovDisposalVisit {
   required uint64 organization_id = 1 [json_name = "organization_id"];
   required string organization_name = 2 [json_name = "organization_name"];
@@ -319,6 +321,10 @@ message GovDisposalVisit {
   required string disposal_site_name = 6 [json_name = "disposal_site_name"];
   required uint64 total_visits = 7 [json_name = "total_visits"];
   required bool has_scale_data = 8 [json_name = "has_scale_data"];
+  // Total net weight in kilograms across the same weighbridge records total_visits counts.
+  // Set only when has_scale_data is true. A record whose net weight was never recorded
+  // contributes 0, so this can undercount the tonnage total_visits implies.
+  optional double total_netto_kg = 9 [json_name = "total_netto_kg"];
 }
 
 message GovDisposalVisitList {
