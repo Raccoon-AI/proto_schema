@@ -33,9 +33,11 @@ message PhotoOverlayMetadata {
 }
 
 // One combined verdict for the whole photo set of one service event.
-// All analysis fields (4, 5, 12, 15-22) are populated when
+// All analysis fields — 4, 5, 12, 14, 15-23, i.e. everything except
+// response_status and error_message — are populated when
 // response_status == "ok" and absent when it is "error" — unset means the
-// request failed, never "no" or "unknown".
+// request failed, never "no" or "unknown". The repeated ones (5, 14, 23)
+// may legitimately be empty on "ok".
 //
 // The judgement fields are 0-10 scores, not booleans: 0 = certainly not,
 // 1-3 = unlikely or trivial, 4-6 = borderline (moderate in degree, or the
@@ -46,9 +48,7 @@ message PhotoOverlayMetadata {
 // and service_completeness_score, bad news for the *_required_score fields.
 message AnalyzePhotosResponse {
   reserved 2, 3, 6, 7, 8, 9, 10, 11;
-  reserved "is_photo_valid", "is_service_complete", "site_disinfection_required",
-           "containers_disinfection_required", "container_replacement_required",
-           "container_repair_required", "site_repair_required", "containers_shortage";
+  reserved "is_photo_valid", "is_service_complete", "site_disinfection_required", "containers_disinfection_required", "container_replacement_required", "container_repair_required", "site_repair_required", "containers_shortage";
 
   required string response_status = 1 [json_name = "response_status"]; // "ok" | "error"
 
