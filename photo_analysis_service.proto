@@ -27,8 +27,10 @@ message PhotoOverlayMetadata {
   optional uint32 index = 2 [json_name = "index"];
   // Freeform JSON object as text. Keys are whatever the overlay shows
   // (e.g. "latitude", "longitude", "timestamp", "address"), plus "raw_text"
-  // holding the overlay transcribed verbatim. "{}" when nothing is drawn on
-  // the photo; callers must tolerate any key set, including none.
+  // holding the overlay transcribed verbatim. Producers send "{}" when
+  // nothing is drawn on the photo; consumers must treat unset, "{}" and
+  // anything that does not parse to a JSON object identically — as "no
+  // overlay data" — and must tolerate any key set.
   optional string metadata_json = 3 [json_name = "metadata_json"];
 }
 
