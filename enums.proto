@@ -330,6 +330,9 @@ enum LocationType {
   LOCATION_TYPE_DISPOSAL_SITE = 2;
   LOCATION_TYPE_GAS_STATION = 3;
   LOCATION_TYPE_SUSPICIOUS = 4;
+  LOCATION_TYPE_SORTING_COMPLEX = 5; // Waste Sorting Complex
+  LOCATION_TYPE_PROCESSING_PLANT = 6; // Waste Processing Plant
+  LOCATION_TYPE_TRANSFER_STATION = 7; // Waste Transfer Station
 }
 
 // *****************************************************
