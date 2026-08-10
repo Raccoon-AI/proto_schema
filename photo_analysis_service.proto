@@ -54,10 +54,11 @@ message AnalyzePhotosResponse {
 
   // Distinct physical containers visible across all photos.
   optional uint32 num_containers_visible = 4 [json_name = "num_containers_visible"];
-  // Fill level left after the service, one entry of 0-100 per visible
-  // container in counting order. Aims to match num_containers_visible in
-  // length; the model's answer is passed through unreconciled, so length
-  // may disagree.
+  // How full each container was BEFORE the service, one entry of 0-125 per
+  // visible container in counting order. 100 = full to the rim but not
+  // overflowing; 101-125 = overflowing, waste heaped above the rim. Aims to
+  // match num_containers_visible in length; the model's answer is passed
+  // through unreconciled, so length may disagree.
   repeated uint32 per_container_fill_capacity_percents = 5 [json_name = "per_container_fill_capacity_percents"];
 
   // Evidence quality, 0-10: how usable the photos are as evidence of this
