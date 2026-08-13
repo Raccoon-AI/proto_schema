@@ -40,6 +40,10 @@ message OrganizationSettings {
   optional TableColumnsConfig table_columns_config = 12 [json_name = "table_columns_config"];
   optional double reward_coeff = 13 [json_name = "reward_coeff"];
   optional uint64 default_depot_id = 15 [json_name = "default_depot_id"];
+  // IANA timezone name (e.g. "Asia/Almaty") the organization operates in;
+  // drives calendar-day logic such as the driver shift schedule.
+  // Unset falls back to the platform default (Asia/Almaty).
+  optional string timezone = 16 [json_name = "timezone"];
 }
 
 message OrganizationSettingsCreate {
@@ -54,6 +58,7 @@ message OrganizationSettingsCreate {
   optional bool ai_enabled = 9 [json_name = "ai_enabled"];
   optional TableColumnsConfig table_columns_config = 10 [json_name = "table_columns_config"];
   optional uint64 default_depot_id = 12 [json_name = "default_depot_id"];
+  optional string timezone = 13 [json_name = "timezone"];
 }
 
 message OrganizationSettingsUpdate {
@@ -68,4 +73,5 @@ message OrganizationSettingsUpdate {
   optional bool ai_enabled = 9 [json_name = "ai_enabled"];
   optional TableColumnsConfig table_columns_config = 10 [json_name = "table_columns_config"];
   optional uint64 default_depot_id = 12 [json_name = "default_depot_id"];
+  optional string timezone = 13 [json_name = "timezone"];
 }

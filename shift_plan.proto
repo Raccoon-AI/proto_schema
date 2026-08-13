@@ -5,46 +5,25 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
-enum ShiftPlanStatus {
-  SHIFT_PLAN_STATUS_UNDEFINED = 0;
-  SHIFT_PLAN_STATUS_ACTIVE = 1;
-  SHIFT_PLAN_STATUS_INACTIVE = 2;
-}
-
-enum ShiftPlanState {
-  SHIFT_PLAN_STATE_UNDEFINED = 0;
-  SHIFT_PLAN_STATE_PLANNED = 1;
-  SHIFT_PLAN_STATE_COMPLETED = 2;
-  SHIFT_PLAN_STATE_MISSED = 3;
-  SHIFT_PLAN_STATE_SUBSTITUTE = 4;
-  SHIFT_PLAN_STATE_CANCELLED = 5;
-}
-
-enum ShiftPlanType {
-  SHIFT_PLAN_TYPE_UNDEFINED = 0;
-  SHIFT_PLAN_TYPE_DAY = 1;
-  SHIFT_PLAN_TYPE_NIGHT = 2;
-}
-
+// ShiftPlan is planning intent only: "driver X should work on date D".
+// It never references a truck — vehicles are assigned later, when the actual
+// driver_on_shift record is created. There is no stored status either: the
+// schedule cell state (planned / missed / worked) is derived at read time by
+// ShiftPlanService.ListShiftSchedule from this table and driver_on_shift.
 message ShiftPlan {
   required uint64 id = 1 [json_name = "id"];
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
   required uint64 driver_id = 3 [json_name = "driver_id"];
-  required string date = 4 [json_name = "date"];
-  required ShiftPlanStatus status = 5 [json_name = "status"];
-  required ShiftPlanState state = 6 [json_name = "state"];
-  required ShiftPlanType type = 7 [json_name = "type"];
-  required google.protobuf.Timestamp created_at = 8 [json_name = "created_at"];
+  // Organization-local calendar date, "YYYY-MM-DD" (timezone from
+  // OrganizationSettings.timezone, default Asia/Almaty).
+  required string plan_date = 4 [json_name = "plan_date"];
+  optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+  optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
 }
 
 message ShiftPlanCreate {
-  required uint64 driver_id = 1 [json_name = "driver_id"];
-  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
-  required string date = 3 [json_name = "date"];
-  required ShiftPlanStatus status = 4 [json_name = "status"];
-}
-
-message ShiftPlanUpdateStatus {
-  required uint64 id = 1 [json_name = "id"];
-  required ShiftPlanStatus status = 2 [json_name = "status"];
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 driver_id = 2 [json_name = "driver_id"];
+  // "YYYY-MM-DD"; must be strictly after today in the organization's timezone.
+  required string plan_date = 3 [json_name = "plan_date"];
 }
