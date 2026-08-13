@@ -22,6 +22,9 @@ message JobListRequest {
   // Only jobs created with these pickup location groups (jobs created before
   // the group-based flow carry no group and never match this filter).
   repeated uint64 pickup_location_group_ids = 13 [json_name = "pickup_location_group_ids"];
+  // Specific jobs by id. Lets a caller that already has a set of job ids — e.g.
+  // from AiVerificationService.ListAiVerifications — fetch those jobs in full.
+  repeated uint64 job_ids = 14 [json_name = "job_ids"];
 }
 
 message JobRequest {
