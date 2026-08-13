@@ -175,9 +175,7 @@ message AiVerificationByJobRequest {
   repeated uint64 district_organization_ids = 2 [json_name = "district_organization_ids"];
 }
 
-// Read-only access to the AI verification verdicts of jobs. Rows are produced
-// by batch checkers; nothing here writes them.
-service AiVerificationService {
-  rpc GetAiVerificationByJobId(AiVerificationByJobRequest) returns (AiVerification) {}
-  rpc ListAiVerifications(AiVerificationListRequest) returns (AiVerificationList) {}
-}
+// The RPCs that read these messages live on GovDashService
+// (gov_dash_service.proto): the verdicts are scoped by the caller's government
+// geo access, which is that service's own concern, so they are served there
+// rather than by a service of their own.
