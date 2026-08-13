@@ -38,6 +38,10 @@ message GovJobListRequest {
   // Free-text search, matched against pickup location name (more fields may
   // be added later - see JobService.GovListJobs).
   optional string search = 11 [json_name = "search"];
+  // Specific jobs by id, still narrowed to the caller's geo access. This is how a
+  // review queue built from AiVerificationService.ListAiVerifications fetches the
+  // flagged jobs themselves — the response carries each job's ai_verification.
+  repeated uint64 job_ids = 12 [json_name = "job_ids"];
 }
 
 message GovJobsReportResponse {

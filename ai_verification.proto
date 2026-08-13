@@ -1,0 +1,183 @@
+syntax = "proto2";
+package raccoonai;
+
+import "general.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+// Metadata drawn into one service photo's pixels by the capturing app — a
+// watermark-style overlay carrying coordinates, a timestamp, an address, a
+// device or driver name. Transcribed from the image by the model (this is not
+// EXIF), so treat it as evidence of what the overlay said, not as fact.
+message AiPhotoOverlayMetadata {
+  // Which group the photo came from: "before" or "after". Unset means the
+  // producer could not attribute the entry to a group.
+  optional string group = 1 [json_name = "group"];
+  // 1-based position of the photo within its group, in upload order. 0 means
+  // unattributed — do not read it as image 1.
+  optional uint32 index = 2 [json_name = "index"];
+  // Freeform object whose keys are whatever the overlay showed (e.g.
+  // "latitude", "longitude", "timestamp", "address"), or "raw_text" holding
+  // the transcription verbatim when it could not be parsed into fields.
+  // Tolerate any key set, including an empty object.
+  optional google.protobuf.Struct metadata = 3 [json_name = "metadata"];
+}
+
+// The AI verification verdicts of one job, read-only: rows are written by the
+// batch checkers (photo analysis in vrp_solver, KOM/GPS checks elsewhere), one
+// row per job, each checker filling only its own columns.
+//
+// **Unset means the check has not run** — never "no" and never 0. A job with
+// no row at all has had no check run.
+//
+// The model's judgements are 0-10 scores blending degree and confidence:
+// 0 = certainly not, 1-3 = unlikely or trivial, 4-6 = borderline (moderate, or
+// the photos do not settle it), 7-9 = likely and significant, 10 = certain and
+// maximal. 10 always means "the most of what the field name says" — good news
+// for photo_validity_score and service_completeness_score, bad news for every
+// *_required_score and containers_shortage_score. There is no single direction
+// in which "10 = healthy site"; each field is anchored on its own name.
+//
+// Ten of these fields also appear on AnalyzePhotosResponse in
+// photo_analysis_service.proto, under the same names on purpose: that message
+// is one analyzer call's reply, this one is the row it ends up in, and reading
+// the same name on both sides should mean the same thing. They are kept
+// separate rather than factored into a shared message because the rest does
+// not line up — the reply carries response_status/error_message where the row
+// carries photo_analysis_status/photo_analysis_error, the row adds identity,
+// geofence and KOM/GPS columns from other writers, and the reply's overlay
+// metadata is JSON text where the row's is a parsed object. Adding a score
+// means adding it in both places (plus the alembic migration that owns the
+// column); keep the names identical when you do.
+message AiVerification {
+  required uint64 id = 1 [json_name = "id"];
+  required google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
+  required google.protobuf.Timestamp updated_at = 3 [json_name = "updated_at"];
+
+  // The verified job. Unique — at most one verification row per job.
+  required uint64 job_id = 4 [json_name = "job_id"];
+  optional uint64 route_id = 5 [json_name = "route_id"];
+  optional uint64 service_provider_id = 6 [json_name = "service_provider_id"];
+  optional uint64 driver_on_shift_id = 7 [json_name = "driver_on_shift_id"];
+
+  // Whether the job carried any service photo at all. A fact about the job's
+  // uploads, not a model judgement: false means there was nothing to analyze,
+  // and every score below stays unset.
+  optional bool is_photo_present = 8 [json_name = "is_photo_present"];
+  // Whether the photo's own coordinates fall inside the pickup location's
+  // geofence. Written by the photo-geofence checker, not the analyzer.
+  optional bool is_photo_in_geofence = 9 [json_name = "is_photo_in_geofence"];
+
+  // Evidence quality, 0-10: how usable the photos are as evidence of this
+  // service event (right subject, not blurred/dark/obstructed). 10 =
+  // unambiguous evidence.
+  optional uint32 photo_validity_score = 10 [json_name = "photo_validity_score"];
+  // Service completion, 0-10: how fully the service was actually performed,
+  // comparing the before and after groups when both exist. 10 = clearly done
+  // in full.
+  optional uint32 service_completeness_score = 11 [json_name = "service_completeness_score"];
+  // Distinct physical containers visible across all photos.
+  optional uint32 num_containers_visible = 12 [json_name = "num_containers_visible"];
+  // How full each container was BEFORE the service, one entry of 0-125 per
+  // visible container in counting order. 100 = full to the rim; 101-125 =
+  // overflowing. The model's answer is stored unreconciled, so the length may
+  // disagree with num_containers_visible.
+  repeated uint32 per_container_fill_capacity_percent = 13 [json_name = "per_container_fill_capacity_percent"];
+
+  // Sanitary condition, 0-10 (10 = disinfection urgently required)
+  optional uint32 site_disinfection_required_score = 14 [json_name = "site_disinfection_required_score"];
+  optional uint32 containers_disinfection_required_score = 15 [json_name = "containers_disinfection_required_score"];
+  // Technical condition, 0-10 (10 = replacement/repair urgently required)
+  optional uint32 container_replacement_required_score = 16 [json_name = "container_replacement_required_score"];
+  optional uint32 container_repair_required_score = 17 [json_name = "container_repair_required_score"];
+  optional uint32 site_repair_required_score = 18 [json_name = "site_repair_required_score"];
+  // Overflow, 0-10: waste piled up at the site, on the ground or around the
+  // containers — a sign there are not enough of them. 10 = waste everywhere.
+  optional uint32 containers_shortage_score = 19 [json_name = "containers_shortage_score"];
+
+  // One entry per analyzed photo, keyed by group + index rather than by
+  // position: the producer may return fewer entries than there were photos.
+  repeated AiPhotoOverlayMetadata per_image_metadata = 20 [json_name = "per_image_metadata"];
+  // Reasons a human should re-check this event instead of trusting the
+  // verdict: cross-photo inconsistencies, overlay metadata contradicting the
+  // photos, evidence a score cannot express. Empty when nothing needs review;
+  // a mid-range score is not itself a reason.
+  repeated string human_review_reasons = 21 [json_name = "human_review_reasons"];
+  // The model's short justification per verdict, keyed by the field name it
+  // explains (e.g. "service_completeness_score"). Values are free text.
+  optional google.protobuf.Struct comments = 22 [json_name = "comments"];
+
+  // KOM + GPS geofence checks, written by their own checker.
+  optional bool is_kom_in_geofence = 23 [json_name = "is_kom_in_geofence"];
+  optional bool is_gps_track_in_geofence = 24 [json_name = "is_gps_track_in_geofence"];
+  optional bool is_gps_stop_in_geofence = 25 [json_name = "is_gps_stop_in_geofence"];
+
+  // How the photo analysis itself went: "ok", "error" (analysis failed — see
+  // photo_analysis_error) or "skipped_no_photos" (no photo to analyze). Unset
+  // means the analyzer has not looked at this job yet.
+  optional string photo_analysis_status = 26 [json_name = "photo_analysis_status"];
+  optional string photo_analysis_error = 27 [json_name = "photo_analysis_error"];
+  // Identifier of the model that produced the scores above.
+  optional string model = 28 [json_name = "model"];
+}
+
+message AiVerificationList {
+  repeated AiVerification ai_verifications = 1 [json_name = "ai_verifications"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
+}
+
+// A range filter over one score column. Both bounds are inclusive and
+// optional; a row matches only when the score is set, so rows whose check has
+// not run are excluded by any score filter.
+message AiVerificationScoreFilter {
+  // Score field name as spelled on AiVerification, e.g.
+  // "service_completeness_score". Unknown names are rejected.
+  required string field = 1 [json_name = "field"];
+  optional uint32 min = 2 [json_name = "min"];
+  optional uint32 max = 3 [json_name = "max"];
+}
+
+message AiVerificationListRequest {
+  // Government scope, resolved exactly as GovDashService resolves it: empty
+  // district_organization_ids falls back to the caller's own organization, the
+  // districts are expanded to their children, and service_provider_ids narrows
+  // the providers their geo access covers — a provider outside that set matches
+  // nothing. Rows whose service_provider_id was never recorded are therefore
+  // never listed; reach those by job id through GetAiVerificationByJobId.
+  repeated uint64 district_organization_ids = 1 [json_name = "district_organization_ids"];
+  repeated uint64 service_provider_ids = 2 [json_name = "service_provider_ids"];
+
+  repeated uint64 job_ids = 3 [json_name = "job_ids"];
+  repeated uint64 route_ids = 4 [json_name = "route_ids"];
+
+  optional ListFilter list_filter = 5 [json_name = "list_filter"];
+  // Defaults to the row's created_at (when the check ran).
+  optional DateTimeFilter time_filter = 6 [json_name = "time_filter"];
+
+  // Only rows the model flagged for human review (non-empty
+  // human_review_reasons). False is not the inverse filter — it is ignored.
+  optional bool needs_human_review = 7 [json_name = "needs_human_review"];
+  // Only rows in these photo_analysis_status values ("ok", "error",
+  // "skipped_no_photos").
+  repeated string photo_analysis_statuses = 8 [json_name = "photo_analysis_statuses"];
+  // Filter on the has-photos fact; unset means "either".
+  optional bool is_photo_present = 9 [json_name = "is_photo_present"];
+  // Score ranges, ANDed together. Two filters on the same field are ANDed too.
+  repeated AiVerificationScoreFilter score_filters = 10 [json_name = "score_filters"];
+}
+
+message AiVerificationByJobRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+  // Government scope, as in AiVerificationListRequest. A job outside the
+  // caller's geo access is reported as not found.
+  repeated uint64 district_organization_ids = 2 [json_name = "district_organization_ids"];
+}
+
+// Read-only access to the AI verification verdicts of jobs. Rows are produced
+// by batch checkers; nothing here writes them.
+service AiVerificationService {
+  rpc GetAiVerificationByJobId(AiVerificationByJobRequest) returns (AiVerification) {}
+  rpc ListAiVerifications(AiVerificationListRequest) returns (AiVerificationList) {}
+}
