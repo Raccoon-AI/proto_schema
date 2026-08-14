@@ -21,7 +21,7 @@ message ShiftScheduleRequest {
 }
 
 message ShiftScheduleCell {
-  required string date = 1 [json_name = "date"]; // "YYYY-MM-DD", organization-local calendar day
+  required string date = 1 [json_name = "date"]; // "YYYY-MM-DD", Asia/Almaty calendar day
   required ShiftCellState state = 2 [json_name = "state"];
   optional uint64 driver_on_shift_id = 3 [json_name = "driver_on_shift_id"];
   optional uint64 shift_plan_id = 4 [json_name = "shift_plan_id"];
@@ -38,7 +38,7 @@ message DriverShiftScheduleRow {
 }
 
 message ShiftSchedule {
-  // Server-computed organization-local "today"; clients must use it instead of the browser
+  // Server-computed Asia/Almaty "today"; clients must use it instead of the browser
   // clock so cell states and editability agree with the backend.
   required string today = 1 [json_name = "today"];
   repeated DriverShiftScheduleRow rows = 2 [json_name = "rows"];

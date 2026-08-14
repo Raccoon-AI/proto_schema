@@ -231,7 +231,7 @@ enum DriverOnShiftStatus {
 
 // Derived state of one cell in the driver shift schedule matrix
 // (ShiftPlanService.ListShiftSchedule). Computed server-side by merging
-// shift_plan and driver_on_shift for an organization-local calendar day; a
+// shift_plan and driver_on_shift for an Asia/Almaty calendar day; a
 // driver_on_shift record always wins over a plan for the same day.
 enum ShiftCellState {
   SHIFT_CELL_STATE_UNDEFINED = 0;
