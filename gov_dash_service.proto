@@ -2,6 +2,7 @@ syntax = "proto2";
 
 package raccoonai;
 
+import "ai_verification.proto";
 import "container.proto";
 import "contract.proto";
 import "enums.proto";
@@ -39,8 +40,8 @@ message GovJobListRequest {
   // be added later - see JobService.GovListJobs).
   optional string search = 11 [json_name = "search"];
   // Specific jobs by id, still narrowed to the caller's geo access. This is how a
-  // review queue built from AiVerificationService.ListAiVerifications fetches the
-  // flagged jobs themselves — the response carries each job's ai_verification.
+  // review queue built from ListAiVerifications fetches the flagged jobs
+  // themselves — the response carries each job's ai_verification.
   repeated uint64 job_ids = 12 [json_name = "job_ids"];
 }
 
@@ -381,4 +382,11 @@ service GovDashService {
   rpc GetGovAnalyticsLocationVisitsForAll(GovDashboardAnalyticsRequest) returns (GovAnalyticsLocationVisitsForAll) {}
   rpc GetGovAnalyticsAnomaliesForAll(GovDashboardAnalyticsRequest) returns (GovAnalyticsAnomaliesForAll) {}
   rpc GetGovDisposalVisits(GovDashboardAnalyticsRequest) returns (GovDisposalVisitList) {}
+
+  // AI verification verdicts of jobs (see ai_verification.proto). Read-only —
+  // the rows are produced by batch checkers — and scoped by the caller's geo
+  // access like every other endpoint here. GetAiVerificationByJobId reports a
+  // job outside that scope, or one no check has run for, as not found.
+  rpc GetAiVerificationByJobId(AiVerificationByJobRequest) returns (AiVerification) {}
+  rpc ListAiVerifications(AiVerificationListRequest) returns (AiVerificationList) {}
 }
