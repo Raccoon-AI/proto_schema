@@ -1,0 +1,61 @@
+syntax = "proto2";
+package raccoonai;
+
+import "file_upload.proto";
+import "general.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+// Incident reported by a driver from the driver app.
+// Distinct from the legacy TruckIncident (mechanic/sales reported):
+// a DriverIncident is always anchored to the driver's shift and may
+// additionally reference the active route and the current job.
+enum DriverIncidentType {
+  DRIVER_INCIDENT_TYPE_UNDEFINED = 0;
+
+  // Types available both on shift ("проблема на линии") and on a job.
+  DRIVER_INCIDENT_TYPE_TRUCK_BREAKDOWN = 1; // Поломка ТС
+  DRIVER_INCIDENT_TYPE_TRAFFIC_ACCIDENT = 2; // Произошло ДТП
+  DRIVER_INCIDENT_TYPE_LOADERS_UNWELL = 3; // Грузчикам нездоровится
+  DRIVER_INCIDENT_TYPE_DRIVER_UNWELL = 4; // Водителю нездоровится
+  DRIVER_INCIDENT_TYPE_OTHER = 5; // Другое (с вами свяжется диспетчер)
+
+  // Types available only on a job ("проблема на задаче").
+  // Post-action: the jobs currently in progress are marked NOT_COMPLETED (no
+  // copies are created — the dispatcher decides how to handle the missed
+  // pickup) and the route moves on.
+  DRIVER_INCIDENT_TYPE_PICKUP_LOCATION_BLOCKED = 6; // КП запаркована машинами
+  DRIVER_INCIDENT_TYPE_PICKUP_LOCATION_NO_ACCESS = 7; // Нет доступа к КП (закрыто)
+  DRIVER_INCIDENT_TYPE_UNSUITABLE_EQUIPMENT = 8; // Неподходящая техника
+  // Notification only, the job continues as usual.
+  DRIVER_INCIDENT_TYPE_CONTAINERS_DAMAGED = 9; // Контейнер(ы) повреждены
+}
+
+message DriverIncident {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required uint64 driver_id = 3 [json_name = "driver_id"];
+  required uint64 driver_on_shift_id = 4 [json_name = "driver_on_shift_id"];
+  required uint64 truck_id = 5 [json_name = "truck_id"];
+  // Set when the driver was on an accepted route at the moment of reporting.
+  optional uint64 route_id = 6 [json_name = "route_id"];
+  // Set for incidents reported on a job (the driver's current job).
+  optional uint64 job_id = 7 [json_name = "job_id"];
+  required DriverIncidentType type = 8 [json_name = "type"];
+  repeated FileUpload files = 9 [json_name = "files"];
+  required google.protobuf.Timestamp created_at = 10 [json_name = "created_at"];
+}
+
+message DriverIncidentListRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional DateTimeFilter datetime_filter = 2 [json_name = "datetime_filter"];
+  optional DriverIncidentType type = 3 [json_name = "type"];
+  optional uint64 driver_id = 4 [json_name = "driver_id"];
+  optional uint64 truck_id = 5 [json_name = "truck_id"];
+  optional uint64 route_id = 6 [json_name = "route_id"];
+}
+
+message DriverIncidentList {
+  repeated DriverIncident driver_incidents = 1 [json_name = "driver_incidents"];
+}
