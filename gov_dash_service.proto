@@ -2,8 +2,10 @@ syntax = "proto2";
 
 package raccoonai;
 
+import "ai_verification.proto";
 import "container.proto";
 import "contract.proto";
+import "daily_summary.proto";
 import "enums.proto";
 import "general.proto";
 import "google/protobuf/struct.proto";
@@ -38,6 +40,10 @@ message GovJobListRequest {
   // Free-text search, matched against pickup location name (more fields may
   // be added later - see JobService.GovListJobs).
   optional string search = 11 [json_name = "search"];
+  // Specific jobs by id, still narrowed to the caller's geo access. This is how a
+  // review queue built from ListAiVerifications fetches the flagged jobs
+  // themselves — the response carries each job's ai_verification.
+  repeated uint64 job_ids = 12 [json_name = "job_ids"];
 }
 
 message GovJobsReportResponse {
@@ -307,9 +313,11 @@ message GovAnalyticsAnomaliesForAll {
   repeated GovAnalyticsAnomalyPerProvider anomaly_per_provider = 1 [json_name = "anomaly_per_provider"];
 }
 
-// GovDisposalVisit is one (truck, disposal site) visit count, flagged with whether that truck
-// has a matching weighbridge record (scale_record or raw_scale_record) at the site's owner
-// organization within the requested window.
+// GovDisposalVisit is one truck's visit count at one disposal site in the requested window.
+// has_scale_data says where that count comes from and therefore what it means: true - each
+// visit is a weighbridge record at the site's owner organization; false - each visit is a
+// GPS-detected stop at the site, counted only because the site produced no weighbridge
+// records at all in the window.
 message GovDisposalVisit {
   required uint64 organization_id = 1 [json_name = "organization_id"];
   required string organization_name = 2 [json_name = "organization_name"];
@@ -319,6 +327,14 @@ message GovDisposalVisit {
   required string disposal_site_name = 6 [json_name = "disposal_site_name"];
   required uint64 total_visits = 7 [json_name = "total_visits"];
   required bool has_scale_data = 8 [json_name = "has_scale_data"];
+  // Total net weight in kilograms across the same weighbridge records total_visits counts.
+  // Set only when has_scale_data is true. A record whose net weight was never recorded
+  // contributes 0, so this can undercount the tonnage total_visits implies.
+  optional double total_netto_kg = 9 [json_name = "total_netto_kg"];
+}
+
+message GovDailySummaryList {
+  repeated DailySummary daily_summaries = 1 [json_name = "daily_summaries"];
 }
 
 message GovDisposalVisitList {
@@ -371,4 +387,12 @@ service GovDashService {
   rpc GetGovAnalyticsLocationVisitsForAll(GovDashboardAnalyticsRequest) returns (GovAnalyticsLocationVisitsForAll) {}
   rpc GetGovAnalyticsAnomaliesForAll(GovDashboardAnalyticsRequest) returns (GovAnalyticsAnomaliesForAll) {}
   rpc GetGovDisposalVisits(GovDashboardAnalyticsRequest) returns (GovDisposalVisitList) {}
+
+  // AI verification verdicts of jobs (see ai_verification.proto). Read-only —
+  // the rows are produced by batch checkers — and scoped by the caller's geo
+  // access like every other endpoint here. GetAiVerificationByJobId reports a
+  // job outside that scope, or one no check has run for, as not found.
+  rpc GetAiVerificationByJobId(AiVerificationByJobRequest) returns (AiVerification) {}
+  rpc ListAiVerifications(AiVerificationListRequest) returns (AiVerificationList) {}
+  rpc GetGovDailySummaries(GovDashboardAnalyticsRequest) returns (GovDailySummaryList) {}
 }
