@@ -394,4 +394,5 @@ service GovDashService {
   // job outside that scope, or one no check has run for, as not found.
   rpc GetAiVerificationByJobId(AiVerificationByJobRequest) returns (AiVerification) {}
   rpc ListAiVerifications(AiVerificationListRequest) returns (AiVerificationList) {}
+  rpc GetGovDailySummary(GovDashboardAnalyticsRequest) returns (GovDailySummaryList) {}
 }
