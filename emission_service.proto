@@ -60,7 +60,8 @@ message CreateGuestTruckWithOrganizationRequest {
   required string plate_number = 3 [json_name = "plate_number"];
   required string manufacturer = 4 [json_name = "manufacturer"];
   required string model = 5 [json_name = "model"];
-  required TruckEngineType engine_type = 6 [json_name = "engine_type"];
+  required uint32 year = 6 [json_name = "year"];
+  required TruckEngineType engine_type = 7 [json_name = "engine_type"];
 }
 
 message TruckEngineTypeUpdateRequest {

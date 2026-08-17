@@ -1,0 +1,13 @@
+syntax = "proto2";
+package raccoonai;
+
+import "blacklist.proto";
+import "general.proto";
+
+option go_package = "./pb";
+
+service BlacklistService {
+  rpc CreateBlacklist(BlacklistCreate) returns (Blacklist) {}
+  rpc ListBlacklists(BlacklistListRequest) returns (BlacklistList) {}
+  rpc DeleteBlacklist(IdRequest) returns (EmptyMessageResponse) {}
+}
