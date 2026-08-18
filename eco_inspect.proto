@@ -155,6 +155,12 @@ message EcoInspectListRequest {
   optional google.protobuf.Timestamp report_date_to = 5 [json_name = "report_date_to"];
   optional string location = 6 [json_name = "location"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
+  // Case-insensitive partial match across area_name, service_provider_name,
+  // location, reason and comment (OR'd together).
+  optional string query = 11 [json_name = "query"];
+  // Exact-match allow-list against the reason pick-list (eco_inspect_reason);
+  // empty/unset means no filtering by reason.
+  repeated string reasons = 12 [json_name = "reasons"];
 }
 
 service EcoInspectService {
