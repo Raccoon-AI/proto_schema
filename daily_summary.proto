@@ -3,6 +3,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "google/protobuf/timestamp.proto";
+import "organization.proto";
 
 option go_package = "./pb";
 
@@ -92,4 +93,12 @@ message DailySummary {
   repeated DistrictVolume district_volumes = 44 [json_name = "district_volumes"];
   repeated ContainerStat container_stats = 45 [json_name = "container_stats"];
   repeated VisitPointStat visit_point_stats = 46 [json_name = "visit_point_stats"];
+  // The organization the row rolls up to (owner_organization_id resolved), so the caller
+  // does not have to look the name up separately.
+  optional Organization owner_organization = 47 [json_name = "owner_organization"];
+  // The district organization whose geo access covers that organization, and that access's
+  // area name. Both unset when the organization's branches span several districts - there is
+  // no single district to name then.
+  optional uint64 district_organization_id = 48 [json_name = "district_organization_id"];
+  optional string district_name = 49 [json_name = "district_name"];
 }
