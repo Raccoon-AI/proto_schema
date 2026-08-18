@@ -16,6 +16,7 @@ import "job.proto";
 import "location.proto";
 import "organization.proto";
 import "pickup_location.proto";
+import "route.proto";
 import "scale_service.proto";
 import "truck.proto";
 
@@ -341,6 +342,25 @@ message GovDisposalVisitList {
   repeated GovDisposalVisit visits = 1 [json_name = "visits"];
 }
 
+// One row of the AI verification review queue: the verdicts, plus the job they
+// were made about and that job's route.
+message GovAiVerificationRow {
+  required AiVerification ai_verification = 1 [json_name = "ai_verification"];
+  // The verified job. Unset if the job could not be served; its own
+  // ai_verification field is always unset, being a repeat of the verdicts above.
+  optional Job job = 2 [json_name = "job"];
+  // The route the job was served on, when ai_verification.route_id is set. Its
+  // jobs list is not populated.
+  optional Route route = 3 [json_name = "route"];
+}
+
+// Ordered and paged as AiVerificationListRequest.list_filter asks; the jobs and
+// routes follow whichever verdict rows the page holds.
+message GovAiVerificationList {
+  repeated GovAiVerificationRow ai_verifications = 1 [json_name = "ai_verifications"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
+}
+
 service GovDashService {
   rpc GetGovGeoAccess(EmptyMessageRequest) returns (GovGeoAccessList) {}
   rpc ServiceProviders(GovOrganizationRequest) returns (GovServiceProviderInfoList) {}
@@ -393,6 +413,6 @@ service GovDashService {
   // access like every other endpoint here. GetAiVerificationByJobId reports a
   // job outside that scope, or one no check has run for, as not found.
   rpc GetAiVerificationByJobId(AiVerificationByJobRequest) returns (AiVerification) {}
-  rpc ListAiVerifications(AiVerificationListRequest) returns (AiVerificationList) {}
+  rpc ListAiVerifications(AiVerificationListRequest) returns (GovAiVerificationList) {}
   rpc GetGovDailySummaries(GovDashboardAnalyticsRequest) returns (GovDailySummaryList) {}
 }
