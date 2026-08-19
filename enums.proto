@@ -92,6 +92,14 @@ enum JobMetric {
   JOB_METRIC_COMPLETED = 3; // COUNT of completed jobs, bucketed by completion day
 }
 
+// Driver-activity series metrics for the analytics dashboard (AnalyticsService.GetDriverActivitySeries).
+enum DriverMetric {
+  DRIVER_METRIC_UNDEFINED = 0;
+  DRIVER_METRIC_SHIFTS_COMPLETED = 1; // COUNT of ENDED shifts, bucketed by completed_at day
+  DRIVER_METRIC_ROUTES_COMPLETED = 2; // COUNT of completed routes, bucketed by fact_end_at day
+  DRIVER_METRIC_REWARD = 3; // SUM(route.reward) of completed routes, whole tenge, bucketed by fact_end_at day
+}
+
 enum JobCategory {
   JOB_CATEGORY_UNDEFINED = 0;
   JOB_CATEGORY_CO = 1;
