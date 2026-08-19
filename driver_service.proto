@@ -2,6 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "container.proto";
+import "driver_incident.proto";
 import "driver_on_shift.proto";
 import "file_upload.proto";
 import "general.proto";
@@ -29,6 +30,21 @@ message MyLocationRequest {
   optional uint64 current_route_id = 7 [json_name = "route_id"];
   optional uint64 current_job_id = 8 [json_name = "job_id"];
   required google.protobuf.Timestamp sent_at = 9 [json_name = "sent_at"];
+}
+
+// Shared request for ReportShiftIncident and ReportJobIncident. The reporting
+// context (shift vs job) is expressed by which RPC is called, not by a field —
+// each RPC has its own preconditions, allowed types, and side effects.
+message ReportIncidentRequest {
+  required DriverIncidentType type = 1 [json_name = "type"];
+  // Optional photo/video evidence: the breakdown or accident scene on shift,
+  // the blocked pickup location on a job (proof that the pickup was impossible).
+  repeated File files = 2 [json_name = "files"];
+  // The job the report is about, for ReportJobIncident. Must be a job that is
+  // currently in progress on the driver's active route — a stale or foreign id
+  // is rejected rather than silently replaced. Omit to let the backend use the
+  // driver's current job. Ignored by ReportShiftIncident.
+  optional uint64 job_id = 3 [json_name = "job_id"];
 }
 
 message FirebaseNotificationsRequest {
@@ -86,6 +102,25 @@ service DriverService {
 
   // Upload job-related file (e.g., photo evidence)
   rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
+
+  // ******** Incident RPCs *********** //
+
+  // Report a problem while on shift ("Сообщить о проблеме на линии").
+  // Requires an active shift. Accepts shift-level incident types only
+  // (TRUCK_BREAKDOWN, TRAFFIC_ACCIDENT, LOADERS_UNWELL, DRIVER_UNWELL, OTHER).
+  // Notifies the dispatcher; no automatic route/job changes.
+  rpc ReportShiftIncident(ReportIncidentRequest) returns (DriverIncident) {}
+
+  // Report a problem on the current job ("Сообщить о проблеме на задаче").
+  // Requires an active route with a current job (ENROUTE or ON_SERVICE);
+  // the backend resolves the job itself. Accepts all incident types.
+  // For PICKUP_LOCATION_BLOCKED / PICKUP_LOCATION_NO_ACCESS /
+  // UNSUITABLE_EQUIPMENT the jobs currently in progress are marked
+  // NOT_COMPLETED (no copies are created — the dispatcher decides how to
+  // handle the missed pickup) and the route advances to the next job as if
+  // the job was completed; a route left with no assignable jobs moves to
+  // RETURNING. Other types are notification-only.
+  rpc ReportJobIncident(ReportIncidentRequest) returns (DriverIncident) {}
 
   // ******** Route Related RPCs *********** //
   rpc AssignedRoutes(EmptyMessageRequest) returns (RouteList) {}
