@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "ai_verification.proto";
 import "container.proto";
 import "driver_on_shift.proto";
 import "enums.proto";
@@ -69,6 +70,10 @@ message Job {
   optional google.protobuf.Timestamp updated_at = 46 [json_name = "updated_at"];
   optional Organization service_provider = 47 [json_name = "service_provider"];
   optional uint64 pickup_location_group_id = 48 [json_name = "pickup_location_group_id"];
+  // AI verification verdicts for this job. Only populated by the endpoints that
+  // ask for it (the government dashboard's job list and job detail); absent
+  // elsewhere, and absent when no check has run for the job.
+  optional AiVerification ai_verification = 49 [json_name = "ai_verification"];
 }
 
 message JobCreate {

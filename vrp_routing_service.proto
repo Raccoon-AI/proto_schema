@@ -8,9 +8,11 @@ option java_package = "com.raccoonai.vrprouting.grpc";
 
 // Basic single-vehicle VRP endpoint (TBO frontend).
 // Plans multi-trip visit sequences for one capacity-constrained truck:
-// trip 1 runs depot -> jobs -> disposal site, subsequent trips run
-// disposal site -> jobs -> disposal site. The depot is resolved from the
-// driver-on-shift's organization; it is not provided by the caller.
+// trip 1 runs start -> jobs -> disposal site, subsequent trips run
+// disposal site -> jobs -> disposal site. The start defaults to the truck's
+// depot, resolved from the driver-on-shift's organization, so day planning
+// needs no extra input; callers who know where the vehicle actually is pass
+// start_location_id instead.
 service VrpRoutingService {
   rpc SolveSingleVehicle(SolveSingleVehicleRequest) returns (SolveSingleVehicleResponse);
 }
@@ -19,6 +21,12 @@ message SolveSingleVehicleRequest {
   repeated uint64 job_ids = 1 [json_name = "job_ids"]; // required, non-empty
   required uint64 disposal_site_id = 2 [json_name = "disposal_site_id"]; // end location of every trip
   required uint64 driver_on_shift_id = 3 [json_name = "driver_on_shift_id"]; // -> truck capacity + depot
+  // Where the vehicle is when the plan starts; affects trip 1 only. Omitted
+  // means the truck's depot, i.e. day-planning behaviour. Mid-shift re-routing
+  // passes the disposal site, because that is where a truck that just announced
+  // itself full actually is - pricing trip 1 from a distant depot changes the
+  // order vroom picks for it.
+  optional uint64 start_location_id = 4 [json_name = "start_location_id"];
 }
 
 // One trip of the single vehicle; job_ids are in visit order.
