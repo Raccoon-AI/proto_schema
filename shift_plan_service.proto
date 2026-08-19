@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "driver_on_shift.proto";
 import "enums.proto";
 import "general.proto";
 import "shift_plan.proto";
@@ -25,8 +26,10 @@ message ShiftScheduleCell {
   required ShiftCellState state = 2 [json_name = "state"];
   optional uint64 driver_on_shift_id = 3 [json_name = "driver_on_shift_id"];
   optional uint64 shift_plan_id = 4 [json_name = "shift_plan_id"];
-  // Raw shift status for tooltips; state is already derived from it server-side.
-  optional DriverOnShiftStatus driver_on_shift_status = 5 [json_name = "driver_on_shift_status"];
+  // Full shift (truck preloaded) for the cell popover: plate number, truck
+  // model/type, raw status, tw window and completion time. Present on every
+  // shift-backed cell; plan-only cells (PLANNED/MISSED) carry no shift.
+  optional DriverOnShift driver_on_shift = 5 [json_name = "driver_on_shift"];
 }
 
 message DriverShiftScheduleRow {
@@ -42,7 +45,8 @@ message ShiftSchedule {
   // clock so cell states and editability agree with the backend.
   required string today = 1 [json_name = "today"];
   repeated DriverShiftScheduleRow rows = 2 [json_name = "rows"];
-  required uint64 total_drivers = 3 [json_name = "total_drivers"];
+  // total_items counts the organization's drivers (rows), not cells.
+  optional ListInfo list_info = 3 [json_name = "list_info"];
 }
 
 service ShiftPlanService {
