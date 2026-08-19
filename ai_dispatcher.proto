@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "google/protobuf/timestamp.proto";
 import "job.proto";
 import "route.proto";
 
@@ -43,9 +44,81 @@ message CapacityPlanResponse {
   repeated DemandPrediction demand_predictions = 9 [json_name = "demand_predictions"];
 }
 
+// ---------------------------------------------------------------------------
+// Dispatcher v5 — read-only day-plan proposal.
+// Design: experimental/zhanibek/2026-08-12-dispatcher-v5-day-plan-tdd.md §10,
+// docs/superpowers/specs/2026-08-18-dispatcher-v5-pr3-rpc-loader-design.md.
+// ---------------------------------------------------------------------------
+
+message DayPlanRequest {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+}
+
+enum PlanRisk {
+  PLAN_RISK_UNDEFINED = 0;
+  PLAN_RISK_ON_TIME = 1;
+  PLAN_RISK_AT_RISK = 2; // finishes near the deadline
+  PLAN_RISK_PAST_DEADLINE = 3; // finishes after the deadline — still planned
+}
+
+// Physical impossibility only — a deadline is never a reason to withhold a job.
+enum UnplannedReason {
+  UNPLANNED_REASON_UNDEFINED = 0;
+  UNPLANNED_REASON_NO_CAPABLE_TRUCK = 1;
+  UNPLANNED_REASON_SITE_BANNED = 2;
+  UNPLANNED_REASON_NO_DRIVER_CAPACITY = 3;
+  UNPLANNED_REASON_SHIFT_OVERRUN = 4;
+  UNPLANNED_REASON_LOCATION_WINDOW = 5;
+  UNPLANNED_REASON_MISSING_DATA = 6;
+}
+
+message PlannedRoute {
+  required string plan_ref = 1 [json_name = "plan_ref"]; // stable within a response: "dos:412#3"
+  required uint64 driver_on_shift_id = 2 [json_name = "driver_on_shift_id"];
+  required uint64 seq_idx = 3 [json_name = "seq_idx"]; // 1-based position in that driver's day
+  // Ready to hand to ApplyBulkAssignment — but wrapped in plan metadata that
+  // says *proposal*: approving is an explicit act, never implied by receipt.
+  required RouteCreate create = 4 [json_name = "create"];
+  repeated JobUpdate jobs = 5 [json_name = "jobs"];
+  required uint64 estimated_travel_seconds = 6 [json_name = "estimated_travel_seconds"];
+  required uint64 estimated_service_seconds = 7 [json_name = "estimated_service_seconds"];
+  optional google.protobuf.Timestamp deadline_at = 8 [json_name = "deadline_at"];
+  optional int64 slack_seconds = 9 [json_name = "slack_seconds"]; // signed: negative = past deadline
+  required PlanRisk risk = 10 [json_name = "risk"];
+  optional string rationale = 11 [json_name = "rationale"];
+  // deadline_at was inferred from created_at rather than stated by the client;
+  // a dispatcher should not read an inferred date as a promise
+  optional bool deadline_is_default = 12 [json_name = "deadline_is_default"];
+}
+
+message PlannedDriver {
+  required uint64 driver_on_shift_id = 1 [json_name = "driver_on_shift_id"];
+  required google.protobuf.Timestamp available_from = 2 [json_name = "available_from"];
+  optional bool is_overdue = 3 [json_name = "is_overdue"]; // free-time rule, design doc §9
+  optional uint64 truck_type_id = 4 [json_name = "truck_type_id"];
+}
+
+message UnplannedJob {
+  required uint64 job_id = 1 [json_name = "job_id"];
+  required UnplannedReason reason = 2 [json_name = "reason"];
+  optional string detail = 3 [json_name = "detail"];
+  optional uint64 urgency_rank = 4 [json_name = "urgency_rank"]; // spillover, ranked not dumped
+}
+
+message DayPlanResponse {
+  repeated PlannedRoute routes = 1 [json_name = "routes"];
+  repeated UnplannedJob unplanned = 2 [json_name = "unplanned"];
+  repeated PlannedDriver drivers = 3 [json_name = "drivers"];
+  map<string, int64> data_quality = 4 [json_name = "data_quality"];
+}
+
 service AIDispatcherV4 {
   rpc OnDispatcherHeartbeat(AIDispatcherRequest) returns (BulkAssignmentResponse);
   rpc OnCapacityPlan(AIDispatcherRequest) returns (CapacityPlanResponse);
+}
+
+service AIDispatcherV5 {
+  rpc GetDayPlan(DayPlanRequest) returns (DayPlanResponse);
 }
 
 service ResursDispatcher {
