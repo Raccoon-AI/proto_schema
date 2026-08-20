@@ -16,6 +16,7 @@ import "job.proto";
 import "location.proto";
 import "organization.proto";
 import "pickup_location.proto";
+import "route.proto";
 import "scale_service.proto";
 import "truck.proto";
 
@@ -333,12 +334,42 @@ message GovDisposalVisit {
   optional double total_netto_kg = 9 [json_name = "total_netto_kg"];
 }
 
+// GovDashboardAnalyticsRequest plus the grouping switch, so an existing {filter, from_to}
+// body keeps working unchanged.
+message GovDailySummaryRequest {
+  required GovOrganizationRequest filter = 1 [json_name = "filter"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+  // When true, branches still roll up into their parent organization, but per district
+  // instead of city-wide, and every row carries the district it was grouped under. Default
+  // false keeps one row per (parent organization, date), with no district fields.
+  optional bool group_by_district = 3 [json_name = "group_by_district"];
+}
+
 message GovDailySummaryList {
   repeated DailySummary daily_summaries = 1 [json_name = "daily_summaries"];
 }
 
 message GovDisposalVisitList {
   repeated GovDisposalVisit visits = 1 [json_name = "visits"];
+}
+
+// One row of the AI verification review queue: the verdicts, plus the job they
+// were made about and that job's route.
+message GovAiVerificationRow {
+  required AiVerification ai_verification = 1 [json_name = "ai_verification"];
+  // The verified job. Unset if the job could not be served; its own
+  // ai_verification field is always unset, being a repeat of the verdicts above.
+  optional Job job = 2 [json_name = "job"];
+  // The route the job was served on, when ai_verification.route_id is set. Its
+  // jobs list is not populated.
+  optional Route route = 3 [json_name = "route"];
+}
+
+// Ordered and paged as AiVerificationListRequest.list_filter asks; the jobs and
+// routes follow whichever verdict rows the page holds.
+message GovAiVerificationList {
+  repeated GovAiVerificationRow ai_verifications = 1 [json_name = "ai_verifications"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
 }
 
 service GovDashService {
@@ -393,6 +424,6 @@ service GovDashService {
   // access like every other endpoint here. GetAiVerificationByJobId reports a
   // job outside that scope, or one no check has run for, as not found.
   rpc GetAiVerificationByJobId(AiVerificationByJobRequest) returns (AiVerification) {}
-  rpc ListAiVerifications(AiVerificationListRequest) returns (AiVerificationList) {}
-  rpc GetGovDailySummaries(GovDashboardAnalyticsRequest) returns (GovDailySummaryList) {}
+  rpc ListAiVerifications(AiVerificationListRequest) returns (GovAiVerificationList) {}
+  rpc GetGovDailySummaries(GovDailySummaryRequest) returns (GovDailySummaryList) {}
 }
