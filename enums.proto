@@ -241,11 +241,13 @@ enum ShiftCellState {
   // ACTIVE shifts intentionally stay green so dispatchers spot them).
   SHIFT_CELL_STATE_ACTIVE = 2;
   // Dark blue: driver_on_shift exists but work has not started
-  // (NOT_APPROVED or IDLE).
+  // (NOT_APPROVED or IDLE), day is today or later.
   SHIFT_CELL_STATE_NOT_STARTED = 3;
   // Light blue: shift_plan exists, no driver_on_shift, day is today or later.
   SHIFT_CELL_STATE_PLANNED = 4;
-  // Red: shift_plan exists, no driver_on_shift, day has passed (no-show).
+  // Red: the day has passed and the driver never worked it — either a
+  // shift_plan with no driver_on_shift, or a driver_on_shift that was never
+  // started (NOT_APPROVED/IDLE). A no-show either way.
   SHIFT_CELL_STATE_MISSED = 5;
 }
 
