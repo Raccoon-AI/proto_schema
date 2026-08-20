@@ -108,8 +108,6 @@ message EcoInspect {
   optional string contact_name = 17 [json_name = "contact_name"];
   optional string contact_phone = 18 [json_name = "contact_phone"];
 
-  // Number of containers the provider's fix covered (repaired/replaced/cleaned…),
-  // reported with the after-media upload. Absent until the provider reports it.
   optional uint32 containers_affected = 19 [json_name = "containers_affected"];
 }
 
@@ -142,7 +140,6 @@ message EcoInspectUpdate {
   optional string comment = 8 [json_name = "comment"];
   // When present, replaces the linked contacts with these ids.
   repeated uint64 contact_ids = 9 [json_name = "contact_ids"];
-  // Officer correction of the provider-reported container count.
   optional uint32 containers_affected = 10 [json_name = "containers_affected"];
 }
 
@@ -151,8 +148,6 @@ message EcoInspectMediaUpload {
   optional uint64 id = 1 [json_name = "id"];
   required FileUploadType type = 2 [json_name = "type"];
   repeated File files = 3 [json_name = "files"];
-  // How many containers this fix covered. Accepted only with
-  // SITUATION_REPORT_AFTER uploads; must be >= 1 when present.
   optional uint32 containers_affected = 4 [json_name = "containers_affected"];
 }
 
