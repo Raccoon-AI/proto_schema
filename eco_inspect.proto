@@ -154,11 +154,7 @@ message EcoInspectListRequest {
   optional google.protobuf.Timestamp report_date_from = 4 [json_name = "report_date_from"];
   optional google.protobuf.Timestamp report_date_to = 5 [json_name = "report_date_to"];
   optional string location = 6 [json_name = "location"];
-  // Exact match against the inspection's stored reason snapshot.
   optional string reason = 7 [json_name = "reason"];
-  // Case-insensitive substring search across area, provider, location, reason,
-  // comment and contact name/phone (both the row's snapshot and the provider's
-  // contact book).
   optional string search = 8 [json_name = "search"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
