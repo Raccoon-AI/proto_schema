@@ -74,6 +74,9 @@ message Job {
   // ask for it (the government dashboard's job list and job detail); absent
   // elsewhere, and absent when no check has run for the job.
   optional AiVerification ai_verification = 49 [json_name = "ai_verification"];
+  // Declared consignment-note facts, written only by ConsignmentNoteService.
+  optional double num_of_container = 50 [json_name = "num_of_container"];
+  optional double weight_kg = 51 [json_name = "weight_kg"];
 }
 
 message JobCreate {
