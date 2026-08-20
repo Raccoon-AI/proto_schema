@@ -397,3 +397,18 @@ enum TruckEngineType {
   TRUCK_ENGINE_TYPE_HYBRID = 4;
   TRUCK_ENGINE_TYPE_CNG = 5; // Compressed Natural Gas
 }
+
+// *****************************************************
+// WHATSAPP ENUMS
+// *****************************************************
+
+enum WhatsappOrderStatus {
+  WHATSAPP_ORDER_STATUS_UNDEFINED = 0;
+  WHATSAPP_ORDER_STATUS_WELCOME = 1;
+  WHATSAPP_ORDER_STATUS_SELECTING_GROUP = 2;
+  WHATSAPP_ORDER_STATUS_SELECTING_JOB_TYPE = 3;
+  WHATSAPP_ORDER_STATUS_PENDING = 4;
+  WHATSAPP_ORDER_STATUS_CONFIRMED = 5;
+  WHATSAPP_ORDER_STATUS_CANCELLED = 6;
+  WHATSAPP_ORDER_STATUS_EXPIRED = 7;
+}
