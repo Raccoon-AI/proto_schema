@@ -49,6 +49,10 @@ message Route {
   optional uint64 reward = 27 [json_name = "reward"];
   optional double design_duration = 28 [json_name = "design_duration"];
   optional ScaleRecord scale_record = 29 [json_name = "scale_record"];
+  // Declared consignment-note facts, written only by ConsignmentNoteService.
+  optional double mileage = 30 [json_name = "mileage"];
+  optional double weight_kg = 31 [json_name = "weight_kg"];
+  optional double volume = 32 [json_name = "volume"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];

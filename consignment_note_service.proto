@@ -1,0 +1,86 @@
+syntax = "proto2";
+package raccoonai;
+
+import "driver_on_shift.proto";
+import "google/protobuf/timestamp.proto";
+import "job.proto";
+import "route.proto";
+
+option go_package = "./pb";
+
+// The consignment note (ТТН) is the dispatcher's closing record for a shift: the
+// crew that actually rode along, and the declared facts of the day — departure
+// and arrival, engine hours, mileage, weight, volume, containers.
+//
+// This service only *writes* those facts. There is no consignment-note read
+// endpoint on purpose: the values live on the shift, route and job themselves,
+// so anyone who may already read those entities sees them.
+//
+// Every request writes only the fields it carries. A field left out of the
+// request keeps its stored value, so a dispatcher correcting one number cannot
+// blank the rest.
+//
+// After every write the shift's consignment note is re-checked for completeness:
+// once the shift, every route on it and every job on those routes carries all of
+// its declared facts, DriverOnShift.consignment_note_done_at is stamped. It is
+// cleared again if later work reopens the gap — a route added after the fact, for
+// instance. Nobody marks the note done by hand.
+
+// SetCrewToShiftRequest makes crew_ids the whole crew of a shift: users left
+// out come off the crew, and an empty crew_ids clears it.
+message SetCrewToShiftRequest {
+  required uint64 driver_on_shift_id = 1 [json_name = "driver_on_shift_id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  repeated uint64 crew_ids = 3 [json_name = "crew_ids"];
+}
+
+// SetShiftConsignmentNoteRequest declares the shift's own facts: where and when
+// the truck left and came back, and the engine hours and mileage it ran.
+message SetShiftConsignmentNoteRequest {
+  required uint64 driver_on_shift_id = 1 [json_name = "driver_on_shift_id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  optional uint64 departure_location_id = 3 [json_name = "departure_location_id"];
+  optional uint64 arrival_location_id = 4 [json_name = "arrival_location_id"];
+  optional google.protobuf.Timestamp departure_time = 5 [json_name = "departure_time"];
+  optional google.protobuf.Timestamp arrival_time = 6 [json_name = "arrival_time"];
+  optional double engine_hours = 7 [json_name = "engine_hours"];
+  optional double mileage = 8 [json_name = "mileage"];
+}
+
+// RouteConsignmentNote declares what one trip carried and how far it travelled.
+message RouteConsignmentNote {
+  required uint64 route_id = 1 [json_name = "route_id"];
+  optional double mileage = 2 [json_name = "mileage"];
+  optional double weight_kg = 3 [json_name = "weight_kg"];
+  optional double volume = 4 [json_name = "volume"];
+}
+
+// SetRouteConsignmentNotesRequest writes a whole table of trips at once — every
+// route of a shift in one call, or a single route with one entry. Either all of
+// the notes land or none of them do.
+message SetRouteConsignmentNotesRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  repeated RouteConsignmentNote notes = 2 [json_name = "notes"];
+}
+
+// JobConsignmentNote declares what was serviced at one location.
+message JobConsignmentNote {
+  required uint64 job_id = 1 [json_name = "job_id"];
+  optional double num_of_container = 2 [json_name = "num_of_container"];
+  optional double weight_kg = 3 [json_name = "weight_kg"];
+}
+
+// SetJobConsignmentNotesRequest writes a whole table of service acts at once —
+// every job of a route in one call, or a single job with one entry. Either all of
+// the notes land or none of them do.
+message SetJobConsignmentNotesRequest {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  repeated JobConsignmentNote notes = 2 [json_name = "notes"];
+}
+
+service ConsignmentNoteService {
+  rpc AddCrewMemberToShift(SetCrewToShiftRequest) returns (DriverOnShift) {}
+  rpc SetShiftConsignmentNote(SetShiftConsignmentNoteRequest) returns (DriverOnShift) {}
+  rpc SetRouteConsignmentNotes(SetRouteConsignmentNotesRequest) returns (RouteList) {}
+  rpc SetJobConsignmentNotes(SetJobConsignmentNotesRequest) returns (JobList) {}
+}
