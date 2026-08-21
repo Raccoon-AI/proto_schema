@@ -109,6 +109,10 @@ message EcoInspect {
   optional string contact_phone = 18 [json_name = "contact_phone"];
 
   optional uint64 containers_affected = 19 [json_name = "containers_affected"];
+
+  // Stamped when the eco officer moves the inspection into REVIEWED; cleared if it
+  // leaves REVIEWED again. Non-null iff the inspection is currently REVIEWED.
+  optional google.protobuf.Timestamp confirmed_at = 20 [json_name = "confirmed_at"];
 }
 
 message EcoInspectList {
