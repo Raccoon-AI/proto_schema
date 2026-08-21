@@ -26,11 +26,13 @@ message ShiftScheduleCell {
   required ShiftCellState state = 2 [json_name = "state"];
   optional uint64 driver_on_shift_id = 3 [json_name = "driver_on_shift_id"];
   optional uint64 shift_plan_id = 4 [json_name = "shift_plan_id"];
-  // Full shift (truck preloaded) for the cell popover: plate number, truck
-  // model/type, raw status, tw window and completion time. Present on every
-  // shift-backed cell — including a MISSED cell derived from a never-started
-  // shift; plan-only cells (PLANNED and plan-derived MISSED) carry no shift.
-  optional DriverOnShift driver_on_shift = 5 [json_name = "driver_on_shift"];
+  // Every shift the driver had that day (truck preloaded), for the cell
+  // popover: plate number, truck model/type, raw status, tw window and
+  // completion time. A driver can work more than one shift in a day, so this
+  // repeats; the first entry is the one that paints the cell (see
+  // driver_on_shift_id). Plan-only cells (PLANNED and plan-derived MISSED)
+  // carry no shifts.
+  repeated DriverOnShift driver_on_shifts = 5 [json_name = "driver_on_shifts"];
 }
 
 message DriverShiftScheduleRow {
