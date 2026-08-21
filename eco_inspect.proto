@@ -107,6 +107,12 @@ message EcoInspect {
 
   optional string contact_name = 17 [json_name = "contact_name"];
   optional string contact_phone = 18 [json_name = "contact_phone"];
+
+  optional uint64 containers_affected = 19 [json_name = "containers_affected"];
+
+  // Stamped when the eco officer moves the inspection into REVIEWED; cleared if it
+  // leaves REVIEWED again. Non-null iff the inspection is currently REVIEWED.
+  optional google.protobuf.Timestamp confirmed_at = 20 [json_name = "confirmed_at"];
 }
 
 message EcoInspectList {
@@ -138,6 +144,7 @@ message EcoInspectUpdate {
   optional string comment = 8 [json_name = "comment"];
   // When present, replaces the linked contacts with these ids.
   repeated uint64 contact_ids = 9 [json_name = "contact_ids"];
+  optional uint64 containers_affected = 10 [json_name = "containers_affected"];
 }
 
 // EcoInspectMediaUpload appends media (images or videos) to a row.
@@ -145,6 +152,7 @@ message EcoInspectMediaUpload {
   optional uint64 id = 1 [json_name = "id"];
   required FileUploadType type = 2 [json_name = "type"];
   repeated File files = 3 [json_name = "files"];
+  optional uint64 containers_affected = 4 [json_name = "containers_affected"];
 }
 
 message EcoInspectListRequest {
