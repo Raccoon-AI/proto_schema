@@ -1,0 +1,59 @@
+syntax = "proto2";
+package raccoonai;
+
+import "driver_on_shift.proto";
+import "enums.proto";
+import "general.proto";
+import "shift_plan.proto";
+
+option go_package = "./pb";
+
+message ShiftPlanDeleteRequest {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+}
+
+message ShiftScheduleRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint32 year = 2 [json_name = "year"];
+  required uint32 month = 3 [json_name = "month"]; // 1-12
+  // Paginates DRIVERS (schedule rows), never cells: a page always holds complete rows.
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
+}
+
+message ShiftScheduleCell {
+  required string date = 1 [json_name = "date"]; // "YYYY-MM-DD", Asia/Almaty calendar day
+  required ShiftCellState state = 2 [json_name = "state"];
+  optional uint64 driver_on_shift_id = 3 [json_name = "driver_on_shift_id"];
+  optional uint64 shift_plan_id = 4 [json_name = "shift_plan_id"];
+  // Every shift the driver had that day (truck preloaded), for the cell
+  // popover: plate number, truck model/type, raw status, tw window and
+  // completion time. A driver can work more than one shift in a day, so this
+  // repeats; the first entry is the one that paints the cell (see
+  // driver_on_shift_id). Plan-only cells (PLANNED and plan-derived MISSED)
+  // carry no shifts.
+  repeated DriverOnShift driver_on_shifts = 5 [json_name = "driver_on_shifts"];
+}
+
+message DriverShiftScheduleRow {
+  required uint64 driver_id = 1 [json_name = "driver_id"];
+  required string driver_name = 2 [json_name = "driver_name"];
+  // Sparse: only days that have a shift or a plan; missing days render empty.
+  repeated ShiftScheduleCell cells = 3 [json_name = "cells"];
+  required uint32 month_total = 4 [json_name = "month_total"];
+}
+
+message ShiftSchedule {
+  // Server-computed Asia/Almaty "today"; clients must use it instead of the browser
+  // clock so cell states and editability agree with the backend.
+  required string today = 1 [json_name = "today"];
+  repeated DriverShiftScheduleRow rows = 2 [json_name = "rows"];
+  // total_items counts the organization's drivers (rows), not cells.
+  optional ListInfo list_info = 3 [json_name = "list_info"];
+}
+
+service ShiftPlanService {
+  rpc ListShiftSchedule(ShiftScheduleRequest) returns (ShiftSchedule) {}
+  rpc CreateShiftPlan(ShiftPlanCreate) returns (ShiftPlan) {}
+  rpc DeleteShiftPlan(ShiftPlanDeleteRequest) returns (MessageResponse) {}
+}
