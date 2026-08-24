@@ -19,6 +19,13 @@ message PickupLocationListRequest {
   repeated uint64 pickup_location_group_ids = 3 [json_name = "pickup_location_group_ids"];
   // Only pickup locations hosting container groups whose group binding carries this job type.
   optional JobType job_type = 4 [json_name = "job_type"];
+  // Only pickup locations hosting container groups of these container types.
+  repeated uint64 container_type_ids = 5 [json_name = "container_type_ids"];
+  // Only pickup locations hosting container groups whose contract prices a job
+  // type of one of these categories (the container group's service schedule is
+  // the fallback when the contract carries no tariff map).
+  repeated JobCategory job_categories = 6 [json_name = "job_categories"];
+  repeated LocationStatus statuses = 7 [json_name = "statuses"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 

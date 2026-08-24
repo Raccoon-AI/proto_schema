@@ -19,6 +19,8 @@ message ContainerType {
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
   required float volume = 4 [json_name = "volume"];
   optional float weight_kg = 5 [json_name = "weight_kg"];
+  // Set only where the caller preloads it (GovDashService.GovListContainerTypes).
+  optional Organization owner_organization = 6 [json_name = "owner_organization"];
 
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];

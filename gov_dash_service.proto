@@ -92,6 +92,13 @@ message GovPickupLocationList {
   repeated GovPickupLocationInfo pickup_locations = 1 [json_name = "pickup_locations"];
 }
 
+message GovPickupLocationListRequest {
+  required GovOrganizationRequest filter = 1 [json_name = "filter"];
+  // Only pickup locations hosting container groups of these container types.
+  repeated uint64 container_type_ids = 2 [json_name = "container_type_ids"];
+  repeated LocationStatus statuses = 3 [json_name = "statuses"];
+}
+
 message GovPickupLocationStats {
   required PickupLocation pickup_location = 1 [json_name = "pickup_location"];
   required Organization service_provider = 3 [json_name = "service_provider"];
@@ -376,7 +383,10 @@ service GovDashService {
   rpc GetGovGeoAccess(EmptyMessageRequest) returns (GovGeoAccessList) {}
   rpc ServiceProviders(GovOrganizationRequest) returns (GovServiceProviderInfoList) {}
   rpc ServiceReceivers(GovOrganizationRequest) returns (OrganizationList) {}
-  rpc PickupLocations(GovOrganizationRequest) returns (GovPickupLocationList) {}
+  rpc PickupLocations(GovPickupLocationListRequest) returns (GovPickupLocationList) {}
+  // Container types owned by the service providers in the caller's geo scope,
+  // each with its owner organization.
+  rpc ContainerTypes(GovOrganizationRequest) returns (ContainerTypeList) {}
   rpc DisposalSites(EmptyMessageRequest) returns (OrganizationList) {}
   rpc DisposalSiteLocations(EmptyMessageRequest) returns (LocationList) {}
   rpc Trucks(GovOrganizationRequest) returns (GovTruckList) {}
