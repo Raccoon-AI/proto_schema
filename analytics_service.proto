@@ -111,10 +111,6 @@ message GasLevelSeriesResponse {
   repeated GasLevelPoint points = 2 [json_name = "points"];
 }
 
-// 8. Driver-activity dashboard series — shifts / routes / reward, unified behind DriverMetric
-//    (enums.proto). "Completed" means DRIVER_ON_SHIFT_STATUS_ENDED for shifts (bucketed by
-//    completed_at) and ROUTE_STATUS_COMPLETED or ROUTE_STATUS_FORCE_COMPLETED for routes and
-//    reward (bucketed by fact_end_at).
 message DriverActivitySeriesRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
@@ -124,13 +120,10 @@ message DriverActivitySeriesRequest {
 }
 
 message DriverActivitySeriesResponse {
-  optional uint64 total = 1 [json_name = "total"]; // count, or whole tenge for REWARD
+  optional uint64 total = 1 [json_name = "total"];
   repeated DailyValue per_day = 2 [json_name = "per_day"];
 }
 
-// 9. Completed routes split by category — one per-day series per RouteCategory that has at
-//    least one completed route in the period. Same completion semantics as
-//    DRIVER_METRIC_ROUTES_COMPLETED.
 message RouteCategorySeriesRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
@@ -147,11 +140,6 @@ message RouteCategorySeriesResponse {
   repeated RouteCategorySeries series = 1 [json_name = "series"];
 }
 
-// 10. Fuel consumed per day, in litres, derived from the calibrated gas-level telemetry:
-//     the sum of downward level deltas (refuel jumps excluded). avg_litres_per_100km divides
-//     total consumption by the odometer distance covered over the same windows.
-//     driver_id scopes the series to the trucks and time windows of that driver's shifts;
-//     truck_id scopes it to one truck; unset means the whole fleet of the organization.
 message FuelConsumptionSeriesRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
@@ -160,20 +148,16 @@ message FuelConsumptionSeriesRequest {
 }
 
 message DailyDoubleValue {
-  optional string date = 1 [json_name = "date"]; // YYYY-MM-DD
+  optional string date = 1 [json_name = "date"];
   optional double value = 2 [json_name = "value"];
 }
 
 message FuelConsumptionSeriesResponse {
   optional double total_litres = 1 [json_name = "total_litres"];
-  // Absent when no odometer distance was covered in the period.
   optional double avg_litres_per_100km = 2 [json_name = "avg_litres_per_100km"];
   repeated DailyDoubleValue per_day = 3 [json_name = "per_day"];
 }
 
-// 11. Engine hours per day, in seconds, derived from the cumulative total_engine_hours
-//     telemetry counter (max - min per truck per day, summed across trucks).
-//     driver_id scopes to that driver's shift windows, like FuelConsumptionSeriesRequest.
 message EngineHoursSeriesRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
@@ -182,9 +166,8 @@ message EngineHoursSeriesRequest {
 
 message EngineHoursSeriesResponse {
   optional uint64 total_seconds = 1 [json_name = "total_seconds"];
-  // total_seconds / number of ENDED shifts in the period; absent when there were no shifts.
   optional uint64 avg_seconds_per_shift = 2 [json_name = "avg_seconds_per_shift"];
-  repeated DailyValue per_day = 3 [json_name = "per_day"]; // value = seconds
+  repeated DailyValue per_day = 3 [json_name = "per_day"];
 }
 
 service AnalyticsService {
