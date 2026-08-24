@@ -237,6 +237,28 @@ enum DriverOnShiftStatus {
   DRIVER_ON_SHIFT_STATUS_NOT_APPROVED = 13;
 }
 
+// Derived state of one cell in the driver shift schedule matrix
+// (ShiftPlanService.ListShiftSchedule). Computed server-side by merging
+// shift_plan and driver_on_shift for an Asia/Almaty calendar day; a
+// driver_on_shift record always wins over a plan for the same day.
+enum ShiftCellState {
+  SHIFT_CELL_STATE_UNDEFINED = 0;
+  // Dark grey: driver_on_shift exists with status ENDED.
+  SHIFT_CELL_STATE_ENDED = 1;
+  // Green: driver_on_shift exists with status ACTIVE (stale past
+  // ACTIVE shifts intentionally stay green so dispatchers spot them).
+  SHIFT_CELL_STATE_ACTIVE = 2;
+  // Dark blue: driver_on_shift exists but work has not started
+  // (NOT_APPROVED or IDLE), day is today or later.
+  SHIFT_CELL_STATE_NOT_STARTED = 3;
+  // Light blue: shift_plan exists, no driver_on_shift, day is today or later.
+  SHIFT_CELL_STATE_PLANNED = 4;
+  // Red: the day has passed and the driver never worked it — either a
+  // shift_plan with no driver_on_shift, or a driver_on_shift that was never
+  // started (NOT_APPROVED/IDLE). A no-show either way.
+  SHIFT_CELL_STATE_MISSED = 5;
+}
+
 // To be deprecated
 enum DriverOnShiftEvent {
   DRIVER_ON_SHIFT_EVENT_UNDEFINED = 0;
@@ -351,6 +373,8 @@ enum PickupLocationType {
   PICKUP_LOCATION_TYPE_UNDEFINED = 0;
   PICKUP_LOCATION_TYPE_CONSTRUCTION = 1;
   PICKUP_LOCATION_TYPE_HOUSEHOLD = 2;
+  PICKUP_LOCATION_TYPE_SEPTIC = 3;
+  PICKUP_LOCATION_TYPE_MULTILIFT = 4;
 }
 
 enum PickupLocationPriority {
@@ -404,4 +428,19 @@ enum TruckEngineType {
   TRUCK_ENGINE_TYPE_ELECTRIC = 3;
   TRUCK_ENGINE_TYPE_HYBRID = 4;
   TRUCK_ENGINE_TYPE_CNG = 5; // Compressed Natural Gas
+}
+
+// *****************************************************
+// WHATSAPP ENUMS
+// *****************************************************
+
+enum WhatsappOrderStatus {
+  WHATSAPP_ORDER_STATUS_UNDEFINED = 0;
+  WHATSAPP_ORDER_STATUS_WELCOME = 1;
+  WHATSAPP_ORDER_STATUS_SELECTING_GROUP = 2;
+  WHATSAPP_ORDER_STATUS_SELECTING_JOB_TYPE = 3;
+  WHATSAPP_ORDER_STATUS_PENDING = 4;
+  WHATSAPP_ORDER_STATUS_CONFIRMED = 5;
+  WHATSAPP_ORDER_STATUS_CANCELLED = 6;
+  WHATSAPP_ORDER_STATUS_EXPIRED = 7;
 }
