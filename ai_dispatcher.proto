@@ -112,15 +112,6 @@ message DayPlanResponse {
   map<string, int64> data_quality = 4 [json_name = "data_quality"];
 }
 
-service AIDispatcherV4 {
-  rpc OnDispatcherHeartbeat(AIDispatcherRequest) returns (BulkAssignmentResponse);
-  rpc OnCapacityPlan(AIDispatcherRequest) returns (CapacityPlanResponse);
-}
-
 service AIDispatcherV5 {
   rpc GetDayPlan(DayPlanRequest) returns (DayPlanResponse);
-}
-
-service ResursDispatcher {
-  rpc OnDispatcherHeartbeat(AIDispatcherRequest) returns (BulkAssignmentResponse);
 }
