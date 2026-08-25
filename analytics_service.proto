@@ -73,6 +73,8 @@ message JobDetailRow {
   optional uint64 rent = 9 [json_name = "rent"]; // contract.rent_cost
   optional uint64 total = 10 [json_name = "total"]; // job.job_tariff
   optional JobType type = 11 [json_name = "type"];
+  optional double netto_kg = 12 [json_name = "netto_kg"];
+  optional double volume_m3 = 13 [json_name = "volume_m3"];
 }
 
 message JobDetailsResponse {
