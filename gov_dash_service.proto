@@ -58,6 +58,8 @@ message GovServiceProviderInfo {
   required string bin = 3 [json_name = "bin"];
   required uint64 number_of_trucks = 4 [json_name = "number_of_trucks"];
   optional uint64 parent_id = 5 [json_name = "parent_id"];
+  // The parent organization itself, for callers that render the hierarchy.
+  optional Organization parent = 6 [json_name = "parent"];
 }
 
 message GovServiceProviderInfoList {
@@ -86,6 +88,9 @@ message GovPickupLocationInfo {
   required double lon = 4 [json_name = "lon"];
   optional uint64 service_provider_id = 5 [json_name = "service_provider_id"];
   optional string service_provider_name = 6 [json_name = "service_provider_name"];
+  // The service provider organization itself; service_provider_name stays for
+  // callers already reading it.
+  optional Organization service_provider = 7 [json_name = "service_provider"];
 }
 
 message GovPickupLocationList {
