@@ -172,6 +172,76 @@ message EngineHoursSeriesResponse {
   repeated DailyValue per_day = 3 [json_name = "per_day"];
 }
 
+message TruckWorkSummaryRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional DateFilter period = 2 [json_name = "period"];
+  optional uint64 truck_id = 3 [json_name = "truck_id"];
+}
+
+message TruckWorkRow {
+  optional uint64 truck_id = 1 [json_name = "truck_id"];
+  optional string plate_number = 2 [json_name = "plate_number"];
+  optional uint64 shifts = 3 [json_name = "shifts"];
+  optional uint64 routes_completed = 4 [json_name = "routes_completed"];
+  optional uint64 jobs_completed = 5 [json_name = "jobs_completed"];
+  optional double netto_kg = 6 [json_name = "netto_kg"];
+  optional double mileage_km = 7 [json_name = "mileage_km"];
+  optional uint64 engine_seconds = 8 [json_name = "engine_seconds"];
+  optional double fuel_litres = 9 [json_name = "fuel_litres"];
+}
+
+message TruckWorkSummaryResponse {
+  repeated TruckWorkRow rows = 1 [json_name = "rows"];
+}
+
+message RouteDetailsRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional DateFilter period = 2 [json_name = "period"];
+  optional uint64 driver_id = 3 [json_name = "driver_id"];
+  optional uint64 truck_id = 4 [json_name = "truck_id"];
+  optional RouteCategory route_category = 5 [json_name = "route_category"];
+}
+
+message RouteDetailRow {
+  optional uint64 route_id = 1 [json_name = "route_id"];
+  optional string completed_on = 2 [json_name = "completed_on"];
+  optional RouteCategory route_category = 3 [json_name = "route_category"];
+  optional string driver_name = 4 [json_name = "driver_name"];
+  optional string truck_plate = 5 [json_name = "truck_plate"];
+  optional uint64 jobs_total = 6 [json_name = "jobs_total"];
+  optional uint64 jobs_completed = 7 [json_name = "jobs_completed"];
+  optional double netto_kg = 8 [json_name = "netto_kg"];
+  optional uint64 reward = 9 [json_name = "reward"];
+  optional uint64 duration_seconds = 10 [json_name = "duration_seconds"];
+  optional RouteStatus status = 11 [json_name = "status"];
+}
+
+message RouteDetailsResponse {
+  repeated RouteDetailRow rows = 1 [json_name = "rows"];
+}
+
+message UnfulfilledJobsRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional DateFilter period = 2 [json_name = "period"];
+  optional uint64 driver_id = 3 [json_name = "driver_id"];
+  optional JobCategory job_category = 4 [json_name = "job_category"];
+}
+
+message UnfulfilledJobRow {
+  optional uint64 job_id = 1 [json_name = "job_id"];
+  optional string date = 2 [json_name = "date"];
+  optional JobStatus status = 3 [json_name = "status"];
+  optional JobType type = 4 [json_name = "type"];
+  optional string pickup_location = 5 [json_name = "pickup_location"];
+  optional string receiver = 6 [json_name = "receiver"];
+  optional string driver_name = 7 [json_name = "driver_name"];
+  optional string reason = 8 [json_name = "reason"];
+}
+
+message UnfulfilledJobsResponse {
+  repeated UnfulfilledJobRow rows = 1 [json_name = "rows"];
+}
+
 service AnalyticsService {
   rpc GetJobMetricSeries(JobMetricSeriesRequest) returns (JobMetricSeriesResponse) {}
   rpc GetDriversSummary(DriversSummaryRequest) returns (DriversSummaryResponse) {}
@@ -182,4 +252,7 @@ service AnalyticsService {
   rpc GetRouteCategorySeries(RouteCategorySeriesRequest) returns (RouteCategorySeriesResponse) {}
   rpc GetFuelConsumptionSeries(FuelConsumptionSeriesRequest) returns (FuelConsumptionSeriesResponse) {}
   rpc GetEngineHoursSeries(EngineHoursSeriesRequest) returns (EngineHoursSeriesResponse) {}
+  rpc GetTruckWorkSummary(TruckWorkSummaryRequest) returns (TruckWorkSummaryResponse) {}
+  rpc GetRouteDetails(RouteDetailsRequest) returns (RouteDetailsResponse) {}
+  rpc GetUnfulfilledJobs(UnfulfilledJobsRequest) returns (UnfulfilledJobsResponse) {}
 }
