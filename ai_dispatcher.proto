@@ -11,15 +11,6 @@ message AIDispatcherRequest {
   required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
 }
 
-message AssignmentResponse {
-  required RouteCreate route = 1 [json_name = "route"];
-  repeated JobUpdate jobs = 2 [json_name = "jobs"];
-}
-
-message BulkAssignmentResponse {
-  repeated AssignmentResponse responses = 1 [json_name = "responses"];
-}
-
 enum CapacityPlanResponseStatus {
   CAPACITY_PLAN_RESPONSE_STATUS_UNDEFINED = 0;
   CAPACITY_PLAN_RESPONSE_STATUS_OK = 1;
