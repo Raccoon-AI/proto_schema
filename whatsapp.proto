@@ -5,16 +5,10 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
-// One message of a WhatsApp order dialogue (bot <-> client), stored for audit
-// by the WhatsApp webhook service. The counterparty's phone number is
-// deliberately not exposed here.
 message WhatsappMessage {
   required uint64 id = 1 [json_name = "id"];
-  // "IN" for client messages, "OUT" for bot replies.
   required string direction = 2 [json_name = "direction"];
   required string body = 3 [json_name = "body"];
-  // Set when the inbound message was a quick-reply button tap; body then
-  // carries the button title.
   optional string button_id = 4 [json_name = "button_id"];
   optional uint64 contact_id = 5 [json_name = "contact_id"];
   optional uint64 pending_order_id = 6 [json_name = "pending_order_id"];
