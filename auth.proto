@@ -11,6 +11,11 @@ message AuthResponse {
   required string access_token = 1 [json_name = "access_token"];
   required string token_type = 2 [json_name = "token_type"];
   required User me = 3 [json_name = "me"]; // User information
+  optional string refresh_token = 4 [json_name = "refresh_token"];
+}
+
+message RefreshTokenRequest {
+  required string refresh_token = 1 [json_name = "refresh_token"];
 }
 
 // Not used in messaging. To be deprecated.

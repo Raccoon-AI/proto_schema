@@ -32,6 +32,8 @@ enum ErrorCode {
   ERROR_CODE_AUTH_TOKEN_INVALID = 103;
   ERROR_CODE_AUTH_MISSING_CTX = 104;
   ERROR_CODE_INVALID_CREDENTIALS = 105;
+  // Access token (or other credential, e.g. registration token) has expired.
+  // For an expired access token the client should call RefreshToken.
   ERROR_CODE_AUTH_EXPIRED = 106;
   ERROR_CODE_AUTH_INVALID_USER_DATA = 107;
   ERROR_CODE_NO_PHONE_OR_EMAIL_PROVIDED = 108;
@@ -43,6 +45,14 @@ enum ErrorCode {
   ERROR_CODE_OTP_EMAIL_REQUIRED = 114;
   ERROR_CODE_OTP_PHONE_REQUIRED = 115;
   ERROR_CODE_USER_INACTIVE = 116;
+  // Refresh token is malformed, has a bad signature, or is not a refresh
+  // token. Client must re-login.
+  ERROR_CODE_REFRESH_TOKEN_INVALID = 117;
+  // Refresh token has expired. Client must re-login.
+  ERROR_CODE_REFRESH_TOKEN_EXPIRED = 118;
+  // The session behind the token no longer exists: logged out, revoked, or
+  // killed after refresh-token reuse was detected. Client must re-login.
+  ERROR_CODE_SESSION_REVOKED = 119;
 
   // Permission/Authorization errors
   ERROR_CODE_PERMISSION_DENIED = 201;
