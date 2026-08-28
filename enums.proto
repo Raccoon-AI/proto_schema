@@ -92,6 +92,13 @@ enum JobMetric {
   JOB_METRIC_COMPLETED = 3; // COUNT of completed jobs, bucketed by completion day
 }
 
+enum DriverMetric {
+  DRIVER_METRIC_UNDEFINED = 0;
+  DRIVER_METRIC_SHIFTS_COMPLETED = 1;
+  DRIVER_METRIC_ROUTES_COMPLETED = 2;
+  DRIVER_METRIC_REWARD = 3;
+}
+
 enum JobCategory {
   JOB_CATEGORY_UNDEFINED = 0;
   JOB_CATEGORY_CO = 1;
