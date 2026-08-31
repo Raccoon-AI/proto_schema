@@ -34,6 +34,22 @@ message DriverOnShift {
   optional google.protobuf.Timestamp tw_end_at = 15 [json_name = "tw_end_at"];
   optional uint64 capacity = 16 [json_name = "capacity"];
   optional bool visible_to_ai = 17 [json_name = "visible_to_ai"];
+  // crew are the additional users riding along on the shift besides driver_id
+  // (loaders, a second driver). Populated by the endpoints that preload it —
+  // GetDriverOnShiftById, ListDriverOnShift, ListTruckDriverOnShifts and
+  // AddCrewMemberToShift — and empty elsewhere.
+  repeated User crew = 18 [json_name = "crew"];
+  // Declared consignment-note facts, written only by ConsignmentNoteService.
+  optional uint64 departure_location_id = 19 [json_name = "departure_location_id"];
+  optional uint64 arrival_location_id = 20 [json_name = "arrival_location_id"];
+  optional google.protobuf.Timestamp departure_time = 21 [json_name = "departure_time"];
+  optional google.protobuf.Timestamp arrival_time = 22 [json_name = "arrival_time"];
+  optional double engine_hours = 23 [json_name = "engine_hours"];
+  optional double mileage = 24 [json_name = "mileage"];
+  // consignment_note_done_at is set once every declared fact of the shift, its
+  // routes and their jobs is filled in, and cleared while any is still missing.
+  // Maintained by ConsignmentNoteService; never written directly.
+  optional google.protobuf.Timestamp consignment_note_done_at = 25 [json_name = "consignment_note_done_at"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -52,6 +68,8 @@ message DriverOnShiftCreate {
   optional uint64 capacity = 10 [json_name = "capacity"];
   optional bool visible_to_ai = 11 [json_name = "visible_to_ai"];
   optional DriverOnShiftStatus status = 12 [json_name = "status"];
+  // crew_ids are the users to put on the shift's crew, besides driver_id.
+  repeated uint64 crew_ids = 13 [json_name = "crew_ids"];
 }
 
 message DriverOnShiftUpdate {
@@ -70,6 +88,10 @@ message DriverOnShiftUpdate {
   optional google.protobuf.Timestamp tw_end_at = 13 [json_name = "tw_end_at"];
   optional uint64 capacity = 14 [json_name = "capacity"];
   optional bool visible_to_ai = 15 [json_name = "visible_to_ai"];
+  // crew_ids, when non-empty, replaces the shift's whole crew. Leave it out to
+  // keep the current crew; call ConsignmentNoteService.AddCrewMemberToShift with
+  // an empty list to clear it.
+  repeated uint64 crew_ids = 16 [json_name = "crew_ids"];
 }
 
 message DriverOnShiftStatusUpdate {
