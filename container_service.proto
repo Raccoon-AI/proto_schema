@@ -51,6 +51,10 @@ message ContainerListRequest {
   repeated uint64 container_group_ids = 4 [json_name = "container_group_ids"];
   repeated ContainerStatus statuses = 5 [json_name = "statuses"];
   optional ListFilter list_filter = 6 [json_name = "list_filter"];
+  // Free-text search, matched case-insensitively against the container name and
+  // the name of its pickup location (its own, or the one its container group is
+  // bound to). Combined with the other filters by AND.
+  optional string search = 7 [json_name = "search"];
 }
 
 service ContainerService {
