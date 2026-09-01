@@ -49,6 +49,12 @@ message DetachJobInstructionsRequest {
   repeated uint64 file_ids = 3 [json_name = "file_ids"];
 }
 
+message NotifyReceiverJobCompletedRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+  required uint64 contact_id = 2 [json_name = "contact_id"];
+  required uint64 service_provider_id = 3 [json_name = "service_provider_id"];
+}
+
 service JobService {
   rpc CreateJob(JobCreate) returns (Job) {}
   rpc GetJobById(JobRequest) returns (Job) {}
@@ -59,4 +65,6 @@ service JobService {
   rpc ForceCompleteJob(JobRequest) returns (Job) {}
   rpc AttachJobInstructions(AttachJobInstructionsRequest) returns (Job) {}
   rpc DetachJobInstructions(DetachJobInstructionsRequest) returns (MessageResponse) {}
+  rpc DetachJobFromRoute(JobRequest) returns (Job) {}
+  rpc NotifyReceiverJobCompleted(NotifyReceiverJobCompletedRequest) returns (MessageResponse) {}
 }
