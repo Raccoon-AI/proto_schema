@@ -159,3 +159,16 @@ message ContainerList {
   repeated Container containers = 1 [json_name = "containers"];
   optional ListInfo list_info = 2 [json_name = "list_info"];
 }
+
+message ContainerStatusCount {
+  required ContainerStatus status = 1 [json_name = "status"];
+  required uint64 count = 2 [json_name = "count"];
+}
+
+// One entry per status, including statuses with count 0. UNDEFINED appears only
+// if some container carries an unrecognized status.
+message ContainerStatusCountList {
+  repeated ContainerStatusCount counts = 1 [json_name = "counts"];
+  // Sum of counts.
+  required uint64 total = 2 [json_name = "total"];
+}
