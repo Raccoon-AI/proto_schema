@@ -15,9 +15,9 @@ message WhatsappMessage {
   optional uint64 pending_order_id = 6 [json_name = "pending_order_id"];
   optional uint64 job_id = 7 [json_name = "job_id"];
   optional google.protobuf.Timestamp created_at = 8 [json_name = "created_at"];
+  optional Contact contact = 9 [json_name = "contact"];
 }
 
 message WhatsappMessageList {
   repeated WhatsappMessage messages = 1 [json_name = "messages"];
-  optional Contact contact = 2 [json_name = "contact"];
 }
