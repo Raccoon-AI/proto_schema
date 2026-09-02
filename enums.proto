@@ -443,3 +443,17 @@ enum WhatsappOrderStatus {
   WHATSAPP_ORDER_STATUS_CANCELLED = 6;
   WHATSAPP_ORDER_STATUS_EXPIRED = 7;
 }
+
+// Which telemetry a Моточасы (engine active hours) figure was derived from. Exposed so a
+// consumer can tell a measured figure from an absent one instead of reading 0 as "idle".
+enum EngineHoursSource {
+  ENGINE_HOURS_SOURCE_UNDEFINED = 0;
+  // Integral of the ignition/engine-operation sensor over the shift window. Fleet-wide on
+  // the Wialon Local orgs, and the preferred source.
+  ENGINE_HOURS_SOURCE_IGNITION = 1;
+  // Span of the cumulative CAN total_engine_hours counter. Only a handful of trucks carry a
+  // genuine hour meter.
+  ENGINE_HOURS_SOURCE_CAN_COUNTER = 2;
+  // The shift has a window but no usable engine telemetry in it.
+  ENGINE_HOURS_SOURCE_NONE = 3;
+}
