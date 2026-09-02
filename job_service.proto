@@ -59,4 +59,5 @@ service JobService {
   rpc ForceCompleteJob(JobRequest) returns (Job) {}
   rpc AttachJobInstructions(AttachJobInstructionsRequest) returns (Job) {}
   rpc DetachJobInstructions(DetachJobInstructionsRequest) returns (MessageResponse) {}
+  rpc DetachJobFromRoute(JobRequest) returns (Job) {}
 }

@@ -1,0 +1,16 @@
+syntax = "proto2";
+package raccoonai;
+
+import "general.proto";
+
+option go_package = "./pb";
+
+message NotifyReceiverJobCompletedRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+  required uint64 contact_id = 2 [json_name = "contact_id"];
+  required uint64 service_provider_id = 3 [json_name = "service_provider_id"];
+}
+
+service NotificationService {
+  rpc NotifyReceiverJobCompleted(NotifyReceiverJobCompletedRequest) returns (MessageResponse) {}
+}
