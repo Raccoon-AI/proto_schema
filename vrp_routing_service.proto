@@ -2,6 +2,8 @@ syntax = "proto2";
 
 package raccoonai;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "./pb";
 option java_outer_classname = "VrpRoutingServiceProto";
 option java_package = "com.raccoonai.vrprouting.grpc";
@@ -27,6 +29,16 @@ message SolveSingleVehicleRequest {
   // itself full actually is - pricing trip 1 from a distant depot changes the
   // order vroom picks for it.
   optional uint64 start_location_id = 4 [json_name = "start_location_id"];
+  // When the vehicle actually leaves start_location_id. Sets the solver's
+  // clock, so job time windows (job.tw_start_at/tw_end_at) and the shift
+  // window are evaluated against real wall-clock time rather than from zero.
+  //
+  // Omitted means the legacy behaviour: the solve is untimed, every window is
+  // ignored, and the sequence is chosen on distance and capacity alone. Day
+  // planning may legitimately omit it - the departure time is not known until
+  // the driver starts - but anything solving for a shift already under way
+  // should pass it, or the plan is priced from midnight.
+  optional google.protobuf.Timestamp departure_at = 5 [json_name = "departure_at"];
 }
 
 // One trip of the single vehicle; job_ids are in visit order.
@@ -41,4 +53,11 @@ message SolveSingleVehicleResponse {
   repeated VrpTrip trips = 2 [json_name = "trips"];
   repeated uint64 unassigned_job_ids = 3 [json_name = "unassigned_job_ids"];
   optional string error_message = 4 [json_name = "error_message"];
+  // Jobs whose time window could not be honoured and was widened to the shift
+  // window so the job could still be placed. Time windows are hard constraints
+  // in vroom: without this relaxation a job that cannot be reached before it
+  // closes comes back unassigned, which would silently shrink the route. These
+  // jobs ARE in trips - they are served, just late. Empty when the whole plan
+  // is feasible, and always empty when departure_at was omitted.
+  repeated uint64 relaxed_job_ids = 5 [json_name = "relaxed_job_ids"];
 }
