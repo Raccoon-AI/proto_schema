@@ -194,6 +194,33 @@ message TruckWorkSummaryResponse {
   repeated TruckWorkRow rows = 1 [json_name = "rows"];
 }
 
+// Моточасы per driver shift, for the admin ТТН (waybill) page. One row per shift, over the
+// same shift work window the engine-hours series uses, so both screens agree.
+message ShiftEngineHoursRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional DateFilter period = 2 [json_name = "period"];
+  optional uint64 driver_id = 3 [json_name = "driver_id"];
+  optional uint64 truck_id = 4 [json_name = "truck_id"];
+}
+
+// window_start_at / window_end_at bound the span the figure was computed over, which is the
+// shift's work window, not necessarily its full created-to-completed life.
+message ShiftEngineHoursRow {
+  optional uint64 shift_id = 1 [json_name = "shift_id"];
+  optional uint64 truck_id = 2 [json_name = "truck_id"];
+  optional uint64 driver_id = 3 [json_name = "driver_id"];
+  optional google.protobuf.Timestamp window_start_at = 4 [json_name = "window_start_at"];
+  optional google.protobuf.Timestamp window_end_at = 5 [json_name = "window_end_at"];
+  optional uint64 window_seconds = 6 [json_name = "window_seconds"];
+  // Unset when source is NONE -- absent telemetry is not zero engine time.
+  optional uint64 engine_seconds = 7 [json_name = "engine_seconds"];
+  optional EngineHoursSource source = 8 [json_name = "source"];
+}
+
+message ShiftEngineHoursResponse {
+  repeated ShiftEngineHoursRow rows = 1 [json_name = "rows"];
+}
+
 message RouteDetailsRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
@@ -253,6 +280,7 @@ service AnalyticsService {
   rpc GetFuelConsumptionSeries(FuelConsumptionSeriesRequest) returns (FuelConsumptionSeriesResponse) {}
   rpc GetEngineHoursSeries(EngineHoursSeriesRequest) returns (EngineHoursSeriesResponse) {}
   rpc GetTruckWorkSummary(TruckWorkSummaryRequest) returns (TruckWorkSummaryResponse) {}
+  rpc GetShiftEngineHours(ShiftEngineHoursRequest) returns (ShiftEngineHoursResponse) {}
   rpc GetRouteDetails(RouteDetailsRequest) returns (RouteDetailsResponse) {}
   rpc GetUnfulfilledJobs(UnfulfilledJobsRequest) returns (UnfulfilledJobsResponse) {}
 }
