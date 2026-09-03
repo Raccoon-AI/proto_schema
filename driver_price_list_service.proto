@@ -1,0 +1,17 @@
+syntax = "proto2";
+package raccoonai;
+
+import "driver_price_list.proto";
+
+option go_package = "./pb";
+
+// Driver price list — the published per-stand prices drivers are paid from.
+// Reads are open to platform admins, provider owners, dispatchers and drivers
+// (drivers and dispatchers see prices only); writes and the pricing settings
+// are platform-admin only. Role gating is enforced by a dedicated interceptor,
+// not Permify.
+service DriverPriceListService {
+  rpc ListDriverPriceList(DriverPriceListRequest) returns (DriverPriceList) {}
+  rpc SetDriverPriceListEntry(DriverPriceListEntrySet) returns (DriverPriceListEntry) {}
+  rpc GetOrganizationPricingSettings(OrganizationPricingSettingsRequest) returns (OrganizationPricingSettings) {}
+}

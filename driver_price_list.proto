@@ -1,0 +1,114 @@
+syntax = "proto2";
+package raccoonai;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+// Driver price list: the published per-stand price a driver earns for a
+// completed bunker route, one row per (organization, month, pickup location,
+// shift, start/end anchor). Rows are generated monthly by vrp_solver
+// (source "median" / "night_ratio_fallback") or seeded by a platform admin for
+// stands with too little history (source "manual_override"). Final KZT — the
+// night premium is already included.
+
+enum DriverPriceListShift {
+  DRIVER_PRICE_LIST_SHIFT_UNDEFINED = 0;
+  DRIVER_PRICE_LIST_SHIFT_DAY = 1;
+  DRIVER_PRICE_LIST_SHIFT_NIGHT = 2;
+}
+
+message DriverPriceListRequest {
+  // Platform admins must name the organization; every other role is scoped to
+  // its own organization and may only pass its own id (or omit it).
+  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  // First day of the month, YYYY-MM-DD. Defaults to the current month in the
+  // organization's pricing timezone. The list returned is the one in effect
+  // for that month: per stand and shift, the newest published row whose month
+  // is not later than this one (within the staleness cap).
+  optional string month = 2 [json_name = "month"];
+}
+
+// One priced (stand, shift) cell. std_seconds, source, n_obs and window_months
+// are visible to platform admins only and are unset for every other role.
+message DriverPriceListCell {
+  required uint64 id = 1 [json_name = "id"];
+  required uint32 price_kzt = 2 [json_name = "price_kzt"];
+  // Month this row was published for (YYYY-MM-DD); may be earlier than the
+  // requested month when the latest list still applies.
+  required string month = 3 [json_name = "month"];
+  optional uint32 std_seconds = 4 [json_name = "std_seconds"];
+  optional string source = 5 [json_name = "source"];
+  optional uint32 n_obs = 6 [json_name = "n_obs"];
+  optional uint32 window_months = 7 [json_name = "window_months"];
+}
+
+message DriverPriceListRow {
+  required uint64 pickup_location_id = 1 [json_name = "pickup_location_id"];
+  required string pickup_location_name = 2 [json_name = "pickup_location_name"];
+  optional DriverPriceListCell day = 3 [json_name = "day"];
+  optional DriverPriceListCell night = 4 [json_name = "night"];
+}
+
+message DriverPriceList {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  // The month the list is in effect for (YYYY-MM-DD, first day).
+  required string month = 2 [json_name = "month"];
+  // False while the organization is not yet on price-list pay: non-admin
+  // callers then receive no rows.
+  required bool price_list_enabled = 3 [json_name = "price_list_enabled"];
+  // Ordered by pickup location name.
+  repeated DriverPriceListRow rows = 4 [json_name = "rows"];
+}
+
+// Admin-only: seed or correct one cell. The admin enters the standard time,
+// not the price — price_kzt is derived exactly as the generator derives it:
+// round(std_seconds / 3600 * rate_kzt_per_std_hour * night_multiplier?).
+// A cell that already exists in a month that has started is append-only and
+// cannot be changed; a cell in a month that has not started yet may be
+// overwritten.
+message DriverPriceListEntrySet {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 pickup_location_id = 2 [json_name = "pickup_location_id"];
+  required DriverPriceListShift shift = 3 [json_name = "shift"];
+  // Standard route duration in seconds, > 0.
+  required uint32 std_seconds = 4 [json_name = "std_seconds"];
+  // First day of the month, YYYY-MM-DD. Defaults to the current month in the
+  // organization's pricing timezone.
+  optional string month = 5 [json_name = "month"];
+}
+
+// Full ledger row (admin only).
+message DriverPriceListEntry {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required string month = 3 [json_name = "month"];
+  required uint64 pickup_location_id = 4 [json_name = "pickup_location_id"];
+  required uint64 start_location_id = 5 [json_name = "start_location_id"];
+  required uint64 end_location_id = 6 [json_name = "end_location_id"];
+  required DriverPriceListShift shift = 7 [json_name = "shift"];
+  required uint32 std_seconds = 8 [json_name = "std_seconds"];
+  required uint32 price_kzt = 9 [json_name = "price_kzt"];
+  required string source = 10 [json_name = "source"];
+  required uint32 n_obs = 11 [json_name = "n_obs"];
+  required uint32 window_months = 12 [json_name = "window_months"];
+  optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+  optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
+}
+
+message OrganizationPricingSettingsRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+}
+
+// Admin-only view of organization_settings_pricing: the rate and the night
+// window the price list is derived from.
+message OrganizationPricingSettings {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required bool price_list_enabled = 2 [json_name = "price_list_enabled"];
+  // NULL until the organization is enabled for price-list pay.
+  optional uint32 rate_kzt_per_std_hour = 3 [json_name = "rate_kzt_per_std_hour"];
+  required double night_multiplier = 4 [json_name = "night_multiplier"];
+  required uint32 night_start_hour = 5 [json_name = "night_start_hour"];
+  required uint32 night_end_hour = 6 [json_name = "night_end_hour"];
+  required string timezone = 7 [json_name = "timezone"];
+}
