@@ -6,6 +6,7 @@ import "ai_verification.proto";
 import "container.proto";
 import "contract.proto";
 import "daily_summary.proto";
+import "driver_on_shift.proto";
 import "enums.proto";
 import "general.proto";
 import "google/protobuf/struct.proto";
@@ -116,6 +117,15 @@ message GovTruckInfo {
   optional double lat = 3 [json_name = "lat"];
   optional double lon = 4 [json_name = "lon"];
   optional uint32 angle = 5 [json_name = "angle"];
+  // The truck's current shift, or its most recent one if none is open now. Unset
+  // for a truck that has never been on shift. Only the shift's own fields are
+  // populated - its dates above all, which is what this is here for. Its driver,
+  // route and jobs are not, so read driver_id rather than driver.
+  optional DriverOnShift last_driver_on_shift = 6 [json_name = "last_driver_on_shift"];
+  // The truck's depot, from its depot_id. Unset means no depot is assigned -
+  // deliberately not inferred from the owner organization, since Depots counts
+  // a depot's trucks by depot_id alone and would then disagree.
+  optional Location depot = 7 [json_name = "depot"];
 }
 
 message GovTruckList {
@@ -384,6 +394,15 @@ message GovAiVerificationList {
   optional ListInfo list_info = 2 [json_name = "list_info"];
 }
 
+// Driver shifts of the caller's geo-scoped service providers, narrowed to shifts
+// that actually served one of the caller's service receivers.
+message GovDriverOnShiftListRequest {
+  required GovOrganizationRequest filter = 1 [json_name = "filter"];
+  required DateTimeFilter date_time_filter = 2 [json_name = "date_time_filter"];
+  repeated DriverOnShiftStatus statuses = 3 [json_name = "statuses"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
+}
+
 service GovDashService {
   rpc GetGovGeoAccess(EmptyMessageRequest) returns (GovGeoAccessList) {}
   rpc ServiceProviders(GovOrganizationRequest) returns (GovServiceProviderInfoList) {}
@@ -397,6 +416,7 @@ service GovDashService {
   rpc Trucks(GovOrganizationRequest) returns (GovTruckList) {}
   rpc Depots(GovOrganizationRequest) returns (GovDepotInfoList) {}
   rpc Jobs(GovJobListRequest) returns (JobList) {}
+  rpc DriverOnShifts(GovDriverOnShiftListRequest) returns (DriverOnShiftList) {}
   rpc ExportJobsReport(GovJobListRequest) returns (GovJobsReportResponse) {}
   rpc GetGovRawScaleRecordList(GovRawScaleRecordListRequest) returns (RawScaleRecordListResponse) {}
 
