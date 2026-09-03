@@ -5,6 +5,7 @@ package raccoonai;
 import "driver_on_shift.proto";
 import "enums.proto";
 import "general.proto";
+import "gps_tables.proto";
 import "google/protobuf/struct.proto";
 import "route.proto";
 import "truck.proto";
@@ -83,6 +84,17 @@ message TruckTravelPathResponse {
   required google.protobuf.Struct geojson_feature = 2 [json_name = "geojson_feature"];
 }
 
+message TruckGpsStopsRequest {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required DateTimeFilter from_to = 3 [json_name = "from_to"];
+  // Stops the detectors could not tie to a known site (stop_type UNKNOWN /
+  // NO_NEARBY_PL) are the bulk of the rows and are noise on most maps, so they
+  // are opt-in. Verification screens set this to surface "stopped near, but not
+  // at, the container".
+  optional bool include_unmatched = 4 [json_name = "include_unmatched"];
+}
+
 message TruckPositionList {
   message TruckPosition {
     required uint64 truck_id = 1 [json_name = "truck_id"];
@@ -115,5 +127,8 @@ service TruckService {
   rpc ListTruckTypes(CustomTruckTypeListRequest) returns (CustomTruckTypeList) {}
 
   rpc GetTruckTravelPath(TruckTravelPathRequest) returns (TruckTravelPathResponse) {}
+  // Aggregated dwell events derived from the raw GPS stream, for overlaying on
+  // top of the GetTruckTravelPath line.
+  rpc GetTruckGpsStops(TruckGpsStopsRequest) returns (GpsStopList) {}
   rpc GetTruckListLatestPositions(TruckListRequest) returns (TruckPositionList) {}
 }
