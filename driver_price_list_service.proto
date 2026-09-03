@@ -6,12 +6,13 @@ import "driver_price_list.proto";
 option go_package = "./pb";
 
 // Driver price list — the published per-stand prices drivers are paid from.
-// Reads are open to platform admins, provider owners, dispatchers and drivers
-// (drivers and dispatchers see prices only); writes and the pricing settings
-// are platform-admin only. Role gating is enforced by a dedicated interceptor,
-// not Permify.
+// GetDriverPriceList is open to platform admins, provider owners, dispatchers
+// and drivers (non-admins see prices only); the other procedures are
+// platform-admin only. Role gating is enforced per procedure by a dedicated
+// interceptor in go-backend, not Permify.
 service DriverPriceListService {
-  rpc ListDriverPriceList(DriverPriceListRequest) returns (DriverPriceList) {}
+  // The list in effect for one organization and month (not paginated).
+  rpc GetDriverPriceList(DriverPriceListRequest) returns (DriverPriceList) {}
   rpc SetDriverPriceListEntry(DriverPriceListEntrySet) returns (DriverPriceListEntry) {}
   rpc GetOrganizationPricingSettings(OrganizationPricingSettingsRequest) returns (OrganizationPricingSettings) {}
 }
