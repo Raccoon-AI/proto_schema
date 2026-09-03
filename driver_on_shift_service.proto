@@ -11,6 +11,9 @@ message DriverOnShiftListRequest {
   repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
   required DateTimeFilter date_time_filter = 2 [json_name = "date_time_filter"];
   repeated DriverOnShiftStatus statuses = 3 [json_name = "statuses"];
+  // Keep only shifts that served at least one job at one of these pickup
+  // locations. Empty means no pickup-location narrowing.
+  repeated uint64 pickup_location_ids = 4 [json_name = "pickup_location_ids"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
