@@ -47,6 +47,10 @@ message ReportIncidentRequest {
   optional uint64 job_id = 3 [json_name = "job_id"];
 }
 
+message CompleteCurrentJobRequest {
+  optional uint64 job_id = 1 [json_name = "job_id"];
+}
+
 message FirebaseNotificationsRequest {
   required bool subscribe = 1 [json_name = "subscribe"];
   optional string fcm_token = 2 [json_name = "fcm_token"];
@@ -89,7 +93,7 @@ service DriverService {
   // When finished performing service at pickup location and ready to leave.
   // Changes job status to COMPLETED, and if it's the last job in the route,
   // changes route status to RETURNING
-  rpc CompleteCurrentJob(EmptyMessageRequest) returns (Job) {}
+  rpc CompleteCurrentJob(CompleteCurrentJobRequest) returns (Job) {}
 
   // When driver is en-route back to the depot. Changes route status to RETURNING.
   // Any unfinished jobs in the route will be marked as NOT_COMPLETED and
