@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "enums.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
@@ -16,6 +17,7 @@ message ShiftPlan {
   required uint64 driver_id = 3 [json_name = "driver_id"];
   // Calendar date, "YYYY-MM-DD", in the platform business timezone (Asia/Almaty).
   required string plan_date = 4 [json_name = "plan_date"];
+  required ShiftPlanType plan_type = 5 [json_name = "plan_type"];
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
 }
@@ -25,4 +27,10 @@ message ShiftPlanCreate {
   required uint64 driver_id = 2 [json_name = "driver_id"];
   // "YYYY-MM-DD"; must be strictly after today in Asia/Almaty.
   required string plan_date = 3 [json_name = "plan_date"];
+  // Which of the three planned states the cell should take. The client sends
+  // it explicitly rather than the server guessing the next one in the cycle:
+  // the client knows what the cell shows, and two dispatchers clicking the
+  // same cell cannot then talk past each other. Omitted means DAY, so callers
+  // that predate the field keep planning day shifts.
+  optional ShiftPlanType plan_type = 4 [json_name = "plan_type"];
 }

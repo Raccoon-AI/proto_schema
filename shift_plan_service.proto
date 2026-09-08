@@ -26,6 +26,9 @@ message ShiftScheduleCell {
   required ShiftCellState state = 2 [json_name = "state"];
   optional uint64 driver_on_shift_id = 3 [json_name = "driver_on_shift_id"];
   optional uint64 shift_plan_id = 4 [json_name = "shift_plan_id"];
+  // Set on cells that come from a plan, and it is what separates the three
+  // planned colours. Absent on cells derived purely from a driver_on_shift.
+  optional ShiftPlanType plan_type = 6 [json_name = "plan_type"];
   // Every shift the driver had that day (truck preloaded), for the cell
   // popover: plate number, truck model/type, raw status, tw window and
   // completion time. A driver can work more than one shift in a day, so this
@@ -40,6 +43,9 @@ message DriverShiftScheduleRow {
   required string driver_name = 2 [json_name = "driver_name"];
   // Sparse: only days that have a shift or a plan; missing days render empty.
   repeated ShiftScheduleCell cells = 3 [json_name = "cells"];
+  // Days the driver is down to work: shifts plus day and night plans.
+  // Planned days off are excluded - the count answers "how many shifts",
+  // and a day off is the absence of one.
   required uint32 month_total = 4 [json_name = "month_total"];
 }
 

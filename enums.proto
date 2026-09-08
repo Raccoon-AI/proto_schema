@@ -254,8 +254,24 @@ enum ShiftCellState {
   SHIFT_CELL_STATE_PLANNED = 4;
   // Red: the day has passed and the driver never worked it — either a
   // shift_plan with no driver_on_shift, or a driver_on_shift that was never
-  // started (NOT_APPROVED/IDLE). A no-show either way.
+  // started (NOT_APPROVED/IDLE). A no-show either way. A plan of type
+  // DAY_OFF is never MISSED: not working was the plan.
   SHIFT_CELL_STATE_MISSED = 5;
+}
+
+// What a shift_plan row plans for. The schedule cell cycles through these as
+// the dispatcher clicks it — day, night, day off, then cleared — and the type
+// is what separates the three planned colours; SHIFT_CELL_STATE stays the
+// derived state (planned / worked / missed).
+enum ShiftPlanType {
+  SHIFT_PLAN_TYPE_UNDEFINED = 0;
+  // Light blue: a normal daytime shift.
+  SHIFT_PLAN_TYPE_DAY = 1;
+  // Purple: a night shift.
+  SHIFT_PLAN_TYPE_NIGHT = 2;
+  // Orange: a planned day off. Counts as neither a worked nor a missed day,
+  // and is excluded from a row's month_total.
+  SHIFT_PLAN_TYPE_DAY_OFF = 3;
 }
 
 // To be deprecated
