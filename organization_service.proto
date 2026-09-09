@@ -65,6 +65,18 @@ message GrantParentAccessToChildOrgRequest {
 message ListCounterpartiesRequest {
   required uint64 organization_id = 1 [json_name = "organization_id"];
   optional ContractStatus status = 2 [json_name = "status"];
+  optional string search_query = 3 [json_name = "search_query"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
+}
+
+message Counterparty {
+  required Organization organization = 1 [json_name = "organization"];
+  required ContractStatus contract_status = 2 [json_name = "contract_status"];
+}
+
+message CounterpartyList {
+  repeated Counterparty counterparties = 1 [json_name = "counterparties"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
 }
 
 service OrganizationService {
@@ -93,7 +105,7 @@ service OrganizationService {
   // general organization requests
   rpc ListDisposalSiteOperators(EmptyMessageRequest) returns (OrganizationList) {}
   rpc ListChildrenOrganization(EmptyMessageRequest) returns (OrganizationList) {}
-  rpc ListCounterparties(ListCounterpartiesRequest) returns (OrganizationList) {}
+  rpc ListCounterparties(ListCounterpartiesRequest) returns (CounterpartyList) {}
   rpc GetOrganization(OrganizationRequest) returns (Organization) {}
   rpc UpdateOrganization(OrganizationUpdate) returns (Organization) {}
   rpc MyOrganization(EmptyMessageRequest) returns (Organization) {}
