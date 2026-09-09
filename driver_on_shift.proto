@@ -35,9 +35,8 @@ message DriverOnShift {
   optional uint64 capacity = 16 [json_name = "capacity"];
   optional bool visible_to_ai = 17 [json_name = "visible_to_ai"];
   optional google.protobuf.Timestamp started_at = 18 [json_name = "started_at"];
-  optional string shift_number = 19 [json_name = "shift_number"];
-  optional uint32 completed_route_count = 20 [json_name = "completed_route_count"];
-  optional bool has_incidents = 21 [json_name = "has_incidents"];
+  optional uint32 completed_route_count = 19 [json_name = "completed_route_count"];
+  optional bool has_incidents = 20 [json_name = "has_incidents"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
