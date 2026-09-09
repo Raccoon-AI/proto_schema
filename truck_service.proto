@@ -5,8 +5,8 @@ package raccoonai;
 import "driver_on_shift.proto";
 import "enums.proto";
 import "general.proto";
-import "gps_tables.proto";
 import "google/protobuf/struct.proto";
+import "gps_tables.proto";
 import "route.proto";
 import "truck.proto";
 
