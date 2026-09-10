@@ -1,96 +1,12 @@
 syntax = "proto2";
 package raccoonai;
 
-import "contact.proto";
-import "contract.proto";
+import "container_group.proto";
 import "general.proto";
-import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
-import "organization.proto";
+import "job.proto";
 
 option go_package = "./pb";
-
-// *****************************************************
-// CONTAINER TYPE
-// *****************************************************
-message ContainerType {
-  required uint64 id = 1 [json_name = "id"];
-  required string name = 2 [json_name = "type_name"];
-  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
-  required float volume = 4 [json_name = "volume"];
-  optional float weight_kg = 5 [json_name = "weight_kg"];
-  // Set only where the caller preloads it (GovDashService.GovListContainerTypes).
-  optional Organization owner_organization = 6 [json_name = "owner_organization"];
-
-  optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
-  optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
-}
-
-message ContainerTypeCreate {
-  required string name = 1 [json_name = "name"];
-  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
-  required float volume = 3 [json_name = "volume"];
-  required float weight_kg = 4 [json_name = "weight_kg"];
-}
-
-message ContainerTypeUpdate {
-  required uint64 id = 1 [json_name = "id"];
-  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"]; // to be required
-  optional string name = 3 [json_name = "name"];
-  optional float volume = 4 [json_name = "volume"];
-  optional float weight_kg = 5 [json_name = "weight_kg"];
-}
-
-message ContainerTypeList {
-  repeated ContainerType container_types = 1 [json_name = "container_types"];
-  optional ListInfo list_info = 2 [json_name = "list_info"];
-}
-
-// *****************************************************
-// CONTAINER GROUP
-// *****************************************************
-message ContainerGroup {
-  required uint64 id = 1 [json_name = "id"];
-  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
-  optional Organization owner_organization = 3 [json_name = "owner_organization"];
-  required ContainerType container_type = 4 [json_name = "container_type"];
-  required uint32 number_of_containers = 5 [json_name = "number_of_containers"];
-  required uint64 pickup_location_id = 6 [json_name = "pickup_location_id"];
-  optional google.protobuf.Struct service_schedule_by_job_type = 7 [json_name = "service_schedule_by_job_type"];
-  optional uint64 contract_id = 8 [json_name = "contract_id"]; //trunk check
-  optional Contract contract = 9 [json_name = "contract"]; //trunk check
-  optional string pickup_location_name = 10 [json_name = "pickup_location_name"];
-  optional uint64 primary_contact_id = 11 [json_name = "primary_contact_id"];
-  optional Contact primary_contact = 12 [json_name = "primary_contact"];
-  optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
-  optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
-}
-
-message ContainerGroupCreate {
-  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
-  required uint64 container_type_id = 2 [json_name = "container_type_id"];
-  required uint32 number_of_containers = 3 [json_name = "number_of_containers"];
-  required uint64 pickup_location_id = 4 [json_name = "pickup_location_id"];
-  optional google.protobuf.Struct service_schedule_by_job_type = 5 [json_name = "service_schedule_by_job_type"];
-  optional uint64 contract_id = 7 [json_name = "contract_id"];
-  optional uint64 primary_contact_id = 8 [json_name = "primary_contact_id"];
-}
-
-message ContainerGroupUpdate {
-  required uint64 id = 1 [json_name = "id"];
-  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"]; // to be required
-  optional uint64 container_type_id = 3 [json_name = "container_type_id"];
-  optional uint32 number_of_containers = 4 [json_name = "number_of_containers"];
-  optional uint64 pickup_location_id = 5 [json_name = "pickup_location_id"];
-  optional google.protobuf.Struct service_schedule_by_job_type = 6 [json_name = "service_schedule_by_job_type"];
-  optional uint64 contract_id = 7 [json_name = "contract_id"];
-  optional uint64 primary_contact_id = 8 [json_name = "primary_contact_id"];
-}
-
-message ContainerGroupList {
-  repeated ContainerGroup container_groups = 1 [json_name = "container_groups"];
-  optional ListInfo list_info = 2 [json_name = "list_info"];
-}
 
 // *****************************************************
 // CONTAINER
@@ -119,10 +35,16 @@ message Container {
   optional ContainerTrackingEvent last_event = 9 [json_name = "last_event"];
   optional google.protobuf.Timestamp last_event_at = 10 [json_name = "last_event_at"];
   optional ContainerGroup container_group = 11 [json_name = "container_group"];
-  // Job that last changed this container (moved or serviced it). Set by the
-  // backend from ContainerStatusUpdate.job_id; never written by the client
+  // The job that last changed this container (moved or serviced it). Set by
+  // the backend from ContainerStatusUpdate.job_id; never written by the client
   // through ContainerCreate/ContainerUpdate.
   optional uint64 last_job_id = 12 [json_name = "last_job_id"];
+  // The job last_job_id points at, preloaded. Set only where the caller
+  // preloads it (ContainerService.ListContainers and GetContainerById), and
+  // absent when last_job_id is unset. Read it rather than resolving the id:
+  // it arrives with the same associations JobService serves, so the client can
+  // render the job's report without a second round trip.
+  optional Job last_job = 13 [json_name = "last_job"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   required google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -163,9 +85,6 @@ message ContainerStatusUpdate {
   optional uint64 job_id = 5 [json_name = "job_id"];
 }
 
-// Unused since ListContainers moved to ContainerListResponse, which also
-// carries the containers' last jobs. Kept so any client still generating
-// against this message keeps compiling; prefer ContainerListResponse.
 message ContainerList {
   repeated Container containers = 1 [json_name = "containers"];
   optional ListInfo list_info = 2 [json_name = "list_info"];
