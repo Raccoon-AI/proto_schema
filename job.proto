@@ -2,7 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "ai_verification.proto";
-import "container.proto";
+import "container_group.proto";
 import "driver_on_shift.proto";
 import "enums.proto";
 import "file_upload.proto";
