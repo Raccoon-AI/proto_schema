@@ -206,7 +206,7 @@ message ShiftEngineHoursRequest {
 // window_start_at / window_end_at bound the span the figure was computed over, which is the
 // shift's work window, not necessarily its full created-to-completed life.
 message ShiftEngineHoursRow {
-  optional uint64 shift_id = 1 [json_name = "shift_id"];
+  optional uint64 driver_on_shift_id = 1 [json_name = "driver_on_shift_id"];
   optional uint64 truck_id = 2 [json_name = "truck_id"];
   optional uint64 driver_id = 3 [json_name = "driver_id"];
   optional google.protobuf.Timestamp window_start_at = 4 [json_name = "window_start_at"];
