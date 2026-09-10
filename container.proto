@@ -35,15 +35,9 @@ message Container {
   optional ContainerTrackingEvent last_event = 9 [json_name = "last_event"];
   optional google.protobuf.Timestamp last_event_at = 10 [json_name = "last_event_at"];
   optional ContainerGroup container_group = 11 [json_name = "container_group"];
-  // The job that last changed this container (moved or serviced it). Set by
-  // the backend from ContainerStatusUpdate.job_id; never written by the client
-  // through ContainerCreate/ContainerUpdate.
+  // The job that last moved or serviced this container. Backend-written only.
   optional uint64 last_job_id = 12 [json_name = "last_job_id"];
-  // The job last_job_id points at, preloaded. Set only where the caller
-  // preloads it (ContainerService.ListContainers and GetContainerById), and
-  // absent when last_job_id is unset. Read it rather than resolving the id:
-  // it arrives with the same associations JobService serves, so the client can
-  // render the job's report without a second round trip.
+  // last_job_id preloaded, on the reads that preload it.
   optional Job last_job = 13 [json_name = "last_job"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
@@ -79,9 +73,8 @@ message ContainerStatusUpdate {
   required uint64 pickup_location_id = 2 [json_name = "pickup_location_id"];
   required ContainerTrackingEvent last_event = 3 [json_name = "last_event"];
   required uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
-  // Job the reporter was executing when the container moved. Stored as
-  // Container.last_job_id. Must belong to owner_organization_id (as service
-  // provider or receiver); omitted leaves the previously stored job in place.
+  // The job being executed when the container moved; must belong to
+  // owner_organization_id. Omitted leaves the stored job in place.
   optional uint64 job_id = 5 [json_name = "job_id"];
 }
 

@@ -10,11 +10,8 @@ import "organization.proto";
 
 option go_package = "./pb";
 
-// Container types and container groups live here, apart from the Container
-// entity in container.proto, so that container.proto may import job.proto:
-// a Container carries the job that last serviced it, while job.proto needs
-// only the type and the group. Keeping all of it in one file made that a
-// circular import.
+// Split from container.proto so that file may import job.proto: a Container
+// carries the job that last serviced it, while job.proto needs only these two.
 
 // *****************************************************
 // CONTAINER TYPE
