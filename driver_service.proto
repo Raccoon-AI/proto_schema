@@ -9,6 +9,7 @@ import "general.proto";
 import "google/protobuf/timestamp.proto";
 import "job.proto";
 import "location.proto";
+import "pickup_location.proto";
 import "route.proto";
 
 option go_package = "./pb";
@@ -84,6 +85,18 @@ service DriverService {
   // Get current assigned route and it's jobs. Can be used by driver app to
   // refresh the screen after app restart or network failure.
   rpc GetCurrentRoute(EmptyMessageRequest) returns (Route) {}
+
+  // Pickup locations of the active route that can be serviced without leaving
+  // the one already open — a pickup location can be a whole street, and stops
+  // passed while driving along it belong to the same visit. Empty while the
+  // driver has nothing ON_SERVICE.
+  rpc ListNearbyPickupLocations(EmptyMessageRequest) returns (PickupLocationList) {}
+
+  // Start heading to a pickup location passed on the way: its jobs go ENROUTE
+  // and everything already open stays open, unlike ChoosePickupLocation which
+  // stands the previous location down. Rejects a location that is not among
+  // ListNearbyPickupLocations.
+  rpc ServeNearbyPickupLocation(IdRequest) returns (JobList) {}
 
   // When arrived to pickup location and start performing service
   // (e.g., start cleaning container, or start disinfection).
