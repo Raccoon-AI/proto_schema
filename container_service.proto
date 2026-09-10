@@ -4,6 +4,7 @@ package raccoonai;
 import "container.proto";
 import "enums.proto";
 import "general.proto";
+import "job.proto";
 
 option go_package = "./pb";
 
@@ -67,6 +68,21 @@ message ContainerStatusCountRequest {
   optional string search = 5 [json_name = "search"];
 }
 
+// Response of ListContainers. It exists instead of ContainerList because it
+// carries the preloaded last jobs, and a Job cannot be a field of any
+// container.proto message: job.proto already imports container.proto, so the
+// reverse import would be circular.
+message ContainerListResponse {
+  repeated Container containers = 1 [json_name = "containers"];
+  // The jobs referenced by containers[].last_job_id, preloaded with the same
+  // associations JobService.ListJobs serves, so a client can label the job and
+  // open its report without a second round trip. Deduplicated and unordered; a
+  // container whose last_job_id is unset contributes no entry, and neither does
+  // a job that no longer exists.
+  repeated Job last_jobs = 2 [json_name = "last_jobs"];
+  optional ListInfo list_info = 3 [json_name = "list_info"];
+}
+
 service ContainerService {
   // Container Type operations
   rpc CreateContainerType(ContainerTypeCreate) returns (ContainerType) {}
@@ -86,7 +102,7 @@ service ContainerService {
   rpc CreateContainer(ContainerCreate) returns (Container) {}
   rpc GetContainerById(ContainerRequest) returns (Container) {}
   rpc UpdateContainer(ContainerUpdate) returns (Container) {}
-  rpc ListContainers(ContainerListRequest) returns (ContainerList) {}
+  rpc ListContainers(ContainerListRequest) returns (ContainerListResponse) {}
   rpc DeleteContainer(ContainerRequest) returns (MessageResponse) {}
   rpc UpdateContainerLocation(ContainerStatusUpdate) returns (MessageResponse) {}
   rpc CountContainersByStatus(ContainerStatusCountRequest) returns (ContainerStatusCountList) {}

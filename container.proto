@@ -119,6 +119,10 @@ message Container {
   optional ContainerTrackingEvent last_event = 9 [json_name = "last_event"];
   optional google.protobuf.Timestamp last_event_at = 10 [json_name = "last_event_at"];
   optional ContainerGroup container_group = 11 [json_name = "container_group"];
+  // Job that last changed this container (moved or serviced it). Set by the
+  // backend from ContainerStatusUpdate.job_id; never written by the client
+  // through ContainerCreate/ContainerUpdate.
+  optional uint64 last_job_id = 12 [json_name = "last_job_id"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   required google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -153,8 +157,15 @@ message ContainerStatusUpdate {
   required uint64 pickup_location_id = 2 [json_name = "pickup_location_id"];
   required ContainerTrackingEvent last_event = 3 [json_name = "last_event"];
   required uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
+  // Job the reporter was executing when the container moved. Stored as
+  // Container.last_job_id. Must belong to owner_organization_id (as service
+  // provider or receiver); omitted leaves the previously stored job in place.
+  optional uint64 job_id = 5 [json_name = "job_id"];
 }
 
+// Unused since ListContainers moved to ContainerListResponse, which also
+// carries the containers' last jobs. Kept so any client still generating
+// against this message keeps compiling; prefer ContainerListResponse.
 message ContainerList {
   repeated Container containers = 1 [json_name = "containers"];
   optional ListInfo list_info = 2 [json_name = "list_info"];
