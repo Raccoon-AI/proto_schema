@@ -443,4 +443,8 @@ enum WhatsappOrderStatus {
   WHATSAPP_ORDER_STATUS_CONFIRMED = 5;
   WHATSAPP_ORDER_STATUS_CANCELLED = 6;
   WHATSAPP_ORDER_STATUS_EXPIRED = 7;
+  // Job type is fixed; the sender is asked for an optional comment for the
+  // driver (how to enter the site, where the containers stand, ...) before
+  // the confirmation prompt.
+  WHATSAPP_ORDER_STATUS_AWAITING_COMMENT = 8;
 }
