@@ -3,7 +3,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "ai_verification.proto";
-import "container.proto";
+import "container_group.proto";
 import "contract.proto";
 import "daily_summary.proto";
 import "driver_on_shift.proto";
