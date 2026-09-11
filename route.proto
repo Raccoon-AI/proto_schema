@@ -224,3 +224,18 @@ message CreateRouteFromPickupLocationGroupRequest {
   required google.protobuf.Timestamp date = 2 [json_name = "date"];
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
 }
+
+// One stop of a pseudo-route: either a job created together with the route, or
+// an existing unrouted one picked into it. Exactly one of the two is set.
+message PseudoRouteStop {
+  optional JobCreate create = 1 [json_name = "create"];
+  optional uint64 job_id = 2 [json_name = "job_id"];
+}
+
+message PseudoRouteCreateRequest {
+  required RouteCreate route = 1 [json_name = "route"];
+  // Stops in the order the dispatcher arranged them; the index is the step_idx.
+  // Their windows are derived from the route's, not sent by the client.
+  repeated PseudoRouteStop stops = 2 [json_name = "stops"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+}
