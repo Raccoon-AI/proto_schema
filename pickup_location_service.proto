@@ -27,6 +27,8 @@ message PickupLocationListRequest {
   // the fallback when the contract carries no tariff map).
   repeated JobCategory job_categories = 6 [json_name = "job_categories"];
   repeated LocationStatus statuses = 7 [json_name = "statuses"];
+  optional string search_query = 8 [json_name = "search_query"];
+  repeated PickupLocationType types = 9 [json_name = "types"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 

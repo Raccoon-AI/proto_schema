@@ -25,6 +25,16 @@ message JobListRequest {
   // Specific jobs by id. Lets a caller that already has a set of job ids — e.g.
   // from GovDashService.ListAiVerifications — fetch those jobs in full.
   repeated uint64 job_ids = 14 [json_name = "job_ids"];
+  // Matched against the job id, the service receiver name and the pickup location
+  // name. Server-side so it composes with list_filter; searching one page would mislead.
+  optional string search_query = 15 [json_name = "search_query"];
+  // Jobs whose shift belongs to any of these drivers. driver_id (6) predates this and
+  // stays for existing callers; new callers pass driver_ids.
+  repeated uint64 driver_ids = 16 [json_name = "driver_ids"];
+  // true → only jobs with at least one photo report (legacy report URLs or an uploaded
+  // file); false → only jobs with none. Absent → no photo filtering.
+  optional bool has_photo_report = 17 [json_name = "has_photo_report"];
+  optional DispatcherReviewStatus dispatcher_review_status = 18 [json_name = "dispatcher_review_status"];
 }
 
 message JobRequest {
