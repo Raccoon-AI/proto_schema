@@ -35,19 +35,19 @@ message Contact {
 // groups. Which groups the contact ends up linked to is resolved in this order,
 // first field present wins:
 //
-//   container_group_ids  exactly those groups, no expansion;
-//   pickup_location_id   every container group of owner_organization_id on that
-//                        pickup location;
-//   container_group_id   the same expansion, taking the location from that one
-//                        group - so a client that can only name a single group
-//                        still gets the whole site;
-//   none of them         an organization-level contact with no group links.
+//   container_group_ids  exactly those groups;
+//   container_group_id   every container group of owner_organization_id on that
+//                        group's pickup location - so a client that can only
+//                        name a single group still gets the whole site;
+//   neither of them      an organization-level contact with no group links.
 //
 // Groups belonging to another organization are never linked, whichever field
 // asked for them: the pickup location's card lists contacts per customer, and a
 // contact must not surface under a customer that is not its own.
 message ContactCreate {
-  // Input only, never stored: it names the site whose groups to link.
+  // to be deprecated: never stored, and no longer read. A caller that means
+  // "every group my customer keeps on this location" sends the groups in
+  // container_group_ids - the location's card knows them already.
   optional uint64 pickup_location_id = 1 [json_name = "pickup_location_id"];
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
   required string name = 3 [json_name = "name"];
