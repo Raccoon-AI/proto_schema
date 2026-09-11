@@ -1,0 +1,20 @@
+syntax = "proto2";
+package raccoonai;
+
+import "contact.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+message WhatsappMessage {
+  required uint64 id = 1 [json_name = "id"];
+  required string direction = 2 [json_name = "direction"];
+  required string body = 3 [json_name = "body"];
+  optional string button_id = 4 [json_name = "button_id"];
+  optional Contact contact = 5 [json_name = "contact"];
+  optional google.protobuf.Timestamp created_at = 6 [json_name = "created_at"];
+}
+
+message WhatsappMessageList {
+  repeated WhatsappMessage messages = 1 [json_name = "messages"];
+}
