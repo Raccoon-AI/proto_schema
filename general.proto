@@ -151,6 +151,11 @@ enum ResponseStatus {
 message ErrorMessage {
   optional ErrorCode code = 1 [json_name = "code"]; // To show clients what exactly went wrong, useful for client-side handling
   repeated string messages = 2 [json_name = "messages"]; // For developers
+  // Values for the message template a client renders for `code`, e.g.
+  // {"id": "15574", "status": "DRIVER_ON_SHIFT_STATUS_IDLE"}. Enum values are
+  // sent as their full proto name so the client can localize them too; ids are
+  // decimal, timestamps RFC 3339.
+  map<string, string> args = 3 [json_name = "args"];
 }
 
 message MessageResponse {
