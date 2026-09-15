@@ -27,10 +27,6 @@ message ShiftPlanCreate {
   required uint64 driver_id = 2 [json_name = "driver_id"];
   // "YYYY-MM-DD"; must be strictly after today in Asia/Almaty.
   required string plan_date = 3 [json_name = "plan_date"];
-  // Which of the three planned states the cell should take. The client sends
-  // it explicitly rather than the server guessing the next one in the cycle:
-  // the client knows what the cell shows, and two dispatchers clicking the
-  // same cell cannot then talk past each other. Omitted means DAY, so callers
-  // that predate the field keep planning day shifts.
+  // Sent explicitly rather than cycled server-side; omitted means DAY.
   optional ShiftPlanType plan_type = 4 [json_name = "plan_type"];
 }
