@@ -419,6 +419,8 @@ enum WasteType {
   WASTE_TYPE_TIRES = 27; // Шины
   WASTE_TYPE_LEACHATE = 28; // Фильтрат завод
   WASTE_TYPE_VEHICLE_WEIGHING = 29; // Взвешивание ТС
+  WASTE_TYPE_HIGH_DENSITY_POLYETHYLENE = 30; // ПВД - полиэтилена высокого давления
+  WASTE_TYPE_DARK_PET_SCRAPS = 31; // Лом и отходы из полиэтилентерефталата (Темные)
 }
 
 enum TruckEngineType {
