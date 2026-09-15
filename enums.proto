@@ -262,11 +262,8 @@ enum ShiftCellState {
 // What a shift_plan row plans for; SHIFT_CELL_STATE stays the derived state.
 enum ShiftPlanType {
   SHIFT_PLAN_TYPE_UNDEFINED = 0;
-  // Light blue: a normal daytime shift.
   SHIFT_PLAN_TYPE_DAY = 1;
-  // Purple: a night shift.
   SHIFT_PLAN_TYPE_NIGHT = 2;
-  // Orange: a planned day off. Neither worked nor missed, and out of month_total.
   SHIFT_PLAN_TYPE_DAY_OFF = 3;
 }
 
