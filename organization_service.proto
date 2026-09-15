@@ -39,6 +39,14 @@ message OrganizationRequest {
   required uint64 organization_id = 1 [json_name = "organization_id"];
 }
 
+message ServiceReceiverListRequest {
+  required uint64 organization_id = 1 [json_name = "organization_id"];
+  // Only receivers whose contract with this organization prices a job type of
+  // one of these categories (the contract's container group schedules are the
+  // fallback when it carries no tariff map).
+  repeated JobCategory job_categories = 2 [json_name = "job_categories"];
+}
+
 message ChildrenOrganizationListRequest {
   optional uint64 parent_organization_id = 1 [json_name = "parent_organization_id"]; // To be required
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
@@ -71,7 +79,7 @@ service OrganizationService {
   rpc UpdateSetting(OrganizationSettingsUpdate) returns (OrganizationSettings) {}
 
   // can be used by service providers
-  rpc ListServiceReceivers(OrganizationRequest) returns (OrganizationList) {}
+  rpc ListServiceReceivers(ServiceReceiverListRequest) returns (OrganizationList) {}
   rpc CreateServiceReceiver(ServiceReceiverCreateRequest) returns (Organization) {}
 
   // can be used by service receivers

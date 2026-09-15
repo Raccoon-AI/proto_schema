@@ -61,4 +61,5 @@ service JobService {
   rpc ListJobWhatsappMessages(JobRequest) returns (WhatsappMessageList) {}
   rpc AttachJobInstructions(AttachJobInstructionsRequest) returns (Job) {}
   rpc DetachJobInstructions(DetachJobInstructionsRequest) returns (MessageResponse) {}
+  rpc DetachJobFromRoute(JobRequest) returns (Job) {}
 }

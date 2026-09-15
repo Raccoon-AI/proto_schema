@@ -1,7 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
-import "container.proto";
+import "container_group.proto";
 import "enums.proto";
 import "general.proto";
 import "google/protobuf/struct.proto";
@@ -22,12 +22,12 @@ message PickupLocation {
   optional string address = 11 [json_name = "address"];
   optional string availability_schedule = 12 [json_name = "availability_schedule"];
   optional string notification_schedule = 13 [json_name = "notification_schedule"];
-  optional uint64 num_containers = 14 [json_name = "num_containers"];
+  optional uint64 num_containers = 14 [json_name = "num_containers"]; // To be deprecated in favor of container_groups
   optional PickupLocationPriority priority = 15 [json_name = "priority"];
   optional string geo_group = 16 [json_name = "geo_group"];
-  optional uint64 tariff = 17 [json_name = "tariff"];
+  optional uint64 tariff = 17 [json_name = "tariff"]; // To be deprecated in favor of contract.tariff_rate_by_job_type
   optional uint64 receiver_user_id = 18 [json_name = "receiver_user_id"];
-  optional uint64 contract_id = 19 [json_name = "contract_id"];
+  optional uint64 contract_id = 19 [json_name = "contract_id"]; // To be deprecated in favor of container_groups.contract_id
   optional string comment = 20 [json_name = "comment"];
   optional string gis_link = 21 [json_name = "gis_link"];
   optional uint64 service_time = 22 [json_name = "service_time"];

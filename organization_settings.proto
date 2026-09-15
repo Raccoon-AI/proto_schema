@@ -2,12 +2,18 @@ syntax = "proto2";
 package raccoonai;
 
 import "audit_logs.proto";
+import "enums.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
+message RoleScopeList {
+  repeated UserRole roles = 1 [json_name = "roles"];
+}
+
 message NotificationConfig {
   repeated AuditLogType log_types = 1 [json_name = "log_types"];
+  map<string, RoleScopeList> role_scopes = 2 [json_name = "role_scopes"];
 }
 
 message ColumnConfig {

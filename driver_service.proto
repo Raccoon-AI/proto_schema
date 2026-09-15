@@ -9,6 +9,7 @@ import "general.proto";
 import "google/protobuf/timestamp.proto";
 import "job.proto";
 import "location.proto";
+import "pickup_location.proto";
 import "route.proto";
 
 option go_package = "./pb";
@@ -47,6 +48,10 @@ message ReportIncidentRequest {
   optional uint64 job_id = 3 [json_name = "job_id"];
 }
 
+message CompleteCurrentJobRequest {
+  optional uint64 job_id = 1 [json_name = "job_id"];
+}
+
 message FirebaseNotificationsRequest {
   required bool subscribe = 1 [json_name = "subscribe"];
   optional string fcm_token = 2 [json_name = "fcm_token"];
@@ -81,6 +86,18 @@ service DriverService {
   // refresh the screen after app restart or network failure.
   rpc GetCurrentRoute(EmptyMessageRequest) returns (Route) {}
 
+  // Pickup locations of the active route that can be serviced without leaving
+  // the one already open — a pickup location can be a whole street, and stops
+  // passed while driving along it belong to the same visit. Empty while the
+  // driver has nothing ON_SERVICE.
+  rpc ListNearbyPickupLocations(EmptyMessageRequest) returns (PickupLocationList) {}
+
+  // Start heading to a pickup location passed on the way: its jobs go ENROUTE
+  // and everything already open stays open, unlike ChoosePickupLocation which
+  // stands the previous location down. Rejects a location that is not among
+  // ListNearbyPickupLocations.
+  rpc ServeNearbyPickupLocation(IdRequest) returns (JobList) {}
+
   // When arrived to pickup location and start performing service
   // (e.g., start cleaning container, or start disinfection).
   // Changes job status to ON_SERVICE
@@ -89,7 +106,7 @@ service DriverService {
   // When finished performing service at pickup location and ready to leave.
   // Changes job status to COMPLETED, and if it's the last job in the route,
   // changes route status to RETURNING
-  rpc CompleteCurrentJob(EmptyMessageRequest) returns (Job) {}
+  rpc CompleteCurrentJob(CompleteCurrentJobRequest) returns (Job) {}
 
   // When driver is en-route back to the depot. Changes route status to RETURNING.
   // Any unfinished jobs in the route will be marked as NOT_COMPLETED and
