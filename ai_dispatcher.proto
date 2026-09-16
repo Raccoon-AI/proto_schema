@@ -43,6 +43,12 @@ message CapacityPlanResponse {
 
 message DayPlanRequest {
   required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  // Plan as of this moment instead of the server clock. The planner is
+  // deterministic in `now` (same rows + same now = same plan), so a caller
+  // can ask what the day looks like from any point: a dispatch tool stepping
+  // through a day, a replay against a rewound database. Absent = the server
+  // clock, which is what the go-backend cron sends. Read-only either way.
+  optional google.protobuf.Timestamp now = 2 [json_name = "now"];
 }
 
 enum PlanRisk {
