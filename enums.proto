@@ -255,7 +255,16 @@ enum ShiftCellState {
   // Red: the day has passed and the driver never worked it — either a
   // shift_plan with no driver_on_shift, or a driver_on_shift that was never
   // started (NOT_APPROVED/IDLE). A no-show either way.
+  // A DAY_OFF plan is never MISSED: not working was the plan.
   SHIFT_CELL_STATE_MISSED = 5;
+}
+
+// What a shift_plan row plans for; SHIFT_CELL_STATE stays the derived state.
+enum ShiftPlanType {
+  SHIFT_PLAN_TYPE_UNDEFINED = 0;
+  SHIFT_PLAN_TYPE_DAY = 1;
+  SHIFT_PLAN_TYPE_NIGHT = 2;
+  SHIFT_PLAN_TYPE_DAY_OFF = 3;
 }
 
 // To be deprecated
