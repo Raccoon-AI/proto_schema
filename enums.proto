@@ -234,6 +234,10 @@ enum DriverOnShiftStatus {
 
   // Unapproved Shift for driver, only to be approved by dispatcher
   DRIVER_ON_SHIFT_STATUS_NOT_APPROVED = 13;
+
+  // Shift was called off by a dispatcher before any work happened, as opposed
+  // to ENDED, which is a shift that ran and finished.
+  DRIVER_ON_SHIFT_STATUS_CANCELLED = 14;
 }
 
 // Derived state of one cell in the driver shift schedule matrix
