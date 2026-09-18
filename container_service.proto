@@ -56,6 +56,8 @@ message ContainerListRequest {
   // the name of its pickup location (its own, or the one its container group is
   // bound to). Combined with the other filters by AND.
   optional string search = 7 [json_name = "search"];
+  // UNDEFINED also matches the containers no driver has ever reported.
+  repeated ContainerTrackingEvent last_events = 8 [json_name = "last_events"];
 }
 
 // Same filters as ContainerListRequest, minus the status filter.
@@ -66,6 +68,7 @@ message ContainerStatusCountRequest {
   repeated uint64 container_group_ids = 4 [json_name = "container_group_ids"];
   // Free-text search, matched exactly as ListContainers matches it.
   optional string search = 5 [json_name = "search"];
+  repeated ContainerTrackingEvent last_events = 6 [json_name = "last_events"];
 }
 
 service ContainerService {
