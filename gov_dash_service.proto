@@ -256,6 +256,7 @@ message GovDashboardAnalyticsResponse {
 message SuspiciousLocation {
   required Location location = 1 [json_name = "location"];
   required uint64 total_stops = 2 [json_name = "total_stops"];
+  optional google.protobuf.Timestamp archived_at = 3 [json_name = "archived_at"];
 }
 
 message SuspiciousLocationResponse {
@@ -441,6 +442,8 @@ service GovDashService {
   rpc SuspiciousLocations(EmptyMessageRequest) returns (SuspiciousLocationResponse) {}
   rpc CreateSuspiciousLocation(LocationCreate) returns (Location) {}
   rpc UpdateSuspiciousLocation(LocationUpdate) returns (Location) {}
+  rpc ArchiveSuspiciousLocation(IdRequest) returns (Location) {}
+  rpc UnarchiveSuspiciousLocation(IdRequest) returns (Location) {}
 
   // Endpoints Based on GPS Stop, might be refactored
   rpc GetGovTruckAnalytics(GovTruckAnalyticsRequest) returns (GovTruckAnalyticsResponse) {}
