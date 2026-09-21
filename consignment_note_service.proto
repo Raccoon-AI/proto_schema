@@ -8,26 +8,6 @@ import "route.proto";
 
 option go_package = "./pb";
 
-// The consignment note (ТТН) is the dispatcher's closing record for a shift: the
-// crew that actually rode along, and the declared facts of the day — departure
-// and arrival, engine hours, mileage, weight, volume, containers.
-//
-// This service only *writes* those facts. There is no consignment-note read
-// endpoint on purpose: the values live on the shift, route and job themselves,
-// so anyone who may already read those entities sees them.
-//
-// Every request writes only the fields it carries. A field left out of the
-// request keeps its stored value, so a dispatcher correcting one number cannot
-// blank the rest.
-//
-// After every write the shift's consignment note is re-checked for completeness:
-// once the shift, every route on it and every job on those routes carries all of
-// its declared facts, DriverOnShift.consignment_note_done_at is stamped. It is
-// cleared again if later work reopens the gap — a route added after the fact, for
-// instance. Nobody marks the note done by hand.
-
-// SetCrewToShiftRequest makes crew_ids the whole crew of a shift: users left
-// out come off the crew, and an empty crew_ids clears it.
 message SetCrewToShiftRequest {
   required uint64 driver_on_shift_id = 1 [json_name = "driver_on_shift_id"];
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
