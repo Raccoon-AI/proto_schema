@@ -150,6 +150,9 @@ enum ErrorCode {
   ERROR_CODE_NOSQL_DATABASE_ISSUE = 906;
   ERROR_CODE_VRP_SERVICE_ISSUE = 907;
   ERROR_CODE_COST_PROVIDER_ISSUE = 908;
+  ERROR_CODE_VOXIMPLANT_ISSUE = 909;
+  ERROR_CODE_ENCRYPTION_FAILED = 910;
+  ERROR_CODE_DECRYPTION_FAILED = 911;
 
   // Business rules. One code per rule, numbered in blocks of one hundred per
   // entity: 1000 route, 1100 job, 1200 driver_on_shift, 1300 truck,
