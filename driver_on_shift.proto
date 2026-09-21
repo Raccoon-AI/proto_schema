@@ -37,10 +37,6 @@ message DriverOnShift {
   optional google.protobuf.Timestamp started_at = 18 [json_name = "started_at"];
   optional uint32 completed_route_count = 19 [json_name = "completed_route_count"];
   optional bool has_incidents = 20 [json_name = "has_incidents"];
-  // crew are the additional users riding along on the shift besides driver_id
-  // (loaders, a second driver). Populated by the endpoints that preload it —
-  // GetDriverOnShiftById, ListDriverOnShift, ListTruckDriverOnShifts and
-  // AddCrewMemberToShift — and empty elsewhere.
   repeated User crew = 21 [json_name = "crew"];
   // Declared consignment-note facts, written only by ConsignmentNoteService.
   optional uint64 departure_location_id = 22 [json_name = "departure_location_id"];
@@ -49,9 +45,6 @@ message DriverOnShift {
   optional google.protobuf.Timestamp arrival_time = 25 [json_name = "arrival_time"];
   optional double engine_hours = 26 [json_name = "engine_hours"];
   optional double mileage = 27 [json_name = "mileage"];
-  // consignment_note_done_at is set once every declared fact of the shift, its
-  // routes and their jobs is filled in, and cleared while any is still missing.
-  // Maintained by ConsignmentNoteService; never written directly.
   optional google.protobuf.Timestamp consignment_note_done_at = 28 [json_name = "consignment_note_done_at"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
