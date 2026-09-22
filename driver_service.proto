@@ -11,6 +11,7 @@ import "job.proto";
 import "location.proto";
 import "pickup_location.proto";
 import "route.proto";
+import "shift_plan_service.proto";
 
 option go_package = "./pb";
 
@@ -64,8 +65,20 @@ message FirebaseNotificationsResponse {
   optional string message = 2 [json_name = "message"];
 }
 
+message MyShiftScheduleRequest {
+  required uint32 year = 1 [json_name = "year"];
+  required uint32 month = 2 [json_name = "month"]; // 1-12
+}
+
+message DriverShiftSchedule {
+  required string today = 1 [json_name = "today"];
+  repeated ShiftScheduleCell cells = 2 [json_name = "cells"];
+  required uint32 month_total = 3 [json_name = "month_total"];
+}
+
 service DriverService {
   rpc MyShift(EmptyMessageRequest) returns (DriverOnShift) {}
+  rpc MyShiftSchedule(MyShiftScheduleRequest) returns (DriverShiftSchedule) {}
   rpc SendMyLocation(MyLocationRequest) returns (MessageResponse) {}
 
   // ******** New Event Calls *********** //
