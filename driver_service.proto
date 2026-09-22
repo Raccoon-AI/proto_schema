@@ -70,7 +70,7 @@ message MyShiftScheduleRequest {
   required uint32 month = 2 [json_name = "month"]; // 1-12
 }
 
-message MyShiftSchedule {
+message DriverShiftSchedule {
   required string today = 1 [json_name = "today"];
   repeated ShiftScheduleCell cells = 2 [json_name = "cells"];
   required uint32 month_total = 3 [json_name = "month_total"];
@@ -78,7 +78,7 @@ message MyShiftSchedule {
 
 service DriverService {
   rpc MyShift(EmptyMessageRequest) returns (DriverOnShift) {}
-  rpc MyShiftSchedule(MyShiftScheduleRequest) returns (MyShiftSchedule) {}
+  rpc MyShiftSchedule(MyShiftScheduleRequest) returns (DriverShiftSchedule) {}
   rpc SendMyLocation(MyLocationRequest) returns (MessageResponse) {}
 
   // ******** New Event Calls *********** //
