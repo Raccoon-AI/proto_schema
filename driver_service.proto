@@ -11,6 +11,7 @@ import "job.proto";
 import "location.proto";
 import "pickup_location.proto";
 import "route.proto";
+import "shift_plan_service.proto";
 
 option go_package = "./pb";
 
@@ -64,8 +65,30 @@ message FirebaseNotificationsResponse {
   optional string message = 2 [json_name = "message"];
 }
 
+// MyShiftScheduleRequest asks for one calendar month of the caller's own
+// schedule. The driver is the authenticated user, never a request field.
+message MyShiftScheduleRequest {
+  required uint32 year = 1 [json_name = "year"];
+  required uint32 month = 2 [json_name = "month"]; // 1-12
+}
+
+// MyShiftSchedule is the driver's own month, the same cells the dispatcher's
+// ListShiftSchedule builds for one row.
+message MyShiftSchedule {
+  // Server-computed Asia/Almaty "today"; the app must use it instead of the
+  // device clock so cell states agree with the backend.
+  required string today = 1 [json_name = "today"];
+  // Sparse: only days that have a shift or a plan; missing days render empty.
+  repeated ShiftScheduleCell cells = 2 [json_name = "cells"];
+  // Shifts plus day and night plans; planned days off are excluded.
+  required uint32 month_total = 3 [json_name = "month_total"];
+}
+
 service DriverService {
   rpc MyShift(EmptyMessageRequest) returns (DriverOnShift) {}
+
+  // The caller's own shift calendar for one month.
+  rpc MyShiftSchedule(MyShiftScheduleRequest) returns (MyShiftSchedule) {}
   rpc SendMyLocation(MyLocationRequest) returns (MessageResponse) {}
 
   // ******** New Event Calls *********** //
