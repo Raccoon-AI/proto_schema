@@ -1,0 +1,41 @@
+syntax = "proto2";
+package raccoonai;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+// VoximplantSettings carries everything the mobile softphone needs to register
+// with Voximplant as the authenticated DaaS dispatcher.
+message VoximplantSettings {
+  required string account_name = 1 [json_name = "account_name"];
+  required string application_name = 2 [json_name = "application_name"];
+  // Fully qualified login: user@application.account.voximplant.com
+  required string user_name = 3 [json_name = "user_name"];
+  required string password = 4 [json_name = "password"];
+  optional string display_name = 5 [json_name = "display_name"];
+}
+
+message CallLogRequest {
+  required google.protobuf.Timestamp from_date = 1 [json_name = "from_date"];
+  required google.protobuf.Timestamp to_date = 2 [json_name = "to_date"];
+  optional int32 limit = 3 [json_name = "limit"];
+  optional int32 offset = 4 [json_name = "offset"];
+}
+
+message CallLogEntry {
+  required string call_session_history_id = 1 [json_name = "call_session_history_id"];
+  optional google.protobuf.Timestamp start_date = 2 [json_name = "start_date"];
+  // Call duration in seconds.
+  optional int32 duration = 3 [json_name = "duration"];
+  optional string remote_number = 4 [json_name = "remote_number"];
+  // IN for an incoming call, OUT for an outgoing one.
+  optional string direction = 5 [json_name = "direction"];
+  optional bool successful = 6 [json_name = "successful"];
+  optional string record_url = 7 [json_name = "record_url"];
+}
+
+message CallLogList {
+  repeated CallLogEntry items = 1 [json_name = "items"];
+  optional int64 total_count = 2 [json_name = "total_count"];
+}
