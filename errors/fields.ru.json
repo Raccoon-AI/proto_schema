@@ -33,6 +33,7 @@
   "name": "Название",
   "netto_weight_kg": "Вес нетто",
   "organization": "Организация",
+  "organization_id": "Организация",
   "organization_settings": "Настройки организации",
   "owner_organization_id": "Организация-владелец",
   "owner_organization_ids": "Организации-владельцы",
