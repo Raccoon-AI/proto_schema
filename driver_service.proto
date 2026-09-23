@@ -20,10 +20,8 @@ message JobFileUploadRequest {
   required FileUploadType type = 2 [json_name = "type"];
   optional uint64 job_id = 3 [json_name = "job_id"];
   optional string container_name = 4 [json_name = "container_name"];
-  reserved 5;
-  reserved "container_fills";
   // When non-empty, written onto the job like a consignment note; requires job_id.
-  repeated double container_coefficients = 6 [json_name = "container_coefficients"];
+  repeated double container_coefficients = 5 [json_name = "container_coefficients"];
 }
 
 message MyLocationRequest {
