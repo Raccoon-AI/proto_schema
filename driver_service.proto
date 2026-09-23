@@ -21,7 +21,7 @@ message JobFileUploadRequest {
   optional uint64 job_id = 3 [json_name = "job_id"];
   optional string container_name = 4 [json_name = "container_name"];
   // When non-empty, written onto the job like a consignment note; requires job_id.
-  repeated ContainerFill container_fills = 5 [json_name = "container_fills"];
+  repeated double container_coefficients = 5 [json_name = "container_coefficients"];
 }
 
 message MyLocationRequest {
