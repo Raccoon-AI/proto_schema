@@ -32,6 +32,7 @@ enum AuditLogType {
   // Unrelated to the TruckIncident (repairs) entity. The specific
   // DriverIncidentType is carried in fields.incident_type.
   AUDIT_LOG_TYPE_TRUCK_SHIFT_INCIDENT_REPORTED = 153;
+  AUDIT_LOG_TYPE_TRUCK_SHIFT_CANCELLED = 154;
 
   // 200 - 250 Job related events
   AUDIT_LOG_TYPE_JOB_CREATED = 201;
