@@ -327,6 +327,7 @@ enum UserRole {
   // (GovSituationReportService). Distinct from the government auditor role.
   USER_ROLE_GOVERNMENT_ECO = 15;
   USER_ROLE_GOVERNMENT_AUDITOR_EDITOR = 16;
+  USER_ROLE_PROVIDER_LOADER = 17;
 }
 
 enum UserStatus {
