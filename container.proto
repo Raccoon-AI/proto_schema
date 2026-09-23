@@ -5,6 +5,7 @@ import "container_group.proto";
 import "general.proto";
 import "google/protobuf/timestamp.proto";
 import "job.proto";
+import "pickup_location.proto";
 
 option go_package = "./pb";
 
@@ -39,6 +40,8 @@ message Container {
   optional uint64 last_job_id = 12 [json_name = "last_job_id"];
   // last_job_id preloaded, on the reads that preload it.
   optional Job last_job = 13 [json_name = "last_job"];
+  // pickup_location_id preloaded, so a list does not need a call per location.
+  optional PickupLocation pickup_location = 14 [json_name = "pickup_location"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   required google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -88,10 +91,20 @@ message ContainerStatusCount {
   required uint64 count = 2 [json_name = "count"];
 }
 
+message ContainerTrackingEventCount {
+  required ContainerTrackingEvent last_event = 1 [json_name = "last_event"];
+  required uint64 count = 2 [json_name = "count"];
+}
+
 // One entry per status, including statuses with count 0. UNDEFINED appears only
 // if some container carries an unrecognized status.
 message ContainerStatusCountList {
   repeated ContainerStatusCount counts = 1 [json_name = "counts"];
   // Sum of counts.
   required uint64 total = 2 [json_name = "total"];
+  // One entry per tracking event; UNDEFINED is the never-reported bucket.
+  // ACTIVE containers only, and last_events is ignored here — an archived
+  // container counts as archived in counts, and selecting one tab must not zero
+  // the others.
+  repeated ContainerTrackingEventCount tracking_counts = 3 [json_name = "tracking_counts"];
 }

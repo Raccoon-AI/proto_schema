@@ -13,5 +13,8 @@ service LocationService {
   rpc UpdateLocation(LocationUpdate) returns (Location) {}
   rpc DeleteLocation(LocationRequest) returns (MessageResponse) {}
   // Lists all disposal sites, filter by organization settings
-  rpc ListDisposalSites(EmptyMessageRequest) returns (LocationList) {}
+  rpc ListDisposalSites(ListDisposalSitesRequest) returns (LocationList) {}
+  // Locations of the requested organizations and of the ones they selected in
+  // their settings, which own the disposal sites they unload at.
+  rpc ListDestinationLocations(LocationListRequest) returns (LocationList) {}
 }

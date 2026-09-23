@@ -32,6 +32,12 @@ message TableColumnsConfig {
   repeated TableConfig tables = 1 [json_name = "tables"];
 }
 
+// Wrapped in a message so an empty selection stays present on update: a bare
+// repeated field marshals to nothing and the merge would keep the old selection.
+message DisposalSiteOrgIds {
+  repeated uint64 ids = 1 [json_name = "ids"];
+}
+
 message OrganizationSettings {
   required uint64 id = 1 [json_name = "id"];
   optional string shift_departure_text = 3 [json_name = "shift_departure_text"];
@@ -46,6 +52,7 @@ message OrganizationSettings {
   optional TableColumnsConfig table_columns_config = 12 [json_name = "table_columns_config"];
   optional double reward_coeff = 13 [json_name = "reward_coeff"];
   optional uint64 default_depot_id = 15 [json_name = "default_depot_id"];
+  optional DisposalSiteOrgIds disposal_site_org_ids = 16 [json_name = "disposal_site_org_ids"];
 }
 
 message OrganizationSettingsCreate {
@@ -60,6 +67,7 @@ message OrganizationSettingsCreate {
   optional bool ai_enabled = 9 [json_name = "ai_enabled"];
   optional TableColumnsConfig table_columns_config = 10 [json_name = "table_columns_config"];
   optional uint64 default_depot_id = 12 [json_name = "default_depot_id"];
+  optional DisposalSiteOrgIds disposal_site_org_ids = 13 [json_name = "disposal_site_org_ids"];
 }
 
 message OrganizationSettingsUpdate {
@@ -74,4 +82,5 @@ message OrganizationSettingsUpdate {
   optional bool ai_enabled = 9 [json_name = "ai_enabled"];
   optional TableColumnsConfig table_columns_config = 10 [json_name = "table_columns_config"];
   optional uint64 default_depot_id = 12 [json_name = "default_depot_id"];
+  optional DisposalSiteOrgIds disposal_site_org_ids = 13 [json_name = "disposal_site_org_ids"];
 }

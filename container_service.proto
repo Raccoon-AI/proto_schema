@@ -68,6 +68,8 @@ message ContainerStatusCountRequest {
   repeated uint64 container_group_ids = 4 [json_name = "container_group_ids"];
   // Free-text search, matched exactly as ListContainers matches it.
   optional string search = 5 [json_name = "search"];
+  // Narrows counts and total only; tracking_counts ignore it. A tab bar should
+  // leave it unset and read every tab from one response.
   repeated ContainerTrackingEvent last_events = 6 [json_name = "last_events"];
 }
 

@@ -59,6 +59,12 @@ message LocationRequest {
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
 }
 
+// Unset means every disposal site; nearby_only limits them to the caller's
+// pickup-location area.
+message ListDisposalSitesRequest {
+  optional bool nearby_only = 1 [json_name = "nearby_only"];
+}
+
 message LocationListRequest {
   repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
   repeated LocationType types = 2 [json_name = "types"];
