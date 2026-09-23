@@ -78,6 +78,17 @@ message Job {
   // Declared consignment-note facts, written only by ConsignmentNoteService.
   optional double num_of_container = 51 [json_name = "num_of_container"];
   optional double weight_kg = 52 [json_name = "weight_kg"];
+  // How full each serviced container was, grouped by fill coefficient.
+  repeated ContainerFill container_fills = 53 [json_name = "container_fills"];
+  // m³ actually taken: Σ(coefficient × count) × container volume, or the dispatcher's override.
+  optional double fact_total_volume = 54 [json_name = "fact_total_volume"];
+}
+
+// ContainerFill is how many containers of a job were filled to one coefficient
+// (0, 0.5, 0.75, 1.0 or 1.25 of the container's volume).
+message ContainerFill {
+  required double coefficient = 1 [json_name = "coefficient"];
+  required uint32 count = 2 [json_name = "count"];
 }
 
 message JobCreate {

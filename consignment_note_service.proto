@@ -48,6 +48,11 @@ message JobConsignmentNote {
   required uint64 job_id = 1 [json_name = "job_id"];
   optional double num_of_container = 2 [json_name = "num_of_container"];
   optional double weight_kg = 3 [json_name = "weight_kg"];
+  // Replaces the stored fills when non-empty; num_of_container and
+  // fact_total_volume are then derived from them.
+  repeated ContainerFill container_fills = 4 [json_name = "container_fills"];
+  // Overrides the derived volume.
+  optional double fact_total_volume = 5 [json_name = "fact_total_volume"];
 }
 
 // SetJobConsignmentNotesRequest writes a whole table of service acts at once —
