@@ -6,9 +6,10 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
-// Contact can belong to a container group or directly to an organization
-// - If container_group_id is set: contact belongs to that pickup location
-// - If container_group_id is null: contact belongs directly to the organization
+// Contact always belongs to an organization, and covers zero or more of that
+// organization's container groups.
+// - container_group_ids non-empty: the person responsible for those groups
+// - container_group_ids empty: a contact of the organization as a whole
 // Primary contacts are referenced via primary_contact_id in ContainerGroup/Organization
 message Contact {
   required uint64 id = 1 [json_name = "id"];
@@ -18,19 +19,44 @@ message Contact {
   optional string phone = 5 [json_name = "phone"];
   optional string email = 6 [json_name = "email"];
   optional string position = 7 [json_name = "position"];
+  // Deprecated: the first entry of container_group_ids, kept for clients that
+  // predate the many-to-many link. Read container_group_ids instead - a
+  // customer often has several container groups on one pickup location, and
+  // this field can only name one of them.
   optional uint64 container_group_id = 8 [json_name = "container_group_id"];
+  // Every container group this contact answers for. A contact added from a
+  // pickup location's card covers all of its own organization's groups on that
+  // location, so this is normally the whole set rather than one entry.
+  repeated uint64 container_group_ids = 9 [json_name = "container_group_ids"];
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
 }
 
-// Create a contact for a container group or organization
+// Create a contact for an organization, optionally covering its container
+// groups. Which groups the contact ends up linked to is resolved in this order,
+// first field present wins:
+//
+//   container_group_ids  exactly those groups, no expansion;
+//   pickup_location_id   every container group of owner_organization_id on that
+//                        pickup location;
+//   container_group_id   the same expansion, taking the location from that one
+//                        group - so a client that can only name a single group
+//                        still gets the whole site;
+//   none of them         an organization-level contact with no group links.
+//
+// Groups belonging to another organization are never linked, whichever field
+// asked for them: the pickup location's card lists contacts per customer, and a
+// contact must not surface under a customer that is not its own.
 message ContactCreate {
-  optional uint64 pickup_location_id = 1 [json_name = "pickup_location_id"]; //to be deprecated
+  // Input only, never stored: it names the site whose groups to link.
+  optional uint64 pickup_location_id = 1 [json_name = "pickup_location_id"];
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
   required string name = 3 [json_name = "name"];
   optional string phone = 4 [json_name = "phone"];
   optional string email = 5 [json_name = "email"];
   optional string position = 6 [json_name = "position"];
+  // Expanded to the whole site, see the message comment.
   optional uint64 container_group_id = 7 [json_name = "container_group_id"];
+  repeated uint64 container_group_ids = 9 [json_name = "container_group_ids"];
 }
 
 message ContactUpdate {
@@ -41,7 +67,14 @@ message ContactUpdate {
   optional string email = 5 [json_name = "email"];
   optional string position = 6 [json_name = "position"];
   optional uint64 pickup_location_id = 7 [json_name = "pickup_location_id"]; //to be deprecated
+  // Deprecated: replaces the whole set with this single group. Send
+  // container_group_ids instead.
   optional uint64 container_group_id = 8 [json_name = "container_group_id"];
+  // Replaces the contact's groups outright when non-empty. An empty list means
+  // "leave the links alone", because proto2 cannot tell it apart from an unset
+  // field - whether a contact belongs to a site or to the organization as a
+  // whole is decided when it is created.
+  repeated uint64 container_group_ids = 9 [json_name = "container_group_ids"];
 }
 
 message ContactList {

@@ -255,7 +255,16 @@ enum ShiftCellState {
   // Red: the day has passed and the driver never worked it — either a
   // shift_plan with no driver_on_shift, or a driver_on_shift that was never
   // started (NOT_APPROVED/IDLE). A no-show either way.
+  // A DAY_OFF plan is never MISSED: not working was the plan.
   SHIFT_CELL_STATE_MISSED = 5;
+}
+
+// What a shift_plan row plans for; SHIFT_CELL_STATE stays the derived state.
+enum ShiftPlanType {
+  SHIFT_PLAN_TYPE_UNDEFINED = 0;
+  SHIFT_PLAN_TYPE_DAY = 1;
+  SHIFT_PLAN_TYPE_NIGHT = 2;
+  SHIFT_PLAN_TYPE_DAY_OFF = 3;
 }
 
 // To be deprecated
@@ -317,6 +326,8 @@ enum UserRole {
   // Government ecology officer who logs and reviews field situation reports
   // (GovSituationReportService). Distinct from the government auditor role.
   USER_ROLE_GOVERNMENT_ECO = 15;
+  USER_ROLE_GOVERNMENT_AUDITOR_EDITOR = 16;
+  USER_ROLE_PROVIDER_LOADER = 17;
 }
 
 enum UserStatus {
@@ -418,6 +429,8 @@ enum WasteType {
   WASTE_TYPE_TIRES = 27; // Шины
   WASTE_TYPE_LEACHATE = 28; // Фильтрат завод
   WASTE_TYPE_VEHICLE_WEIGHING = 29; // Взвешивание ТС
+  WASTE_TYPE_HIGH_DENSITY_POLYETHYLENE = 30; // ПВД - полиэтилена высокого давления
+  WASTE_TYPE_DARK_PET_SCRAPS = 31; // Лом и отходы из полиэтилентерефталата (Темные)
 }
 
 enum TruckEngineType {
@@ -442,4 +455,22 @@ enum WhatsappOrderStatus {
   WHATSAPP_ORDER_STATUS_CONFIRMED = 5;
   WHATSAPP_ORDER_STATUS_CANCELLED = 6;
   WHATSAPP_ORDER_STATUS_EXPIRED = 7;
+  // Job type is fixed; the sender is asked for an optional comment for the
+  // driver (how to enter the site, where the containers stand, ...) before
+  // the confirmation prompt.
+  WHATSAPP_ORDER_STATUS_AWAITING_COMMENT = 8;
+}
+
+// Which telemetry a Моточасы (engine active hours) figure was derived from. Exposed so a
+// consumer can tell a measured figure from an absent one instead of reading 0 as "idle".
+enum EngineHoursSource {
+  ENGINE_HOURS_SOURCE_UNDEFINED = 0;
+  // Integral of the ignition/engine-operation sensor over the shift window. Fleet-wide on
+  // the Wialon Local orgs, and the preferred source.
+  ENGINE_HOURS_SOURCE_IGNITION = 1;
+  // Span of the cumulative CAN total_engine_hours counter. Only a handful of trucks carry a
+  // genuine hour meter.
+  ENGINE_HOURS_SOURCE_CAN_COUNTER = 2;
+  // The shift has a window but no usable engine telemetry in it.
+  ENGINE_HOURS_SOURCE_NONE = 3;
 }

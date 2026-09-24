@@ -13,6 +13,10 @@ message ContactRequest {
 
 message ContactListRequest {
   repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
+  // Matches a contact linked to any of these container groups. With
+  // owner_organization_ids also set, organization-level contacts - those linked
+  // to no group at all - are returned alongside, which is what a pickup
+  // location's card needs: the customer's own contacts plus the site's.
   repeated uint64 container_group_ids = 2 [json_name = "container_group_ids"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }

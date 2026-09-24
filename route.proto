@@ -49,6 +49,10 @@ message Route {
   optional uint64 reward = 27 [json_name = "reward"];
   optional double design_duration = 28 [json_name = "design_duration"];
   optional ScaleRecord scale_record = 29 [json_name = "scale_record"];
+  // Declared consignment-note facts, written only by ConsignmentNoteService.
+  optional double mileage = 30 [json_name = "mileage"];
+  optional double weight_kg = 31 [json_name = "weight_kg"];
+  optional double volume = 32 [json_name = "volume"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -174,6 +178,7 @@ message RouteListRequest {
   repeated RouteStatus route_statuses = 7 [json_name = "route_statuses"];
   repeated JobType job_types = 8 [json_name = "job_types"];
   repeated RouteCategory route_categories = 9 [json_name = "route_categories"];
+  optional string search = 10 [json_name = "search"];
 }
 
 message RouteList {
@@ -222,5 +227,20 @@ message ChangeRouteDriverOnShiftRequest {
 message CreateRouteFromPickupLocationGroupRequest {
   required uint64 pickup_location_group_id = 1 [json_name = "pickup_location_group_id"];
   required google.protobuf.Timestamp date = 2 [json_name = "date"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+}
+
+// One stop of a pseudo-route: either a job created together with the route, or
+// an existing unrouted one picked into it. Exactly one of the two is set.
+message PseudoRouteStop {
+  optional JobCreate create = 1 [json_name = "create"];
+  optional uint64 job_id = 2 [json_name = "job_id"];
+}
+
+message PseudoRouteCreateRequest {
+  required RouteCreate route = 1 [json_name = "route"];
+  // Stops in the order the dispatcher arranged them; the index is the step_idx.
+  // Their windows are derived from the route's, not sent by the client.
+  repeated PseudoRouteStop stops = 2 [json_name = "stops"];
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
 }

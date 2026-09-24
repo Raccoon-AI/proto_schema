@@ -2,6 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "enums.proto";
+import "file_upload.proto";
 import "general.proto";
 import "pickup_location.proto";
 
@@ -26,6 +27,8 @@ message PickupLocationListRequest {
   // the fallback when the contract carries no tariff map).
   repeated JobCategory job_categories = 6 [json_name = "job_categories"];
   repeated LocationStatus statuses = 7 [json_name = "statuses"];
+  optional string search = 8 [json_name = "search"];
+  repeated PickupLocationType types = 9 [json_name = "types"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
@@ -49,6 +52,20 @@ message ReorderContainerGroupsRequest {
   required uint64 pickup_location_group_id = 1 [json_name = "pickup_location_group_id"];
   // Container group ids in the desired display order (full list).
   repeated uint64 container_group_ids = 2 [json_name = "container_group_ids"];
+}
+
+message PickupLocationPhotosRequest {
+  required uint64 pickup_location_id = 1 [json_name = "pickup_location_id"];
+}
+
+message PickupLocationPhoto {
+  required FileUpload file_upload = 1 [json_name = "file_upload"];
+  optional string driver_first_name = 2 [json_name = "driver_first_name"];
+  optional string driver_last_name = 3 [json_name = "driver_last_name"];
+}
+
+message PickupLocationPhotoList {
+  repeated PickupLocationPhoto photos = 1 [json_name = "photos"];
 }
 
 message PickupLocationListToContractRequest {
@@ -78,6 +95,7 @@ service PickupLocationService {
   rpc UpdatePickupLocation(PickupLocationUpdate) returns (PickupLocation) {}
   rpc DeletePickupLocation(PickupLocationRequest) returns (MessageResponse) {}
   rpc ListPickupLocations(PickupLocationListRequest) returns (PickupLocationList) {}
+  rpc ListPickupLocationPhotos(PickupLocationPhotosRequest) returns (PickupLocationPhotoList) {}
   // @todeprecate
   rpc BindPickupLocationListToContract(PickupLocationListToContractRequest) returns (MessageResponse) {}
 

@@ -2,6 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "container.proto";
+import "container_group.proto";
 import "enums.proto";
 import "general.proto";
 
@@ -55,6 +56,21 @@ message ContainerListRequest {
   // the name of its pickup location (its own, or the one its container group is
   // bound to). Combined with the other filters by AND.
   optional string search = 7 [json_name = "search"];
+  // UNDEFINED also matches the containers no driver has ever reported.
+  repeated ContainerTrackingEvent last_events = 8 [json_name = "last_events"];
+}
+
+// Same filters as ContainerListRequest, minus the status filter.
+message ContainerStatusCountRequest {
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
+  repeated uint64 container_type_ids = 2 [json_name = "container_type_ids"];
+  repeated uint64 pickup_location_ids = 3 [json_name = "pickup_location_ids"];
+  repeated uint64 container_group_ids = 4 [json_name = "container_group_ids"];
+  // Free-text search, matched exactly as ListContainers matches it.
+  optional string search = 5 [json_name = "search"];
+  // Narrows counts and total only; tracking_counts ignore it. A tab bar should
+  // leave it unset and read every tab from one response.
+  repeated ContainerTrackingEvent last_events = 6 [json_name = "last_events"];
 }
 
 service ContainerService {
@@ -79,4 +95,5 @@ service ContainerService {
   rpc ListContainers(ContainerListRequest) returns (ContainerList) {}
   rpc DeleteContainer(ContainerRequest) returns (MessageResponse) {}
   rpc UpdateContainerLocation(ContainerStatusUpdate) returns (MessageResponse) {}
+  rpc CountContainersByStatus(ContainerStatusCountRequest) returns (ContainerStatusCountList) {}
 }
