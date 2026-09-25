@@ -35,6 +35,8 @@ message PickupLocation {
   optional string plan_waste_volume = 24 [json_name = "plan_waste_volume"];
   optional string plan_waste_mass = 25 [json_name = "plan_waste_mass"];
   repeated ContainerGroup container_groups = 26 [json_name = "container_groups"];
+  optional uint64 manager_id = 27 [json_name = "manager_id"];
+  optional UserRef manager = 28 [json_name = "manager"];
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
 }
 
@@ -60,6 +62,7 @@ message PickupLocationCreate {
   optional uint64 service_time = 19 [json_name = "service_time"]; // To be deprecated
   optional string plan_waste_volume = 20 [json_name = "plan_waste_volume"]; // To be deprecated
   optional string plan_waste_mass = 21 [json_name = "plan_waste_mass"]; // To be deprecated
+  optional uint64 manager_id = 22 [json_name = "manager_id"];
 }
 
 message PickupLocationUpdate {
@@ -87,6 +90,7 @@ message PickupLocationUpdate {
   optional uint64 primary_contact_id = 22 [json_name = "primary_contact_id"];
   optional string plan_waste_volume = 23 [json_name = "plan_waste_volume"];
   optional string plan_waste_mass = 24 [json_name = "plan_waste_mass"];
+  optional uint64 manager_id = 25 [json_name = "manager_id"];
 }
 
 message PickupLocationListContract {

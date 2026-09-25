@@ -31,6 +31,7 @@
   "job_ids": "Jobs",
   "limit": "Limit",
   "location": "Location",
+  "manager_id": "Client manager",
   "name": "Name",
   "netto_weight_kg": "Net weight",
   "organization": "Organization",

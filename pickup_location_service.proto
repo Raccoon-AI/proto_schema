@@ -29,6 +29,8 @@ message PickupLocationListRequest {
   repeated LocationStatus statuses = 7 [json_name = "statuses"];
   optional string search = 8 [json_name = "search"];
   repeated PickupLocationType types = 9 [json_name = "types"];
+  // No inheritance from the client's manager: a location with no manager_id matches nothing.
+  repeated uint64 manager_ids = 11 [json_name = "manager_ids"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 

@@ -5,6 +5,16 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
 
+// A slim User: user.proto imports organization.proto, so organization.proto and
+// pickup_location.proto cannot nest the full User message without a circular import.
+message UserRef {
+  required uint64 id = 1 [json_name = "id"];
+  optional string first_name = 2 [json_name = "first_name"];
+  optional string last_name = 3 [json_name = "last_name"];
+  optional string phone_number = 4 [json_name = "phone_number"];
+  optional string email = 5 [json_name = "email"];
+}
+
 message DateTimeFilter {
   required google.protobuf.Timestamp from = 1 [json_name = "from"];
   required google.protobuf.Timestamp to = 2 [json_name = "to"];
