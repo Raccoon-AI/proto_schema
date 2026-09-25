@@ -221,6 +221,48 @@ message ShiftEngineHoursResponse {
   repeated ShiftEngineHoursRow rows = 1 [json_name = "rows"];
 }
 
+message ShiftUsageRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional DateFilter period = 2 [json_name = "period"];
+  optional uint64 driver_id = 3 [json_name = "driver_id"];
+  optional uint64 truck_id = 4 [json_name = "truck_id"];
+}
+
+message ShiftUsageRow {
+  optional uint64 driver_on_shift_id = 1 [json_name = "driver_on_shift_id"];
+  optional uint64 truck_id = 2 [json_name = "truck_id"];
+  optional uint64 driver_id = 3 [json_name = "driver_id"];
+  optional google.protobuf.Timestamp window_start_at = 4 [json_name = "window_start_at"];
+  optional google.protobuf.Timestamp window_end_at = 5 [json_name = "window_end_at"];
+  optional double mileage_km = 6 [json_name = "mileage_km"];
+  optional double fuel_consumed_litres = 7 [json_name = "fuel_consumed_litres"];
+  optional double fuel_refueled_litres = 8 [json_name = "fuel_refueled_litres"];
+  optional uint64 engine_seconds = 9 [json_name = "engine_seconds"];
+  optional EngineHoursSource engine_seconds_source = 10 [json_name = "engine_seconds_source"];
+}
+
+message ShiftUsageResponse {
+  repeated ShiftUsageRow rows = 1 [json_name = "rows"];
+}
+
+message TruckLatestReadingsRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  // Empty means every truck of the organization.
+  repeated uint64 truck_ids = 2 [json_name = "truck_ids"];
+}
+
+message TruckLatestReadingsRow {
+  optional uint64 truck_id = 1 [json_name = "truck_id"];
+  optional double mileage_km = 2 [json_name = "mileage_km"];
+  optional double mileage_today_km = 3 [json_name = "mileage_today_km"];
+  optional double fuel_litres = 4 [json_name = "fuel_litres"];
+  optional google.protobuf.Timestamp read_at = 5 [json_name = "read_at"];
+}
+
+message TruckLatestReadingsResponse {
+  repeated TruckLatestReadingsRow rows = 1 [json_name = "rows"];
+}
+
 message RouteDetailsRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
@@ -281,6 +323,8 @@ service AnalyticsService {
   rpc GetEngineHoursSeries(EngineHoursSeriesRequest) returns (EngineHoursSeriesResponse) {}
   rpc GetTruckWorkSummary(TruckWorkSummaryRequest) returns (TruckWorkSummaryResponse) {}
   rpc GetShiftEngineHours(ShiftEngineHoursRequest) returns (ShiftEngineHoursResponse) {}
+  rpc GetShiftUsage(ShiftUsageRequest) returns (ShiftUsageResponse) {}
+  rpc GetTruckLatestReadings(TruckLatestReadingsRequest) returns (TruckLatestReadingsResponse) {}
   rpc GetRouteDetails(RouteDetailsRequest) returns (RouteDetailsResponse) {}
   rpc GetUnfulfilledJobs(UnfulfilledJobsRequest) returns (UnfulfilledJobsResponse) {}
 }
