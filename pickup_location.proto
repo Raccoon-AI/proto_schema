@@ -2,6 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "container_group.proto";
+import "contract.proto";
 import "enums.proto";
 import "general.proto";
 import "google/protobuf/struct.proto";
@@ -37,6 +38,9 @@ message PickupLocation {
   repeated ContainerGroup container_groups = 26 [json_name = "container_groups"];
   optional uint64 manager_id = 27 [json_name = "manager_id"];
   optional UserRef manager = 28 [json_name = "manager"];
+  // BY_NORM contracts covering this location. Set where the caller preloads them
+  // (ListPickupLocations / GetPickupLocationById).
+  repeated Contract subscription_contracts = 29 [json_name = "subscription_contracts"];
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
 }
 
