@@ -37,6 +37,7 @@ service DriverOnShiftService {
   rpc CreateDriverOnShift(DriverOnShiftCreate) returns (DriverOnShift) {}
   rpc UpdateDriverOnShift(DriverOnShiftUpdate) returns (DriverOnShift) {}
   rpc CompleteDriverOnShift(DriverOnShiftRequest) returns (DriverOnShift) {}
+  rpc CancelDriverOnShift(DriverOnShiftRequest) returns (DriverOnShift) {}
   rpc ApproveDriverOnShift(DriverOnShiftRequest) returns (DriverOnShift) {}
   rpc DriverOnShiftExists(DriverOnShiftExistsRequest) returns (DriverOnShiftList) {}
   rpc AddDriverToShift(AddDriverToShiftRequest) returns (DriverOnShift) {}
