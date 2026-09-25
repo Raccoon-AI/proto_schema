@@ -66,6 +66,7 @@ message ListCounterpartiesRequest {
   required uint64 organization_id = 1 [json_name = "organization_id"];
   optional ContractStatus status = 2 [json_name = "status"];
   optional string search = 3 [json_name = "search"];
+  repeated uint64 manager_ids = 4 [json_name = "manager_ids"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
