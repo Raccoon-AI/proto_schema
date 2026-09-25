@@ -352,6 +352,9 @@ enum ContractType {
   CONTRACT_TYPE_UNDEFINED = 0;
   CONTRACT_TYPE_WASTE_OPERATOR = 1;
   CONTRACT_TYPE_WASTE_POLYGON = 2;
+  // «По норме»: the client uses someone else's pickup location, orders nothing,
+  // and pays a flat monthly_fee. Prices no job types.
+  CONTRACT_TYPE_BY_NORM = 3;
 }
 
 // *****************************************************
