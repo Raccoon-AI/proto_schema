@@ -64,5 +64,6 @@
   "datetime_filter": "Date filter",
   "plate_number": "Plate number",
   "month": "Month",
-  "service_schedule_by_job_type": "Service schedule"
+  "service_schedule_by_job_type": "Service schedule",
+  "whatsapp_message": "WhatsApp dialogue"
 }

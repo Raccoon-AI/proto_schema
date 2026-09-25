@@ -64,5 +64,6 @@
   "datetime_filter": "Күн бойынша сүзгі",
   "plate_number": "Мемлекеттік нөмір",
   "month": "Ай",
-  "service_schedule_by_job_type": "Қызмет көрсету кестесі"
+  "service_schedule_by_job_type": "Қызмет көрсету кестесі",
+  "whatsapp_message": "WhatsApp диалогы"
 }

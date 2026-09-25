@@ -64,5 +64,6 @@
   "datetime_filter": "Фильтр по дате",
   "plate_number": "Гос. номер",
   "month": "Месяц",
-  "service_schedule_by_job_type": "График обслуживания"
+  "service_schedule_by_job_type": "График обслуживания",
+  "whatsapp_message": "Диалог WhatsApp"
 }
