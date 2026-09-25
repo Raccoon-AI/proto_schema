@@ -90,6 +90,13 @@ message PickupLocationGroupListRequest {
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
+// Replace-set: omitted contracts are unbound. BY_NORM contracts only — the
+// owner binding, pickup_location.contract_id, is not touched here.
+message SetPickupLocationContractsRequest {
+  required uint64 pickup_location_id = 1 [json_name = "pickup_location_id"];
+  repeated uint64 contract_ids = 2 [json_name = "contract_ids"];
+}
+
 service PickupLocationService {
   // Pickup Location operations
   rpc CreatePickupLocation(PickupLocationCreate) returns (PickupLocation) {}
@@ -98,6 +105,7 @@ service PickupLocationService {
   rpc DeletePickupLocation(PickupLocationRequest) returns (MessageResponse) {}
   rpc ListPickupLocations(PickupLocationListRequest) returns (PickupLocationList) {}
   rpc ListPickupLocationPhotos(PickupLocationPhotosRequest) returns (PickupLocationPhotoList) {}
+  rpc SetPickupLocationContracts(SetPickupLocationContractsRequest) returns (PickupLocation) {}
   // @todeprecate
   rpc BindPickupLocationListToContract(PickupLocationListToContractRequest) returns (MessageResponse) {}
 
