@@ -58,6 +58,15 @@ message DetachJobInstructionsRequest {
   repeated uint64 file_ids = 3 [json_name = "file_ids"];
 }
 
+// Before/after photos added to a completed job after the fact. type must be
+// FILE_UPLOAD_TYPE_JOB_SERVICE_STARTED (before) or FILE_UPLOAD_TYPE_JOB_SERVICE_ENDED (after).
+message UploadJobReportPhotosRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+  required uint64 service_provider_id = 2 [json_name = "service_provider_id"];
+  required FileUploadType type = 3 [json_name = "type"];
+  repeated File files = 4 [json_name = "files"];
+}
+
 service JobService {
   rpc CreateJob(JobCreate) returns (Job) {}
   rpc GetJobById(JobRequest) returns (Job) {}
@@ -69,4 +78,6 @@ service JobService {
   rpc AttachJobInstructions(AttachJobInstructionsRequest) returns (Job) {}
   rpc DetachJobInstructions(DetachJobInstructionsRequest) returns (MessageResponse) {}
   rpc DetachJobFromRoute(JobRequest) returns (Job) {}
+  // Admin only. Allowed for COMPLETED and FORCE_COMPLETED jobs.
+  rpc UploadJobReportPhotos(UploadJobReportPhotosRequest) returns (Job) {}
 }
