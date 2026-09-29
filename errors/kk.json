@@ -101,6 +101,7 @@
   "ERROR_CODE_ROUTE_DURATION_TOO_SHORT": "Бағыт кемінде {{minimum}} болуы керек, көрсетілгені {{actual}}",
   "ERROR_CODE_ROUTE_STOP_AMBIGUOUS": "{{index}} нүктесінде не жаңа, не бар өтінім болуы керек, екеуі бірге емес",
   "ERROR_CODE_ROUTE_STOP_DUPLICATE_JOB": "{{job}} өтінімі бағытта екі рет кездеседі",
+  "ERROR_CODE_ROUTE_RETURNING": "{{id}} бағыты базаға қайтып келе жатыр; жұмысты жалғастыру үшін бағытты қайта таңдаңыз",
   "ERROR_CODE_JOB_NOT_IN_ROUTE": "{{id}} өтінімі {{route}} бағытына тағайындалмаған",
   "ERROR_CODE_JOB_ALREADY_ON_SERVICE": "Өтінімдерге қызмет көрсетілуде — {{job}}. Бағыт {{route}}",
   "ERROR_CODE_JOB_NOT_ON_SERVICE": "{{id}} өтініміне қызмет көрсетілмей жатыр",

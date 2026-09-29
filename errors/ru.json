@@ -101,6 +101,7 @@
   "ERROR_CODE_ROUTE_DURATION_TOO_SHORT": "Маршрут должен длиться не меньше {{minimum}}, указано {{actual}}",
   "ERROR_CODE_ROUTE_STOP_AMBIGUOUS": "Точка {{index}} должна содержать либо новую заявку, либо существующую, но не обе",
   "ERROR_CODE_ROUTE_STOP_DUPLICATE_JOB": "Заявка {{job}} встречается в маршруте дважды",
+  "ERROR_CODE_ROUTE_RETURNING": "Маршрут {{id}} возвращается на базу; чтобы продолжить работу, выберите маршрут снова",
   "ERROR_CODE_JOB_NOT_IN_ROUTE": "Заявка {{id}} не привязана к маршруту {{route}}",
   "ERROR_CODE_JOB_ALREADY_ON_SERVICE": "Заявки уже в обслуживании — {{job}}. Маршрут {{route}}",
   "ERROR_CODE_JOB_NOT_ON_SERVICE": "Заявка {{id}} не находится в обслуживании",

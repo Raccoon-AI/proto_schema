@@ -51,6 +51,16 @@ message ReportIncidentRequest {
   optional uint64 job_id = 3 [json_name = "job_id"];
 }
 
+message ChoosePickupLocationRequest {
+  // Deprecated: choose every job at this pickup location, standing any other
+  // ENROUTE job down. Kept, under the field number and JSON name of the
+  // IdRequest it replaces, for app versions that still send it; ignored when
+  // job_ids is set.
+  optional uint64 id = 1 [json_name = "id"];
+  // The jobs of the active route the driver is heading to.
+  repeated uint64 job_ids = 2 [json_name = "job_ids"];
+}
+
 message CompleteCurrentJobRequest {
   optional uint64 job_id = 1 [json_name = "job_id"];
 }
@@ -92,10 +102,11 @@ service DriverService {
   // Changes route status to IN_PROGRESS
   rpc ChooseRoute(IdRequest) returns (Route) {}
 
-  // Choose pickup location from the list of jobs in the assigned route.
-  // If the route has several jobs at the same pickup location, all those
-  // jobs will be ENROUTE and returned.
-  rpc ChoosePickupLocation(IdRequest) returns (JobList) {}
+  // Choose jobs of the active route the driver is heading to: they become
+  // ENROUTE. Jobs already ENROUTE or ON_SERVICE elsewhere keep their status, so
+  // the driver can have several pickup locations open at once, in any order.
+  // Returns the chosen jobs.
+  rpc ChoosePickupLocation(ChoosePickupLocationRequest) returns (JobList) {}
 
   // Get current assigned route and it's jobs. Can be used by driver app to
   // refresh the screen after app restart or network failure.
