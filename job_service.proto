@@ -60,10 +60,9 @@ message DetachJobInstructionsRequest {
 
 message UploadJobReportPhotosRequest {
   required uint64 job_id = 1 [json_name = "job_id"];
-  required uint64 service_provider_id = 2 [json_name = "service_provider_id"];
-  required FileUploadType type = 3 [json_name = "type"];
-  repeated File files = 4 [json_name = "files"];
-  optional string container_name = 5 [json_name = "container_name"];
+  required FileUploadType type = 2 [json_name = "type"];
+  repeated File files = 3 [json_name = "files"];
+  optional string container_name = 4 [json_name = "container_name"];
 }
 
 service JobService {
