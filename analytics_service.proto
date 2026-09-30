@@ -36,51 +36,6 @@ message JobMetricSeriesResponse {
   repeated DailyValue per_day = 2 [json_name = "per_day"];
 }
 
-// 4. drivers_summary_for_period — completed jobs per driver, keyed by geo_group,
-//    plus the driver's shift count over the period.
-message DriversSummaryRequest {
-  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
-  optional DateFilter period = 2 [json_name = "period"];
-  optional uint64 driver_id = 3 [json_name = "driver_id"];
-}
-
-message DriverSummary {
-  optional uint64 driver_id = 1 [json_name = "driver_id"];
-  // key = pickup_location.geo_group, value = completed jobs in that group
-  map<string, uint64> jobs_by_geo_group = 2 [json_name = "jobs_by_geo_group"];
-  optional uint64 total_shifts = 3 [json_name = "total_shifts"];
-}
-
-message DriversSummaryResponse {
-  repeated DriverSummary drivers = 1 [json_name = "drivers"];
-}
-
-// 5. monthly_jobs_for_period -> per-job detail rows over the period.
-message JobDetailsRequest {
-  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
-  optional DateFilter period = 2 [json_name = "period"];
-}
-
-message JobDetailRow {
-  optional uint64 job_id = 1 [json_name = "job_id"];
-  optional string truck_plate = 2 [json_name = "truck_plate"];
-  optional string driver_name = 3 [json_name = "driver_name"];
-  optional google.protobuf.Timestamp ordered_at = 4 [json_name = "ordered_at"]; // job.created_at
-  optional string completed_on = 5 [json_name = "completed_on"]; // YYYY-MM-DD of COALESCE(fact_end_at, plan_end_at)
-  optional string pickup_location = 6 [json_name = "pickup_location"];
-  optional string receiver = 7 [json_name = "receiver"]; // service receiver org name
-  optional uint64 tariff = 8 [json_name = "tariff"]; // COALESCE(NULLIF(contract.tariff,0), pickup.tariff)
-  optional uint64 rent = 9 [json_name = "rent"]; // contract.rent_cost
-  optional uint64 total = 10 [json_name = "total"]; // job.job_tariff
-  optional JobType type = 11 [json_name = "type"];
-  optional double netto_kg = 12 [json_name = "netto_kg"];
-  optional double volume_m3 = 13 [json_name = "volume_m3"];
-}
-
-message JobDetailsResponse {
-  repeated JobDetailRow rows = 1 [json_name = "rows"];
-}
-
 // 6. service_provider_stats — point-in-time snapshot (reuses ServiceProviderStats).
 message ServiceProviderStatsRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
@@ -172,28 +127,6 @@ message EngineHoursSeriesResponse {
   repeated DailyValue per_day = 3 [json_name = "per_day"];
 }
 
-message TruckWorkSummaryRequest {
-  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
-  optional DateFilter period = 2 [json_name = "period"];
-  optional uint64 truck_id = 3 [json_name = "truck_id"];
-}
-
-message TruckWorkRow {
-  optional uint64 truck_id = 1 [json_name = "truck_id"];
-  optional string plate_number = 2 [json_name = "plate_number"];
-  optional uint64 shifts = 3 [json_name = "shifts"];
-  optional uint64 routes_completed = 4 [json_name = "routes_completed"];
-  optional uint64 jobs_completed = 5 [json_name = "jobs_completed"];
-  optional double netto_kg = 6 [json_name = "netto_kg"];
-  optional double mileage_km = 7 [json_name = "mileage_km"];
-  optional uint64 engine_seconds = 8 [json_name = "engine_seconds"];
-  optional double fuel_litres = 9 [json_name = "fuel_litres"];
-}
-
-message TruckWorkSummaryResponse {
-  repeated TruckWorkRow rows = 1 [json_name = "rows"];
-}
-
 // Моточасы per driver shift, for the admin ТТН (waybill) page. One row per shift, over the
 // same shift work window the engine-hours series uses, so both screens agree.
 message ShiftEngineHoursRequest {
@@ -221,66 +154,148 @@ message ShiftEngineHoursResponse {
   repeated ShiftEngineHoursRow rows = 1 [json_name = "rows"];
 }
 
-message RouteDetailsRequest {
+// ---- Report rows for the admin's Analytics → Отчёты tabs: one flat row per entity with the
+// ids and names a report shows. Joined names follow the <entity>_<field> pattern.
+
+// Jobs of the provider organization itself (not its descendants), placeholder jobs excluded.
+// time_filter.field picks the job's time column, tw_start_at by default.
+message ReportJobsRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
-  optional DateFilter period = 2 [json_name = "period"];
-  optional uint64 driver_id = 3 [json_name = "driver_id"];
+  required DateTimeFilter time_filter = 2 [json_name = "time_filter"];
+  // Empty means every status.
+  repeated JobStatus job_statuses = 3 [json_name = "job_statuses"];
+  optional uint64 service_receiver_id = 4 [json_name = "service_receiver_id"];
+  optional uint64 pickup_location_id = 5 [json_name = "pickup_location_id"];
+  // The driver and truck of the job's shift.
+  optional uint64 driver_id = 6 [json_name = "driver_id"];
+  optional uint64 truck_id = 7 [json_name = "truck_id"];
+}
+
+message ReportJobRow {
+  optional uint64 id = 1 [json_name = "id"];
+  optional JobStatus status = 2 [json_name = "status"];
+  optional google.protobuf.Timestamp tw_start_at = 3 [json_name = "tw_start_at"];
+  optional google.protobuf.Timestamp fact_end_at = 4 [json_name = "fact_end_at"];
+  optional google.protobuf.Timestamp created_at = 5 [json_name = "created_at"];
+  optional google.protobuf.Timestamp updated_at = 6 [json_name = "updated_at"];
+  optional uint64 service_receiver_id = 7 [json_name = "service_receiver_id"];
+  optional string service_receiver_name = 8 [json_name = "service_receiver_name"];
+  optional string service_receiver_bin = 9 [json_name = "service_receiver_bin"];
+  optional uint64 pickup_location_id = 10 [json_name = "pickup_location_id"];
+  optional string pickup_location_name = 11 [json_name = "pickup_location_name"];
+  optional uint64 container_group_id = 12 [json_name = "container_group_id"];
+  // The group's container type; legacy jobs without a group carry their own.
+  optional uint64 container_type_id = 13 [json_name = "container_type_id"];
+  optional string container_type_name = 14 [json_name = "container_type_name"];
+  optional float container_type_volume = 15 [json_name = "container_type_volume"];
+  // Unset for legacy jobs without a container group.
+  optional uint32 number_of_containers = 16 [json_name = "number_of_containers"];
+  optional string contract_deal_number = 17 [json_name = "contract_deal_number"];
+  optional uint64 driver_id = 18 [json_name = "driver_id"];
+  // "Surname Name".
+  optional string driver_name = 19 [json_name = "driver_name"];
+  optional uint64 truck_id = 20 [json_name = "truck_id"];
+  optional string truck_plate_number = 21 [json_name = "truck_plate_number"];
+  // Crew members of the shift with the loader role, "Surname Name", comma-separated.
+  optional string loader_names = 22 [json_name = "loader_names"];
+  // As the job list's has_photo_report filter reads it.
+  optional bool has_photo_report = 23 [json_name = "has_photo_report"];
+  optional string driver_comment = 24 [json_name = "driver_comment"];
+  optional string service_provider_name = 25 [json_name = "service_provider_name"];
+}
+
+message ReportJobsResponse {
+  repeated ReportJobRow rows = 1 [json_name = "rows"];
+}
+
+// Shifts of the organization and its descendants; time_filter.field defaults to tw_start_at.
+message ReportDriverOnShiftsRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required DateTimeFilter time_filter = 2 [json_name = "time_filter"];
+}
+
+message ReportDriverOnShiftRow {
+  optional uint64 id = 1 [json_name = "id"];
+  optional uint64 driver_id = 2 [json_name = "driver_id"];
+  optional string driver_name = 3 [json_name = "driver_name"];
   optional uint64 truck_id = 4 [json_name = "truck_id"];
-  optional RouteCategory route_category = 5 [json_name = "route_category"];
+  optional string truck_plate_number = 5 [json_name = "truck_plate_number"];
+  // The truck type's base type, else the truck's own deprecated type.
+  optional TruckType truck_type = 6 [json_name = "truck_type"];
+  optional google.protobuf.Timestamp tw_start_at = 7 [json_name = "tw_start_at"];
+  optional google.protobuf.Timestamp started_at = 8 [json_name = "started_at"];
+  optional google.protobuf.Timestamp completed_at = 9 [json_name = "completed_at"];
+  optional google.protobuf.Timestamp created_at = 10 [json_name = "created_at"];
+  optional google.protobuf.Timestamp departure_time = 11 [json_name = "departure_time"];
+  optional google.protobuf.Timestamp arrival_time = 12 [json_name = "arrival_time"];
+  repeated uint64 crew_ids = 13 [json_name = "crew_ids"];
+  // Distinct categories of the shift's routes, UNDEFINED left out.
+  repeated RouteCategory route_categories = 14 [json_name = "route_categories"];
+  // A provider job on the shift reached COMPLETED (the driver app) in the time filter's
+  // range, on fact_end_at; FORCE_COMPLETED does not count.
+  optional bool has_app_completed_job = 15 [json_name = "has_app_completed_job"];
 }
 
-message RouteDetailRow {
-  optional uint64 route_id = 1 [json_name = "route_id"];
-  optional string completed_on = 2 [json_name = "completed_on"];
-  optional RouteCategory route_category = 3 [json_name = "route_category"];
-  optional string driver_name = 4 [json_name = "driver_name"];
-  optional string truck_plate = 5 [json_name = "truck_plate"];
-  optional uint64 jobs_total = 6 [json_name = "jobs_total"];
-  optional uint64 jobs_completed = 7 [json_name = "jobs_completed"];
-  optional double netto_kg = 8 [json_name = "netto_kg"];
-  optional uint64 reward = 9 [json_name = "reward"];
-  optional uint64 duration_seconds = 10 [json_name = "duration_seconds"];
-  optional RouteStatus status = 11 [json_name = "status"];
+message ReportDriverOnShiftsResponse {
+  repeated ReportDriverOnShiftRow rows = 1 [json_name = "rows"];
 }
 
-message RouteDetailsResponse {
-  repeated RouteDetailRow rows = 1 [json_name = "rows"];
-}
-
-message UnfulfilledJobsRequest {
+// Container groups at the pickup locations the organization and its descendants serve.
+message ReportContainerGroupsRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
-  optional DateFilter period = 2 [json_name = "period"];
-  optional uint64 driver_id = 3 [json_name = "driver_id"];
-  optional JobCategory job_category = 4 [json_name = "job_category"];
 }
 
-message UnfulfilledJobRow {
-  optional uint64 job_id = 1 [json_name = "job_id"];
-  optional string date = 2 [json_name = "date"];
-  optional JobStatus status = 3 [json_name = "status"];
-  optional JobType type = 4 [json_name = "type"];
-  optional string pickup_location = 5 [json_name = "pickup_location"];
-  optional string receiver = 6 [json_name = "receiver"];
-  optional string driver_name = 7 [json_name = "driver_name"];
-  optional string reason = 8 [json_name = "reason"];
+// A pickup location group of the organization that links the container group for a job type.
+message ReportPickupLocationGroup {
+  optional string name = 1 [json_name = "name"];
+  optional string job_type = 2 [json_name = "job_type"];
 }
 
-message UnfulfilledJobsResponse {
-  repeated UnfulfilledJobRow rows = 1 [json_name = "rows"];
+message ReportContainerGroupRow {
+  optional uint64 id = 1 [json_name = "id"];
+  optional uint64 pickup_location_id = 2 [json_name = "pickup_location_id"];
+  optional string pickup_location_name = 3 [json_name = "pickup_location_name"];
+  optional uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
+  optional string owner_organization_name = 5 [json_name = "owner_organization_name"];
+  optional uint64 container_type_id = 6 [json_name = "container_type_id"];
+  optional string container_type_name = 7 [json_name = "container_type_name"];
+  optional uint32 number_of_containers = 8 [json_name = "number_of_containers"];
+  optional string contract_deal_number = 9 [json_name = "contract_deal_number"];
+  optional google.protobuf.Timestamp contract_end_at = 10 [json_name = "contract_end_at"];
+  // Job type → schedule expression; only string entries of the stored map.
+  map<string, string> service_schedule_by_job_type = 11 [json_name = "service_schedule_by_job_type"];
+  repeated ReportPickupLocationGroup pickup_location_groups = 12 [json_name = "pickup_location_groups"];
+}
+
+message ReportContainerGroupsResponse {
+  repeated ReportContainerGroupRow rows = 1 [json_name = "rows"];
+}
+
+// Pickup locations the organization and its descendants serve, for the report filters.
+message ReportPickupLocationsRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+}
+
+message ReportPickupLocation {
+  optional uint64 id = 1 [json_name = "id"];
+  optional string name = 2 [json_name = "name"];
+}
+
+message ReportPickupLocationsResponse {
+  repeated ReportPickupLocation pickup_locations = 1 [json_name = "pickup_locations"];
 }
 
 service AnalyticsService {
   rpc GetJobMetricSeries(JobMetricSeriesRequest) returns (JobMetricSeriesResponse) {}
-  rpc GetDriversSummary(DriversSummaryRequest) returns (DriversSummaryResponse) {}
-  rpc GetJobDetails(JobDetailsRequest) returns (JobDetailsResponse) {}
   rpc GetServiceProviderStats(ServiceProviderStatsRequest) returns (ServiceProviderStats) {}
   rpc GetGasLevelSeries(GasLevelSeriesRequest) returns (GasLevelSeriesResponse) {}
   rpc GetDriverActivitySeries(DriverActivitySeriesRequest) returns (DriverActivitySeriesResponse) {}
   rpc GetRouteCategorySeries(RouteCategorySeriesRequest) returns (RouteCategorySeriesResponse) {}
   rpc GetFuelConsumptionSeries(FuelConsumptionSeriesRequest) returns (FuelConsumptionSeriesResponse) {}
   rpc GetEngineHoursSeries(EngineHoursSeriesRequest) returns (EngineHoursSeriesResponse) {}
-  rpc GetTruckWorkSummary(TruckWorkSummaryRequest) returns (TruckWorkSummaryResponse) {}
   rpc GetShiftEngineHours(ShiftEngineHoursRequest) returns (ShiftEngineHoursResponse) {}
-  rpc GetRouteDetails(RouteDetailsRequest) returns (RouteDetailsResponse) {}
-  rpc GetUnfulfilledJobs(UnfulfilledJobsRequest) returns (UnfulfilledJobsResponse) {}
+  rpc GetReportJobs(ReportJobsRequest) returns (ReportJobsResponse) {}
+  rpc GetReportDriverOnShifts(ReportDriverOnShiftsRequest) returns (ReportDriverOnShiftsResponse) {}
+  rpc GetReportContainerGroups(ReportContainerGroupsRequest) returns (ReportContainerGroupsResponse) {}
+  rpc GetReportPickupLocations(ReportPickupLocationsRequest) returns (ReportPickupLocationsResponse) {}
 }
