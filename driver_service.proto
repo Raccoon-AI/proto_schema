@@ -123,6 +123,9 @@ service DriverService {
   // status to COMPLETED
   rpc CompleteCurrentRoute(EmptyMessageRequest) returns (Route) {}
 
+  // Upload job-related file (e.g., photo evidence)
+  rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
+
   // ******** Incident RPCs *********** //
 
   // Report a problem while on shift ("Сообщить о проблеме на линии").
