@@ -29,6 +29,11 @@ message Contract {
   optional google.protobuf.Struct tariff_rate_by_job_type = 16 [json_name = "tariff_rate_by_job_type"];
   optional Organization service_provider = 17 [json_name = "service_provider"];
   repeated FileUpload file_uploads = 18 [json_name = "file_uploads"];
+  // Set where the caller preloads TargetOrganization. On a BY_NORM contract this
+  // is the client paying monthly_fee.
+  optional Organization target_organization = 19 [json_name = "target_organization"];
+  // BY_NORM only: flat monthly charge. Not rent_cost, which is container rental.
+  optional uint64 monthly_fee = 20 [json_name = "monthly_fee"];
 }
 
 message ContractCreate {
@@ -47,6 +52,7 @@ message ContractCreate {
   optional ContractStatus status = 13 [json_name = "status"];
   optional google.protobuf.Struct tariff_rate_by_job_type = 14 [json_name = "tariff_rate_by_job_type"];
   optional File file = 15 [json_name = "file"];
+  optional uint64 monthly_fee = 16 [json_name = "monthly_fee"]; // BY_NORM only
 }
 
 message ContractUpdate {
@@ -65,6 +71,7 @@ message ContractUpdate {
   optional uint64 rent_cost = 13 [json_name = "rent_cost"];
   optional google.protobuf.Struct tariff_rate_by_job_type = 14 [json_name = "tariff_rate_by_job_type"];
   optional File file = 15 [json_name = "file"];
+  optional uint64 monthly_fee = 16 [json_name = "monthly_fee"]; // BY_NORM only
 }
 
 message ContractList {

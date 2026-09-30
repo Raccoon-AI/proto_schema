@@ -101,6 +101,7 @@
   "ERROR_CODE_ROUTE_DURATION_TOO_SHORT": "A route must last at least {{minimum}}, got {{actual}}",
   "ERROR_CODE_ROUTE_STOP_AMBIGUOUS": "Stop {{index}} must carry either a new job or an existing one, not both",
   "ERROR_CODE_ROUTE_STOP_DUPLICATE_JOB": "Job {{job}} appears twice in the route",
+  "ERROR_CODE_ROUTE_RETURNING": "Route {{id}} is returning to base; choose the route again to resume it",
   "ERROR_CODE_JOB_NOT_IN_ROUTE": "Job {{id}} is not assigned to route {{route}}",
   "ERROR_CODE_JOB_ALREADY_ON_SERVICE": "Jobs already on service — {{job}}. Route {{route}}",
   "ERROR_CODE_JOB_NOT_ON_SERVICE": "Job {{id}} is not on service",

@@ -5,7 +5,6 @@ import "enums.proto";
 import "file_upload.proto";
 import "general.proto";
 import "job.proto";
-import "whatsapp.proto";
 
 option go_package = "./pb";
 
@@ -67,8 +66,11 @@ service JobService {
   rpc ListOperationTimeWindowJobs(OperationTwJobListRequest) returns (JobList) {}
   rpc CancelJob(JobRequest) returns (Job) {}
   rpc ForceCompleteJob(JobRequest) returns (Job) {}
-  rpc ListJobWhatsappMessages(JobRequest) returns (WhatsappMessageList) {}
   rpc AttachJobInstructions(AttachJobInstructionsRequest) returns (Job) {}
   rpc DetachJobInstructions(DetachJobInstructionsRequest) returns (MessageResponse) {}
   rpc DetachJobFromRoute(JobRequest) returns (Job) {}
+  // The office's UploadJobFile: one before/after photo added post factum to a
+  // COMPLETED or FORCE_COMPLETED job, when the driver could not. Needs can_edit
+  // on the job.
+  rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
 }
