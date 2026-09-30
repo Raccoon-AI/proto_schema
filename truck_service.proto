@@ -106,6 +106,22 @@ message TruckPositionList {
   map<uint64, TruckPosition> truck_positions = 1 [json_name = "truck_positions"];
 }
 
+message DeviceMappingListRequest {
+  // Matches external_mapping.external_source (e.g. "wialon_ips").
+  required string external_source = 1 [json_name = "external_source"];
+}
+
+message DeviceMapping {
+  // Matches external_mapping.external_id — a device identifier such as a tracker IMEI.
+  required string external_id = 1 [json_name = "external_id"];
+  required uint64 truck_id = 2 [json_name = "truck_id"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+}
+
+message DeviceMappingList {
+  repeated DeviceMapping device_mappings = 1 [json_name = "device_mappings"];
+}
+
 service TruckService {
   rpc SearchTruck(SearchTruckRequest) returns (SearchTruckResponse) {}
   rpc ListTrucks(TruckListRequest) returns (TruckList) {}
@@ -131,4 +147,9 @@ service TruckService {
   // top of the GetTruckTravelPath line.
   rpc GetTruckGpsStops(TruckGpsStopsRequest) returns (GpsStopList) {}
   rpc GetTruckListLatestPositions(TruckListRequest) returns (TruckPositionList) {}
+
+  // Cross-organization device -> truck resolution for system callers (e.g. GPSDataService's
+  // IPS listener), sourced from external_mapping. Not organization-scoped by design: a
+  // device's owning organization is part of what the caller is resolving.
+  rpc ListDeviceMappings(DeviceMappingListRequest) returns (DeviceMappingList) {}
 }

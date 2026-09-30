@@ -1,0 +1,15 @@
+syntax = "proto2";
+package raccoonai;
+
+import "whatsapp.proto";
+
+option go_package = "./pb";
+
+message WhatsappMessagesRequest {
+  optional uint64 job_id = 1 [json_name = "job_id"];
+  optional uint64 contact_id = 2 [json_name = "contact_id"];
+}
+
+service WhatsappService {
+  rpc ListWhatsappMessages(WhatsappMessagesRequest) returns (WhatsappMessageList) {}
+}

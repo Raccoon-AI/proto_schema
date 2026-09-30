@@ -58,6 +58,8 @@ message ContainerListRequest {
   optional string search = 7 [json_name = "search"];
   // UNDEFINED also matches the containers no driver has ever reported.
   repeated ContainerTrackingEvent last_events = 8 [json_name = "last_events"];
+  // Drivers who serviced the container last, resolved through its last job.
+  repeated uint64 driver_ids = 9 [json_name = "driver_ids"];
 }
 
 // Same filters as ContainerListRequest, minus the status filter.
@@ -71,6 +73,8 @@ message ContainerStatusCountRequest {
   // Narrows counts and total only; tracking_counts ignore it. A tab bar should
   // leave it unset and read every tab from one response.
   repeated ContainerTrackingEvent last_events = 6 [json_name = "last_events"];
+  // Drivers who serviced the container last, resolved through its last job.
+  repeated uint64 driver_ids = 7 [json_name = "driver_ids"];
 }
 
 service ContainerService {
