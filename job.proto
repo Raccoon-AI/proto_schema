@@ -149,3 +149,11 @@ message JobList {
   repeated Job jobs = 1 [json_name = "jobs"];
   optional ListInfo list_info = 2 [json_name = "list_info"];
 }
+
+message JobFileUploadRequest {
+  required File file = 1 [json_name = "file"];
+  required FileUploadType type = 2 [json_name = "type"];
+  optional uint64 job_id = 3 [json_name = "job_id"];
+  optional string container_name = 4 [json_name = "container_name"];
+  repeated double container_coefficients = 5 [json_name = "container_coefficients"];
+}
