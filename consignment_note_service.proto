@@ -33,6 +33,9 @@ message RouteConsignmentNote {
   optional double mileage = 2 [json_name = "mileage"];
   optional double weight_kg = 3 [json_name = "weight_kg"];
   optional double volume = 4 [json_name = "volume"];
+  optional google.protobuf.Timestamp fact_start_at = 5 [json_name = "fact_start_at"];
+  optional google.protobuf.Timestamp fact_end_at = 6 [json_name = "fact_end_at"];
+  optional uint64 destination_location_id = 7 [json_name = "destination_location_id"];
 }
 
 // SetRouteConsignmentNotesRequest writes a whole table of trips at once — every
