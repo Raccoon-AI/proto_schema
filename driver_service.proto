@@ -15,15 +15,6 @@ import "shift_plan_service.proto";
 
 option go_package = "./pb";
 
-message JobFileUploadRequest {
-  required File file = 1 [json_name = "file"];
-  required FileUploadType type = 2 [json_name = "type"];
-  optional uint64 job_id = 3 [json_name = "job_id"];
-  optional string container_name = 4 [json_name = "container_name"];
-  // When non-empty, written onto the job like a consignment note; requires job_id.
-  repeated double container_coefficients = 5 [json_name = "container_coefficients"];
-}
-
 message MyLocationRequest {
   required double lat = 1 [json_name = "lat"];
   required double lon = 2 [json_name = "lon"];
@@ -131,9 +122,6 @@ service DriverService {
   // When driver has arrived at the depot and completes the route. Changes route
   // status to COMPLETED
   rpc CompleteCurrentRoute(EmptyMessageRequest) returns (Route) {}
-
-  // Upload job-related file (e.g., photo evidence)
-  rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
 
   // ******** Incident RPCs *********** //
 

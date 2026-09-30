@@ -58,13 +58,6 @@ message DetachJobInstructionsRequest {
   repeated uint64 file_ids = 3 [json_name = "file_ids"];
 }
 
-message UploadJobReportPhotosRequest {
-  required uint64 job_id = 1 [json_name = "job_id"];
-  required FileUploadType type = 2 [json_name = "type"];
-  repeated File files = 3 [json_name = "files"];
-  optional string container_name = 4 [json_name = "container_name"];
-}
-
 service JobService {
   rpc CreateJob(JobCreate) returns (Job) {}
   rpc GetJobById(JobRequest) returns (Job) {}
@@ -76,5 +69,5 @@ service JobService {
   rpc AttachJobInstructions(AttachJobInstructionsRequest) returns (Job) {}
   rpc DetachJobInstructions(DetachJobInstructionsRequest) returns (MessageResponse) {}
   rpc DetachJobFromRoute(JobRequest) returns (Job) {}
-  rpc UploadJobReportPhotos(UploadJobReportPhotosRequest) returns (Job) {}
+  rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
 }
