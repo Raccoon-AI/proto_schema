@@ -1,0 +1,16 @@
+syntax = "proto2";
+package raccoonai;
+
+import "daas.proto";
+import "general.proto";
+
+option go_package = "./pb";
+
+// DaasService serves RaccoonAI's own DaaS dispatchers. Gated by the
+// USER_ROLE_DAAS_DISPATCHER role check, not by Permify.
+service DaasService {
+  // Softphone credentials for the authenticated DaaS dispatcher.
+  rpc GetVoximplantSettings(EmptyMessageRequest) returns (VoximplantSettings) {}
+  // Call history for the authenticated dispatcher's Voximplant user.
+  rpc ListCallLogs(CallLogRequest) returns (CallLogList) {}
+}
