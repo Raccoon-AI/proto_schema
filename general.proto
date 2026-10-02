@@ -321,6 +321,11 @@ message ListFilter {
     json_name = "sort_direction",
     default = SORT_DIRECTION_DESCENDING
   ];
+  repeated string facets = 5 [json_name = "facets"];
+}
+
+message FacetCounts {
+  map<int32, uint32> counts = 1 [json_name = "counts"];
 }
 
 message ListInfo {
@@ -335,4 +340,5 @@ message ListInfo {
     json_name = "sort_direction",
     default = SORT_DIRECTION_DESCENDING
   ];
+  map<string, FacetCounts> facets = 6 [json_name = "facets"];
 }
