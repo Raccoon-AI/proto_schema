@@ -415,6 +415,8 @@ service GovDashService {
   rpc DisposalSites(EmptyMessageRequest) returns (OrganizationList) {}
   rpc DisposalSiteLocations(EmptyMessageRequest) returns (LocationList) {}
   rpc Trucks(GovOrganizationRequest) returns (GovTruckList) {}
+  // Active trucks owned by government organizations. Not geo-scoped: every gov user sees all of them.
+  rpc GovernmentTrucks(EmptyMessageRequest) returns (GovTruckList) {}
   rpc Depots(GovOrganizationRequest) returns (GovDepotInfoList) {}
   rpc Jobs(GovJobListRequest) returns (JobList) {}
   rpc DriverOnShifts(GovDriverOnShiftListRequest) returns (DriverOnShiftList) {}
