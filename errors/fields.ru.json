@@ -62,6 +62,8 @@
   "truck_number": "Номер машины",
   "truck_type": "Тип машины",
   "user": "Пользователь",
+  "user_ids": "Пользователи",
+  "user_role": "Роль пользователей",
   "volume": "Объём",
   "weight": "Вес",
   "datetime_filter": "Фильтр по дате",

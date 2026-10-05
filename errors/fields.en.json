@@ -62,6 +62,8 @@
   "truck_number": "Truck number",
   "truck_type": "Truck type",
   "user": "User",
+  "user_ids": "Users",
+  "user_role": "User role",
   "volume": "Volume",
   "weight": "Weight",
   "datetime_filter": "Date filter",
