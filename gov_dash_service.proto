@@ -404,6 +404,19 @@ message GovDriverOnShiftListRequest {
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
+// Routes of the caller's geo-scoped service providers, narrowed to routes with
+// a job at one of the caller's pickup locations.
+message GovRouteListRequest {
+  required GovOrganizationRequest filter = 1 [json_name = "filter"];
+  required DateTimeFilter datetime_filter = 2 [json_name = "datetime_filter"];
+  repeated RouteStatus route_statuses = 3 [json_name = "route_statuses"];
+  repeated RouteCategory route_categories = 4 [json_name = "route_categories"];
+  repeated JobType job_types = 5 [json_name = "job_types"];
+  // Same as RouteListRequest.search: route id, truck plate, driver name.
+  optional string search = 6 [json_name = "search"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
+}
+
 service GovDashService {
   rpc GetGovGeoAccess(EmptyMessageRequest) returns (GovGeoAccessList) {}
   rpc ServiceProviders(GovOrganizationRequest) returns (GovServiceProviderInfoList) {}
@@ -420,6 +433,7 @@ service GovDashService {
   rpc Depots(GovOrganizationRequest) returns (GovDepotInfoList) {}
   rpc Jobs(GovJobListRequest) returns (JobList) {}
   rpc DriverOnShifts(GovDriverOnShiftListRequest) returns (DriverOnShiftList) {}
+  rpc Routes(GovRouteListRequest) returns (RouteList) {}
   rpc ExportJobsReport(GovJobListRequest) returns (GovJobsReportResponse) {}
   rpc GetGovRawScaleRecordList(GovRawScaleRecordListRequest) returns (RawScaleRecordListResponse) {}
 

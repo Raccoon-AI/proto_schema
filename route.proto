@@ -180,6 +180,8 @@ message RouteListRequest {
   repeated JobType job_types = 8 [json_name = "job_types"];
   repeated RouteCategory route_categories = 9 [json_name = "route_categories"];
   optional string search = 10 [json_name = "search"];
+  // Routes with at least one job at one of these pickup locations.
+  repeated uint64 pickup_location_ids = 11 [json_name = "pickup_location_ids"];
 }
 
 message RouteList {
