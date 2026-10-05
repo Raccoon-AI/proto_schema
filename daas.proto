@@ -20,6 +20,13 @@ message VoximplantSettings {
 message CallLogRequest {
   optional ListFilter list_filter = 1 [json_name = "list_filter"];
   optional DateTimeFilter time_filter = 2 [json_name = "time_filter"];
+  // Platform user ids of dispatchers. Empty = every user of the application.
+  repeated uint64 user_ids = 3 [json_name = "user_ids"];
+  // Only calls with this contact's phone number.
+  optional uint64 contact_id = 4 [json_name = "contact_id"];
+  // IN or OUT. Voximplant cannot filter on it, so it is applied to the
+  // returned page; total_count stays unfiltered.
+  optional string direction = 5 [json_name = "direction"];
 }
 
 message CallLogEntry {
@@ -32,6 +39,15 @@ message CallLogEntry {
   optional string direction = 5 [json_name = "direction"];
   optional bool successful = 6 [json_name = "successful"];
   optional string record_url = 7 [json_name = "record_url"];
+  // Platform user of the dispatcher on the call, when the Voximplant user is linked.
+  optional uint64 user_id = 8 [json_name = "user_id"];
+  optional string user_name = 9 [json_name = "user_name"];
+  // Contact whose phone matches remote_number, when exactly one does.
+  optional uint64 contact_id = 10 [json_name = "contact_id"];
+  optional string contact_name = 11 [json_name = "contact_name"];
+  optional string local_number = 12 [json_name = "local_number"];
+  // Voximplant's finish reason, e.g. "Normal termination".
+  optional string finish_reason = 13 [json_name = "finish_reason"];
 }
 
 message CallLogList {
