@@ -415,8 +415,6 @@ message GovRouteListRequest {
   // Same as RouteListRequest.search: route id, truck plate, driver name.
   optional string search = 6 [json_name = "search"];
   optional uint64 truck_id = 7 [json_name = "truck_id"];
-  // Same as RouteListRequest.jobs_summary_only.
-  optional bool jobs_summary_only = 8 [json_name = "jobs_summary_only"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
