@@ -1,0 +1,15 @@
+syntax = "proto2";
+package raccoonai;
+
+import "general.proto";
+import "team.proto";
+
+option go_package = "./pb";
+
+service TeamService {
+  rpc CreateTeam(TeamCreate) returns (Team);
+  rpc GetTeam(IdRequest) returns (Team);
+  rpc UpdateTeam(TeamUpdate) returns (Team);
+  rpc ListTeams(TeamListRequest) returns (TeamList);
+  rpc DeleteTeam(IdRequest) returns (EmptyMessageResponse);
+}

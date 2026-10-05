@@ -1,0 +1,46 @@
+syntax = "proto2";
+package raccoonai;
+
+import "enums.proto";
+import "general.proto";
+import "google/protobuf/timestamp.proto";
+import "user.proto";
+
+option go_package = "./pb";
+
+// A named set of users of one organization. Every member must have the team's user_role.
+message Team {
+  required uint64 id = 1 [json_name = "id"];
+  required string name = 2 [json_name = "name"];
+  required UserRole user_role = 3 [json_name = "user_role"];
+  required uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
+  repeated User users = 5 [json_name = "users"];
+  required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+  optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
+}
+
+message TeamCreate {
+  required string name = 1 [json_name = "name"];
+  required UserRole user_role = 2 [json_name = "user_role"];
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+  repeated uint64 user_ids = 4 [json_name = "user_ids"];
+}
+
+message TeamUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  optional string name = 2 [json_name = "name"];
+  optional UserRole user_role = 3 [json_name = "user_role"];
+  // Replaces the whole membership; an empty list removes every member.
+  repeated uint64 user_ids = 4 [json_name = "user_ids"];
+}
+
+message TeamListRequest {
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
+  repeated UserRole user_roles = 2 [json_name = "user_roles"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
+}
+
+message TeamList {
+  repeated Team teams = 1 [json_name = "teams"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
+}
