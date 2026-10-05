@@ -209,6 +209,13 @@ message GovTruckTravelPathResponse {
   required google.protobuf.Struct geojson_feature = 3 [json_name = "geojson_feature"];
 }
 
+// TruckService.GetTruckGpsStops for a truck in the caller's scope.
+message GovTruckGpsStopsRequest {
+  required uint64 truck_id = 1 [json_name = "truck_id"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+  optional bool include_unmatched = 3 [json_name = "include_unmatched"];
+}
+
 message GovDepotAnalyticsRequest {
   required uint64 depot_id = 1 [json_name = "depot_id"];
   required DateTimeFilter from_to = 2 [json_name = "from_to"];
@@ -451,6 +458,7 @@ service GovDashService {
   rpc GetGovServiceProviderAnalytics(GovServiceProviderAnalyticsRequest) returns (GovServiceProviderAnalyticsResponse) {}
   rpc GetGovServiceReceiverAnalytics(GovServiceReceiverAnalyticsRequest) returns (GovServiceReceiverAnalyticsResponse) {}
   rpc GetGovTruckTravelPath(GovTruckTravelPathRequest) returns (GovTruckTravelPathResponse) {}
+  rpc TruckGpsStops(GovTruckGpsStopsRequest) returns (GpsStopList) {}
   rpc GetGovDepotAnalytics(GovDepotAnalyticsRequest) returns (GovDepotAnalyticsResponse) {}
   rpc GetGovRawScaleAnalytics(GovRawScaleAnalyticsRequest) returns (GovRawScaleAnalyticsResponse) {}
   rpc GetGovRawScaleRecordByCompany(GovRawScaleAnalyticsRequest) returns (GovRawScaleRecordByCompanyResponse) {}
