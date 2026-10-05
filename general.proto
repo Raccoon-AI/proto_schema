@@ -21,7 +21,10 @@ message DateTimeFilter {
   // Which time column the range applies to, snake_case, e.g. "fact_start_at".
   // Must be a time field of the listed entity; unknown names are rejected.
   // Omitted = the endpoint's default time column.
+  // Deprecated: use fields. Not allowed together with fields.
   optional string field = 3 [json_name = "field"];
+  // Like field, but the first non-null column wins, e.g. ["started_at", "tw_start_at"].
+  repeated string fields = 4 [json_name = "fields"];
 }
 
 message DateFilter {
