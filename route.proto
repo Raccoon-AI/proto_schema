@@ -53,9 +53,16 @@ message Route {
   optional double mileage = 30 [json_name = "mileage"];
   optional double weight_kg = 31 [json_name = "weight_kg"];
   optional double volume = 32 [json_name = "volume"];
+  // Set only when listed with RouteListRequest.jobs_summary_only, instead of jobs.
+  repeated JobStatusCount job_status_counts = 33 [json_name = "job_status_counts"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
+}
+
+message JobStatusCount {
+  required JobStatus status = 1 [json_name = "status"];
+  required uint32 count = 2 [json_name = "count"];
 }
 
 // ScaleRecord and RawScaleRecord live here (rather than in scale_service.proto)
@@ -180,8 +187,11 @@ message RouteListRequest {
   repeated JobType job_types = 8 [json_name = "job_types"];
   repeated RouteCategory route_categories = 9 [json_name = "route_categories"];
   optional string search = 10 [json_name = "search"];
-  // Routes with at least one job at one of these pickup locations.
+  // Routes with at least one job at one of these pickup locations. Only those
+  // jobs are returned and counted.
   repeated uint64 pickup_location_ids = 11 [json_name = "pickup_location_ids"];
+  // Skip jobs and their associations; fill Route.job_status_counts instead.
+  optional bool jobs_summary_only = 12 [json_name = "jobs_summary_only"];
 }
 
 message RouteList {
