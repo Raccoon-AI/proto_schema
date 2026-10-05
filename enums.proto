@@ -443,6 +443,15 @@ enum WasteType {
   WASTE_TYPE_DARK_PET_SCRAPS = 31; // Лом и отходы из полиэтилентерефталата (Темные)
 }
 
+// Where a weighing stands: derived from whether its netto weight is recorded.
+enum ScaleRecordStatus {
+  SCALE_RECORD_STATUS_UNDEFINED = 0;
+  // Brutto weighed, netto still to come.
+  SCALE_RECORD_STATUS_IN_PROGRESS = 1;
+  // Netto recorded.
+  SCALE_RECORD_STATUS_COMPLETED = 2;
+}
+
 enum TruckEngineType {
   TRUCK_ENGINE_TYPE_UNDEFINED = 0;
   TRUCK_ENGINE_TYPE_DIESEL = 1;

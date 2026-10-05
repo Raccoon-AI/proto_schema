@@ -36,10 +36,15 @@ message ScaleRecordListRequest {
   optional uint64 truck_id = 5 [json_name = "truck_id"];
   optional google.protobuf.Timestamp brutto_scale_ts_from = 6 [json_name = "brutto_scale_ts_from"];
   optional google.protobuf.Timestamp brutto_scale_ts_to = 7 [json_name = "brutto_scale_ts_to"];
+  // facets: "waste_type" (WasteType). Pages newest weighing first.
+  optional ListFilter list_filter = 8 [json_name = "list_filter"];
+  // Empty means every status.
+  repeated ScaleRecordStatus statuses = 9 [json_name = "statuses"];
 }
 
 message ScaleRecordListResponse {
   repeated ScaleRecord scale_records = 1 [json_name = "scale_records"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
 }
 
 message RawScaleRecordListRequest {

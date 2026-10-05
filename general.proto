@@ -324,6 +324,19 @@ message ListFilter {
     json_name = "sort_direction",
     default = SORT_DIRECTION_DESCENDING
   ];
+  // Facets to count over the whole match, each returned in ListInfo.facets under its
+  // name. Each list request documents the names it supports on its list_filter; any
+  // other name is rejected with InvalidArgument.
+  repeated string facets = 5 [json_name = "facets"];
+}
+
+// FacetCounts is one facet's row counts, keyed by enum value. A facet is counted under
+// every filter of the request but its own, so a tab keeps its count while selected.
+// Every value of the enum is present, 0 where nothing matched; a value the enum does
+// not know (legacy, empty, NULL) counts under its zero value, UNDEFINED, present only
+// when nonzero. Clients never show UNDEFINED on its own.
+message FacetCounts {
+  map<int32, uint32> counts = 1 [json_name = "counts"];
 }
 
 message ListInfo {
@@ -338,4 +351,6 @@ message ListInfo {
     json_name = "sort_direction",
     default = SORT_DIRECTION_DESCENDING
   ];
+  // The requested ListFilter.facets, by name.
+  map<string, FacetCounts> facets = 6 [json_name = "facets"];
 }
