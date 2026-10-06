@@ -28,10 +28,8 @@ message NotificationRules {
 message NotificationConfig {
   // Audit-log view filter. Superseded by rules; kept for the current frontend.
   repeated AuditLogType log_types = 1 [json_name = "log_types"];
-  reserved 2;
-  reserved "role_scopes";
   // GetSetting always returns the effective rules (defaults when none stored).
-  optional NotificationRules rules = 3 [json_name = "rules"];
+  optional NotificationRules rules = 2 [json_name = "rules"];
 }
 
 message ColumnConfig {
