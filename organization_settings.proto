@@ -4,16 +4,34 @@ package raccoonai;
 import "audit_logs.proto";
 import "enums.proto";
 import "google/protobuf/timestamp.proto";
+import "notification.proto";
 
 option go_package = "./pb";
 
-message RoleScopeList {
-  repeated UserRole roles = 1 [json_name = "roles"];
+// Who gets notified about an event, through which channels, and whether they
+// may mute it. audience accepts USER_ROLE_PROVIDER_DISPATCHER,
+// USER_ROLE_PROVIDER_MECHANIC, USER_ROLE_PROVIDER_SALES, USER_ROLE_PROVIDER_OWNER,
+// USER_ROLE_DRIVER and USER_ROLE_RECEIVER_USER; other roles are rejected.
+message NotificationRule {
+  required NotificationEvent event = 1 [json_name = "event"];
+  required UserRole audience = 2 [json_name = "audience"];
+  repeated NotificationChannel channels = 3 [json_name = "channels"]; // at least one
+  required bool opt_out_allowed = 4 [json_name = "opt_out_allowed"];
+}
+
+// Wrapped so an empty list stays present on update: absent = built-in
+// defaults, present with no rules = all notifications off.
+message NotificationRules {
+  repeated NotificationRule rules = 1 [json_name = "rules"]; // unique per (event, audience)
 }
 
 message NotificationConfig {
+  // Audit-log view filter. Superseded by rules; kept for the current frontend.
   repeated AuditLogType log_types = 1 [json_name = "log_types"];
-  map<string, RoleScopeList> role_scopes = 2 [json_name = "role_scopes"];
+  reserved 2;
+  reserved "role_scopes";
+  // GetSetting always returns the effective rules (defaults when none stored).
+  optional NotificationRules rules = 3 [json_name = "rules"];
 }
 
 message ColumnConfig {

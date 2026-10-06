@@ -2,6 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "general.proto";
+import "notification.proto";
 
 option go_package = "./pb";
 
@@ -11,6 +12,31 @@ message NotifyReceiverJobCompletedRequest {
   required uint64 service_provider_id = 3 [json_name = "service_provider_id"];
 }
 
+// The caller's effective setting for one event, derived from their service
+// provider's NotificationRule.
+message NotificationPreference {
+  required NotificationEvent event = 1 [json_name = "event"];
+  repeated NotificationChannel channels = 2 [json_name = "channels"];
+  required bool opt_out_allowed = 3 [json_name = "opt_out_allowed"]; // false: muted cannot be changed
+  required bool muted = 4 [json_name = "muted"]; // false when nothing stored
+}
+
+message NotificationPreferenceList {
+  repeated NotificationPreference preferences = 1 [json_name = "preferences"];
+}
+
+message NotificationPreferenceUpdate {
+  required NotificationEvent event = 1 [json_name = "event"];
+  required bool muted = 2 [json_name = "muted"];
+}
+
 service NotificationService {
   rpc NotifyReceiverJobCompleted(NotifyReceiverJobCompletedRequest) returns (MessageResponse) {}
+
+  // Preferences of the authenticated caller. One entry per event the caller's
+  // provider has a rule for.
+  rpc GetNotificationPreferences(EmptyMessageRequest) returns (NotificationPreferenceList) {}
+  // Mutes or unmutes one event for the authenticated caller. permission_denied
+  // when the rule has opt_out_allowed = false; not_found when there is no rule.
+  rpc UpdateNotificationPreference(NotificationPreferenceUpdate) returns (NotificationPreference) {}
 }

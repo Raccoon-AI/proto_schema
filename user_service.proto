@@ -1,9 +1,14 @@
 syntax = "proto2";
 package raccoonai;
 
+import "general.proto";
 import "user.proto";
 
 option go_package = "./pb";
+
+message FcmTokenUpdate {
+  required string fcm_token = 1 [json_name = "fcm_token"]; // empty unsubscribes
+}
 
 message UserRequest {
   required uint64 id = 1 [json_name = "id"];
@@ -17,4 +22,7 @@ service UserService {
   rpc ListUsers(UserListRequest) returns (UserList) {}
   rpc InviteUser(InviteUserRequest) returns (InviteUserResponse) {}
   rpc SetUserPassword(UserPasswordSet) returns (User) {}
+  // Registers the caller's device for push. One token per user; a new token
+  // replaces the old one. Drivers keep using DriverService.FirebaseNotifications.
+  rpc UpdateFcmToken(FcmTokenUpdate) returns (MessageResponse) {}
 }
