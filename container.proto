@@ -85,26 +85,3 @@ message ContainerList {
   repeated Container containers = 1 [json_name = "containers"];
   optional ListInfo list_info = 2 [json_name = "list_info"];
 }
-
-message ContainerStatusCount {
-  required ContainerStatus status = 1 [json_name = "status"];
-  required uint64 count = 2 [json_name = "count"];
-}
-
-message ContainerTrackingEventCount {
-  required ContainerTrackingEvent last_event = 1 [json_name = "last_event"];
-  required uint64 count = 2 [json_name = "count"];
-}
-
-// One entry per status, including statuses with count 0. UNDEFINED appears only
-// if some container carries an unrecognized status.
-message ContainerStatusCountList {
-  repeated ContainerStatusCount counts = 1 [json_name = "counts"];
-  // Sum of counts.
-  required uint64 total = 2 [json_name = "total"];
-  // One entry per tracking event; UNDEFINED is the never-reported bucket.
-  // ACTIVE containers only, and last_events is ignored here — an archived
-  // container counts as archived in counts, and selecting one tab must not zero
-  // the others.
-  repeated ContainerTrackingEventCount tracking_counts = 3 [json_name = "tracking_counts"];
-}

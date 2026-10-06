@@ -16,6 +16,7 @@ message JobListRequest {
   repeated JobStatus job_statuses = 5 [json_name = "job_statuses"];
   optional uint64 driver_id = 6 [json_name = "driver_id"];
   optional uint64 truck_id = 7 [json_name = "truck_id"];
+  // facets: "status" (JobStatus), "category" (JobCategory); not together with truck_id.
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
   optional DateTimeFilter time_filter = 11 [json_name = "time_filter"];
   repeated uint64 pickup_location_ids = 12 [json_name = "pickup_location_ids"];

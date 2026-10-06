@@ -67,6 +67,7 @@ message ListCounterpartiesRequest {
   optional ContractStatus status = 2 [json_name = "status"];
   optional string search = 3 [json_name = "search"];
   repeated uint64 manager_ids = 4 [json_name = "manager_ids"];
+  // facets: "status" (ContractStatus of each counterparty's strongest contract).
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
