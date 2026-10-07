@@ -43,6 +43,8 @@ enum AuditLogType {
   // Driver reported a problem on the current job ("проблема на задаче").
   // The specific DriverIncidentType is carried in fields.incident_type.
   AUDIT_LOG_TYPE_JOB_INCIDENT_REPORTED = 205;
+  // Any save of a job by a user; the newest one per job is its "last updated by".
+  AUDIT_LOG_TYPE_JOB_UPDATED = 206;
 
   // 250 - 300 Route related events
   AUDIT_LOG_TYPE_ROUTE_CREATED = 251;
