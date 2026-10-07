@@ -8,6 +8,8 @@ option go_package = "./pb";
 
 message AuditLogListRequest {
   optional uint64 organization_id = 1 [json_name = "organization_id"];
+  repeated AuditLogType log_types = 2 [json_name = "log_types"];
+  optional DateTimeFilter time_filter = 3 [json_name = "time_filter"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 

@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "general.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -84,6 +85,8 @@ message AuditLog {
   required string message = 7 [json_name = "message"];
   optional google.protobuf.Struct fields = 8 [json_name = "fields"];
   required google.protobuf.Timestamp created_at = 9 [json_name = "created_at"];
+  // Who acted. Unset for system events (user_id 0) and for users deleted since.
+  optional UserRef user = 10 [json_name = "user"];
 }
 
 message AuditLogCreate {
