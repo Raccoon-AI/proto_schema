@@ -14,14 +14,14 @@ Proto for the «Создать маршрут из группы» modal (admin �
 
 ## Problems today
 
-| Problem | Effect |
-|---|---|
-| 1 `CreateJob` per link + 1 `CreateRouteWithJobs` per trip | Slow submit on big groups |
-| Not atomic | Failure on job 7 of 15 leaves 6 orphan jobs, no route |
-| No duplicate check | Second job per link when the daily generator (`auto_generate_time`) already made one, or on retry |
-| Client sends `service_receiver_id`, `job_category` | Server trusts client-derived data |
-| Client loads every pickup location of the company | Only to join coords, owner and contract onto the group |
-| Schedule ignored | Dispatcher cannot «take what's scheduled for this day» |
+| Problem                                                   | Effect                                                                                            |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| 1 `CreateJob` per link + 1 `CreateRouteWithJobs` per trip | Slow submit on big groups                                                                         |
+| Not atomic                                                | Failure on job 7 of 15 leaves 6 orphan jobs, no route                                             |
+| No duplicate check                                        | Second job per link when the daily generator (`auto_generate_time`) already made one, or on retry |
+| Client sends `service_receiver_id`, `job_category`        | Server trusts client-derived data                                                                 |
+| Client loads every pickup location of the company         | Only to join coords, owner and contract onto the group                                            |
+| Schedule ignored                                          | Dispatcher cannot «take what's scheduled for this day»                                            |
 
 ## New flow
 
@@ -49,14 +49,14 @@ sequenceDiagram
 
 One entry per group link for `date`:
 
-| Status | Meaning | Modal |
-|---|---|---|
-| `SCHEDULED` | Schedule covers the day, `tw_*` = its window | Preselected in «По графику» |
-| `NOT_SCHEDULED_ON_DAY` | Schedule exists, not this day | Selectable manually |
-| `NO_SCHEDULE` | No schedule for this job type | Selectable manually |
-| `CONTRACT_ISSUE` | Contract forbids it, `reason` says why | Disabled |
-| `JOB_EXISTS_UNROUTED` | Live job already exists, `existing_job_id` | Added as `job_id` stop |
-| `JOB_EXISTS_ROUTED` | Already in `existing_route_id` | Disabled, links to route |
+| Status                 | Meaning                                      | Modal                       |
+| ---------------------- | -------------------------------------------- | --------------------------- |
+| `SCHEDULED`            | Schedule covers the day, `tw_*` = its window | Preselected in «По графику» |
+| `NOT_SCHEDULED_ON_DAY` | Schedule exists, not this day                | Selectable manually         |
+| `NO_SCHEDULE`          | No schedule for this job type                | Selectable manually         |
+| `CONTRACT_ISSUE`       | Contract forbids it, `reason` says why       | Disabled                    |
+| `JOB_EXISTS_UNROUTED`  | Live job already exists, `existing_job_id`   | Added as `job_id` stop      |
+| `JOB_EXISTS_ROUTED`    | Already in `existing_route_id`               | Disabled, links to route    |
 
 Same classification the daily generator uses, so modal and cron agree.
 
@@ -82,7 +82,9 @@ Example:
   "date": "2026-10-08T00:00:00+05:00",
   "trips": [
     {
-      "source_lon": 76.94, "source_lat": 43.25, "source_location_id": "3",
+      "source_lon": 76.94,
+      "source_lat": 43.25,
+      "source_location_id": "3",
       "destination_location_id": "7",
       "stops": [
         { "link": { "container_group_id": "501", "job_type": "JOB_TYPE_MSW" } },
