@@ -110,6 +110,7 @@
   "ERROR_CODE_JOB_NOT_ON_SERVICE": "Job {{id}} is not on service",
   "ERROR_CODE_JOB_FINAL": "Job {{id}} is in final status {{status}}",
   "ERROR_CODE_JOB_NOT_DETACHABLE": "Job {{id}} in status {{status}} cannot be detached from its route",
+  "ERROR_CODE_JOB_ALREADY_EXISTS_FOR_DAY": "Job {{job}} for container group {{id}} ({{job_type}}) already exists on {{date}}",
   "ERROR_CODE_JOB_INVALID_TRANSITION": "Illegal job {{id}} transition from {{from}} to {{to}}",
   "ERROR_CODE_JOB_NOT_ENROUTE": "Job {{id}} is not en route yet",
   "ERROR_CODE_JOB_NO_DRIVER_ON_SHIFT": "Job {{id}} has no driver on shift to report on",

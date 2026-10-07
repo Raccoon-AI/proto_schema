@@ -234,6 +234,41 @@ message CreateRouteFromPickupLocationGroupRequest {
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
 }
 
+// One stop of a group route: a job created from a group link, or an existing
+// unrouted job of the organization. Exactly one of the two is set.
+message PickupLocationGroupRouteStop {
+  optional PickupLocationGroupLinkRef link = 1 [json_name = "link"];
+  optional uint64 job_id = 2 [json_name = "job_id"];
+}
+
+message PickupLocationGroupLinkRef {
+  required uint64 container_group_id = 1 [json_name = "container_group_id"];
+  required string job_type = 2 [json_name = "job_type"]; // same form as ContainerGroupJobTypeLink.job_type
+}
+
+// One route. Destination coordinates and the route category are taken from
+// the server: the depot location and the first stop's job category.
+message PickupLocationGroupTrip {
+  required double source_lon = 1 [json_name = "source_lon"];
+  required double source_lat = 2 [json_name = "source_lat"];
+  optional uint64 source_location_id = 3 [json_name = "source_location_id"];
+  required uint64 destination_location_id = 4 [json_name = "destination_location_id"]; // unloading depot
+  // In the order the dispatcher arranged them; the index is the step_idx.
+  repeated PickupLocationGroupRouteStop stops = 5 [json_name = "stops"];
+}
+
+// Creates the jobs and all trips' routes in one transaction: any failing stop
+// rolls back everything. Created jobs take provider, receiver and tariff from
+// the container group's contract, and the schedule window of `date` (the whole
+// day when the schedule does not cover it).
+message BulkCreateRoutesFromPickupLocationGroupRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 pickup_location_group_id = 2 [json_name = "pickup_location_group_id"];
+  required uint64 driver_on_shift_id = 3 [json_name = "driver_on_shift_id"];
+  required google.protobuf.Timestamp date = 4 [json_name = "date"]; // service day, Asia/Almaty
+  repeated PickupLocationGroupTrip trips = 5 [json_name = "trips"];
+}
+
 // One stop of a pseudo-route: either a job created together with the route, or
 // an existing unrouted one picked into it. Exactly one of the two is set.
 message PseudoRouteStop {

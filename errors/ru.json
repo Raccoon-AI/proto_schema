@@ -110,6 +110,7 @@
   "ERROR_CODE_JOB_NOT_ON_SERVICE": "Заявка {{id}} не находится в обслуживании",
   "ERROR_CODE_JOB_FINAL": "Заявка {{id}} в конечном статусе {{status}}",
   "ERROR_CODE_JOB_NOT_DETACHABLE": "Заявку {{id}} в статусе {{status}} нельзя открепить от маршрута",
+  "ERROR_CODE_JOB_ALREADY_EXISTS_FOR_DAY": "Заявка {{job}} для группы контейнеров {{id}} ({{job_type}}) на {{date}} уже существует",
   "ERROR_CODE_JOB_INVALID_TRANSITION": "Недопустимый переход заявки {{id}} из {{from}} в {{to}}",
   "ERROR_CODE_JOB_NOT_ENROUTE": "Заявка {{id}} ещё не в пути",
   "ERROR_CODE_JOB_NO_DRIVER_ON_SHIFT": "У заявки {{id}} нет смены, по которой можно отчитаться",

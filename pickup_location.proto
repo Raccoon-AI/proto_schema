@@ -117,11 +117,15 @@ message ContainerGroupJobTypeLink {
 message PickupLocationGroup {
   required uint64 id = 1 [json_name = "id"];
   required string name = 2 [json_name = "name"];
+  // GetPickupLocationGroupById also sets owner_organization and contract on each.
   repeated ContainerGroup container_groups = 3 [json_name = "container_groups"];
   required uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
   optional uint64 default_truck_id = 5 [json_name = "default_truck_id"];
   repeated ContainerGroupJobTypeLink container_group_links = 6 [json_name = "container_group_links"];
   optional string auto_generate_time = 7 [json_name = "auto_generate_time"]; // "HH:MM" Asia/Almaty, next day's jobs are generated then; unset = off
+  // Distinct pickup locations of container_groups, without their own
+  // container_groups. Set by GetPickupLocationGroupById only.
+  repeated PickupLocation pickup_locations = 8 [json_name = "pickup_locations"];
 }
 
 message PickupLocationGroupCreate {
