@@ -110,7 +110,6 @@
   "ERROR_CODE_JOB_NOT_ON_SERVICE": "{{id}} өтініміне қызмет көрсетілмей жатыр",
   "ERROR_CODE_JOB_FINAL": "{{id}} өтінімі {{status}} соңғы күйінде",
   "ERROR_CODE_JOB_NOT_DETACHABLE": "{{status}} күйіндегі {{id}} өтінімін бағыттан ажырату мүмкін емес",
-  "ERROR_CODE_JOB_ALREADY_EXISTS_FOR_DAY": "{{id}} контейнерлер тобы үшін {{date}} күнге {{job}} өтінімі ({{job_type}}) бұрыннан бар",
   "ERROR_CODE_JOB_INVALID_TRANSITION": "{{id}} өтінімінің {{from}} күйінен {{to}} күйіне ауысуы рұқсат етілмеген",
   "ERROR_CODE_JOB_NOT_ENROUTE": "{{id}} өтінімі әлі жолда емес",
   "ERROR_CODE_JOB_NO_DRIVER_ON_SHIFT": "{{id}} өтінімінде есеп беретін ауысым жоқ",

@@ -234,8 +234,12 @@ message CreateRouteFromPickupLocationGroupRequest {
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
 }
 
-// One stop of a group route: a job created from a group link, or an existing
-// unrouted job of the organization. Exactly one of the two is set.
+// One stop of a group route. Exactly one of the two is set.
+// - link: the job for this (container group, job type) on `date`. A live
+//   unrouted job for that day is reused; otherwise one is created like the
+//   daily generator does. A job already in another route fails the request
+//   with ERROR_CODE_JOB_ALREADY_ASSIGNED.
+// - job_id: any existing unrouted job of the organization.
 message PickupLocationGroupRouteStop {
   optional PickupLocationGroupLinkRef link = 1 [json_name = "link"];
   optional uint64 job_id = 2 [json_name = "job_id"];
@@ -246,27 +250,27 @@ message PickupLocationGroupLinkRef {
   required string job_type = 2 [json_name = "job_type"]; // same form as ContainerGroupJobTypeLink.job_type
 }
 
-// One route. Destination coordinates and the route category are taken from
-// the server: the depot location and the first stop's job category.
+// One route. Unset source/destination fall back to the truck's depot, as in
+// the daily generator. The route category comes from the first stop.
 message PickupLocationGroupTrip {
-  required double source_lon = 1 [json_name = "source_lon"];
-  required double source_lat = 2 [json_name = "source_lat"];
-  optional uint64 source_location_id = 3 [json_name = "source_location_id"];
-  required uint64 destination_location_id = 4 [json_name = "destination_location_id"]; // unloading depot
+  optional uint64 source_location_id = 1 [json_name = "source_location_id"];
+  optional uint64 destination_location_id = 2 [json_name = "destination_location_id"]; // unloading depot
   // In the order the dispatcher arranged them; the index is the step_idx.
-  repeated PickupLocationGroupRouteStop stops = 5 [json_name = "stops"];
+  repeated PickupLocationGroupRouteStop stops = 3 [json_name = "stops"];
 }
 
-// Creates the jobs and all trips' routes in one transaction: any failing stop
-// rolls back everything. Created jobs take provider, receiver and tariff from
-// the container group's contract, and the schedule window of `date` (the whole
-// day when the schedule does not cover it).
+// Manual run of the daily generator for one group and day, with the stop list
+// the dispatcher settled on. One transaction: jobs, shift, routes (CREATED).
 message BulkCreateRoutesFromPickupLocationGroupRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   required uint64 pickup_location_group_id = 2 [json_name = "pickup_location_group_id"];
-  required uint64 driver_on_shift_id = 3 [json_name = "driver_on_shift_id"];
-  required google.protobuf.Timestamp date = 4 [json_name = "date"]; // service day, Asia/Almaty
-  repeated PickupLocationGroupTrip trips = 5 [json_name = "trips"];
+  required google.protobuf.Timestamp date = 3 [json_name = "date"]; // service day, Asia/Almaty
+  // Shift to attach the routes to. Unset: the truck's shift for the day, or a
+  // new NOT_APPROVED shift without a driver.
+  optional uint64 driver_on_shift_id = 4 [json_name = "driver_on_shift_id"];
+  // Used only when driver_on_shift_id is unset. Unset: the group's default truck.
+  optional uint64 truck_id = 5 [json_name = "truck_id"];
+  repeated PickupLocationGroupTrip trips = 6 [json_name = "trips"];
 }
 
 // One stop of a pseudo-route: either a job created together with the route, or

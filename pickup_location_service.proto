@@ -92,46 +92,34 @@ message PickupLocationGroupListRequest {
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
-// What creating a job from one group link on a given day would do.
-enum PickupLocationGroupLinkStatus {
-  PICKUP_LOCATION_GROUP_LINK_STATUS_UNDEFINED = 0;
-  // The schedule covers the day; tw_start_at/tw_end_at hold its window.
-  PICKUP_LOCATION_GROUP_LINK_STATUS_SCHEDULED = 1;
-  // The schedule exists but does not cover the day. Can still be created manually.
-  PICKUP_LOCATION_GROUP_LINK_STATUS_NOT_SCHEDULED_ON_DAY = 2;
-  // No schedule for this job type. Can still be created manually.
-  PICKUP_LOCATION_GROUP_LINK_STATUS_NO_SCHEDULE = 3;
-  // The contract does not allow this job; reason says why. Cannot be created.
-  PICKUP_LOCATION_GROUP_LINK_STATUS_CONTRACT_ISSUE = 4;
-  // A live unrouted job already exists for the day; use existing_job_id as a stop.
-  PICKUP_LOCATION_GROUP_LINK_STATUS_JOB_EXISTS_UNROUTED = 5;
-  // A live job already exists for the day and sits in existing_route_id.
-  PICKUP_LOCATION_GROUP_LINK_STATUS_JOB_EXISTS_ROUTED = 6;
-}
-
 message PreviewPickupLocationGroupJobsRequest {
   required uint64 pickup_location_group_id = 1 [json_name = "pickup_location_group_id"];
   required google.protobuf.Timestamp date = 2 [json_name = "date"]; // service day, Asia/Almaty
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
 }
 
-message PickupLocationGroupLinkPreview {
+// A group link the daily generator would create a job for on the day.
+message PickupLocationGroupScheduledLink {
   required uint64 container_group_id = 1 [json_name = "container_group_id"];
   required string job_type = 2 [json_name = "job_type"]; // same form as ContainerGroupJobTypeLink.job_type
-  required PickupLocationGroupLinkStatus status = 3 [json_name = "status"];
-  // Schedule window for SCHEDULED, the existing job's window for JOB_EXISTS_*.
-  optional google.protobuf.Timestamp tw_start_at = 4 [json_name = "tw_start_at"];
-  optional google.protobuf.Timestamp tw_end_at = 5 [json_name = "tw_end_at"];
+  required google.protobuf.Timestamp tw_start_at = 3 [json_name = "tw_start_at"];
+  required google.protobuf.Timestamp tw_end_at = 4 [json_name = "tw_end_at"];
   // The day has several schedule windows; tw_* hold the first one.
-  optional bool partial_window = 6 [json_name = "partial_window"];
-  optional uint64 existing_job_id = 7 [json_name = "existing_job_id"];
-  optional uint64 existing_route_id = 8 [json_name = "existing_route_id"];
-  optional ErrorMessage reason = 9 [json_name = "reason"]; // set for CONTRACT_ISSUE
+  optional bool partial_window = 5 [json_name = "partial_window"];
 }
 
-// One entry per group link, in step_idx order.
+// A group link left out for the day, e.g. ERROR_CODE_CONTAINER_GROUP_NO_SCHEDULE,
+// ERROR_CODE_CONTAINER_GROUP_SCHEDULE_NOT_COVERING_DAY or a contract error.
+message PickupLocationGroupSkippedLink {
+  required uint64 container_group_id = 1 [json_name = "container_group_id"];
+  required string job_type = 2 [json_name = "job_type"];
+  required ErrorMessage reason = 3 [json_name = "reason"];
+}
+
+// Same selection as the daily generator, in step_idx order. Read-only.
 message PickupLocationGroupJobsPreview {
-  repeated PickupLocationGroupLinkPreview links = 1 [json_name = "links"];
+  repeated PickupLocationGroupScheduledLink links = 1 [json_name = "links"];
+  repeated PickupLocationGroupSkippedLink skipped_links = 2 [json_name = "skipped_links"];
 }
 
 // Replace-set: omitted contracts are unbound. BY_NORM contracts only — the
