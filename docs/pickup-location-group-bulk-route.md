@@ -50,7 +50,7 @@ sequenceDiagram
   participant BE as Backend
   FE->>BE: GetPickupLocationGroupById
   FE->>BE: PreviewPickupLocationGroupJobs(group, date)
-  BE-->>FE: scheduled links + skipped links (reason)
+  BE-->>FE: scheduled links
   Note over FE: remove links, add existing jobs,<br/>split trips, reorder, pick shift (optional)
   FE->>BE: BulkCreateRoutesFromPickupLocationGroup
   Note over BE: one transaction
@@ -71,10 +71,7 @@ sequenceDiagram
 ## 2. `PreviewPickupLocationGroupJobs` — new, read-only
 
 - `links` — what the cron would generate for the date, with the schedule
-  window.
-- `skipped_links` — the rest, each with an `ErrorMessage` reason (no schedule,
-  schedule not covering the day, contract error). Lets the modal say why a
-  location is missing.
+  window. Links without a matching schedule or contract are left out.
 
 ## 3. `BulkCreateRoutesFromPickupLocationGroup` — new
 

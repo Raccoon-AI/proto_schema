@@ -108,18 +108,9 @@ message PickupLocationGroupScheduledLink {
   optional bool partial_window = 5 [json_name = "partial_window"];
 }
 
-// A group link left out for the day, e.g. ERROR_CODE_CONTAINER_GROUP_NO_SCHEDULE,
-// ERROR_CODE_CONTAINER_GROUP_SCHEDULE_NOT_COVERING_DAY or a contract error.
-message PickupLocationGroupSkippedLink {
-  required uint64 container_group_id = 1 [json_name = "container_group_id"];
-  required string job_type = 2 [json_name = "job_type"];
-  required ErrorMessage reason = 3 [json_name = "reason"];
-}
-
 // Same selection as the daily generator, in step_idx order. Read-only.
 message PickupLocationGroupJobsPreview {
   repeated PickupLocationGroupScheduledLink links = 1 [json_name = "links"];
-  repeated PickupLocationGroupSkippedLink skipped_links = 2 [json_name = "skipped_links"];
 }
 
 // Replace-set: omitted contracts are unbound. BY_NORM contracts only — the
