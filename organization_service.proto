@@ -108,6 +108,7 @@ service OrganizationService {
   rpc ListDisposalSiteOperators(EmptyMessageRequest) returns (OrganizationList) {}
   rpc ListChildrenOrganization(EmptyMessageRequest) returns (OrganizationList) {}
   rpc ListAccessibleOrganizations(AccessibleOrganizationListRequest) returns (OrganizationList) {}
+  rpc ListOrganizationSubtree(OrganizationSubtreeRequest) returns (OrganizationList) {}
   rpc ListCounterparties(ListCounterpartiesRequest) returns (CounterpartyList) {}
   rpc GetOrganization(OrganizationRequest) returns (Organization) {}
   rpc UpdateOrganization(OrganizationUpdate) returns (Organization) {}
