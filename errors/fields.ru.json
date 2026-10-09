@@ -1,6 +1,7 @@
 {
   "access": "Доступ",
   "analytics": "Аналитика",
+  "audit_log": "Журнал аудита",
   "assigned_driver": "назначенный водитель",
   "auto_generate_time": "Время автогенерации",
   "bank_details": "Банковские реквизиты",
