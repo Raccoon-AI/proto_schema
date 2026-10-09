@@ -73,5 +73,6 @@
   "service_schedule_by_job_type": "Қызмет көрсету кестесі",
   "role": "Рөл",
   "resource": "Модуль",
-  "action": "Әрекет"
+  "action": "Әрекет",
+  "organization_type": "Ұйым түрі"
 }

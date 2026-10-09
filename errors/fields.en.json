@@ -73,5 +73,6 @@
   "service_schedule_by_job_type": "Service schedule",
   "role": "Role",
   "resource": "Module",
-  "action": "Action"
+  "action": "Action",
+  "organization_type": "Organization type"
 }
