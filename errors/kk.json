@@ -156,6 +156,7 @@
   "ERROR_CODE_ORGANIZATION_NO_NIGHT_MULTIPLIER": "{{id}} ұйымында түнгі үстеме жоқ",
   "ERROR_CODE_ORGANIZATION_NO_ACTIVE_DEPOT": "{{id}} ұйымында белсенді парк жоқ — әдепкі парканы көрсетіңіз",
   "ERROR_CODE_ORGANIZATION_MULTIPLE_ACTIVE_DEPOTS": "{{id}} ұйымында бірнеше белсенді парк ({{count}}) — әдепкі парканы көрсетіңіз",
+  "ERROR_CODE_ORGANIZATION_OUTSIDE_BRANCH": "{{entity}} {{id}} қолжетімділік тобы тиесілі ұйым тармағынан тыс",
   "ERROR_CODE_DRIVER_NOT_IN_ORGANIZATION": "{{driver}} жүргізушісі {{organization}} ұйымында табылмады",
   "ERROR_CODE_SHIFT_PLAN_DATE_NOT_FUTURE": "Ауысым жоспары тек болашақ күндерге өзгереді: {{date}} көрсетілді, бүгін {{today}}",
   "ERROR_CODE_SHIFT_PLAN_USER_NOT_DRIVER": "Ауысым жоспары тек жүргізушілерге арналған, ал {{user}} қолданушысының рөлі {{role}}",
