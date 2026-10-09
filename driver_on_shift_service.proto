@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "driver_incident.proto";
 import "driver_on_shift.proto";
 import "enums.proto";
 import "general.proto";
@@ -29,6 +30,14 @@ message AddDriverToShiftRequest {
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
 }
 
+message ForceCompleteDriverOnShiftRequest {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  // One of the shift-level incident types: TRUCK_BREAKDOWN, TRAFFIC_ACCIDENT,
+  // LOADERS_UNWELL, DRIVER_UNWELL or OTHER.
+  required DriverIncidentType reason = 3 [json_name = "reason"];
+}
+
 service DriverOnShiftService {
   rpc ListDriverOnShift(DriverOnShiftListRequest) returns (DriverOnShiftList) {}
   rpc ListTruckDriverOnShifts(TruckDriverOnShiftListRequest) returns (TruckDriverOnShiftList) {}
@@ -37,6 +46,7 @@ service DriverOnShiftService {
   rpc CreateDriverOnShift(DriverOnShiftCreate) returns (DriverOnShift) {}
   rpc UpdateDriverOnShift(DriverOnShiftUpdate) returns (DriverOnShift) {}
   rpc CompleteDriverOnShift(DriverOnShiftRequest) returns (DriverOnShift) {}
+  rpc ForceCompleteDriverOnShift(ForceCompleteDriverOnShiftRequest) returns (DriverOnShift) {}
   rpc CancelDriverOnShift(DriverOnShiftRequest) returns (DriverOnShift) {}
   rpc ApproveDriverOnShift(DriverOnShiftRequest) returns (DriverOnShift) {}
   rpc DriverOnShiftExists(DriverOnShiftExistsRequest) returns (DriverOnShiftList) {}
