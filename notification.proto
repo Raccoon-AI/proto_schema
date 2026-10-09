@@ -15,6 +15,24 @@ enum DriverNotification {
   DRIVER_NOTIFICATION_ARRIVED_AT_SCALING = 8;
 }
 
+// Business events users can be notified about. Final list pending.
+enum NotificationEvent {
+  NOTIFICATION_EVENT_UNDEFINED = 0;
+  NOTIFICATION_EVENT_JOB_CREATED = 1;
+  NOTIFICATION_EVENT_JOB_ASSIGNED = 2;
+  NOTIFICATION_EVENT_JOB_ENROUTE = 3;
+  NOTIFICATION_EVENT_JOB_COMPLETED = 4;
+  NOTIFICATION_EVENT_CONTRACT_EXPIRING = 5;
+  NOTIFICATION_EVENT_WORK_ACT_AND_INVOICE_ISSUED = 6;
+}
+
+enum NotificationChannel {
+  NOTIFICATION_CHANNEL_UNDEFINED = 0;
+  NOTIFICATION_CHANNEL_EMAIL = 1;
+  NOTIFICATION_CHANNEL_WHATSAPP = 2;
+  NOTIFICATION_CHANNEL_PUSH = 3;
+}
+
 message Notification {
   required DriverNotification type = 1 [json_name = "type"];
   required string title = 2 [json_name = "title"];

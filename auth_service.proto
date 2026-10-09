@@ -30,4 +30,7 @@ service AuthService {
   rpc RefreshToken(RefreshTokenRequest) returns (AuthResponse) {}
   rpc ForgotPasswordViaOtp(PasswordResetViaOtp) returns (MessageResponse) {}
   rpc SelfRegisterViaLink(SelfRegistrationRequest) returns (User) {}
+  // Registers the caller's device for push. One token per user; a new token
+  // replaces the old one. Drivers keep using DriverService.FirebaseNotifications.
+  rpc UpdateFcmToken(FcmTokenUpdate) returns (MessageResponse) {}
 }

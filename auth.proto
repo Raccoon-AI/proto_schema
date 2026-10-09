@@ -7,6 +7,10 @@ import "user.proto";
 
 option go_package = "./pb";
 
+message FcmTokenUpdate {
+  required string fcm_token = 1 [json_name = "fcm_token"]; // empty unsubscribes
+}
+
 message AuthResponse {
   required string access_token = 1 [json_name = "access_token"];
   required string token_type = 2 [json_name = "token_type"];

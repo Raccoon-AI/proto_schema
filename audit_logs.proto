@@ -42,6 +42,9 @@ enum AuditLogType {
   // Driver reported a problem on the current job ("проблема на задаче").
   // The specific DriverIncidentType is carried in fields.incident_type.
   AUDIT_LOG_TYPE_JOB_INCIDENT_REPORTED = 205;
+  // Job moved CREATED -> ASSIGNED with a driver on shift.
+  // 206 is taken by JOB_UPDATED on feat/list-audit-log.
+  AUDIT_LOG_TYPE_JOB_ASSIGNED = 207;
 
   // 250 - 300 Route related events
   AUDIT_LOG_TYPE_ROUTE_CREATED = 251;
