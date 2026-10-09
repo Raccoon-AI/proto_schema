@@ -110,7 +110,7 @@ message PickupLocationList {
 // One (container group, job type) binding inside a pickup location group.
 message ContainerGroupJobTypeLink {
   required uint64 container_group_id = 1 [json_name = "container_group_id"];
-  required string job_type = 2 [json_name = "job_type"];
+  required JobType job_type = 2 [json_name = "job_type"];
   optional uint32 step_idx = 3 [json_name = "step_idx"]; // display position in the group's list
 }
 

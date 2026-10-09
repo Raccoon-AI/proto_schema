@@ -38,7 +38,7 @@ message PickupLocationListRequest {
 
 message ContainerGroupJobLink {
   required uint64 container_group_id = 1 [json_name = "container_group_id"];
-  required string job_type = 2 [json_name = "job_type"];
+  required JobType job_type = 2 [json_name = "job_type"];
 }
 
 message BindContainerGroupsRequest {
@@ -49,7 +49,7 @@ message BindContainerGroupsRequest {
 message RemoveContainerGroupRequest {
   required uint64 container_group_id = 1 [json_name = "container_group_id"];
   required uint64 pickup_location_group_id = 2 [json_name = "pickup_location_group_id"];
-  required string job_type = 3 [json_name = "job_type"];
+  required JobType job_type = 3 [json_name = "job_type"];
 }
 
 message ReorderContainerGroupsRequest {
@@ -98,17 +98,10 @@ message PreviewPickupLocationGroupJobsRequest {
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
 }
 
-// A group link the daily generator would create a job for on the day.
-message PickupLocationGroupScheduledLink {
-  required uint64 container_group_id = 1 [json_name = "container_group_id"];
-  required JobType job_type = 2 [json_name = "job_type"];
-  required google.protobuf.Timestamp tw_start_at = 3 [json_name = "tw_start_at"];
-  required google.protobuf.Timestamp tw_end_at = 4 [json_name = "tw_end_at"];
-}
-
-// Same selection as the daily generator, in step_idx order. Read-only.
+// The group's links the daily generator would create a job for on `date`, in
+// step_idx order. Read-only.
 message PickupLocationGroupJobsPreview {
-  repeated PickupLocationGroupScheduledLink links = 1 [json_name = "links"];
+  repeated ContainerGroupJobTypeLink links = 1 [json_name = "links"];
 }
 
 // Replace-set: omitted contracts are unbound. BY_NORM contracts only — the
