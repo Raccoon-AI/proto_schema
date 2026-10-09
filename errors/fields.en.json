@@ -71,5 +71,6 @@
   "plate_number": "Plate number",
   "month": "Month",
   "service_schedule_by_job_type": "Service schedule",
-  "reason": "Reason"
+  "reason": "Reason",
+  "explanation": "Explanation"
 }

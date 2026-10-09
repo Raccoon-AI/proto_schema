@@ -71,5 +71,6 @@
   "plate_number": "Гос. номер",
   "month": "Месяц",
   "service_schedule_by_job_type": "График обслуживания",
-  "reason": "Причина"
+  "reason": "Причина",
+  "explanation": "Пояснение"
 }

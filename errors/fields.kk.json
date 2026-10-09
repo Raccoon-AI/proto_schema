@@ -71,5 +71,6 @@
   "plate_number": "Мемлекеттік нөмір",
   "month": "Ай",
   "service_schedule_by_job_type": "Қызмет көрсету кестесі",
-  "reason": "Себеп"
+  "reason": "Себеп",
+  "explanation": "Түсіндірме"
 }

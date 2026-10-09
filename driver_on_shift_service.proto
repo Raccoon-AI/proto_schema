@@ -36,6 +36,8 @@ message ForceCompleteDriverOnShiftRequest {
   // One of the shift-level incident types: TRUCK_BREAKDOWN, TRAFFIC_ACCIDENT,
   // LOADERS_UNWELL, DRIVER_UNWELL or OTHER.
   required DriverIncidentType reason = 3 [json_name = "reason"];
+  // Free text from the dispatcher; required when the reason is OTHER.
+  optional string explanation = 4 [json_name = "explanation"];
 }
 
 service DriverOnShiftService {
