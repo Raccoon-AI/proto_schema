@@ -100,12 +100,9 @@ message PreviewPickupLocationGroupJobsRequest {
 
 // A group link the daily generator would create a job for on the day.
 message PickupLocationGroupScheduledLink {
-  required uint64 container_group_id = 1 [json_name = "container_group_id"];
-  required string job_type = 2 [json_name = "job_type"]; // same form as ContainerGroupJobTypeLink.job_type
-  required google.protobuf.Timestamp tw_start_at = 3 [json_name = "tw_start_at"];
-  required google.protobuf.Timestamp tw_end_at = 4 [json_name = "tw_end_at"];
-  // The day has several schedule windows; tw_* hold the first one.
-  optional bool partial_window = 5 [json_name = "partial_window"];
+  required PickupLocationGroupLinkRef link = 1 [json_name = "link"];
+  required google.protobuf.Timestamp tw_start_at = 2 [json_name = "tw_start_at"];
+  required google.protobuf.Timestamp tw_end_at = 3 [json_name = "tw_end_at"];
 }
 
 // Same selection as the daily generator, in step_idx order. Read-only.

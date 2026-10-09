@@ -114,6 +114,12 @@ message ContainerGroupJobTypeLink {
   optional uint32 step_idx = 3 [json_name = "step_idx"]; // display position in the group's list
 }
 
+// One (container group, job type) pair of a pickup location group.
+message PickupLocationGroupLinkRef {
+  required uint64 container_group_id = 1 [json_name = "container_group_id"];
+  required JobType job_type = 2 [json_name = "job_type"];
+}
+
 message PickupLocationGroup {
   required uint64 id = 1 [json_name = "id"];
   required string name = 2 [json_name = "name"];

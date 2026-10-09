@@ -8,6 +8,7 @@ import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "job.proto";
 import "organization.proto";
+import "pickup_location.proto";
 import "truck.proto";
 import "user.proto";
 
@@ -234,20 +235,14 @@ message CreateRouteFromPickupLocationGroupRequest {
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
 }
 
-// One stop of a group route. Exactly one of the two is set.
-// - link: the job for this (container group, job type) on `date`. A live
-//   unrouted job for that day is reused; otherwise one is created like the
-//   daily generator does. A job already in another route fails the request
-//   with ERROR_CODE_JOB_ALREADY_ASSIGNED.
-// - job_id: any existing unrouted job of the organization.
+// One stop of a group route, like PseudoRouteStop: exactly one field is set.
 message PickupLocationGroupRouteStop {
+  // The group link's job on `date`: the day's live unrouted job is reused,
+  // otherwise one is created like the daily generator does. A job already in
+  // another route fails with ERROR_CODE_JOB_ALREADY_ASSIGNED.
   optional PickupLocationGroupLinkRef link = 1 [json_name = "link"];
+  // Any existing unrouted job of the organization.
   optional uint64 job_id = 2 [json_name = "job_id"];
-}
-
-message PickupLocationGroupLinkRef {
-  required uint64 container_group_id = 1 [json_name = "container_group_id"];
-  required string job_type = 2 [json_name = "job_type"]; // same form as ContainerGroupJobTypeLink.job_type
 }
 
 // One route. Unset source/destination fall back to the truck's depot, as in
