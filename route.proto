@@ -234,6 +234,41 @@ message CreateRouteFromPickupLocationGroupRequest {
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
 }
 
+// One stop of a group route. Exactly one of:
+// - container_group_id + job_type: the group link's job on `date`. The day's
+//   live unrouted job is reused, otherwise one is created like the daily
+//   generator does. A job already in another route fails with
+//   ERROR_CODE_JOB_ALREADY_ASSIGNED.
+// - job_id: any existing unrouted job of the organization.
+message PickupLocationGroupRouteStop {
+  optional uint64 container_group_id = 1 [json_name = "container_group_id"];
+  optional JobType job_type = 2 [json_name = "job_type"];
+  optional uint64 job_id = 3 [json_name = "job_id"];
+}
+
+// One route. Unset source/destination fall back to the truck's depot, as in
+// the daily generator. The route category comes from the first stop.
+message PickupLocationGroupTrip {
+  optional uint64 source_location_id = 1 [json_name = "source_location_id"];
+  optional uint64 destination_location_id = 2 [json_name = "destination_location_id"]; // unloading depot
+  // In the order the dispatcher arranged them; the index is the step_idx.
+  repeated PickupLocationGroupRouteStop stops = 3 [json_name = "stops"];
+}
+
+// Manual run of the daily generator for one group and day, with the stop list
+// the dispatcher settled on. One transaction: jobs, shift, routes (CREATED).
+message BulkCreateRoutesFromPickupLocationGroupRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 pickup_location_group_id = 2 [json_name = "pickup_location_group_id"];
+  required google.protobuf.Timestamp date = 3 [json_name = "date"]; // service day, Asia/Almaty
+  // Shift to attach the routes to. Unset: the truck's shift for the day, or a
+  // new NOT_APPROVED shift without a driver.
+  optional uint64 driver_on_shift_id = 4 [json_name = "driver_on_shift_id"];
+  // Used only when driver_on_shift_id is unset. Unset: the group's default truck.
+  optional uint64 truck_id = 5 [json_name = "truck_id"];
+  repeated PickupLocationGroupTrip trips = 6 [json_name = "trips"];
+}
+
 // One stop of a pseudo-route: either a job created together with the route, or
 // an existing unrouted one picked into it. Exactly one of the two is set.
 message PseudoRouteStop {

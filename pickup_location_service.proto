@@ -4,6 +4,7 @@ package raccoonai;
 import "enums.proto";
 import "file_upload.proto";
 import "general.proto";
+import "google/protobuf/timestamp.proto";
 import "pickup_location.proto";
 
 option go_package = "./pb";
@@ -37,7 +38,7 @@ message PickupLocationListRequest {
 
 message ContainerGroupJobLink {
   required uint64 container_group_id = 1 [json_name = "container_group_id"];
-  required string job_type = 2 [json_name = "job_type"];
+  required JobType job_type = 2 [json_name = "job_type"];
 }
 
 message BindContainerGroupsRequest {
@@ -48,7 +49,7 @@ message BindContainerGroupsRequest {
 message RemoveContainerGroupRequest {
   required uint64 container_group_id = 1 [json_name = "container_group_id"];
   required uint64 pickup_location_group_id = 2 [json_name = "pickup_location_group_id"];
-  required string job_type = 3 [json_name = "job_type"];
+  required JobType job_type = 3 [json_name = "job_type"];
 }
 
 message ReorderContainerGroupsRequest {
@@ -91,6 +92,18 @@ message PickupLocationGroupListRequest {
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
+message PreviewPickupLocationGroupJobsRequest {
+  required uint64 pickup_location_group_id = 1 [json_name = "pickup_location_group_id"];
+  required google.protobuf.Timestamp date = 2 [json_name = "date"]; // service day, Asia/Almaty
+  required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
+}
+
+// The group's links the daily generator would create a job for on `date`, in
+// step_idx order. Read-only.
+message PickupLocationGroupJobsPreview {
+  repeated ContainerGroupJobTypeLink links = 1 [json_name = "links"];
+}
+
 // Replace-set: omitted contracts are unbound. BY_NORM contracts only — the
 // owner binding, pickup_location.contract_id, is not touched here.
 message SetPickupLocationContractsRequest {
@@ -116,6 +129,7 @@ service PickupLocationService {
   rpc ListPickupLocationGroups(PickupLocationGroupListRequest) returns (PickupLocationGroupList) {}
   rpc UpdatePickupLocationGroup(PickupLocationGroupUpdate) returns (PickupLocationGroup) {}
   rpc DeletePickupLocationGroup(PickupLocationGroupRequest) returns (MessageResponse) {}
+  rpc PreviewPickupLocationGroupJobs(PreviewPickupLocationGroupJobsRequest) returns (PickupLocationGroupJobsPreview) {}
 
   rpc BindContainerGroupsToPickupLocationGroup(BindContainerGroupsRequest) returns (MessageResponse) {}
   rpc UnbindContainerGroupFromPickupLocationGroup(RemoveContainerGroupRequest) returns (MessageResponse) {}

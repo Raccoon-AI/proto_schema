@@ -22,6 +22,7 @@ message TruckWithRoute {
 service RouteService {
   rpc CreateRouteWithJobs(RouteCreateWithJobsRequest) returns (Route) {}
   rpc CreateRouteFromPickupLocationGroup(CreateRouteFromPickupLocationGroupRequest) returns (Route) {}
+  rpc BulkCreateRoutesFromPickupLocationGroup(BulkCreateRoutesFromPickupLocationGroupRequest) returns (RouteList) {}
   rpc CreatePseudoRoute(PseudoRouteCreateRequest) returns (Route) {}
   rpc UpdateRouteWithJobs(RouteUpdateWithJobsRequest) returns (Route) {}
   rpc ForceCompleteRoute(RouteForceCompleteRequest) returns (Route) {}
