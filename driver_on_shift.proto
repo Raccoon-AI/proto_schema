@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "driver_incident.proto";
 import "enums.proto";
 import "general.proto";
 import "google/protobuf/struct.proto";
@@ -46,6 +47,10 @@ message DriverOnShift {
   optional double engine_hours = 26 [json_name = "engine_hours"];
   optional double mileage = 27 [json_name = "mileage"];
   optional google.protobuf.Timestamp consignment_note_done_at = 28 [json_name = "consignment_note_done_at"];
+  // Set only by ForceCompleteDriverOnShift: why the dispatcher ended the shift
+  // ahead of its work (a shift-level incident type) and their explanation.
+  optional DriverIncidentType force_complete_reason = 29 [json_name = "force_complete_reason"];
+  optional string force_complete_explanation = 30 [json_name = "force_complete_explanation"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
