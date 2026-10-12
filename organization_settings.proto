@@ -9,9 +9,9 @@ import "notification.proto";
 option go_package = "./pb";
 
 // Who gets notified about an event, through which channels, and whether they
-// may mute it. audience accepts USER_ROLE_PROVIDER_DISPATCHER,
-// USER_ROLE_PROVIDER_MECHANIC, USER_ROLE_PROVIDER_SALES, USER_ROLE_PROVIDER_OWNER,
-// USER_ROLE_DRIVER and USER_ROLE_RECEIVER_USER; other roles are rejected.
+// may mute it. audience accepts USER_ROLE_RECEIVER_USER, USER_ROLE_DRIVER,
+// USER_ROLE_PROVIDER_MECHANIC and USER_ROLE_PROVIDER_DISPATCHER; other roles
+// are rejected until they have a recipient resolver.
 message NotificationRule {
   required NotificationEvent event = 1 [json_name = "event"];
   required UserRole audience = 2 [json_name = "audience"];

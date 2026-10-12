@@ -55,6 +55,10 @@ enum AuditLogType {
   AUDIT_LOG_TYPE_ROUTE_MANUALLY_COMPLETED = 254;
   AUDIT_LOG_TYPE_ROUTE_CANCELLED = 255;
   AUDIT_LOG_TYPE_ROUTE_COMPLETED = 256;
+  // Route moved NOT_APPROVED -> CREATED.
+  AUDIT_LOG_TYPE_ROUTE_APPROVED = 257;
+  // Jobs added to or removed from a route; ids in fields.added_job_ids / removed_job_ids.
+  AUDIT_LOG_TYPE_ROUTE_JOBS_CHANGED = 258;
 
   // addition and update events
   AUDIT_LOG_TYPE_CLIENT_ADDED = 301;

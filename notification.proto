@@ -24,6 +24,14 @@ enum NotificationEvent {
   NOTIFICATION_EVENT_JOB_COMPLETED = 4;
   NOTIFICATION_EVENT_CONTRACT_EXPIRING = 5;
   NOTIFICATION_EVENT_WORK_ACT_AND_INVOICE_ISSUED = 6;
+  // Driver: a route is assigned to you (created approved, or approved later).
+  NOTIFICATION_EVENT_ROUTE_ASSIGNED = 7;
+  // Driver: jobs were added to or removed from your route in progress.
+  NOTIFICATION_EVENT_ROUTE_CHANGED = 8;
+  // Mechanic: a driver reported a truck breakdown.
+  NOTIFICATION_EVENT_TRUCK_BREAKDOWN = 9;
+  // Dispatcher: a driver could not do a job (blocked, no access, wrong equipment).
+  NOTIFICATION_EVENT_JOB_SKIPPED = 10;
 }
 
 enum NotificationChannel {
