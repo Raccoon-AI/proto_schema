@@ -22,7 +22,7 @@ enum TruckType {
   TRUCK_TYPE_MSW = 3;
   TRUCK_TYPE_TIPPER = 4; // samosval
   TRUCK_TYPE_LIQUID_WASTE = 5;
-  TRUCK_TYPE_CRANE_MANIPULATOR = 6; // КМУ (кран-манипулятор)
+  TRUCK_TYPE_LOADER_CRANE = 6; // КМУ (кран-манипулятор)
 }
 
 enum TruckLoadType {
@@ -191,6 +191,9 @@ enum RouteStatus {
 
   // Marks Planned Routes for drivers but not Approved, can not be triggered by driver
   ROUTE_STATUS_NOT_APPROVED = 7;
+  // Terminal: a route that carries nothing (e.g. loader crane feeding a dump truck) ends at its
+  // last stop with no destination. Not emitted yet; clients must know the value before the server does.
+  ROUTE_STATUS_COMPLETED_ON_SITE = 8;
 }
 
 enum RouteCategory {
