@@ -191,8 +191,7 @@ enum RouteStatus {
 
   // Marks Planned Routes for drivers but not Approved, can not be triggered by driver
   ROUTE_STATUS_NOT_APPROVED = 7;
-  // Terminal: a route that carries nothing (e.g. loader crane feeding a dump truck) ends at its
-  // last stop with no destination. Not emitted yet; clients must know the value before the server does.
+  // Terminal: a route that carries nothing ends at its last stop, with no destination.
   ROUTE_STATUS_COMPLETED_ON_SITE = 8;
 }
 
