@@ -98,6 +98,7 @@ message CustomTruckType {
   optional TruckStandard euro_type = 12 [json_name = "euro_type"];
   optional uint32 truck_count = 13 [json_name = "truck_count"];
   optional TruckEngineType engine_type = 14 [json_name = "engine_type"];
+  repeated TruckFeature features = 15 [json_name = "features"];
 
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -115,6 +116,7 @@ message CustomTruckTypeCreate {
   repeated TruckCapabilityUpsert truck_type_capabilities = 9 [json_name = "truck_type_capabilities_upsert"];
   optional TruckLoadType load_type = 10 [json_name = "load_type"];
   optional TruckStandard euro_type = 11 [json_name = "euro_type"];
+  repeated TruckFeature features = 12 [json_name = "features"];
 }
 
 message CustomTruckTypeUpdate {
@@ -136,6 +138,12 @@ message CustomTruckTypeUpdate {
   ];
   optional TruckLoadType load_type = 12 [json_name = "load_type"];
   optional TruckStandard euro_type = 13 [json_name = "euro_type"];
+  repeated TruckFeature features = 14 [json_name = "features"];
+  // Same contract as to_update_matrix: true replaces features with the request's list (empty clears).
+  optional bool to_update_features = 15 [
+    default = true,
+    json_name = "update_features"
+  ];
 }
 
 message CustomTruckTypeList {
