@@ -33,13 +33,6 @@ enum TruckLoadType {
   TRUCK_LOAD_TYPE_TOP = 4;
 }
 
-// What a truck type can do on site, beyond its container/job capability matrix.
-enum TruckFeature {
-  TRUCK_FEATURE_UNDEFINED = 0;
-  TRUCK_FEATURE_ACCEPTS_EXTERNAL_LOAD = 1; // Принимает загрузку от другой техники (самосвал под КМУ)
-  TRUCK_FEATURE_SELF_LOADING = 2; // Самопогрузка (КМУ, грейфер)
-}
-
 enum TruckStandard {
   TRUCK_STANDARD_UNDEFINED = 0;
   TRUCK_STANDARD_EURO_1 = 1;
