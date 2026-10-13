@@ -88,6 +88,8 @@ message PickupLocationGroupListRequest {
   // Only groups with a container group binding for this job type (combined with
   // service_receiver_ids: the same binding must satisfy both).
   optional JobType job_type = 3 [json_name = "job_type"];
+  // Only groups bound to one of these container groups (for the job form's route group select).
+  repeated uint64 container_group_ids = 4 [json_name = "container_group_ids"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 

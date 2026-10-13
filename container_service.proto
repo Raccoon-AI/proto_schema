@@ -33,6 +33,67 @@ message ContainerGroupListRequest {
   // Only container groups whose pickup location group binding carries this job
   // type (combined with pickup_location_group_ids: the same binding must satisfy both).
   optional JobType job_type = 6 [json_name = "job_type"];
+  // Only container groups whose responsible zone holds one of these divisions.
+  repeated uint64 division_ids = 7 [json_name = "division_ids"];
+}
+
+// The schedule is authorized through its container group's contract, so requests carry no organization.
+message ContainerGroupScheduleCreate {
+  required uint64 container_group_id = 1 [json_name = "container_group_id"];
+  required JobType job_type = 2 [json_name = "job_type"];
+  optional uint64 division_id = 3 [json_name = "division_id"];
+  optional string valid_from = 4 [json_name = "valid_from"];
+  optional string valid_to = 5 [json_name = "valid_to"];
+  required ScheduleType schedule_type = 6 [json_name = "schedule_type"];
+  required ScheduleRules rules = 7 [json_name = "rules"];
+}
+
+// The container group and the job type of a schedule do not change; create another schedule instead.
+message ContainerGroupScheduleUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  optional uint64 division_id = 2 [json_name = "division_id"];
+  optional string valid_from = 3 [json_name = "valid_from"];
+  optional string valid_to = 4 [json_name = "valid_to"];
+  optional ScheduleType schedule_type = 5 [json_name = "schedule_type"];
+  optional ScheduleRules rules = 6 [json_name = "rules"];
+  optional bool clear_valid_to = 7 [json_name = "clear_valid_to"]; // an unset valid_to cannot say "open-ended"
+}
+
+message ContainerGroupScheduleRequest {
+  required uint64 id = 1 [json_name = "id"];
+}
+
+message ContainerGroupScheduleListRequest {
+  repeated uint64 container_group_ids = 1 [json_name = "container_group_ids"];
+  repeated uint64 pickup_location_ids = 2 [json_name = "pickup_location_ids"];
+  optional JobType job_type = 3 [json_name = "job_type"];
+  repeated uint64 division_ids = 4 [json_name = "division_ids"];
+  optional string active_on = 5 [json_name = "active_on"]; // YYYY-MM-DD within the validity period
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
+}
+
+// Days a saved schedule, or a draft, puts a pickup on; the same evaluation the generator uses.
+message PreviewScheduleRequest {
+  optional uint64 schedule_id = 1 [json_name = "schedule_id"];
+  optional ContainerGroupScheduleCreate draft = 2 [json_name = "draft"];
+  optional uint64 exclude_schedule_id = 3 [json_name = "exclude_schedule_id"]; // the one being edited
+  optional string from = 4 [json_name = "from"]; // default max(today, valid_from)
+  optional string to = 5 [json_name = "to"]; // default min(valid_to, from + 90 days)
+}
+
+message ScheduleOccurrence {
+  required string date = 1 [json_name = "date"];
+  repeated ScheduleWindow windows = 2 [json_name = "windows"];
+}
+
+message ScheduleConflict {
+  required string date = 1 [json_name = "date"];
+  required uint64 schedule_id = 2 [json_name = "schedule_id"];
+}
+
+message PreviewScheduleResponse {
+  repeated ScheduleOccurrence occurrences = 1 [json_name = "occurrences"];
+  repeated ScheduleConflict conflicts = 2 [json_name = "conflicts"];
 }
 
 message CompatibleContainerGroupsRequest {
@@ -77,6 +138,13 @@ service ContainerService {
   rpc ListContainerGroups(ContainerGroupListRequest) returns (ContainerGroupList) {}
   rpc DeleteContainerGroup(ContainerGroupRequest) returns (MessageResponse) {}
   rpc ListCompatibleContainerGroupsForTruck(CompatibleContainerGroupsRequest) returns (ContainerGroupList) {}
+
+  // ContainerGroupSchedule
+  rpc CreateContainerGroupSchedule(ContainerGroupScheduleCreate) returns (ContainerGroupSchedule) {}
+  rpc UpdateContainerGroupSchedule(ContainerGroupScheduleUpdate) returns (ContainerGroupSchedule) {}
+  rpc DeleteContainerGroupSchedule(ContainerGroupScheduleRequest) returns (MessageResponse) {}
+  rpc ListContainerGroupSchedules(ContainerGroupScheduleListRequest) returns (ContainerGroupScheduleList) {}
+  rpc PreviewSchedule(PreviewScheduleRequest) returns (PreviewScheduleResponse) {}
 
   // Container operations
   rpc CreateContainer(ContainerCreate) returns (Container) {}

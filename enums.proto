@@ -308,6 +308,31 @@ enum OrganizationType {
   ORGANIZATION_TYPE_GOVERNMENT = 5;
 }
 
+// Place of a service provider in a holding: a contract is signed by a legal entity, a division does the work.
+enum OrganizationKind {
+  ORGANIZATION_KIND_UNDEFINED = 0;
+  ORGANIZATION_KIND_HOLDING = 1;
+  ORGANIZATION_KIND_LEGAL_ENTITY = 2;
+  ORGANIZATION_KIND_DIVISION = 3;
+}
+
+enum ScheduleType {
+  SCHEDULE_TYPE_UNDEFINED = 0;
+  SCHEDULE_TYPE_WEEKLY = 1;
+  SCHEDULE_TYPE_MONTHLY = 2;
+  SCHEDULE_TYPE_EVERY_N_DAYS = 3;
+  SCHEDULE_TYPE_LEGACY = 4; // a pre-table cron string, read-only
+}
+
+// Which rule picked a job's division.
+enum JobDivisionSource {
+  JOB_DIVISION_SOURCE_UNDEFINED = 0;
+  JOB_DIVISION_SOURCE_ROUTE_GROUP = 1;
+  JOB_DIVISION_SOURCE_SCHEDULE = 2;
+  JOB_DIVISION_SOURCE_ZONE = 3;
+  JOB_DIVISION_SOURCE_CONTRACT = 4;
+}
+
 // *****************************************************
 // ORGANIZATION ENUMS
 // *****************************************************

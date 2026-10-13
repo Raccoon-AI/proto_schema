@@ -74,5 +74,12 @@
   "role": "Role",
   "resource": "Module",
   "action": "Action",
-  "organization_type": "Organization type"
+  "organization_type": "Organization type",
+  "division_ids": "Responsible zone",
+  "division_id": "Responsible depot",
+  "kind": "Organization kind",
+  "valid_from": "Valid from",
+  "valid_to": "Valid until",
+  "rules": "Schedule",
+  "schedule_type": "Schedule type"
 }

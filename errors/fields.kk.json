@@ -74,5 +74,12 @@
   "role": "Рөл",
   "resource": "Модуль",
   "action": "Әрекет",
-  "organization_type": "Ұйым түрі"
+  "organization_type": "Ұйым түрі",
+  "division_ids": "Жауапкершілік аймағы",
+  "division_id": "Жауапты депо",
+  "kind": "Ұйым түрі",
+  "valid_from": "Басталуы",
+  "valid_to": "Аяқталуы",
+  "rules": "Кесте",
+  "schedule_type": "Кесте түрі"
 }

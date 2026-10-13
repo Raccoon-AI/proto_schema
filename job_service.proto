@@ -4,7 +4,9 @@ package raccoonai;
 import "enums.proto";
 import "file_upload.proto";
 import "general.proto";
+import "google/protobuf/timestamp.proto";
 import "job.proto";
+import "organization.proto";
 
 option go_package = "./pb";
 
@@ -59,6 +61,26 @@ message DetachJobInstructionsRequest {
   repeated uint64 file_ids = 3 [json_name = "file_ids"];
 }
 
+// The division a new job would get, for the read-only "responsible depot" field of the job form.
+message ResolveJobDivisionRequest {
+  required uint64 container_group_id = 1 [json_name = "container_group_id"];
+  required JobType job_type = 2 [json_name = "job_type"];
+  optional uint64 pickup_location_group_id = 3 [json_name = "pickup_location_group_id"];
+  optional google.protobuf.Timestamp tw_start_at = 4 [json_name = "tw_start_at"];
+}
+
+message ResolveJobDivisionResponse {
+  required Organization division = 1 [json_name = "division"];
+  required JobDivisionSource source = 2 [json_name = "source"];
+  optional uint64 schedule_id = 3 [json_name = "schedule_id"];
+  optional uint64 pickup_location_group_id = 4 [json_name = "pickup_location_group_id"];
+}
+
+// Divisions the caller may move a job to: its container group's zone the caller can edit jobs in.
+message JobDivisionOptionsRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+}
+
 service JobService {
   rpc CreateJob(JobCreate) returns (Job) {}
   rpc GetJobById(JobRequest) returns (Job) {}
@@ -74,4 +96,6 @@ service JobService {
   // COMPLETED or FORCE_COMPLETED job, when the driver could not. Needs can_edit
   // on the job.
   rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
+  rpc ResolveJobDivision(ResolveJobDivisionRequest) returns (ResolveJobDivisionResponse) {}
+  rpc ListJobDivisionOptions(JobDivisionOptionsRequest) returns (OrganizationList) {}
 }

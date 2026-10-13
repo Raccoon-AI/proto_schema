@@ -3,6 +3,7 @@ package raccoonai;
 
 import "ai_verification.proto";
 import "container_group.proto";
+import "contract.proto";
 import "driver_on_shift.proto";
 import "enums.proto";
 import "file_upload.proto";
@@ -83,6 +84,10 @@ message Job {
   repeated double container_coefficients = 53 [json_name = "container_coefficients"];
   // m³ actually taken: Σcoefficient × container volume, or the dispatcher's override.
   optional double fact_total_volume = 54 [json_name = "fact_total_volume"];
+  // 55 is updated_by on main.
+  optional uint64 contract_id = 56 [json_name = "contract_id"]; // the contract the job was created under
+  optional uint64 schedule_id = 57 [json_name = "schedule_id"]; // the schedule that generated it, if any
+  optional Contract contract = 58 [json_name = "contract"];
 }
 
 message JobCreate {

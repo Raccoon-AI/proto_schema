@@ -74,5 +74,12 @@
   "role": "Роль",
   "resource": "Модуль",
   "action": "Действие",
-  "organization_type": "Тип организации"
+  "organization_type": "Тип организации",
+  "division_ids": "Зона ответственности",
+  "division_id": "Ответственное депо",
+  "kind": "Вид организации",
+  "valid_from": "Действует с",
+  "valid_to": "Действует до",
+  "rules": "График",
+  "schedule_type": "Тип графика"
 }
