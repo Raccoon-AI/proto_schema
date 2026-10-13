@@ -17,6 +17,7 @@
   "contract": "Договор",
   "contract_id": "Договор",
   "date": "Дата",
+  "destination_location_id": "Место назначения",
   "disposal_site_id": "Полигон",
   "driver_id": "Водитель",
   "driver_incident": "Инцидент водителя",
