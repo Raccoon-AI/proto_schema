@@ -32,6 +32,8 @@ enum NotificationEvent {
   NOTIFICATION_EVENT_TRUCK_BREAKDOWN = 9;
   // Dispatcher: a driver could not do a job (blocked, no access, wrong equipment).
   NOTIFICATION_EVENT_JOB_SKIPPED = 10;
+  // Customer: an invoice is past its due date. Dormant until invoices live in the platform.
+  NOTIFICATION_EVENT_OVERDUE_PAYMENT = 11;
 }
 
 enum NotificationChannel {
