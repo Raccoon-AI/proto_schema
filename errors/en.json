@@ -175,6 +175,5 @@
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_OVERLAP": "On {{date}} this schedule overlaps schedule {{schedule}}",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_RULES": "Invalid schedule rules",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_PERIOD": "The schedule must start on or before it ends",
-  "ERROR_CODE_CONTAINER_GROUP_ROUTE_GROUP_OUTSIDE_ZONE": "The route group's organization is not in the responsible zone of container group {{id}}",
-  "ERROR_CODE_ORGANIZATION_NOT_LEGAL_ENTITY": "{{organization}} is not a legal entity"
+  "ERROR_CODE_CONTAINER_GROUP_ROUTE_GROUP_OUTSIDE_ZONE": "The route group's organization is not in the responsible zone of container group {{id}}"
 }

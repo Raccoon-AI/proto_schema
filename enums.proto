@@ -308,14 +308,6 @@ enum OrganizationType {
   ORGANIZATION_TYPE_GOVERNMENT = 5;
 }
 
-// Place of a service provider in a holding: a contract is signed by a legal entity, a division does the work.
-enum OrganizationKind {
-  ORGANIZATION_KIND_UNDEFINED = 0;
-  ORGANIZATION_KIND_HOLDING = 1;
-  ORGANIZATION_KIND_LEGAL_ENTITY = 2;
-  ORGANIZATION_KIND_DIVISION = 3;
-}
-
 // Which rule picked a job's division.
 enum JobDivisionSource {
   JOB_DIVISION_SOURCE_UNDEFINED = 0;

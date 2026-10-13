@@ -26,7 +26,6 @@ message Organization {
   optional OrganizationSettings organization_settings = 14 [json_name = "organization_settings"];
   optional uint64 manager_id = 15 [json_name = "manager_id"];
   optional UserRef manager = 16 [json_name = "manager"];
-  optional OrganizationKind kind = 17 [json_name = "kind"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -55,7 +54,6 @@ message OrganizationCreate {
   optional string director_full_name = 6 [json_name = "director_full_name"];
   optional uint64 parent_id = 7 [json_name = "parent_id"];
   optional uint64 manager_id = 8 [json_name = "manager_id"];
-  optional OrganizationKind kind = 9 [json_name = "kind"]; // admin only
 }
 
 message ServiceReceiverCreate {
@@ -76,14 +74,12 @@ message OrganizationUpdate {
   optional string fact_address = 8 [json_name = "fact_address"];
   optional string director_full_name = 9 [json_name = "director_full_name"];
   optional uint64 manager_id = 10 [json_name = "manager_id"];
-  optional OrganizationKind kind = 11 [json_name = "kind"]; // admin only
 }
 
 message OrganizationListRequest {
   optional OrganizationType type = 1 [json_name = "type"];
   optional OrganizationStatus status = 2 [json_name = "status"];
   optional string search_query = 3 [json_name = "search_query"];
-  repeated OrganizationKind kinds = 4 [json_name = "kinds"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
@@ -95,12 +91,10 @@ message OrganizationList {
 // The organization and every descendant, for picking a node in the tree.
 message OrganizationSubtreeRequest {
   required uint64 organization_id = 1 [json_name = "organization_id"];
-  repeated OrganizationKind kinds = 2 [json_name = "kinds"];
 }
 
 // Organizations where the caller holds action on resource, directly or through an ancestor.
 message AccessibleOrganizationListRequest {
   required string resource = 1 [json_name = "resource"]; // e.g. "truck", "job"
   optional string action = 2 [json_name = "action"]; // can_view (default), can_edit, can_manage
-  repeated OrganizationKind kinds = 3 [json_name = "kinds"];
 }
