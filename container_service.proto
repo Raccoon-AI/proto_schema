@@ -42,17 +42,22 @@ message ContainerGroupScheduleCreate {
   required uint64 container_group_id = 1 [json_name = "container_group_id"];
   required JobType job_type = 2 [json_name = "job_type"];
   optional uint64 division_id = 3 [json_name = "division_id"];
-  required string valid_from = 4 [json_name = "valid_from"]; // anchors EVERY_N_DAYS
+  required string valid_from = 4 [json_name = "valid_from"]; // anchors every-N-days rules
   optional string valid_to = 5 [json_name = "valid_to"];
+  reserved 6;
+  reserved "schedule_type";
   required ScheduleRules rules = 7 [json_name = "rules"];
 }
 
 // The container group and the job type of a schedule do not change; create another schedule instead.
+// A value and its clear_* flag together are rejected; every-N-days rules need a valid_from after the update.
 message ContainerGroupScheduleUpdate {
   required uint64 id = 1 [json_name = "id"];
   optional uint64 division_id = 2 [json_name = "division_id"];
   optional string valid_from = 3 [json_name = "valid_from"];
   optional string valid_to = 4 [json_name = "valid_to"];
+  reserved 5;
+  reserved "schedule_type";
   optional ScheduleRules rules = 6 [json_name = "rules"];
   optional bool clear_valid_to = 7 [json_name = "clear_valid_to"]; // an unset field cannot say "open-ended"
   optional bool clear_division_id = 8 [json_name = "clear_division_id"]; // back to the zone's default
@@ -72,11 +77,22 @@ message ContainerGroupScheduleListRequest {
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
+// A schedule form as the user fills it: nothing is required yet.
+message ScheduleDraft {
+  optional uint64 container_group_id = 1 [json_name = "container_group_id"];
+  optional JobType job_type = 2 [json_name = "job_type"];
+  optional uint64 division_id = 3 [json_name = "division_id"];
+  optional string valid_from = 4 [json_name = "valid_from"];
+  optional string valid_to = 5 [json_name = "valid_to"];
+  optional ScheduleRules rules = 6 [json_name = "rules"];
+}
+
 // Days a saved schedule, or a draft, puts a pickup on; the same evaluation the generator uses.
+// Overlap is per day: a container group gets one job per job type and day, whatever the windows.
 message PreviewScheduleRequest {
   oneof source {
     uint64 schedule_id = 1 [json_name = "schedule_id"];
-    ContainerGroupScheduleCreate draft = 2 [json_name = "draft"];
+    ScheduleDraft draft = 2 [json_name = "draft"];
   }
   optional uint64 exclude_schedule_id = 3 [json_name = "exclude_schedule_id"]; // the one being edited
   optional string from = 4 [json_name = "from"]; // default max(today, valid_from)

@@ -69,7 +69,7 @@ message ContainerGroup {
   // Responsible zone: the divisions that serve the group, in order; the first is the default for a new job.
   repeated uint64 division_ids = 13 [json_name = "division_ids"];
   repeated Organization divisions = 14 [json_name = "divisions"];
-  repeated ContainerGroupSchedule schedules = 15 [json_name = "schedules"];
+  repeated ContainerGroupSchedule schedules = 15 [json_name = "schedules"]; // filled by GetContainerGroupById only
   repeated ContainerGroupRouteGroup route_groups = 16 [json_name = "route_groups"];
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -131,16 +131,18 @@ message MonthlyRule {
 }
 
 message EveryNDaysRule {
-  required uint32 n = 1 [json_name = "n"]; // counted from valid_from
+  required uint32 n = 1 [json_name = "n"]; // >= 1, counted from valid_from
   repeated ScheduleWindow windows = 2 [json_name = "windows"];
 }
 
 message WeeklyRules {
   repeated WeeklyRule days = 1 [json_name = "days"];
+  repeated uint32 months = 2 [json_name = "months"]; // 1-12; empty = every month
 }
 
 message MonthlyRules {
   repeated MonthlyRule days = 1 [json_name = "days"];
+  repeated uint32 months = 2 [json_name = "months"]; // 1-12; empty = every month
 }
 
 // One kind per schedule; the kind is the schedule's type.
@@ -149,8 +151,9 @@ message ScheduleRules {
     WeeklyRules weekly = 1 [json_name = "weekly"];
     MonthlyRules monthly = 2 [json_name = "monthly"];
     EveryNDaysRule every_n_days = 3 [json_name = "every_n_days"];
-    string legacy_expr = 4 [json_name = "legacy_expr"]; // a pre-table cron string, read-only
   }
+  reserved 4;
+  reserved "legacy_expr"; // read-only on ContainerGroupSchedule.legacy_expr
 }
 
 message ContainerGroupSchedule {
@@ -161,7 +164,10 @@ message ContainerGroupSchedule {
   optional Organization division = 5 [json_name = "division"];
   optional string valid_from = 6 [json_name = "valid_from"]; // YYYY-MM-DD, Asia/Almaty, inclusive; unset only on legacy rows
   optional string valid_to = 7 [json_name = "valid_to"];
-  required ScheduleRules rules = 9 [json_name = "rules"];
+  reserved 8;
+  reserved "schedule_type";
+  optional ScheduleRules rules = 9 [json_name = "rules"]; // unset on a legacy row
+  optional string legacy_expr = 10 [json_name = "legacy_expr"]; // a pre-table cron string; read-only, never accepted on writes
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
 }

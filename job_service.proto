@@ -70,7 +70,7 @@ message ResolveJobDivisionRequest {
 }
 
 message ResolveJobDivisionResponse {
-  required uint64 division_id = 5 [json_name = "division_id"];
+  optional uint64 division_id = 5 [json_name = "division_id"]; // unset when nothing resolves (source UNDEFINED)
   optional Organization division = 1 [json_name = "division"];
   required JobDivisionSource source = 2 [json_name = "source"];
   optional uint64 schedule_id = 3 [json_name = "schedule_id"];
