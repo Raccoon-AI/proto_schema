@@ -144,6 +144,7 @@ message JobUpdate {
   optional JobCategory job_category = 31 [json_name = "job_category"];
   optional uint64 container_type_id = 32 [json_name = "container_type_id"];
   optional bool receiver_notified = 33 [json_name = "receiver_notified"];
+  optional uint64 container_group_id = 34 [json_name = "container_group_id"];
 }
 
 message JobList {
