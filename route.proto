@@ -53,6 +53,8 @@ message Route {
   optional double mileage = 30 [json_name = "mileage"];
   optional double weight_kg = 31 [json_name = "weight_kg"];
   optional double volume = 32 [json_name = "volume"];
+  // The route ends at its last stop instead of driving to a destination.
+  optional bool no_unloading = 33 [json_name = "no_unloading"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -126,8 +128,8 @@ message RouteCreate {
   required uint64 driver_on_shift_id = 2 [json_name = "driver_on_shift_id"];
   required double source_lon = 3 [json_name = "source_lon"];
   required double source_lat = 4 [json_name = "source_lat"];
-  required double destination_lon = 5 [json_name = "destination_lon"];
-  required double destination_lat = 6 [json_name = "destination_lat"];
+  optional double destination_lon = 5 [json_name = "destination_lon"];
+  optional double destination_lat = 6 [json_name = "destination_lat"];
   optional uint64 author_id = 7 [json_name = "author_id"];
   optional google.protobuf.Timestamp plan_start_at = 8 [json_name = "plan_start_at"];
   optional google.protobuf.Timestamp plan_end_at = 9 [json_name = "plan_end_at"];
@@ -135,8 +137,10 @@ message RouteCreate {
   optional bool is_pseudo = 11 [json_name = "is_pseudo"];
   optional double netto = 12 [json_name = "netto"];
   optional uint64 source_location_id = 13 [json_name = "source_location_id"];
-  required uint64 destination_location_id = 14 [json_name = "destination_location_id"];
+  optional uint64 destination_location_id = 14 [json_name = "destination_location_id"];
   required RouteCategory route_category = 15 [json_name = "route_category"];
+  // Set by the dispatcher: the route ends at its last stop, no unloading trip.
+  optional bool no_unloading = 16 [json_name = "no_unloading"];
 }
 
 message RouteUpdate {
@@ -160,6 +164,7 @@ message RouteUpdate {
   optional google.protobuf.Timestamp gps_start_at = 19 [json_name = "gps_start_at"];
   optional google.protobuf.Timestamp gps_end_at = 20 [json_name = "gps_end_at"]; // to be deprecated
   optional RouteCategory route_category = 21 [json_name = "route_category"]; // to be deprecated
+  optional bool no_unloading = 22 [json_name = "no_unloading"];
 }
 
 message RouteCreateWithJobsRequest { // deprecate and move to route create once migration from old BE finishes

@@ -17,6 +17,7 @@
   "contract": "Contract",
   "contract_id": "Contract",
   "date": "Date",
+  "destination_location_id": "Destination location",
   "disposal_site_id": "Disposal site",
   "driver_id": "Driver",
   "driver_incident": "Driver incident",
