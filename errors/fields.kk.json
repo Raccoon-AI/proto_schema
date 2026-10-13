@@ -77,9 +77,8 @@
   "organization_type": "Ұйым түрі",
   "division_ids": "Жауапкершілік аймағы",
   "division_id": "Жауапты депо",
-  "kind": "Ұйым түрі",
+  "kind": "Ұйым санаты",
   "valid_from": "Басталуы",
   "valid_to": "Аяқталуы",
-  "rules": "Кесте",
-  "schedule_type": "Кесте түрі"
+  "rules": "Кесте"
 }

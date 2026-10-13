@@ -316,14 +316,6 @@ enum OrganizationKind {
   ORGANIZATION_KIND_DIVISION = 3;
 }
 
-enum ScheduleType {
-  SCHEDULE_TYPE_UNDEFINED = 0;
-  SCHEDULE_TYPE_WEEKLY = 1;
-  SCHEDULE_TYPE_MONTHLY = 2;
-  SCHEDULE_TYPE_EVERY_N_DAYS = 3;
-  SCHEDULE_TYPE_LEGACY = 4; // a pre-table cron string, read-only
-}
-
 // Which rule picked a job's division.
 enum JobDivisionSource {
   JOB_DIVISION_SOURCE_UNDEFINED = 0;

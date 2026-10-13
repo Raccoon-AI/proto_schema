@@ -42,9 +42,8 @@ message ContainerGroupScheduleCreate {
   required uint64 container_group_id = 1 [json_name = "container_group_id"];
   required JobType job_type = 2 [json_name = "job_type"];
   optional uint64 division_id = 3 [json_name = "division_id"];
-  optional string valid_from = 4 [json_name = "valid_from"];
+  required string valid_from = 4 [json_name = "valid_from"]; // anchors EVERY_N_DAYS
   optional string valid_to = 5 [json_name = "valid_to"];
-  required ScheduleType schedule_type = 6 [json_name = "schedule_type"];
   required ScheduleRules rules = 7 [json_name = "rules"];
 }
 
@@ -54,15 +53,16 @@ message ContainerGroupScheduleUpdate {
   optional uint64 division_id = 2 [json_name = "division_id"];
   optional string valid_from = 3 [json_name = "valid_from"];
   optional string valid_to = 4 [json_name = "valid_to"];
-  optional ScheduleType schedule_type = 5 [json_name = "schedule_type"];
   optional ScheduleRules rules = 6 [json_name = "rules"];
-  optional bool clear_valid_to = 7 [json_name = "clear_valid_to"]; // an unset valid_to cannot say "open-ended"
+  optional bool clear_valid_to = 7 [json_name = "clear_valid_to"]; // an unset field cannot say "open-ended"
+  optional bool clear_division_id = 8 [json_name = "clear_division_id"]; // back to the zone's default
 }
 
 message ContainerGroupScheduleRequest {
   required uint64 id = 1 [json_name = "id"];
 }
 
+// At least one of container_group_ids or pickup_location_ids is required: they carry the authorization.
 message ContainerGroupScheduleListRequest {
   repeated uint64 container_group_ids = 1 [json_name = "container_group_ids"];
   repeated uint64 pickup_location_ids = 2 [json_name = "pickup_location_ids"];
@@ -74,8 +74,10 @@ message ContainerGroupScheduleListRequest {
 
 // Days a saved schedule, or a draft, puts a pickup on; the same evaluation the generator uses.
 message PreviewScheduleRequest {
-  optional uint64 schedule_id = 1 [json_name = "schedule_id"];
-  optional ContainerGroupScheduleCreate draft = 2 [json_name = "draft"];
+  oneof source {
+    uint64 schedule_id = 1 [json_name = "schedule_id"];
+    ContainerGroupScheduleCreate draft = 2 [json_name = "draft"];
+  }
   optional uint64 exclude_schedule_id = 3 [json_name = "exclude_schedule_id"]; // the one being edited
   optional string from = 4 [json_name = "from"]; // default max(today, valid_from)
   optional string to = 5 [json_name = "to"]; // default min(valid_to, from + 90 days)

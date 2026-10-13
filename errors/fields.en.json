@@ -80,6 +80,5 @@
   "kind": "Organization kind",
   "valid_from": "Valid from",
   "valid_to": "Valid until",
-  "rules": "Schedule",
-  "schedule_type": "Schedule type"
+  "rules": "Schedule"
 }

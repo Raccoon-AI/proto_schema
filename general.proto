@@ -308,6 +308,11 @@ message EmptyMessageRequest {}
 
 message EmptyMessageResponse {}
 
+// A clearable id list in an update: absent keeps the stored list, present and empty clears it.
+message IdList {
+  repeated uint64 ids = 1 [json_name = "ids"];
+}
+
 message IdRequest {
   required uint64 id = 1 [json_name = "id"];
 }

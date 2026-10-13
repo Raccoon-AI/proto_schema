@@ -83,11 +83,6 @@ message ContainerGroupRouteGroup {
   required uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
 }
 
-// Wraps the zone in an update, so an absent field keeps it and an empty one clears it.
-message DivisionIds {
-  repeated uint64 ids = 1 [json_name = "ids"];
-}
-
 message ContainerGroupCreate {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   required uint64 container_type_id = 2 [json_name = "container_type_id"];
@@ -108,7 +103,7 @@ message ContainerGroupUpdate {
   optional google.protobuf.Struct service_schedule_by_job_type = 6 [json_name = "service_schedule_by_job_type"];
   optional uint64 contract_id = 7 [json_name = "contract_id"];
   optional uint64 primary_contact_id = 8 [json_name = "primary_contact_id"];
-  optional DivisionIds division_ids = 9 [json_name = "division_ids"];
+  optional IdList division_ids = 9 [json_name = "division_ids"];
 }
 
 message ContainerGroupList {
@@ -140,11 +135,22 @@ message EveryNDaysRule {
   repeated ScheduleWindow windows = 2 [json_name = "windows"];
 }
 
+message WeeklyRules {
+  repeated WeeklyRule days = 1 [json_name = "days"];
+}
+
+message MonthlyRules {
+  repeated MonthlyRule days = 1 [json_name = "days"];
+}
+
+// One kind per schedule; the kind is the schedule's type.
 message ScheduleRules {
-  repeated WeeklyRule weekly = 1 [json_name = "weekly"];
-  repeated MonthlyRule monthly = 2 [json_name = "monthly"];
-  optional EveryNDaysRule every_n_days = 3 [json_name = "every_n_days"];
-  optional string legacy_expr = 4 [json_name = "legacy_expr"];
+  oneof rule {
+    WeeklyRules weekly = 1 [json_name = "weekly"];
+    MonthlyRules monthly = 2 [json_name = "monthly"];
+    EveryNDaysRule every_n_days = 3 [json_name = "every_n_days"];
+    string legacy_expr = 4 [json_name = "legacy_expr"]; // a pre-table cron string, read-only
+  }
 }
 
 message ContainerGroupSchedule {
@@ -153,9 +159,8 @@ message ContainerGroupSchedule {
   required JobType job_type = 3 [json_name = "job_type"];
   optional uint64 division_id = 4 [json_name = "division_id"]; // unset: the zone's first division, then the contract provider
   optional Organization division = 5 [json_name = "division"];
-  optional string valid_from = 6 [json_name = "valid_from"]; // YYYY-MM-DD, Asia/Almaty, inclusive
+  optional string valid_from = 6 [json_name = "valid_from"]; // YYYY-MM-DD, Asia/Almaty, inclusive; unset only on legacy rows
   optional string valid_to = 7 [json_name = "valid_to"];
-  required ScheduleType schedule_type = 8 [json_name = "schedule_type"];
   required ScheduleRules rules = 9 [json_name = "rules"];
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];

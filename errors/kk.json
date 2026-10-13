@@ -173,7 +173,7 @@
   "ERROR_CODE_CONTAINER_GROUP_DIVISION_IN_USE": "{{division}} {{id}} контейнерлер тобында кестесі бар, оны аймақтан алып тастауға болмайды",
   "ERROR_CODE_CONTAINER_GROUP_DIVISION_OUTSIDE_HOLDING": "{{division}} контейнерлер тобы шартының ұйымынан тыс",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_OVERLAP": "{{date}} бұл кесте {{schedule}} кестесімен қиылысады",
-  "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_RULES": "Кесте қате: {{reason}}",
+  "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_RULES": "Кесте ережелері қате",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_PERIOD": "Кестенің басталуы аяқталуынан кеш болмауы керек",
   "ERROR_CODE_CONTAINER_GROUP_ROUTE_GROUP_OUTSIDE_ZONE": "Бағыттық топ ұйымы {{id}} контейнерлер тобының жауапкершілік аймағына кірмейді",
   "ERROR_CODE_ORGANIZATION_NOT_LEGAL_ENTITY": "{{organization}} заңды тұлға емес"
