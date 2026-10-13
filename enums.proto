@@ -83,6 +83,9 @@ enum JobType {
   JOB_TYPE_DOUBLE_CONSTRUCTION_REPLACE_BUNKER = 60;
   JOB_TYPE_DOUBLE_CONSTRUCTION_ADD_BUNKER = 61;
   JOB_TYPE_DOUBLE_CONSTRUCTION_REMOVE_BUNKER = 62;
+
+  // An unloading stop at a disposal site, placed anywhere in a route.
+  JOB_TYPE_UNLOAD = 70;
 }
 
 // JobMetric selects which per-day job series GetJobMetricSeries returns.

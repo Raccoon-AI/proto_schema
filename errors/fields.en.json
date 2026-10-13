@@ -32,6 +32,7 @@
   "job_ids": "Jobs",
   "limit": "Limit",
   "location": "Location",
+  "location_id": "Unload site",
   "manager_id": "Client manager",
   "monthly_fee": "Monthly fee",
   "name": "Name",
