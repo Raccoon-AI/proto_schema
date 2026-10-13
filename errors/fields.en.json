@@ -79,5 +79,7 @@
   "division_id": "Responsible depot",
   "valid_from": "Valid from",
   "valid_to": "Valid until",
-  "rules": "Schedule"
+  "rules": "Schedule",
+  "job_type": "Job type",
+  "schedule": "Schedule"
 }

@@ -79,5 +79,7 @@
   "division_id": "Жауапты депо",
   "valid_from": "Басталуы",
   "valid_to": "Аяқталуы",
-  "rules": "Кесте"
+  "rules": "Кесте",
+  "job_type": "Жұмыс түрі",
+  "schedule": "Кесте"
 }
