@@ -1,6 +1,7 @@
 {
   "access": "Қол жеткізу",
   "analytics": "Аналитика",
+  "audit_log": "Аудит журналы",
   "assigned_driver": "тағайындалған жүргізуші",
   "auto_generate_time": "Автогенерация уақыты",
   "bank_details": "Банк деректемелері",
@@ -70,5 +71,7 @@
   "datetime_filter": "Күн бойынша сүзгі",
   "plate_number": "Мемлекеттік нөмір",
   "month": "Ай",
-  "service_schedule_by_job_type": "Қызмет көрсету кестесі"
+  "service_schedule_by_job_type": "Қызмет көрсету кестесі",
+  "reason": "Себеп",
+  "explanation": "Түсіндірме"
 }

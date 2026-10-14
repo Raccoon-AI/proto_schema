@@ -1,6 +1,7 @@
 {
   "access": "Access",
   "analytics": "Analytics",
+  "audit_log": "Audit log",
   "assigned_driver": "assigned driver",
   "auto_generate_time": "Auto-generation time",
   "bank_details": "Bank details",
@@ -70,5 +71,7 @@
   "datetime_filter": "Date filter",
   "plate_number": "Plate number",
   "month": "Month",
-  "service_schedule_by_job_type": "Service schedule"
+  "service_schedule_by_job_type": "Service schedule",
+  "reason": "Reason",
+  "explanation": "Explanation"
 }

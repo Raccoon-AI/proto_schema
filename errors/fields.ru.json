@@ -1,6 +1,7 @@
 {
   "access": "Доступ",
   "analytics": "Аналитика",
+  "audit_log": "Журнал аудита",
   "assigned_driver": "назначенный водитель",
   "auto_generate_time": "Время автогенерации",
   "bank_details": "Банковские реквизиты",
@@ -70,5 +71,7 @@
   "datetime_filter": "Фильтр по дате",
   "plate_number": "Гос. номер",
   "month": "Месяц",
-  "service_schedule_by_job_type": "График обслуживания"
+  "service_schedule_by_job_type": "График обслуживания",
+  "reason": "Причина",
+  "explanation": "Пояснение"
 }

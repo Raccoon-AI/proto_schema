@@ -68,6 +68,7 @@ message Job {
   optional bool receiver_notified = 44 [json_name = "receiver_notified"];
   optional ContainerGroup container_group = 45 [json_name = "container_group"];
   optional google.protobuf.Timestamp updated_at = 46 [json_name = "updated_at"];
+  optional UserRef updated_by = 55 [json_name = "updated_by"];
   optional Organization service_provider = 47 [json_name = "service_provider"];
   optional uint64 pickup_location_group_id = 48 [json_name = "pickup_location_group_id"];
   // AI verification verdicts for this job. Only populated by the endpoints that
@@ -143,6 +144,7 @@ message JobUpdate {
   optional JobCategory job_category = 31 [json_name = "job_category"];
   optional uint64 container_type_id = 32 [json_name = "container_type_id"];
   optional bool receiver_notified = 33 [json_name = "receiver_notified"];
+  optional uint64 container_group_id = 34 [json_name = "container_group_id"];
 }
 
 message JobList {
