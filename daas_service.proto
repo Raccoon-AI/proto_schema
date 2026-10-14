@@ -11,6 +11,7 @@ option go_package = "./pb";
 service DaasService {
   // Softphone credentials for the authenticated DaaS dispatcher.
   rpc GetVoximplantSettings(EmptyMessageRequest) returns (VoximplantSettings) {}
-  // Call history for the authenticated dispatcher's Voximplant user.
+  // Call history of the whole Voximplant application the caller belongs to,
+  // so every DaaS dispatcher sees every dispatcher's calls.
   rpc ListCallLogs(CallLogRequest) returns (CallLogList) {}
 }
