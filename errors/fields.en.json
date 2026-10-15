@@ -28,6 +28,7 @@
   "from_to": "Period",
   "id": "Identifier",
   "job": "Job",
+  "job_type_settings": "Job types",
   "job_category": "Job category",
   "job_id": "Job",
   "job_ids": "Jobs",
