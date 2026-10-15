@@ -54,6 +54,13 @@ message DisposalSiteOrgIds {
   repeated uint64 ids = 1 [json_name = "ids"];
 }
 
+// Job types the service provider does not offer. Absent or empty = all enabled.
+// Wrapped for the same reason as DisposalSiteOrgIds. Only ADMIN and
+// PROVIDER_OWNER may change it.
+message DisabledJobTypes {
+  repeated JobType types = 1 [json_name = "types"];
+}
+
 message OrganizationSettings {
   required uint64 id = 1 [json_name = "id"];
   optional string shift_departure_text = 3 [json_name = "shift_departure_text"];
@@ -69,6 +76,7 @@ message OrganizationSettings {
   optional double reward_coeff = 13 [json_name = "reward_coeff"];
   optional uint64 default_depot_id = 15 [json_name = "default_depot_id"];
   optional DisposalSiteOrgIds disposal_site_org_ids = 16 [json_name = "disposal_site_org_ids"];
+  optional DisabledJobTypes disabled_job_types = 17 [json_name = "disabled_job_types"];
 }
 
 message OrganizationSettingsCreate {
@@ -84,6 +92,7 @@ message OrganizationSettingsCreate {
   optional TableColumnsConfig table_columns_config = 10 [json_name = "table_columns_config"];
   optional uint64 default_depot_id = 12 [json_name = "default_depot_id"];
   optional DisposalSiteOrgIds disposal_site_org_ids = 13 [json_name = "disposal_site_org_ids"];
+  optional DisabledJobTypes disabled_job_types = 14 [json_name = "disabled_job_types"];
 }
 
 message OrganizationSettingsUpdate {
@@ -99,4 +108,5 @@ message OrganizationSettingsUpdate {
   optional TableColumnsConfig table_columns_config = 10 [json_name = "table_columns_config"];
   optional uint64 default_depot_id = 12 [json_name = "default_depot_id"];
   optional DisposalSiteOrgIds disposal_site_org_ids = 13 [json_name = "disposal_site_org_ids"];
+  optional DisabledJobTypes disabled_job_types = 14 [json_name = "disabled_job_types"];
 }
