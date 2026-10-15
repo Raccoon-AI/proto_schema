@@ -33,15 +33,15 @@ message ContainerGroupListRequest {
   // Only container groups whose pickup location group binding carries this job
   // type (combined with pickup_location_group_ids: the same binding must satisfy both).
   optional JobType job_type = 6 [json_name = "job_type"];
-  // Only container groups whose responsible zone holds one of these divisions.
-  repeated uint64 division_ids = 7 [json_name = "division_ids"];
+  // Only container groups whose responsible zone holds one of these service providers.
+  repeated uint64 service_provider_ids = 7 [json_name = "service_provider_ids"];
 }
 
 // The schedule is authorized through its container group's contract, so requests carry no organization.
 message ContainerGroupScheduleCreate {
   required uint64 container_group_id = 1 [json_name = "container_group_id"];
   required JobType job_type = 2 [json_name = "job_type"];
-  optional uint64 division_id = 3 [json_name = "division_id"];
+  optional uint64 service_provider_id = 3 [json_name = "service_provider_id"];
   required string valid_from = 4 [json_name = "valid_from"]; // anchors every-N-days rules
   optional string valid_to = 5 [json_name = "valid_to"];
   reserved 6;
@@ -53,14 +53,14 @@ message ContainerGroupScheduleCreate {
 // A value and its clear_* flag together are rejected; every-N-days rules need a valid_from after the update.
 message ContainerGroupScheduleUpdate {
   required uint64 id = 1 [json_name = "id"];
-  optional uint64 division_id = 2 [json_name = "division_id"];
+  optional uint64 service_provider_id = 2 [json_name = "service_provider_id"];
   optional string valid_from = 3 [json_name = "valid_from"];
   optional string valid_to = 4 [json_name = "valid_to"];
   reserved 5;
   reserved "schedule_type";
   optional ScheduleRules rules = 6 [json_name = "rules"];
   optional bool clear_valid_to = 7 [json_name = "clear_valid_to"]; // an unset field cannot say "open-ended"
-  optional bool clear_division_id = 8 [json_name = "clear_division_id"]; // back to the zone's default
+  optional bool clear_service_provider_id = 8 [json_name = "clear_service_provider_id"]; // back to the zone's default
 }
 
 message ContainerGroupScheduleRequest {
@@ -72,7 +72,7 @@ message ContainerGroupScheduleListRequest {
   repeated uint64 container_group_ids = 1 [json_name = "container_group_ids"];
   repeated uint64 pickup_location_ids = 2 [json_name = "pickup_location_ids"];
   optional JobType job_type = 3 [json_name = "job_type"];
-  repeated uint64 division_ids = 4 [json_name = "division_ids"];
+  repeated uint64 service_provider_ids = 4 [json_name = "service_provider_ids"];
   optional string active_on = 5 [json_name = "active_on"]; // YYYY-MM-DD within the validity period
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
@@ -81,7 +81,7 @@ message ContainerGroupScheduleListRequest {
 message ScheduleDraft {
   optional uint64 container_group_id = 1 [json_name = "container_group_id"];
   optional JobType job_type = 2 [json_name = "job_type"];
-  optional uint64 division_id = 3 [json_name = "division_id"];
+  optional uint64 service_provider_id = 3 [json_name = "service_provider_id"];
   optional string valid_from = 4 [json_name = "valid_from"];
   optional string valid_to = 5 [json_name = "valid_to"];
   optional ScheduleRules rules = 6 [json_name = "rules"];

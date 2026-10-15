@@ -66,9 +66,9 @@ message ContainerGroup {
   optional string pickup_location_name = 10 [json_name = "pickup_location_name"];
   optional uint64 primary_contact_id = 11 [json_name = "primary_contact_id"];
   optional Contact primary_contact = 12 [json_name = "primary_contact"];
-  // Responsible zone: the divisions that serve the group, in order; the first is the default for a new job.
-  repeated uint64 division_ids = 13 [json_name = "division_ids"];
-  repeated Organization divisions = 14 [json_name = "divisions"];
+  // Responsible zone: the service providers that serve the group, in order; the first is the default for a new job.
+  repeated uint64 service_provider_ids = 13 [json_name = "service_provider_ids"];
+  repeated Organization service_providers = 14 [json_name = "service_providers"];
   repeated ContainerGroupSchedule schedules = 15 [json_name = "schedules"]; // filled by GetContainerGroupById only
   repeated ContainerGroupRouteGroup route_groups = 16 [json_name = "route_groups"];
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
@@ -91,7 +91,7 @@ message ContainerGroupCreate {
   optional google.protobuf.Struct service_schedule_by_job_type = 5 [json_name = "service_schedule_by_job_type"];
   optional uint64 contract_id = 7 [json_name = "contract_id"];
   optional uint64 primary_contact_id = 8 [json_name = "primary_contact_id"];
-  repeated uint64 division_ids = 9 [json_name = "division_ids"];
+  repeated uint64 service_provider_ids = 9 [json_name = "service_provider_ids"];
 }
 
 message ContainerGroupUpdate {
@@ -103,7 +103,7 @@ message ContainerGroupUpdate {
   optional google.protobuf.Struct service_schedule_by_job_type = 6 [json_name = "service_schedule_by_job_type"];
   optional uint64 contract_id = 7 [json_name = "contract_id"];
   optional uint64 primary_contact_id = 8 [json_name = "primary_contact_id"];
-  optional IdList division_ids = 9 [json_name = "division_ids"];
+  optional IdList service_provider_ids = 9 [json_name = "service_provider_ids"];
 }
 
 message ContainerGroupList {
@@ -160,8 +160,8 @@ message ContainerGroupSchedule {
   required uint64 id = 1 [json_name = "id"];
   required uint64 container_group_id = 2 [json_name = "container_group_id"];
   required JobType job_type = 3 [json_name = "job_type"];
-  optional uint64 division_id = 4 [json_name = "division_id"]; // unset: the zone's first division, then the contract provider
-  optional Organization division = 5 [json_name = "division"];
+  optional uint64 service_provider_id = 4 [json_name = "service_provider_id"]; // unset: the zone's first service provider, then the contract provider
+  optional Organization service_provider = 5 [json_name = "service_provider"];
   optional string valid_from = 6 [json_name = "valid_from"]; // YYYY-MM-DD, Asia/Almaty, inclusive; unset only on legacy rows
   optional string valid_to = 7 [json_name = "valid_to"];
   reserved 8;
