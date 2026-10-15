@@ -308,15 +308,6 @@ enum OrganizationType {
   ORGANIZATION_TYPE_GOVERNMENT = 5;
 }
 
-// Which rule picked a job's division.
-enum JobDivisionSource {
-  JOB_DIVISION_SOURCE_UNDEFINED = 0;
-  JOB_DIVISION_SOURCE_ROUTE_GROUP = 1;
-  JOB_DIVISION_SOURCE_SCHEDULE = 2;
-  JOB_DIVISION_SOURCE_ZONE = 3;
-  JOB_DIVISION_SOURCE_CONTRACT = 4;
-}
-
 // *****************************************************
 // ORGANIZATION ENUMS
 // *****************************************************
