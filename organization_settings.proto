@@ -55,8 +55,7 @@ message DisposalSiteOrgIds {
 }
 
 // Job types the service provider does not offer. Absent or empty = all enabled.
-// Wrapped for the same reason as DisposalSiteOrgIds. Only ADMIN and
-// PROVIDER_OWNER may change it.
+// Read via GetSetting, written via OrganizationService.UpdateDisabledJobTypes.
 message DisabledJobTypes {
   repeated JobType types = 1 [json_name = "types"];
 }
@@ -92,7 +91,6 @@ message OrganizationSettingsCreate {
   optional TableColumnsConfig table_columns_config = 10 [json_name = "table_columns_config"];
   optional uint64 default_depot_id = 12 [json_name = "default_depot_id"];
   optional DisposalSiteOrgIds disposal_site_org_ids = 13 [json_name = "disposal_site_org_ids"];
-  optional DisabledJobTypes disabled_job_types = 14 [json_name = "disabled_job_types"];
 }
 
 message OrganizationSettingsUpdate {
@@ -108,5 +106,4 @@ message OrganizationSettingsUpdate {
   optional TableColumnsConfig table_columns_config = 10 [json_name = "table_columns_config"];
   optional uint64 default_depot_id = 12 [json_name = "default_depot_id"];
   optional DisposalSiteOrgIds disposal_site_org_ids = 13 [json_name = "disposal_site_org_ids"];
-  optional DisabledJobTypes disabled_job_types = 14 [json_name = "disabled_job_types"];
 }
