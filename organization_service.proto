@@ -91,8 +91,7 @@ service OrganizationService {
   // organization settings related requests
   rpc GetSetting(EmptyMessageRequest) returns (OrganizationSettings) {}
   rpc UpdateSetting(OrganizationSettingsUpdate) returns (OrganizationSettings) {}
-  // Replaces the caller organization's disabled job types; separate RPC so it has
-  // its own permission (job_type_settings) apart from the rest of the settings.
+  // Replaces the caller organization's disabled job types.
   rpc UpdateDisabledJobTypes(DisabledJobTypes) returns (OrganizationSettings) {}
 
   // can be used by service providers
