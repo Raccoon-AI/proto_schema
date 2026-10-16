@@ -3,6 +3,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "google/protobuf/timestamp.proto";
+import "job.proto";
 
 option go_package = "./pb";
 option java_outer_classname = "VrpRoutingServiceProto";
@@ -20,9 +21,13 @@ service VrpRoutingService {
 }
 
 message SolveSingleVehicleRequest {
-  repeated uint64 job_ids = 1 [json_name = "job_ids"]; // required, non-empty
+  // Exactly one of job_ids or stops is non-empty.
+  repeated uint64 job_ids = 1 [json_name = "job_ids"];
   required uint64 disposal_site_id = 2 [json_name = "disposal_site_id"]; // end location of every trip
-  required uint64 driver_on_shift_id = 3 [json_name = "driver_on_shift_id"]; // -> truck capacity + depot
+  // driver_on_shift_id or truck_id; when both are set the shift wins. Truck
+  // capacity (every call) is truck.capacity, falling back to
+  // truck_type.volume × compaction_factor.
+  optional uint64 driver_on_shift_id = 3 [json_name = "driver_on_shift_id"]; // -> truck, depot, shift window
   // Where the vehicle is when the plan starts; affects trip 1 only. Omitted
   // means the truck's depot, i.e. day-planning behaviour. Mid-shift re-routing
   // passes the disposal site, because that is where a truck that just announced
@@ -38,12 +43,28 @@ message SolveSingleVehicleRequest {
   // planning may legitimately omit it - the departure time is not known until
   // the driver starts - but anything solving for a shift already under way
   // should pass it, or the plan is priced from midnight.
+  //
+  // With stops, go-backend defaults it to the shift's tw_start_at, else the
+  // earliest stop window start, else the start of date (Asia/Almaty).
+  // Leaving early only adds waiting, so the default leans early.
   optional google.protobuf.Timestamp departure_at = 5 [json_name = "departure_at"];
+  // Jobs to plan, including ones not created yet (container_group_id +
+  // job_type). go-backend fills each container group stop's window from its
+  // schedule on date; job_id stops use the job's window.
+  repeated JobStop stops = 6 [json_name = "stops"];
+  // Plan without a shift (stops only, not job_ids): depot from the truck's
+  // organization, no shift window. Ignored when driver_on_shift_id is set.
+  optional uint64 truck_id = 7 [json_name = "truck_id"];
+  // Service day, Asia/Almaty. Picks container group stop windows; required with
+  // container group stops.
+  optional google.protobuf.Timestamp date = 8 [json_name = "date"];
 }
 
-// One trip of the single vehicle; job_ids are in visit order.
+// One trip of the single vehicle, in visit order. Request with job_ids fills
+// job_ids; request with stops fills stop_indexes (0-based positions in stops).
 message VrpTrip {
   repeated uint64 job_ids = 1 [json_name = "job_ids"];
+  repeated uint32 stop_indexes = 2 [json_name = "stop_indexes"];
 }
 
 message SolveSingleVehicleResponse {
@@ -57,7 +78,13 @@ message SolveSingleVehicleResponse {
   // window so the job could still be placed. Time windows are hard constraints
   // in vroom: without this relaxation a job that cannot be reached before it
   // closes comes back unassigned, which would silently shrink the route. These
-  // jobs ARE in trips - they are served, just late. Empty when the whole plan
-  // is feasible, and always empty when departure_at was omitted.
+  // jobs ARE in trips - they are served, just late. Without a shift (truck_id)
+  // there is no shift window, so the window is widened to the solver's planning
+  // horizon instead. Empty when the whole plan is feasible, and always empty
+  // when departure_at was omitted.
   repeated uint64 relaxed_job_ids = 5 [json_name = "relaxed_job_ids"];
+  // Same as unassigned_job_ids / relaxed_job_ids, for a request with stops:
+  // 0-based positions in stops.
+  repeated uint32 unassigned_stop_indexes = 6 [json_name = "unassigned_stop_indexes"];
+  repeated uint32 relaxed_stop_indexes = 7 [json_name = "relaxed_stop_indexes"];
 }
