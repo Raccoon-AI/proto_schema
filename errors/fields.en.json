@@ -1,6 +1,7 @@
 {
   "access": "Access",
   "analytics": "Analytics",
+  "audit_log": "Audit log",
   "assigned_driver": "assigned driver",
   "auto_generate_time": "Auto-generation time",
   "bank_details": "Bank details",
@@ -17,6 +18,7 @@
   "contract": "Contract",
   "contract_id": "Contract",
   "date": "Date",
+  "disabled_job_types": "Job types",
   "disposal_site_id": "Disposal site",
   "driver_id": "Driver",
   "driver_incident": "Driver incident",
@@ -74,5 +76,7 @@
   "role": "Role",
   "resource": "Module",
   "action": "Action",
-  "organization_type": "Organization type"
+  "organization_type": "Organization type",
+  "reason": "Reason",
+  "explanation": "Explanation"
 }

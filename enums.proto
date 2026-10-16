@@ -22,6 +22,7 @@ enum TruckType {
   TRUCK_TYPE_MSW = 3;
   TRUCK_TYPE_TIPPER = 4; // samosval
   TRUCK_TYPE_LIQUID_WASTE = 5;
+  TRUCK_TYPE_LOADER_CRANE = 6; // КМУ, кран-манипулятор
 }
 
 enum TruckLoadType {
@@ -82,6 +83,9 @@ enum JobType {
   JOB_TYPE_DOUBLE_CONSTRUCTION_REPLACE_BUNKER = 60;
   JOB_TYPE_DOUBLE_CONSTRUCTION_ADD_BUNKER = 61;
   JOB_TYPE_DOUBLE_CONSTRUCTION_REMOVE_BUNKER = 62;
+
+  // Bulk haul: a tipper sent alongside a loader crane takes what the crane loads
+  JOB_TYPE_RECEIVE_LOAD = 70; // Приём груза (самосвал)
 }
 
 // JobMetric selects which per-day job series GetJobMetricSeries returns.

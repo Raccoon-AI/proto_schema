@@ -1,6 +1,7 @@
 {
   "access": "Қол жеткізу",
   "analytics": "Аналитика",
+  "audit_log": "Аудит журналы",
   "assigned_driver": "тағайындалған жүргізуші",
   "auto_generate_time": "Автогенерация уақыты",
   "bank_details": "Банк деректемелері",
@@ -17,6 +18,7 @@
   "contract": "Шарт",
   "contract_id": "Шарт",
   "date": "Күні",
+  "disabled_job_types": "Жұмыс түрлері",
   "disposal_site_id": "Полигон",
   "driver_id": "Жүргізуші",
   "driver_incident": "Жүргізуші оқиғасы",
@@ -74,5 +76,7 @@
   "role": "Рөл",
   "resource": "Модуль",
   "action": "Әрекет",
-  "organization_type": "Ұйым түрі"
+  "organization_type": "Ұйым түрі",
+  "reason": "Себеп",
+  "explanation": "Түсіндірме"
 }
