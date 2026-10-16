@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "enums.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
@@ -13,6 +14,7 @@ message UserRef {
   optional string last_name = 3 [json_name = "last_name"];
   optional string phone_number = 4 [json_name = "phone_number"];
   optional string email = 5 [json_name = "email"];
+  optional UserRole role = 6 [json_name = "role"];
 }
 
 message DateTimeFilter {

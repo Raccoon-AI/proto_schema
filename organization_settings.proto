@@ -4,16 +4,32 @@ package raccoonai;
 import "audit_logs.proto";
 import "enums.proto";
 import "google/protobuf/timestamp.proto";
+import "notification.proto";
 
 option go_package = "./pb";
 
-message RoleScopeList {
-  repeated UserRole roles = 1 [json_name = "roles"];
+// Who gets notified about an event, through which channels, and whether they
+// may mute it. audience accepts USER_ROLE_RECEIVER_USER, USER_ROLE_DRIVER,
+// USER_ROLE_PROVIDER_MECHANIC and USER_ROLE_PROVIDER_DISPATCHER; other roles
+// are rejected until they have a recipient resolver.
+message NotificationRule {
+  required NotificationEvent event = 1 [json_name = "event"];
+  required UserRole audience = 2 [json_name = "audience"];
+  repeated NotificationChannel channels = 3 [json_name = "channels"]; // at least one
+  required bool opt_out_allowed = 4 [json_name = "opt_out_allowed"];
+}
+
+// Wrapped so an empty list stays present on update: absent = built-in
+// defaults, present with no rules = all notifications off.
+message NotificationRules {
+  repeated NotificationRule rules = 1 [json_name = "rules"]; // unique per (event, audience)
 }
 
 message NotificationConfig {
+  // Audit-log view filter. Superseded by rules; kept for the current frontend.
   repeated AuditLogType log_types = 1 [json_name = "log_types"];
-  map<string, RoleScopeList> role_scopes = 2 [json_name = "role_scopes"];
+  // GetSetting always returns the effective rules (defaults when none stored).
+  optional NotificationRules rules = 2 [json_name = "rules"];
 }
 
 message ColumnConfig {
@@ -38,6 +54,12 @@ message DisposalSiteOrgIds {
   repeated uint64 ids = 1 [json_name = "ids"];
 }
 
+// Job types the service provider does not offer. Absent or empty = all enabled.
+// Read via GetSetting, written via OrganizationService.UpdateDisabledJobTypes.
+message DisabledJobTypes {
+  repeated JobType types = 1 [json_name = "types"];
+}
+
 message OrganizationSettings {
   required uint64 id = 1 [json_name = "id"];
   optional string shift_departure_text = 3 [json_name = "shift_departure_text"];
@@ -53,7 +75,8 @@ message OrganizationSettings {
   optional double reward_coeff = 13 [json_name = "reward_coeff"];
   optional uint64 default_depot_id = 15 [json_name = "default_depot_id"];
   optional DisposalSiteOrgIds disposal_site_org_ids = 16 [json_name = "disposal_site_org_ids"];
-  optional bool responsible_zone_enabled = 17 [json_name = "responsible_zone_enabled"]; // responsible zones apply to the organization and its subtree
+  optional DisabledJobTypes disabled_job_types = 17 [json_name = "disabled_job_types"];
+  optional bool responsible_zone_enabled = 18 [json_name = "responsible_zone_enabled"]; // responsible zones apply to the organization and its subtree
 }
 
 message OrganizationSettingsCreate {
