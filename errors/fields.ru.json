@@ -73,6 +73,10 @@
   "plate_number": "Гос. номер",
   "month": "Месяц",
   "service_schedule_by_job_type": "График обслуживания",
+  "role": "Роль",
+  "resource": "Модуль",
+  "action": "Действие",
+  "organization_type": "Тип организации",
   "reason": "Причина",
   "explanation": "Пояснение"
 }

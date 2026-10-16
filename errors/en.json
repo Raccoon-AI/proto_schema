@@ -156,6 +156,7 @@
   "ERROR_CODE_ORGANIZATION_NO_NIGHT_MULTIPLIER": "Organization {{id}} has no night premium",
   "ERROR_CODE_ORGANIZATION_NO_ACTIVE_DEPOT": "Organization {{id}} has no active depot — set its default depot",
   "ERROR_CODE_ORGANIZATION_MULTIPLE_ACTIVE_DEPOTS": "Organization {{id}} has {{count}} active depots — set its default depot",
+  "ERROR_CODE_ORGANIZATION_OUTSIDE_BRANCH": "{{entity}} {{id}} is outside the branch of the organization that owns the access group",
   "ERROR_CODE_DRIVER_NOT_IN_ORGANIZATION": "Driver {{driver}} is not in organization {{organization}}",
   "ERROR_CODE_SHIFT_PLAN_DATE_NOT_FUTURE": "Shift plans change only for future dates: got {{date}}, today is {{today}}",
   "ERROR_CODE_SHIFT_PLAN_USER_NOT_DRIVER": "Shift plans are for drivers only; user {{user}} has role {{role}}",

@@ -87,3 +87,14 @@ message OrganizationList {
   repeated Organization organizations = 1 [json_name = "organizations"];
   optional ListInfo list_info = 2 [json_name = "list_info"];
 }
+
+// The organization and every descendant, for picking a node in the tree.
+message OrganizationSubtreeRequest {
+  required uint64 organization_id = 1 [json_name = "organization_id"];
+}
+
+// Organizations where the caller holds action on resource, directly or through an ancestor.
+message AccessibleOrganizationListRequest {
+  required string resource = 1 [json_name = "resource"]; // e.g. "truck", "job"
+  optional string action = 2 [json_name = "action"]; // can_view (default), can_edit, can_manage
+}
