@@ -3,6 +3,7 @@ package raccoonai;
 
 import "contact.proto";
 import "contract.proto";
+import "enums.proto";
 import "general.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
@@ -65,8 +66,21 @@ message ContainerGroup {
   optional string pickup_location_name = 10 [json_name = "pickup_location_name"];
   optional uint64 primary_contact_id = 11 [json_name = "primary_contact_id"];
   optional Contact primary_contact = 12 [json_name = "primary_contact"];
+  // Responsible zone: the service providers that serve the group, in order; the first is the default for a new job.
+  repeated uint64 service_provider_ids = 13 [json_name = "service_provider_ids"];
+  repeated Organization service_providers = 14 [json_name = "service_providers"];
+  repeated ContainerGroupSchedule schedules = 15 [json_name = "schedules"]; // filled by GetContainerGroupById only
+  repeated ContainerGroupRouteGroup route_groups = 16 [json_name = "route_groups"];
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
+}
+
+// A route group the container group is bound to for one job type.
+message ContainerGroupRouteGroup {
+  required uint64 pickup_location_group_id = 1 [json_name = "pickup_location_group_id"];
+  required string name = 2 [json_name = "name"];
+  required JobType job_type = 3 [json_name = "job_type"];
+  required uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
 }
 
 message ContainerGroupCreate {
@@ -77,6 +91,7 @@ message ContainerGroupCreate {
   optional google.protobuf.Struct service_schedule_by_job_type = 5 [json_name = "service_schedule_by_job_type"];
   optional uint64 contract_id = 7 [json_name = "contract_id"];
   optional uint64 primary_contact_id = 8 [json_name = "primary_contact_id"];
+  repeated uint64 service_provider_ids = 9 [json_name = "service_provider_ids"];
 }
 
 message ContainerGroupUpdate {
@@ -88,9 +103,76 @@ message ContainerGroupUpdate {
   optional google.protobuf.Struct service_schedule_by_job_type = 6 [json_name = "service_schedule_by_job_type"];
   optional uint64 contract_id = 7 [json_name = "contract_id"];
   optional uint64 primary_contact_id = 8 [json_name = "primary_contact_id"];
+  optional IdList service_provider_ids = 9 [json_name = "service_provider_ids"];
 }
 
 message ContainerGroupList {
   repeated ContainerGroup container_groups = 1 [json_name = "container_groups"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
+}
+
+// *****************************************************
+// CONTAINER GROUP SCHEDULE
+// *****************************************************
+message ScheduleWindow {
+  required string from = 1 [json_name = "from"]; // "HH:MM"
+  required string to = 2 [json_name = "to"];
+}
+
+message WeeklyRule {
+  required uint32 dow = 1 [json_name = "dow"]; // 0 = Sunday … 6 = Saturday
+  repeated uint32 weeks = 2 [json_name = "weeks"]; // weeks of the month 1-5 (days 7N-6..7N); empty = every week
+  repeated ScheduleWindow windows = 3 [json_name = "windows"];
+}
+
+message MonthlyRule {
+  required uint32 day = 1 [json_name = "day"]; // 1-31; a day a month lacks is skipped
+  repeated ScheduleWindow windows = 2 [json_name = "windows"];
+}
+
+message EveryNDaysRule {
+  required uint32 n = 1 [json_name = "n"]; // >= 1, counted from valid_from
+  repeated ScheduleWindow windows = 2 [json_name = "windows"];
+}
+
+message WeeklyRules {
+  repeated WeeklyRule days = 1 [json_name = "days"];
+  repeated uint32 months = 2 [json_name = "months"]; // 1-12; empty = every month
+}
+
+message MonthlyRules {
+  repeated MonthlyRule days = 1 [json_name = "days"];
+  repeated uint32 months = 2 [json_name = "months"]; // 1-12; empty = every month
+}
+
+// One kind per schedule; the kind is the schedule's type.
+message ScheduleRules {
+  oneof rule {
+    WeeklyRules weekly = 1 [json_name = "weekly"];
+    MonthlyRules monthly = 2 [json_name = "monthly"];
+    EveryNDaysRule every_n_days = 3 [json_name = "every_n_days"];
+  }
+  reserved 4;
+  reserved "legacy_expr"; // read-only on ContainerGroupSchedule.legacy_expr
+}
+
+message ContainerGroupSchedule {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 container_group_id = 2 [json_name = "container_group_id"];
+  required JobType job_type = 3 [json_name = "job_type"];
+  optional uint64 service_provider_id = 4 [json_name = "service_provider_id"]; // unset: the zone's first service provider, then the contract provider
+  optional Organization service_provider = 5 [json_name = "service_provider"];
+  optional string valid_from = 6 [json_name = "valid_from"]; // YYYY-MM-DD, Asia/Almaty, inclusive; unset only on legacy rows
+  optional string valid_to = 7 [json_name = "valid_to"];
+  reserved 8;
+  reserved "schedule_type";
+  optional ScheduleRules rules = 9 [json_name = "rules"]; // unset on a legacy row
+  optional string legacy_expr = 10 [json_name = "legacy_expr"]; // a pre-table cron string; read-only, never accepted on writes
+  optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+  optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
+}
+
+message ContainerGroupScheduleList {
+  repeated ContainerGroupSchedule schedules = 1 [json_name = "schedules"];
   optional ListInfo list_info = 2 [json_name = "list_info"];
 }

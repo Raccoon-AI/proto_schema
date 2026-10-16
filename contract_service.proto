@@ -15,6 +15,8 @@ message ContractListRequest {
   optional string type = 4 [json_name = "type"];
   optional uint64 pickup_location_id = 5 [json_name = "pickup_location_id"];
   optional uint64 container_group_id = 6 [json_name = "container_group_id"];
+  // Also the contracts of the providers' ancestors, so a child organization sees its parent's contracts.
+  optional bool include_ancestors = 7 [json_name = "include_ancestors"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 

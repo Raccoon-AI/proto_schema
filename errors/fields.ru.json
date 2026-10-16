@@ -77,6 +77,12 @@
   "resource": "Модуль",
   "action": "Действие",
   "organization_type": "Тип организации",
+  "service_provider_ids": "Зона ответственности",
+  "valid_from": "Действует с",
+  "valid_to": "Действует до",
+  "rules": "График",
+  "job_type": "Тип работ",
+  "schedule": "График",
   "reason": "Причина",
   "explanation": "Пояснение"
 }

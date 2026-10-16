@@ -76,6 +76,7 @@ message OrganizationSettings {
   optional uint64 default_depot_id = 15 [json_name = "default_depot_id"];
   optional DisposalSiteOrgIds disposal_site_org_ids = 16 [json_name = "disposal_site_org_ids"];
   optional DisabledJobTypes disabled_job_types = 17 [json_name = "disabled_job_types"];
+  optional bool responsible_zone_enabled = 18 [json_name = "responsible_zone_enabled"]; // responsible zones apply to the organization and its subtree
 }
 
 message OrganizationSettingsCreate {
@@ -91,6 +92,7 @@ message OrganizationSettingsCreate {
   optional TableColumnsConfig table_columns_config = 10 [json_name = "table_columns_config"];
   optional uint64 default_depot_id = 12 [json_name = "default_depot_id"];
   optional DisposalSiteOrgIds disposal_site_org_ids = 13 [json_name = "disposal_site_org_ids"];
+  optional bool responsible_zone_enabled = 15 [json_name = "responsible_zone_enabled"]; // admin only
 }
 
 message OrganizationSettingsUpdate {
@@ -106,4 +108,5 @@ message OrganizationSettingsUpdate {
   optional TableColumnsConfig table_columns_config = 10 [json_name = "table_columns_config"];
   optional uint64 default_depot_id = 12 [json_name = "default_depot_id"];
   optional DisposalSiteOrgIds disposal_site_org_ids = 13 [json_name = "disposal_site_org_ids"];
+  optional bool responsible_zone_enabled = 15 [json_name = "responsible_zone_enabled"]; // admin only
 }

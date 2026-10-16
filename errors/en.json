@@ -166,5 +166,14 @@
   "ERROR_CODE_DRIVER_PRICE_LIST_ALREADY_PRICED": "The price list for {{month}} is already priced. Stand {{stand}}",
   "ERROR_CODE_DRIVER_PRICE_LIST_PRICE_OUT_OF_RANGE": "The derived price {{price}} KZT is out of range (max {{max}}) — check the rate and night premium",
   "ERROR_CODE_RESOURCE_ACCESS_GRANT_ROLE_NOT_APPLICABLE": "Access level {{access_level}} is not available for {{resource}} on a {{organization_type}} organization",
-  "ERROR_CODE_COMPANY_NOT_SELECTED": "Company is not selected"
+  "ERROR_CODE_COMPANY_NOT_SELECTED": "Company is not selected",
+  "ERROR_CODE_ROUTE_OWNER_NOT_IN_ZONE": "The route's organization is not in the responsible zone of job {{id}}",
+  "ERROR_CODE_JOB_SERVICE_PROVIDER_NOT_IN_ZONE": "{{service_provider}} is not in the responsible zone of job {{id}}",
+  "ERROR_CODE_JOB_SERVICE_PROVIDER_NOT_CHANGEABLE": "The responsible depot of job {{id}} can be changed only while it is created and not on a route",
+  "ERROR_CODE_CONTAINER_GROUP_SERVICE_PROVIDER_IN_USE": "{{service_provider}} has a schedule in container group {{id}} and cannot leave its zone",
+  "ERROR_CODE_CONTAINER_GROUP_SERVICE_PROVIDER_OUTSIDE_HOLDING": "{{service_provider}} is outside the organization of the container group's contract",
+  "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_OVERLAP": "On {{date}} this schedule overlaps schedule {{schedule}}",
+  "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_RULES": "Invalid schedule rules",
+  "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_PERIOD": "The schedule must start on or before it ends",
+  "ERROR_CODE_CONTAINER_GROUP_ROUTE_GROUP_OUTSIDE_ZONE": "The route group's organization is not in the responsible zone of container group {{id}}"
 }

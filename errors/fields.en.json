@@ -77,6 +77,12 @@
   "resource": "Module",
   "action": "Action",
   "organization_type": "Organization type",
+  "service_provider_ids": "Responsible zone",
+  "valid_from": "Valid from",
+  "valid_to": "Valid until",
+  "rules": "Schedule",
+  "job_type": "Job type",
+  "schedule": "Schedule",
   "reason": "Reason",
   "explanation": "Explanation"
 }
