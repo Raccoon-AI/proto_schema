@@ -93,6 +93,9 @@ service OrganizationService {
   rpc UpdateSetting(OrganizationSettingsUpdate) returns (OrganizationSettings) {}
   // Replaces the caller organization's disabled job types.
   rpc UpdateDisabledJobTypes(DisabledJobTypes) returns (OrganizationSettings) {}
+  // Replaces the caller organization's job type → job category overrides; pairs equal
+  // to the built-in default are dropped, an empty list restores the defaults.
+  rpc UpdateJobTypeCategories(JobTypeCategories) returns (OrganizationSettings) {}
 
   // can be used by service providers
   rpc ListServiceReceivers(ServiceReceiverListRequest) returns (OrganizationList) {}

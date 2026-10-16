@@ -60,6 +60,18 @@ message DisabledJobTypes {
   repeated JobType types = 1 [json_name = "types"];
 }
 
+// Which job category a job type belongs to in this organization. GetSetting returns the
+// effective map (built-in defaults plus the organization's overrides); only overrides
+// are stored. Written via OrganizationService.UpdateJobTypeCategories.
+message JobTypeCategory {
+  required JobType job_type = 1 [json_name = "job_type"];
+  required JobCategory job_category = 2 [json_name = "job_category"];
+}
+
+message JobTypeCategories {
+  repeated JobTypeCategory items = 1 [json_name = "items"];
+}
+
 message OrganizationSettings {
   required uint64 id = 1 [json_name = "id"];
   optional string shift_departure_text = 3 [json_name = "shift_departure_text"];
@@ -76,6 +88,7 @@ message OrganizationSettings {
   optional uint64 default_depot_id = 15 [json_name = "default_depot_id"];
   optional DisposalSiteOrgIds disposal_site_org_ids = 16 [json_name = "disposal_site_org_ids"];
   optional DisabledJobTypes disabled_job_types = 17 [json_name = "disabled_job_types"];
+  optional JobTypeCategories job_type_categories = 18 [json_name = "job_type_categories"];
 }
 
 message OrganizationSettingsCreate {
