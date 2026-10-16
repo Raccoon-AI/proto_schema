@@ -78,7 +78,6 @@
   "action": "Action",
   "organization_type": "Organization type",
   "service_provider_ids": "Responsible zone",
-  "service_provider_id": "Responsible depot",
   "valid_from": "Valid from",
   "valid_to": "Valid until",
   "rules": "Schedule",

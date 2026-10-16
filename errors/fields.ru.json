@@ -78,7 +78,6 @@
   "action": "Действие",
   "organization_type": "Тип организации",
   "service_provider_ids": "Зона ответственности",
-  "service_provider_id": "Ответственное депо",
   "valid_from": "Действует с",
   "valid_to": "Действует до",
   "rules": "График",
