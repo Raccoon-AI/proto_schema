@@ -443,6 +443,8 @@ service GovDashService {
   rpc DriverOnShifts(GovDriverOnShiftListRequest) returns (DriverOnShiftList) {}
   rpc Routes(GovRouteListRequest) returns (RouteList) {}
   rpc ExportJobsReport(GovJobListRequest) returns (GovJobsReportResponse) {}
+  // xlsx of the same pickup locations PickupLocations returns for this request.
+  rpc ExportPickupLocationsReport(GovPickupLocationListRequest) returns (GovJobsReportResponse) {}
   rpc GetGovRawScaleRecordList(GovRawScaleRecordListRequest) returns (RawScaleRecordListResponse) {}
 
   rpc GetServiceProviderStatsById(IdRequest) returns (GovServiceProviderStats) {}
