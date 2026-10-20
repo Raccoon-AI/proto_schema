@@ -96,6 +96,21 @@ enum JobMetric {
   JOB_METRIC_COMPLETED = 3; // COUNT of completed jobs, bucketed by completion day
 }
 
+// JobTotal keys a job list's "totals" facet: not a breakdown but what every job the
+// request matches adds up to — all of them, not one page; under one_per_order, each
+// order once. Facet counts are whole numbers, hence volume in litres.
+enum JobTotal {
+  JOB_TOTAL_UNDEFINED = 0;
+  // Orders: jobs sharing an order_number are one; a job without one is its own.
+  JOB_TOTAL_ORDERS = 1;
+  JOB_TOTAL_PICKUP_LOCATIONS = 2;
+  // Planned containers: a job's own count, else its container group's.
+  JOB_TOTAL_CONTAINERS = 3;
+  // Planned volume, in litres (m³ × 1000, rounded): those containers × the volume of
+  // their container group's type.
+  JOB_TOTAL_VOLUME_LITRES = 4;
+}
+
 enum DriverMetric {
   DRIVER_METRIC_UNDEFINED = 0;
   DRIVER_METRIC_SHIFTS_COMPLETED = 1;

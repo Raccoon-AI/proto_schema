@@ -161,20 +161,6 @@ message JobUpdate {
 message JobList {
   repeated Job jobs = 1 [json_name = "jobs"];
   optional ListInfo list_info = 2 [json_name = "list_info"];
-  // Set when the request asks with_totals.
-  optional JobListTotals totals = 3 [json_name = "totals"];
-}
-
-// What the jobs a list request matches add up to — all of them, not one page. Under
-// one_per_order each order counts once, through the job that speaks for it.
-message JobListTotals {
-  // Orders: jobs sharing an order_number are one; a job without one is its own.
-  required uint32 orders = 1 [json_name = "orders"];
-  required uint32 pickup_locations = 2 [json_name = "pickup_locations"];
-  // Planned containers: a job's own count, else its container group's.
-  required uint32 containers = 3 [json_name = "containers"];
-  // Planned m³: those containers × the volume of their container group's type.
-  required double volume = 4 [json_name = "volume"];
 }
 
 message JobFileUploadRequest {
