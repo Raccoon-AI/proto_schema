@@ -30,6 +30,8 @@ message CustomGroupUpdate {
 
 message CustomGroupListRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  // also the groups of every descendant organization; owner_organization tells them apart
+  optional bool include_descendants = 2 [json_name = "include_descendants"];
 }
 
 message CustomGroupList {

@@ -156,6 +156,7 @@
   "ERROR_CODE_ORGANIZATION_NO_NIGHT_MULTIPLIER": "У организации {{id}} не задана ночная надбавка",
   "ERROR_CODE_ORGANIZATION_NO_ACTIVE_DEPOT": "У организации {{id}} нет активного парка — укажите парк по умолчанию",
   "ERROR_CODE_ORGANIZATION_MULTIPLE_ACTIVE_DEPOTS": "У организации {{id}} несколько активных парков ({{count}}) — укажите парк по умолчанию",
+  "ERROR_CODE_ORGANIZATION_OUTSIDE_BRANCH": "{{entity}} {{id}} вне ветки организации, которой принадлежит группа доступа",
   "ERROR_CODE_DRIVER_NOT_IN_ORGANIZATION": "Водитель {{driver}} не найден в организации {{organization}}",
   "ERROR_CODE_SHIFT_PLAN_DATE_NOT_FUTURE": "План смен меняется только на будущие даты: указано {{date}}, сегодня {{today}}",
   "ERROR_CODE_SHIFT_PLAN_USER_NOT_DRIVER": "План смен составляется только для водителей, а у пользователя {{user}} роль {{role}}",
