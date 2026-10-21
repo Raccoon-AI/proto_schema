@@ -30,14 +30,20 @@ enum DriverIncidentType {
   DRIVER_INCIDENT_TYPE_UNSUITABLE_EQUIPMENT = 8; // Неподходящая техника
   // Notification only, the job continues as usual.
   DRIVER_INCIDENT_TYPE_CONTAINERS_DAMAGED = 9; // Контейнер(ы) повреждены
+
+  // Recorded by the system, never reported: the job's day ended without a
+  // route (the midnight expiry).
+  DRIVER_INCIDENT_TYPE_EXPIRED = 10; // Не успели (долг)
 }
 
 message DriverIncident {
   required uint64 id = 1 [json_name = "id"];
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
-  required uint64 driver_id = 3 [json_name = "driver_id"];
-  required uint64 driver_on_shift_id = 4 [json_name = "driver_on_shift_id"];
-  required uint64 truck_id = 5 [json_name = "truck_id"];
+  // The driver, shift and truck: always set on a driver's report, set on a
+  // dispatcher's when the shift is known, unset on the system's.
+  optional uint64 driver_id = 3 [json_name = "driver_id"];
+  optional uint64 driver_on_shift_id = 4 [json_name = "driver_on_shift_id"];
+  optional uint64 truck_id = 5 [json_name = "truck_id"];
   // Set when the driver was on an accepted route at the moment of reporting.
   optional uint64 route_id = 6 [json_name = "route_id"];
   // Set for incidents reported on a job (the driver's current job).
@@ -45,6 +51,10 @@ message DriverIncident {
   required DriverIncidentType type = 8 [json_name = "type"];
   repeated FileUpload files = 9 [json_name = "files"];
   required google.protobuf.Timestamp created_at = 10 [json_name = "created_at"];
+  // Who recorded it: the driver or a dispatcher; unset for the system.
+  optional uint64 author_id = 11 [json_name = "author_id"];
+  // Free text, e.g. a dispatcher's explanation (required for OTHER).
+  optional string explanation = 12 [json_name = "explanation"];
 }
 
 message DriverIncidentListRequest {
@@ -54,6 +64,8 @@ message DriverIncidentListRequest {
   optional uint64 driver_id = 4 [json_name = "driver_id"];
   optional uint64 truck_id = 5 [json_name = "truck_id"];
   optional uint64 route_id = 6 [json_name = "route_id"];
+  // Only the incidents of these jobs.
+  repeated uint64 job_ids = 7 [json_name = "job_ids"];
 }
 
 message DriverIncidentList {
