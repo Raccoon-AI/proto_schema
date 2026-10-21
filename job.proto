@@ -165,3 +165,16 @@ message JobFileUploadRequest {
   optional string container_name = 4 [json_name = "container_name"];
   repeated double container_coefficients = 5 [json_name = "container_coefficients"];
 }
+
+// A job to plan: an existing one, or the one a container group gets for a job
+// type on a day. Exactly one of container_group_id + job_type, or job_id.
+message JobStop {
+  optional uint64 container_group_id = 1 [json_name = "container_group_id"];
+  optional JobType job_type = 2 [json_name = "job_type"];
+  optional uint64 job_id = 3 [json_name = "job_id"];
+  // Container group stop: tw_start_at picks the schedule window that day
+  // (unset: the first one); the server sets both from the schedule.
+  // Ignored on job_id stops.
+  optional google.protobuf.Timestamp tw_start_at = 4 [json_name = "tw_start_at"];
+  optional google.protobuf.Timestamp tw_end_at = 5 [json_name = "tw_end_at"];
+}
