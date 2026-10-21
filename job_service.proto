@@ -74,6 +74,8 @@ service JobService {
   rpc ListOperationTimeWindowJobs(OperationTwJobListRequest) returns (JobList) {}
   rpc CancelJob(JobRequest) returns (Job) {}
   rpc ForceCompleteJob(JobRequest) returns (Job) {}
+  // A new attempt at a NOT_COMPLETED job's order, today at its hours; once per attempt.
+  rpc ReissueJob(JobRequest) returns (Job) {}
   rpc AttachJobInstructions(AttachJobInstructionsRequest) returns (Job) {}
   rpc DetachJobInstructions(DetachJobInstructionsRequest) returns (MessageResponse) {}
   rpc DetachJobFromRoute(JobRequest) returns (Job) {}
