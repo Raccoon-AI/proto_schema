@@ -67,6 +67,8 @@ message ListCounterpartiesRequest {
   optional ContractStatus status = 2 [json_name = "status"];
   optional string search = 3 [json_name = "search"];
   repeated uint64 manager_ids = 4 [json_name = "manager_ids"];
+  // 0 matches counterparties with no customer type.
+  repeated uint64 customer_type_ids = 5 [json_name = "customer_type_ids"];
   // facets: "status" (ContractStatus of each counterparty's strongest contract).
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
@@ -74,6 +76,16 @@ message ListCounterpartiesRequest {
 message Counterparty {
   required Organization organization = 1 [json_name = "organization"];
   required ContractStatus contract_status = 2 [json_name = "contract_status"];
+  // The requesting organization's customer type for this counterparty; unset: none.
+  // Per provider: one receiver can be a construction customer for one provider
+  // and a manufacturing one for another.
+  optional uint64 customer_type_id = 3 [json_name = "customer_type_id"];
+}
+
+message SetCounterpartyCustomerTypeRequest {
+  required uint64 organization_id = 1 [json_name = "organization_id"];
+  required uint64 counterparty_id = 2 [json_name = "counterparty_id"];
+  optional uint64 customer_type_id = 3 [json_name = "customer_type_id"]; // unset or 0 clears
 }
 
 message CounterpartyList {
@@ -112,6 +124,13 @@ service OrganizationService {
   rpc ListAccessibleOrganizations(AccessibleOrganizationListRequest) returns (OrganizationList) {}
   rpc ListOrganizationSubtree(OrganizationSubtreeRequest) returns (OrganizationList) {}
   rpc ListCounterparties(ListCounterpartiesRequest) returns (CounterpartyList) {}
+  rpc SetCounterpartyCustomerType(SetCounterpartyCustomerTypeRequest) returns (MessageResponse) {}
+
+  // Customer types of a service provider. Archive / restore with Update(status).
+  rpc CreateCustomerType(CustomTypeCreate) returns (CustomType) {}
+  rpc UpdateCustomerType(CustomTypeUpdate) returns (CustomType) {}
+  rpc ListCustomerTypes(CustomTypeListRequest) returns (CustomTypeList) {}
+
   rpc GetOrganization(OrganizationRequest) returns (Organization) {}
   rpc UpdateOrganization(OrganizationUpdate) returns (Organization) {}
   rpc MyOrganization(EmptyMessageRequest) returns (Organization) {}

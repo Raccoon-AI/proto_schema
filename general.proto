@@ -371,3 +371,44 @@ message ListInfo {
   // The requested ListFilter.facets, by name.
   map<string, FacetCounts> facets = 6 [json_name = "facets"];
 }
+
+// An organization's own named type: pickup location types, customer types.
+// A label for filtering and display only, no business rule depends on it.
+message CustomType {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required string name = 3 [json_name = "name"];
+  // INACTIVE is the archive: kept where already assigned, not assignable.
+  required LocationStatus status = 4 [json_name = "status"];
+  // How many entities carry the type. Set by the List RPCs.
+  optional uint32 usage_count = 5 [json_name = "usage_count"];
+
+  required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+  optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
+}
+
+message CustomTypeCreate {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required string name = 2 [json_name = "name"];
+}
+
+message CustomTypeUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  optional string name = 3 [json_name = "name"];
+  optional LocationStatus status = 4 [json_name = "status"];
+}
+
+message CustomTypeListRequest {
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
+  repeated LocationStatus statuses = 2 [json_name = "statuses"];
+  // facets: "status" (LocationStatus).
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
+}
+
+message CustomTypeList {
+  repeated CustomType types = 1 [json_name = "types"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
+  // Entities of the requested organizations with no type («Неопределено»).
+  optional uint32 untyped_count = 3 [json_name = "untyped_count"];
+}

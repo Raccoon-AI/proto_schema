@@ -13,9 +13,7 @@ option go_package = "./pb";
 message PickupLocation {
   required uint64 id = 1 [json_name = "id"];
   required string name = 3 [json_name = "name"];
-  // Deprecated in favor of pickup_location_type. Still always set by the servers
-  // until every consumer has dropped it, so older readers that require it keep working.
-  optional PickupLocationType type = 4 [json_name = "type"];
+  required PickupLocationType type = 4 [json_name = "type"];
   optional uint64 owner_organization_id = 5 [json_name = "owner_organization_id"]; // will be deprecated
   optional uint64 service_provider_id = 6 [json_name = "service_provider_id"]; // will be required
   required LocationStatus status = 7 [json_name = "status"];
@@ -43,9 +41,9 @@ message PickupLocation {
   // BY_NORM contracts covering this location. Set where the caller preloads them
   // (ListPickupLocations / GetPickupLocationById).
   repeated Contract subscription_contracts = 29 [json_name = "subscription_contracts"];
-  // Unset: the location has no type («Неопределено»).
+  // Unset: no type («Неопределено»).
   optional uint64 pickup_location_type_id = 30 [json_name = "pickup_location_type_id"];
-  optional CustomPickupLocationType pickup_location_type = 31 [json_name = "pickup_location_type"];
+  optional CustomType pickup_location_type = 31 [json_name = "pickup_location_type"];
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
 }
 
@@ -53,7 +51,7 @@ message PickupLocationCreate {
   optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"]; // to be deprecated
   optional uint64 service_provider_id = 2 [json_name = "service_provider_id"]; // to be required
   required string name = 3 [json_name = "name"];
-  optional PickupLocationType type = 4 [json_name = "type"]; // Deprecated in favor of pickup_location_type_id
+  required PickupLocationType type = 4 [json_name = "type"];
   required double lon = 5 [json_name = "lon"];
   required double lat = 6 [json_name = "lat"];
   optional google.protobuf.Struct geometry = 7 [json_name = "geometry"];
@@ -72,7 +70,6 @@ message PickupLocationCreate {
   optional string plan_waste_volume = 20 [json_name = "plan_waste_volume"]; // To be deprecated
   optional string plan_waste_mass = 21 [json_name = "plan_waste_mass"]; // To be deprecated
   optional uint64 manager_id = 22 [json_name = "manager_id"];
-  // An active type of the location's service provider. Unset: no type.
   optional uint64 pickup_location_type_id = 23 [json_name = "pickup_location_type_id"];
 }
 
@@ -81,7 +78,7 @@ message PickupLocationUpdate {
   optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"]; // to be deprecated
   optional uint64 service_provider_id = 3 [json_name = "service_provider_id"]; // to be required
   optional string name = 4 [json_name = "name"];
-  optional PickupLocationType type = 5 [json_name = "type"]; // Deprecated in favor of pickup_location_type_id
+  optional PickupLocationType type = 5 [json_name = "type"];
   optional LocationStatus status = 6 [json_name = "status"];
   optional double lon = 7 [json_name = "lon"];
   optional double lat = 8 [json_name = "lat"];
@@ -102,42 +99,7 @@ message PickupLocationUpdate {
   optional string plan_waste_volume = 23 [json_name = "plan_waste_volume"];
   optional string plan_waste_mass = 24 [json_name = "plan_waste_mass"];
   optional uint64 manager_id = 25 [json_name = "manager_id"];
-  // An active type of the location's service provider; 0 clears the type.
-  optional uint64 pickup_location_type_id = 26 [json_name = "pickup_location_type_id"];
-}
-
-// An organization's own pickup location type. A label for filtering and
-// display only: no business rule depends on it.
-message CustomPickupLocationType {
-  required uint64 id = 1 [json_name = "id"];
-  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
-  required string name = 3 [json_name = "name"];
-  // Archived types stay on the locations that carry them but cannot be assigned.
-  optional bool archived = 4 [json_name = "archived"];
-  // Non-deleted pickup locations of this type. Set by ListPickupLocationTypes.
-  optional uint32 pickup_location_count = 5 [json_name = "pickup_location_count"];
-
-  required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
-  optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
-}
-
-message CustomPickupLocationTypeCreate {
-  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
-  required string name = 2 [json_name = "name"];
-}
-
-message CustomPickupLocationTypeUpdate {
-  required uint64 id = 1 [json_name = "id"];
-  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
-  optional string name = 3 [json_name = "name"];
-  optional bool archived = 4 [json_name = "archived"];
-}
-
-message CustomPickupLocationTypeList {
-  repeated CustomPickupLocationType pickup_location_types = 1 [json_name = "pickup_location_types"];
-  optional ListInfo list_info = 2 [json_name = "list_info"];
-  // Non-deleted pickup locations of the requested organizations with no type («Неопределено»).
-  optional uint32 untyped_pickup_location_count = 3 [json_name = "untyped_pickup_location_count"];
+  optional uint64 pickup_location_type_id = 26 [json_name = "pickup_location_type_id"]; // 0 clears
 }
 
 message PickupLocationListContract {
