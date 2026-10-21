@@ -54,6 +54,9 @@ message DriverIncidentListRequest {
   optional uint64 driver_id = 4 [json_name = "driver_id"];
   optional uint64 truck_id = 5 [json_name = "truck_id"];
   optional uint64 route_id = 6 [json_name = "route_id"];
+  // Incidents reported on any of these jobs — e.g. why a listed job ended up
+  // NOT_COMPLETED. Empty → no job filtering.
+  repeated uint64 job_ids = 7 [json_name = "job_ids"];
 }
 
 message DriverIncidentList {
