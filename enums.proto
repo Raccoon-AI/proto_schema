@@ -393,6 +393,8 @@ enum LocationType {
 // PICKUP_LOCATION ENUMS
 // *****************************************************
 
+// Deprecated in favor of CustomPickupLocationType (pickup_location.proto).
+// Removed once every consumer has stopped reading it.
 enum PickupLocationType {
   PICKUP_LOCATION_TYPE_UNDEFINED = 0;
   PICKUP_LOCATION_TYPE_CONSTRUCTION = 1;

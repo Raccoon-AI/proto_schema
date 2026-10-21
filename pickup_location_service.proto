@@ -30,10 +30,26 @@ message PickupLocationListRequest {
   repeated JobCategory job_categories = 6 [json_name = "job_categories"];
   repeated LocationStatus statuses = 7 [json_name = "statuses"];
   optional string search = 8 [json_name = "search"];
-  repeated PickupLocationType types = 9 [json_name = "types"];
+  repeated PickupLocationType types = 9 [json_name = "types"]; // Deprecated in favor of pickup_location_type_ids
   // No inheritance from the client's manager: a location with no manager_id matches nothing.
   repeated uint64 manager_ids = 11 [json_name = "manager_ids"];
+  // Only pickup locations of these types; with without_type, also those with no type.
+  repeated uint64 pickup_location_type_ids = 12 [json_name = "pickup_location_type_ids"];
+  // Only pickup locations with no type («Неопределено»); ORed with pickup_location_type_ids.
+  optional bool without_type = 13 [json_name = "without_type"];
   // facets: "status" (LocationStatus), "type" (PickupLocationType).
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
+}
+
+message CustomPickupLocationTypeRequest {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+}
+
+message CustomPickupLocationTypeListRequest {
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
+  // Unset or false: active types only; true: archived types only.
+  optional bool archived = 2 [json_name = "archived"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
@@ -125,6 +141,13 @@ service PickupLocationService {
   rpc SetPickupLocationContracts(SetPickupLocationContractsRequest) returns (PickupLocation) {}
   // @todeprecate
   rpc BindPickupLocationListToContract(PickupLocationListToContractRequest) returns (MessageResponse) {}
+
+  // Custom pickup location type operations. Archive or restore a type with
+  // UpdatePickupLocationType(archived); a type is never hard-deleted.
+  rpc CreatePickupLocationType(CustomPickupLocationTypeCreate) returns (CustomPickupLocationType) {}
+  rpc GetPickupLocationTypeById(CustomPickupLocationTypeRequest) returns (CustomPickupLocationType) {}
+  rpc UpdatePickupLocationType(CustomPickupLocationTypeUpdate) returns (CustomPickupLocationType) {}
+  rpc ListPickupLocationTypes(CustomPickupLocationTypeListRequest) returns (CustomPickupLocationTypeList) {}
 
   // Pickup Location Group operations
   rpc CreatePickupLocationGroup(PickupLocationGroupCreate) returns (PickupLocationGroup) {}
