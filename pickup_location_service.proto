@@ -35,7 +35,8 @@ message PickupLocationListRequest {
   repeated uint64 manager_ids = 11 [json_name = "manager_ids"];
   // 0 matches locations with no type.
   repeated uint64 pickup_location_type_ids = 12 [json_name = "pickup_location_type_ids"];
-  // facets: "status" (LocationStatus), "type" (PickupLocationType).
+  // facets: "status" (LocationStatus), "type" (PickupLocationType),
+  // "pickup_location_type_id" (FacetCounts.id_counts, 0 = no type).
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 

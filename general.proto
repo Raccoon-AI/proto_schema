@@ -354,6 +354,10 @@ message ListFilter {
 // when nonzero. Clients never show UNDEFINED on its own.
 message FacetCounts {
   map<int32, uint32> counts = 1 [json_name = "counts"];
+  // Id facets (a reference column) count here instead, keyed by the referenced id;
+  // key 0 counts the rows with no value, as id 0 filters them. An id missing from the
+  // map counts 0.
+  map<uint64, uint32> id_counts = 2 [json_name = "id_counts"];
 }
 
 message ListInfo {
@@ -380,8 +384,6 @@ message CustomType {
   required string name = 3 [json_name = "name"];
   // INACTIVE is the archive: kept where already assigned, not assignable.
   required LocationStatus status = 4 [json_name = "status"];
-  // How many entities carry the type. Set by the List RPCs.
-  optional uint32 usage_count = 5 [json_name = "usage_count"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -409,6 +411,4 @@ message CustomTypeListRequest {
 message CustomTypeList {
   repeated CustomType types = 1 [json_name = "types"];
   optional ListInfo list_info = 2 [json_name = "list_info"];
-  // Entities of the requested organizations with no type («Неопределено»).
-  optional uint32 untyped_count = 3 [json_name = "untyped_count"];
 }

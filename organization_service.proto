@@ -69,7 +69,8 @@ message ListCounterpartiesRequest {
   repeated uint64 manager_ids = 4 [json_name = "manager_ids"];
   // 0 matches counterparties with no customer type.
   repeated uint64 customer_type_ids = 5 [json_name = "customer_type_ids"];
-  // facets: "status" (ContractStatus of each counterparty's strongest contract).
+  // facets: "status" (ContractStatus of each counterparty's strongest contract),
+  // "customer_type_id" (FacetCounts.id_counts, 0 = no type).
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
