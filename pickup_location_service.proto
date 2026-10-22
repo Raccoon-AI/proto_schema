@@ -30,10 +30,17 @@ message PickupLocationListRequest {
   repeated JobCategory job_categories = 6 [json_name = "job_categories"];
   repeated LocationStatus statuses = 7 [json_name = "statuses"];
   optional string search = 8 [json_name = "search"];
-  repeated PickupLocationType types = 9 [json_name = "types"];
+  // Deprecated: filter by pickup_location_type_ids.
+  repeated PickupLocationType types = 9 [
+    json_name = "types",
+    deprecated = true
+  ];
   // No inheritance from the client's manager: a location with no manager_id matches nothing.
   repeated uint64 manager_ids = 11 [json_name = "manager_ids"];
-  // facets: "status" (LocationStatus), "type" (PickupLocationType).
+  // 0 matches locations with no type.
+  repeated uint64 pickup_location_type_ids = 12 [json_name = "pickup_location_type_ids"];
+  // facets: "status" (LocationStatus), "type" (PickupLocationType; deprecated, use
+  // "pickup_location_type_id"), "pickup_location_type_id" (FacetCounts.id_counts, 0 = no type).
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
@@ -125,6 +132,11 @@ service PickupLocationService {
   rpc SetPickupLocationContracts(SetPickupLocationContractsRequest) returns (PickupLocation) {}
   // @todeprecate
   rpc BindPickupLocationListToContract(PickupLocationListToContractRequest) returns (MessageResponse) {}
+
+  // Pickup location types. Archive / restore with Update(status).
+  rpc CreatePickupLocationType(OrganizationLabelCreate) returns (OrganizationLabel) {}
+  rpc UpdatePickupLocationType(OrganizationLabelUpdate) returns (OrganizationLabel) {}
+  rpc ListPickupLocationTypes(OrganizationLabelListRequest) returns (OrganizationLabelList) {}
 
   // Pickup Location Group operations
   rpc CreatePickupLocationGroup(PickupLocationGroupCreate) returns (PickupLocationGroup) {}

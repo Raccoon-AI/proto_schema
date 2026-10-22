@@ -354,6 +354,10 @@ message ListFilter {
 // when nonzero. Clients never show UNDEFINED on its own.
 message FacetCounts {
   map<int32, uint32> counts = 1 [json_name = "counts"];
+  // Id facets (a reference column) count here instead, keyed by the referenced id;
+  // key 0 counts the rows with no value, as id 0 filters them. An id missing from the
+  // map counts 0.
+  map<uint64, uint32> id_counts = 2 [json_name = "id_counts"];
 }
 
 message ListInfo {
@@ -370,4 +374,42 @@ message ListInfo {
   ];
   // The requested ListFilter.facets, by name.
   map<string, FacetCounts> facets = 6 [json_name = "facets"];
+}
+
+// An organization's own label: pickup location types, customer types. A name for
+// filtering and display only, no business rule depends on it. Unlike TruckType or
+// ContainerType, it carries no attributes; add a new label kind, not fields here.
+message OrganizationLabel {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required string name = 3 [json_name = "name"];
+  // INACTIVE is the archive: kept where already assigned, not assignable.
+  required LocationStatus status = 4 [json_name = "status"];
+
+  required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+  optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
+}
+
+message OrganizationLabelCreate {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required string name = 2 [json_name = "name"];
+}
+
+message OrganizationLabelUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  optional string name = 3 [json_name = "name"];
+  optional LocationStatus status = 4 [json_name = "status"];
+}
+
+message OrganizationLabelListRequest {
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
+  repeated LocationStatus statuses = 2 [json_name = "statuses"];
+  // facets: "status" (LocationStatus).
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
+}
+
+message OrganizationLabelList {
+  repeated OrganizationLabel labels = 1 [json_name = "labels"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
 }

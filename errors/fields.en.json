@@ -86,6 +86,9 @@
   "rules": "Schedule",
   "job_type": "Job type",
   "schedule": "Schedule",
+  "status": "Status",
+  "pickup_location_type_id": "Pickup location type",
+  "customer_type_id": "Customer type",
   "reason": "Reason",
   "explanation": "Explanation"
 }

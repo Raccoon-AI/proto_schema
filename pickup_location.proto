@@ -41,6 +41,9 @@ message PickupLocation {
   // BY_NORM contracts covering this location. Set where the caller preloads them
   // (ListPickupLocations / GetPickupLocationById).
   repeated Contract subscription_contracts = 29 [json_name = "subscription_contracts"];
+  // Unset: no type («Неопределено»).
+  optional uint64 pickup_location_type_id = 30 [json_name = "pickup_location_type_id"];
+  optional OrganizationLabel pickup_location_type = 31 [json_name = "pickup_location_type"];
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
 }
 
@@ -67,6 +70,7 @@ message PickupLocationCreate {
   optional string plan_waste_volume = 20 [json_name = "plan_waste_volume"]; // To be deprecated
   optional string plan_waste_mass = 21 [json_name = "plan_waste_mass"]; // To be deprecated
   optional uint64 manager_id = 22 [json_name = "manager_id"];
+  optional uint64 pickup_location_type_id = 23 [json_name = "pickup_location_type_id"];
 }
 
 message PickupLocationUpdate {
@@ -95,6 +99,7 @@ message PickupLocationUpdate {
   optional string plan_waste_volume = 23 [json_name = "plan_waste_volume"];
   optional string plan_waste_mass = 24 [json_name = "plan_waste_mass"];
   optional uint64 manager_id = 25 [json_name = "manager_id"];
+  optional uint64 pickup_location_type_id = 26 [json_name = "pickup_location_type_id"]; // 0 clears
 }
 
 message PickupLocationListContract {
