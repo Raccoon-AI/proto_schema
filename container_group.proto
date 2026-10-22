@@ -152,8 +152,6 @@ message ScheduleRules {
     MonthlyRules monthly = 2 [json_name = "monthly"];
     EveryNDaysRule every_n_days = 3 [json_name = "every_n_days"];
   }
-  reserved 4;
-  reserved "legacy_expr"; // read-only on ContainerGroupSchedule.legacy_expr
 }
 
 message ContainerGroupSchedule {
@@ -164,10 +162,8 @@ message ContainerGroupSchedule {
   optional Organization service_provider = 5 [json_name = "service_provider"];
   optional string valid_from = 6 [json_name = "valid_from"]; // YYYY-MM-DD, Asia/Almaty, inclusive; unset only on legacy rows
   optional string valid_to = 7 [json_name = "valid_to"];
-  reserved 8;
-  reserved "schedule_type";
-  optional ScheduleRules rules = 9 [json_name = "rules"]; // unset on a legacy row
-  optional string legacy_expr = 10 [json_name = "legacy_expr"]; // a pre-table cron string; read-only, never accepted on writes
+  optional ScheduleRules rules = 8 [json_name = "rules"]; // unset on a legacy row
+  optional string legacy_expr = 9 [json_name = "legacy_expr"]; // a pre-table cron string; read-only, never accepted on writes
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
 }

@@ -85,10 +85,12 @@ message Job {
   repeated double container_coefficients = 53 [json_name = "container_coefficients"];
   // m³ actually taken: Σcoefficient × container volume, or the dispatcher's override.
   optional double fact_total_volume = 54 [json_name = "fact_total_volume"];
-  // 55 is updated_by on main.
-  optional uint64 contract_id = 56 [json_name = "contract_id"]; // the contract the job was created under
-  optional uint64 schedule_id = 57 [json_name = "schedule_id"]; // the schedule that generated it, if any
-  optional Contract contract = 58 [json_name = "contract"];
+  // Containers the job covers (the dispatcher's «Кол-во контейнеров»); unset on older jobs.
+  optional uint32 number_of_containers = 56 [json_name = "number_of_containers"];
+  // 55 is updated_by and 56 number_of_containers on main.
+  optional uint64 contract_id = 57 [json_name = "contract_id"]; // the contract the job was created under
+  optional uint64 schedule_id = 58 [json_name = "schedule_id"]; // the schedule that generated it, if any
+  optional Contract contract = 59 [json_name = "contract"];
 }
 
 message JobCreate {
@@ -114,6 +116,8 @@ message JobCreate {
   optional uint64 container_type_id = 20 [json_name = "container_type_id"]; // We don't need this
   optional uint64 container_group_id = 21 [json_name = "container_group_id"]; // To be switched to required in the future
   optional uint64 pickup_location_group_id = 22 [json_name = "pickup_location_group_id"];
+  // Containers the job covers (the dispatcher's «Кол-во контейнеров»).
+  optional uint32 number_of_containers = 23 [json_name = "number_of_containers"];
 }
 
 message JobUpdate {
@@ -150,6 +154,8 @@ message JobUpdate {
   optional uint64 container_type_id = 32 [json_name = "container_type_id"];
   optional bool receiver_notified = 33 [json_name = "receiver_notified"];
   optional uint64 container_group_id = 34 [json_name = "container_group_id"];
+  // Containers the job covers.
+  optional uint32 number_of_containers = 35 [json_name = "number_of_containers"];
 }
 
 message JobList {
@@ -163,4 +169,17 @@ message JobFileUploadRequest {
   optional uint64 job_id = 3 [json_name = "job_id"];
   optional string container_name = 4 [json_name = "container_name"];
   repeated double container_coefficients = 5 [json_name = "container_coefficients"];
+}
+
+// A job to plan: an existing one, or the one a container group gets for a job
+// type on a day. Exactly one of container_group_id + job_type, or job_id.
+message JobStop {
+  optional uint64 container_group_id = 1 [json_name = "container_group_id"];
+  optional JobType job_type = 2 [json_name = "job_type"];
+  optional uint64 job_id = 3 [json_name = "job_id"];
+  // Container group stop: tw_start_at picks the schedule window that day
+  // (unset: the first one); the server sets both from the schedule.
+  // Ignored on job_id stops.
+  optional google.protobuf.Timestamp tw_start_at = 4 [json_name = "tw_start_at"];
+  optional google.protobuf.Timestamp tw_end_at = 5 [json_name = "tw_end_at"];
 }
