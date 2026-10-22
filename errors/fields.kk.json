@@ -86,6 +86,9 @@
   "rules": "Кесте",
   "job_type": "Жұмыс түрі",
   "schedule": "Кесте",
+  "status": "Мәртебе",
+  "pickup_location_type_id": "Шығару нүктесінің түрі",
+  "customer_type_id": "Тапсырыс беруші түрі",
   "reason": "Себеп",
   "explanation": "Түсіндірме"
 }
