@@ -43,7 +43,7 @@ message PickupLocation {
   repeated Contract subscription_contracts = 29 [json_name = "subscription_contracts"];
   // Unset: no type («Неопределено»).
   optional uint64 pickup_location_type_id = 30 [json_name = "pickup_location_type_id"];
-  optional CustomType pickup_location_type = 31 [json_name = "pickup_location_type"];
+  optional ProviderLabel pickup_location_type = 31 [json_name = "pickup_location_type"];
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
 }
 

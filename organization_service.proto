@@ -128,9 +128,9 @@ service OrganizationService {
   rpc SetCounterpartyCustomerType(SetCounterpartyCustomerTypeRequest) returns (MessageResponse) {}
 
   // Customer types of a service provider. Archive / restore with Update(status).
-  rpc CreateCustomerType(CustomTypeCreate) returns (CustomType) {}
-  rpc UpdateCustomerType(CustomTypeUpdate) returns (CustomType) {}
-  rpc ListCustomerTypes(CustomTypeListRequest) returns (CustomTypeList) {}
+  rpc CreateCustomerType(ProviderLabelCreate) returns (ProviderLabel) {}
+  rpc UpdateCustomerType(ProviderLabelUpdate) returns (ProviderLabel) {}
+  rpc ListCustomerTypes(ProviderLabelListRequest) returns (ProviderLabelList) {}
 
   rpc GetOrganization(OrganizationRequest) returns (Organization) {}
   rpc UpdateOrganization(OrganizationUpdate) returns (Organization) {}
