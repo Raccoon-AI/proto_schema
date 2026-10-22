@@ -80,6 +80,12 @@
   "resource": "Модуль",
   "action": "Әрекет",
   "organization_type": "Ұйым түрі",
+  "service_provider_ids": "Жауапкершілік аймағы",
+  "valid_from": "Басталуы",
+  "valid_to": "Аяқталуы",
+  "rules": "Кесте",
+  "job_type": "Жұмыс түрі",
+  "schedule": "Кесте",
   "reason": "Себеп",
   "explanation": "Түсіндірме"
 }

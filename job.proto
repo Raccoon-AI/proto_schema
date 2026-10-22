@@ -3,6 +3,7 @@ package raccoonai;
 
 import "ai_verification.proto";
 import "container_group.proto";
+import "contract.proto";
 import "driver_on_shift.proto";
 import "enums.proto";
 import "file_upload.proto";
@@ -86,6 +87,10 @@ message Job {
   optional double fact_total_volume = 54 [json_name = "fact_total_volume"];
   // Containers the job covers (the dispatcher's «Кол-во контейнеров»); unset on older jobs.
   optional uint32 number_of_containers = 56 [json_name = "number_of_containers"];
+  // 55 is updated_by and 56 number_of_containers on main.
+  optional uint64 contract_id = 57 [json_name = "contract_id"]; // the contract the job was created under
+  optional uint64 schedule_id = 58 [json_name = "schedule_id"]; // the schedule that generated it, if any
+  optional Contract contract = 59 [json_name = "contract"];
 }
 
 message JobCreate {
