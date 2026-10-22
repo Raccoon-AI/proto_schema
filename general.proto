@@ -376,10 +376,10 @@ message ListInfo {
   map<string, FacetCounts> facets = 6 [json_name = "facets"];
 }
 
-// A provider's own label: pickup location types, customer types. A name for
+// An organization's own label: pickup location types, customer types. A name for
 // filtering and display only, no business rule depends on it. Unlike TruckType or
 // ContainerType, it carries no attributes; add a new label kind, not fields here.
-message ProviderLabel {
+message OrganizationLabel {
   required uint64 id = 1 [json_name = "id"];
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
   required string name = 3 [json_name = "name"];
@@ -390,26 +390,26 @@ message ProviderLabel {
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
 }
 
-message ProviderLabelCreate {
+message OrganizationLabelCreate {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   required string name = 2 [json_name = "name"];
 }
 
-message ProviderLabelUpdate {
+message OrganizationLabelUpdate {
   required uint64 id = 1 [json_name = "id"];
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
   optional string name = 3 [json_name = "name"];
   optional LocationStatus status = 4 [json_name = "status"];
 }
 
-message ProviderLabelListRequest {
+message OrganizationLabelListRequest {
   repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
   repeated LocationStatus statuses = 2 [json_name = "statuses"];
   // facets: "status" (LocationStatus).
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
-message ProviderLabelList {
-  repeated ProviderLabel labels = 1 [json_name = "labels"];
+message OrganizationLabelList {
+  repeated OrganizationLabel labels = 1 [json_name = "labels"];
   optional ListInfo list_info = 2 [json_name = "list_info"];
 }

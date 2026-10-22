@@ -134,9 +134,9 @@ service PickupLocationService {
   rpc BindPickupLocationListToContract(PickupLocationListToContractRequest) returns (MessageResponse) {}
 
   // Pickup location types. Archive / restore with Update(status).
-  rpc CreatePickupLocationType(ProviderLabelCreate) returns (ProviderLabel) {}
-  rpc UpdatePickupLocationType(ProviderLabelUpdate) returns (ProviderLabel) {}
-  rpc ListPickupLocationTypes(ProviderLabelListRequest) returns (ProviderLabelList) {}
+  rpc CreatePickupLocationType(OrganizationLabelCreate) returns (OrganizationLabel) {}
+  rpc UpdatePickupLocationType(OrganizationLabelUpdate) returns (OrganizationLabel) {}
+  rpc ListPickupLocationTypes(OrganizationLabelListRequest) returns (OrganizationLabelList) {}
 
   // Pickup Location Group operations
   rpc CreatePickupLocationGroup(PickupLocationGroupCreate) returns (PickupLocationGroup) {}
