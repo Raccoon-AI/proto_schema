@@ -84,7 +84,6 @@
   "valid_from": "Valid from",
   "valid_to": "Valid until",
   "rules": "Schedule",
-  "job_type": "Job type",
   "schedule": "Schedule",
   "status": "Status",
   "pickup_location_type_id": "Pickup location type",
