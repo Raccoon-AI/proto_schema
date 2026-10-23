@@ -84,7 +84,6 @@
   "valid_from": "Действует с",
   "valid_to": "Действует до",
   "rules": "График",
-  "job_type": "Тип работ",
   "schedule": "График",
   "status": "Статус",
   "pickup_location_type_id": "Тип площадки",
