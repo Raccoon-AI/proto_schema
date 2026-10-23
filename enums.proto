@@ -339,6 +339,9 @@ enum UserRole {
   // RaccoonAI's own dispatcher, dispatching on behalf of service-provider
   // companies that outsource dispatching to us (DaaS). Internal role.
   USER_ROLE_DAAS_DISPATCHER = 18;
+  // Technical user of a service provider's accounting system (1C). May call
+  // Integration1CService only; its owner organization must be a service provider.
+  USER_ROLE_INTEGRATION_1C = 19;
 }
 
 enum UserStatus {
