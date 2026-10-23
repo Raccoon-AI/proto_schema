@@ -7,9 +7,9 @@ option go_package = "./pb";
 
 // Driver price list: the published per-stand price a driver earns for a
 // completed bunker route. The ledger (`driver_price_list`) holds one entry
-// (a cell) per (organization, month, pickup location, shift, start/end
-// anchor); rows are generated monthly by vrp_solver (source MEDIAN /
-// NIGHT_RATIO_FALLBACK) or seeded by a platform admin for stands with too
+// (a cell) per (organization, month, pickup location, shift, disposal site or
+// unset for the pooled cell); rows are generated monthly by vrp_solver (source
+// MEDIAN / NIGHT_RATIO_FALLBACK) or seeded by a platform admin for stands with too
 // little history (source MANUAL_OVERRIDE). Prices are final KZT — the night
 // premium is already included.
 //
@@ -59,9 +59,10 @@ message DriverPriceListCellAudit {
   required uint64 n_obs = 3 [json_name = "n_obs"];
   // Recency-ladder rung (months) behind a generated cell; 0 for a manual override.
   required uint64 window_months = 4 [json_name = "window_months"];
-  // Route anchor the cell was priced at (the organization's depot).
-  required uint64 start_location_id = 5 [json_name = "start_location_id"];
-  required uint64 end_location_id = 6 [json_name = "end_location_id"];
+  // Disposal site the cell is specific to. Unset: the pooled cell, priced
+  // regardless of where (or whether) the route dumps.
+  optional uint64 end_location_id = 6 [json_name = "end_location_id"];
+  reserved 5; // start_location_id: pay never depended on where the route starts
 }
 
 // One priced (stand, shift) cell.
@@ -127,8 +128,9 @@ message DriverPriceListEntry {
   // First day of the month (YYYY-MM-DD).
   required string month = 3 [json_name = "month"];
   required uint64 pickup_location_id = 4 [json_name = "pickup_location_id"];
-  required uint64 start_location_id = 5 [json_name = "start_location_id"];
-  required uint64 end_location_id = 6 [json_name = "end_location_id"];
+  // Unset: the pooled cell (see DriverPriceListCellAudit).
+  optional uint64 end_location_id = 6 [json_name = "end_location_id"];
+  reserved 5;
   required DriverPriceListShift shift = 7 [json_name = "shift"];
   required uint64 std_seconds = 8 [json_name = "std_seconds"];
   required uint64 price_kzt = 9 [json_name = "price_kzt"];
