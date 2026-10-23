@@ -16,7 +16,7 @@ message JobListRequest {
   repeated JobStatus job_statuses = 5 [json_name = "job_statuses"];
   optional uint64 driver_id = 6 [json_name = "driver_id"];
   optional uint64 truck_id = 7 [json_name = "truck_id"];
-  // facets: "status" (JobStatus), "category" (JobCategory); not together with truck_id.
+  // facets: "status" (JobStatus), "category" (JobCategory), "totals" (JobTotal).
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
   optional DateTimeFilter time_filter = 11 [json_name = "time_filter"];
   repeated uint64 pickup_location_ids = 12 [json_name = "pickup_location_ids"];
@@ -35,6 +35,13 @@ message JobListRequest {
   // true → only jobs with at least one photo report (legacy report URLs or an uploaded
   // file); false → only jobs with none. Absent → no photo filtering.
   optional bool has_photo_report = 17 [json_name = "has_photo_report"];
+  // true → one job per order (the jobs sharing an order_number): the one whose status is
+  // the order's — its newest completed job if it has one, otherwise its newest job. The
+  // other filters then select orders by that job, and the total and the facets count
+  // orders. A job without an order number is an order of its own.
+  optional bool one_per_order = 18 [json_name = "one_per_order"];
+  // Only the jobs of these orders, e.g. every attempt at an order the caller opened.
+  repeated string order_numbers = 19 [json_name = "order_numbers"];
 }
 
 message JobRequest {
@@ -67,6 +74,8 @@ service JobService {
   rpc ListOperationTimeWindowJobs(OperationTwJobListRequest) returns (JobList) {}
   rpc CancelJob(JobRequest) returns (Job) {}
   rpc ForceCompleteJob(JobRequest) returns (Job) {}
+  // A new attempt at a NOT_COMPLETED job's order, today at its hours; once per attempt.
+  rpc ReissueJob(JobRequest) returns (Job) {}
   rpc AttachJobInstructions(AttachJobInstructionsRequest) returns (Job) {}
   rpc DetachJobInstructions(DetachJobInstructionsRequest) returns (MessageResponse) {}
   rpc DetachJobFromRoute(JobRequest) returns (Job) {}
