@@ -50,7 +50,6 @@ message DriverOnShift {
   // Set only by ForceCompleteDriverOnShift: the incident that ended the shift
   // ahead of its work (a shift-level type, with the dispatcher's explanation).
   optional DriverIncident force_complete_incident = 31 [json_name = "force_complete_incident"];
-  reserved 29, 30;
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
