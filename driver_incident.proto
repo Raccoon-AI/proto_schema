@@ -31,8 +31,8 @@ enum DriverIncidentType {
   // Notification only, the job continues as usual.
   DRIVER_INCIDENT_TYPE_CONTAINERS_DAMAGED = 9; // Контейнер(ы) повреждены
 
-  // Recorded by the system, never reported: the job's day ended without a
-  // route (the midnight expiry).
+  // The job's day ended without it being done: recorded by the system (the
+  // midnight expiry) or by a dispatcher, never reported by a driver.
   DRIVER_INCIDENT_TYPE_EXPIRED = 10; // Не успели (долг)
 }
 
@@ -62,7 +62,7 @@ message DriverIncident {
 message JobIncidentCreateRequest {
   required uint64 job_id = 1 [json_name = "job_id"];
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
-  // Any type but UNDEFINED and EXPIRED (the system's).
+  // Any type but UNDEFINED.
   required DriverIncidentType type = 3 [json_name = "type"];
   // Required for OTHER; at most 255 characters.
   optional string explanation = 4 [json_name = "explanation"];
