@@ -57,6 +57,17 @@ message DriverIncident {
   optional string explanation = 12 [json_name = "explanation"];
 }
 
+// A dispatcher's incident on a job: why it was not carried out. Recorded as is: the
+// job's status and its retries are left alone, and no post-action runs.
+message JobIncidentCreateRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  // Any type but UNDEFINED and EXPIRED (the system's).
+  required DriverIncidentType type = 3 [json_name = "type"];
+  // Required for OTHER; at most 255 characters.
+  optional string explanation = 4 [json_name = "explanation"];
+}
+
 message DriverIncidentListRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateTimeFilter datetime_filter = 2 [json_name = "datetime_filter"];
