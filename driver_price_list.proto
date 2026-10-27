@@ -77,8 +77,9 @@ message DriverPriceListCell {
   optional DriverPriceListCellAudit audit = 4 [json_name = "audit"];
 }
 
-// One stand of the grid: its day and night cell. One cell per shift — should
-// several anchors ever be listed for a stand, the newest cell wins.
+// One stand of the grid: its day and night cell, the pooled price (no
+// disposal site) in effect — the newest month's. Site-specific cells are
+// not shown.
 message DriverPriceListRow {
   required uint64 pickup_location_id = 1 [json_name = "pickup_location_id"];
   required string pickup_location_name = 2 [json_name = "pickup_location_name"];
@@ -102,8 +103,8 @@ message DriverPriceList {
 // std_seconds / 3600 × rate_kzt_per_std_hour × night_multiplier (night only),
 // rounded half to even like Python's round(). Display the price_kzt returned
 // in DriverPriceListEntry rather than recomputing it client-side.
-// The cell is stored with source MANUAL_OVERRIDE and anchored at the
-// organization's depot. A (stand, shift) that already has a live cell in a
+// The cell is stored with source MANUAL_OVERRIDE as the stand's pooled cell
+// (no disposal site). A (stand, shift) that already has a live cell in a
 // month that has started is append-only and is refused
 // (ERROR_CODE_INVALID_REQUEST_STATE); in a month that has not started yet the
 // existing cell is overwritten.
