@@ -424,6 +424,17 @@ enum PickupLocationPriority {
 }
 
 // *****************************************************
+// CONTAINER_TYPE ENUMS
+// *****************************************************
+
+enum ContainerTypeStatus {
+  CONTAINER_TYPE_STATUS_UNDEFINED = 0;
+  CONTAINER_TYPE_STATUS_ACTIVE = 1;
+  // Hidden from pickers for new container groups/containers; existing ones keep it.
+  CONTAINER_TYPE_STATUS_ARCHIVED = 2;
+}
+
+// *****************************************************
 // SCALE_RECORD ENUMS
 // *****************************************************
 
