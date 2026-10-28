@@ -526,3 +526,35 @@ enum EngineHoursSource {
   // The shift has a window but no usable engine telemetry in it.
   ENGINE_HOURS_SOURCE_NONE = 3;
 }
+
+// Kind of an accounting document a provider's accounting system (1C) reports
+// back for the jobs it billed.
+enum AccountingDocumentKind {
+  ACCOUNTING_DOCUMENT_KIND_UNDEFINED = 0;
+  // «Реализация ТМЗ и услуг»: the sales document the act and the invoice are printed from.
+  ACCOUNTING_DOCUMENT_KIND_REALIZATION = 1;
+  // АВР: act of completed works.
+  ACCOUNTING_DOCUMENT_KIND_ACT = 2;
+  // ЭСФ: electronic tax invoice (ИС ЭСФ).
+  ACCOUNTING_DOCUMENT_KIND_ESF = 3;
+  // Счёт на оплату: payment request.
+  ACCOUNTING_DOCUMENT_KIND_INVOICE = 4;
+}
+
+// Lifecycle of an accounting document as the accounting system reports it.
+enum AccountingDocumentStatus {
+  ACCOUNTING_DOCUMENT_STATUS_UNDEFINED = 0;
+  ACCOUNTING_DOCUMENT_STATUS_DRAFT = 1; // created, not posted
+  ACCOUNTING_DOCUMENT_STATUS_POSTED = 2; // проведён
+  ACCOUNTING_DOCUMENT_STATUS_SENT = 3; // sent to the counterparty or to ИС ЭСФ
+  ACCOUNTING_DOCUMENT_STATUS_SIGNED = 4; // accepted by the counterparty
+  ACCOUNTING_DOCUMENT_STATUS_REJECTED = 5;
+  ACCOUNTING_DOCUMENT_STATUS_CANCELLED = 6;
+}
+
+// Platform entity an external system keeps its own reference for.
+enum IntegrationEntityType {
+  INTEGRATION_ENTITY_TYPE_UNDEFINED = 0;
+  INTEGRATION_ENTITY_TYPE_ORGANIZATION = 1;
+  INTEGRATION_ENTITY_TYPE_CONTRACT = 2;
+}

@@ -11,9 +11,8 @@ option go_package = "./pb";
 // organization and its descendants. Token: AuthService.StaticToken for the
 // technical user; AuthService.Me remains the connection check.
 //
-// Phase 2 (reserved, pushed by 1C's own scheduled job): SetEntityLinks,
-// UpsertAccountingDocuments, UpsertPayments, ListAccountingDocuments,
-// ListPayments.
+// The write-back RPCs are pushed by the extension's own scheduled job and are
+// idempotent on the 1C reference: a batch is applied whole or not at all.
 service Integration1CService {
   // Jobs with fact_end_at in the period, sorted by id ascending.
   rpc ListJobs(Integration1CJobListRequest) returns (Integration1CJobList) {}
@@ -21,4 +20,13 @@ service Integration1CService {
   rpc GetJob(Integration1CJobRequest) returns (Integration1CJob) {}
   rpc ListCounterparties(Integration1CCounterpartyListRequest) returns (Integration1CCounterpartyList) {}
   rpc ListContracts(Integration1CContractListRequest) returns (Integration1CContractList) {}
+
+  // 1C references of counterparties and contracts. Replaces the link per entity.
+  rpc SetEntityLinks(Integration1CSetEntityLinksRequest) returns (Integration1CEntityLinkList) {}
+  // Acts, invoices and realizations with the jobs they cover. Upsert by external_ref.
+  rpc UpsertAccountingDocuments(Integration1CUpsertAccountingDocumentsRequest) returns (Integration1CAccountingDocumentList) {}
+  rpc ListAccountingDocuments(Integration1CAccountingDocumentListRequest) returns (Integration1CAccountingDocumentList) {}
+  // Payments received. Upsert by external_ref.
+  rpc UpsertPayments(Integration1CUpsertPaymentsRequest) returns (Integration1CPaymentList) {}
+  rpc ListPayments(Integration1CPaymentListRequest) returns (Integration1CPaymentList) {}
 }
