@@ -276,6 +276,9 @@ enum ErrorCode {
   // resource_access_grant
   ERROR_CODE_RESOURCE_ACCESS_GRANT_ROLE_NOT_APPLICABLE = 2101;
 
+  // whatsapp
+  ERROR_CODE_WHATSAPP_REPLY_WINDOW_CLOSED = 2201;
+
   // Client-side conditions. The backend never sends these; they live here so a
   // client has one registry of every error it can show. Expect them in the
   // go-backend reachability report as permanently unreachable.

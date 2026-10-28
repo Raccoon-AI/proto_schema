@@ -90,5 +90,7 @@
   "pickup_location_type_id": "Шығару нүктесінің түрі",
   "customer_type_id": "Тапсырыс беруші түрі",
   "reason": "Себеп",
-  "explanation": "Түсіндірме"
+  "explanation": "Түсіндірме",
+  "body": "Хабарлама мәтіні",
+  "client_message_id": "Хабарлама идентификаторы"
 }
