@@ -1,0 +1,24 @@
+syntax = "proto2";
+package raccoonai;
+
+import "integration_1c.proto";
+
+option go_package = "./pb";
+
+// Integration1CService serves a service provider's 1C accounting extension.
+// Gated by the USER_ROLE_INTEGRATION_1C role and the caller's owner
+// organization type (service provider), not by Permify. Scope is the owner
+// organization and its descendants. Token: AuthService.StaticToken for the
+// technical user; AuthService.Me remains the connection check.
+//
+// Phase 2 (reserved, pushed by 1C's own scheduled job): SetEntityLinks,
+// UpsertAccountingDocuments, UpsertPayments, ListAccountingDocuments,
+// ListPayments.
+service Integration1CService {
+  // Jobs with fact_end_at in the period, sorted by id ascending.
+  rpc ListJobs(Integration1CJobListRequest) returns (Integration1CJobList) {}
+  // One job in scope; NOT_FOUND outside it.
+  rpc GetJob(Integration1CJobRequest) returns (Integration1CJob) {}
+  rpc ListCounterparties(Integration1CCounterpartyListRequest) returns (Integration1CCounterpartyList) {}
+  rpc ListContracts(Integration1CContractListRequest) returns (Integration1CContractList) {}
+}
