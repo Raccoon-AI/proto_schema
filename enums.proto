@@ -539,11 +539,9 @@ enum WhatsappMessageKind {
 // and bot messages.
 enum WhatsappMessageStatus {
   WHATSAPP_MESSAGE_STATUS_UNDEFINED = 0;
-  // Recorded, not yet accepted by Meta.
-  WHATSAPP_MESSAGE_STATUS_PENDING = 1;
-  WHATSAPP_MESSAGE_STATUS_SENT = 2;
-  WHATSAPP_MESSAGE_STATUS_DELIVERED = 3;
-  WHATSAPP_MESSAGE_STATUS_READ = 4;
-  // Refused by Meta at send time or failed later (e.g. outside the 24h window).
-  WHATSAPP_MESSAGE_STATUS_FAILED = 5;
+  WHATSAPP_MESSAGE_STATUS_SENT = 1;
+  WHATSAPP_MESSAGE_STATUS_DELIVERED = 2;
+  WHATSAPP_MESSAGE_STATUS_READ = 3;
+  // Refused at send time or failed later (e.g. outside the 24h window).
+  WHATSAPP_MESSAGE_STATUS_FAILED = 4;
 }
