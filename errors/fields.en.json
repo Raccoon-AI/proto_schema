@@ -90,5 +90,6 @@
   "pickup_location_type_id": "Pickup location type",
   "customer_type_id": "Customer type",
   "reason": "Reason",
-  "explanation": "Explanation"
+  "explanation": "Explanation",
+  "type": "Type"
 }

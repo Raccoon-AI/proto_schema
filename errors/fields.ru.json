@@ -90,5 +90,6 @@
   "pickup_location_type_id": "Тип площадки",
   "customer_type_id": "Тип заказчика",
   "reason": "Причина",
-  "explanation": "Пояснение"
+  "explanation": "Пояснение",
+  "type": "Тип"
 }
