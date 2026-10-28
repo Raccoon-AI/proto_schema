@@ -243,7 +243,7 @@ message PickupLocationGroupTrip {
   // link of this group; the live job of its window is reused, otherwise one is
   // created like the daily generator does. A window whose job is already
   // routed or belongs to another group fails with
-  // ERROR_CODE_JOB_ALREADY_ASSIGNED.
+  // ERROR_CODE_JOB_ALREADY_ASSIGNED, unless the request allows duplicates.
   repeated JobStop stops = 3 [json_name = "stops"];
 }
 
@@ -259,6 +259,11 @@ message BulkCreateRoutesFromPickupLocationGroupRequest {
   // Used only when driver_on_shift_id is unset. Unset: the group's default truck.
   optional uint64 truck_id = 5 [json_name = "truck_id"];
   repeated PickupLocationGroupTrip trips = 6 [json_name = "trips"];
+  // The dispatcher confirmed duplicates: a container group stop whose window
+  // job is routed, past CREATED or another group's gets a new job instead of
+  // ERROR_CODE_JOB_ALREADY_ASSIGNED. The window's own unrouted job is still
+  // reused. The daily generator never duplicates.
+  optional bool allow_duplicates = 7 [json_name = "allow_duplicates"];
 }
 
 // One stop of a pseudo-route: either a job created together with the route, or
