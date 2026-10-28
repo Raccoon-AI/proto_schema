@@ -182,4 +182,7 @@ message JobStop {
   // Ignored on job_id stops.
   optional google.protobuf.Timestamp tw_start_at = 4 [json_name = "tw_start_at"];
   optional google.protobuf.Timestamp tw_end_at = 5 [json_name = "tw_end_at"];
+  // Output only (preview): the existing job this stop resolves to. Ignored in
+  // requests.
+  optional Job job = 6 [json_name = "job"];
 }
