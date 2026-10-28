@@ -526,3 +526,24 @@ enum EngineHoursSource {
   // The shift has a window but no usable engine telemetry in it.
   ENGINE_HOURS_SOURCE_NONE = 3;
 }
+
+// What a WhatsApp history message carries. Only text for now; polls, button
+// messages and other kinds come as new values.
+enum WhatsappMessageKind {
+  WHATSAPP_MESSAGE_KIND_UNDEFINED = 0;
+  WHATSAPP_MESSAGE_KIND_TEXT = 1;
+}
+
+// Delivery of a dispatcher's message, from the send and Meta's status webhooks.
+// Numbered in delivery order: a message only moves forward. Unset on inbound
+// and bot messages.
+enum WhatsappMessageStatus {
+  WHATSAPP_MESSAGE_STATUS_UNDEFINED = 0;
+  // Recorded, not yet accepted by Meta.
+  WHATSAPP_MESSAGE_STATUS_PENDING = 1;
+  WHATSAPP_MESSAGE_STATUS_SENT = 2;
+  WHATSAPP_MESSAGE_STATUS_DELIVERED = 3;
+  WHATSAPP_MESSAGE_STATUS_READ = 4;
+  // Refused by Meta at send time or failed later (e.g. outside the 24h window).
+  WHATSAPP_MESSAGE_STATUS_FAILED = 5;
+}
