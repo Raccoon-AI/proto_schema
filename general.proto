@@ -282,6 +282,9 @@ enum ErrorCode {
   // whatsapp
   ERROR_CODE_WHATSAPP_REPLY_WINDOW_CLOSED = 2201;
 
+  // custom_group
+  ERROR_CODE_CUSTOM_GROUP_NAME_TAKEN = 2301;
+
   // Client-side conditions. The backend never sends these; they live here so a
   // client has one registry of every error it can show. Expect them in the
   // go-backend reachability report as permanently unreachable.

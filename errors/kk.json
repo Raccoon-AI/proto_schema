@@ -170,6 +170,7 @@
   "ERROR_CODE_DRIVER_PRICE_LIST_PRICE_OUT_OF_RANGE": "Есептелген баға {{price}} ₸ рұқсат етілген ауқымнан тыс (ең көбі {{max}}) — мөлшерлеме мен түнгі үстемені тексеріңіз",
   "ERROR_CODE_RESOURCE_ACCESS_GRANT_ROLE_NOT_APPLICABLE": "{{access_level}} қол жеткізу деңгейі {{organization_type}} түріндегі ұйымның {{resource}} үшін қолжетімсіз",
   "ERROR_CODE_WHATSAPP_REPLY_WINDOW_CLOSED": "Клиент 24 сағаттан астам жазбады: WhatsApp оған хабарлама жіберуге рұқсат бермейді",
+  "ERROR_CODE_CUSTOM_GROUP_NAME_TAKEN": "{{name}} қолжетімділік тобы бұрыннан бар",
   "ERROR_CODE_COMPANY_NOT_SELECTED": "Компания таңдалмады",
   "ERROR_CODE_ROUTE_OWNER_NOT_IN_ZONE": "Бағыт ұйымы {{id}} тапсырмасының жауапкершілік аймағына кірмейді",
   "ERROR_CODE_JOB_SERVICE_PROVIDER_NOT_IN_ZONE": "{{service_provider}} {{id}} тапсырмасының жауапкершілік аймағына кірмейді",
