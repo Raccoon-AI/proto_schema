@@ -14,11 +14,13 @@ message ShiftPlanDeleteRequest {
 }
 
 message ShiftScheduleRequest {
-  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   required uint32 year = 2 [json_name = "year"];
   required uint32 month = 3 [json_name = "month"]; // 1-12
   // Paginates DRIVERS (schedule rows), never cells: a page always holds complete rows.
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
+  // Organizations to aggregate over, each checked; owner_organization_id is added to them.
+  repeated uint64 owner_organization_ids = 11 [json_name = "owner_organization_ids"];
 }
 
 message ShiftScheduleCell {
