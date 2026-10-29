@@ -22,7 +22,7 @@ message DailyValue {
 // computed over; the caller must hold analytics view access on each of them (Permify decides,
 // so admins can query the orgs they administer).
 message JobMetricSeriesRequest {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
   required JobMetric metric = 3 [json_name = "metric"];
   optional uint64 location_id = 4 [json_name = "location_id"];
@@ -42,7 +42,7 @@ message JobMetricSeriesResponse {
 // 4. drivers_summary_for_period — completed jobs per driver, keyed by geo_group,
 //    plus the driver's shift count over the period.
 message DriversSummaryRequest {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
   optional uint64 driver_id = 3 [json_name = "driver_id"];
   // Organizations to aggregate over, with their descendants. owner_organization_id is added and
@@ -63,7 +63,7 @@ message DriversSummaryResponse {
 
 // 5. monthly_jobs_for_period -> per-job detail rows over the period.
 message JobDetailsRequest {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
   // Organizations to aggregate over, with their descendants. owner_organization_id is added and
   // duplicates dropped; one organization the caller can't view rejects the whole request.
@@ -92,7 +92,7 @@ message JobDetailsResponse {
 
 // 6. service_provider_stats — point-in-time snapshot (reuses ServiceProviderStats).
 message ServiceProviderStatsRequest {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   // Organizations to aggregate over, with their descendants. owner_organization_id is added and
   // duplicates dropped; one organization the caller can't view rejects the whole request.
   repeated uint64 owner_organization_ids = 2 [json_name = "owner_organization_ids"];
@@ -126,7 +126,7 @@ message GasLevelSeriesResponse {
 }
 
 message DriverActivitySeriesRequest {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
   required DriverMetric metric = 3 [json_name = "metric"];
   optional uint64 driver_id = 4 [json_name = "driver_id"];
@@ -142,7 +142,7 @@ message DriverActivitySeriesResponse {
 }
 
 message RouteCategorySeriesRequest {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
   optional uint64 driver_id = 3 [json_name = "driver_id"];
   // Organizations to aggregate over, with their descendants. owner_organization_id is added and
@@ -161,7 +161,7 @@ message RouteCategorySeriesResponse {
 }
 
 message FuelConsumptionSeriesRequest {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
   optional uint64 driver_id = 3 [json_name = "driver_id"];
   optional uint64 truck_id = 4 [json_name = "truck_id"];
@@ -182,7 +182,7 @@ message FuelConsumptionSeriesResponse {
 }
 
 message EngineHoursSeriesRequest {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
   optional uint64 driver_id = 3 [json_name = "driver_id"];
   // Organizations to aggregate over, with their descendants. owner_organization_id is added and
@@ -197,7 +197,7 @@ message EngineHoursSeriesResponse {
 }
 
 message TruckWorkSummaryRequest {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
   optional uint64 truck_id = 3 [json_name = "truck_id"];
   // Organizations to aggregate over, with their descendants. owner_organization_id is added and
@@ -224,7 +224,7 @@ message TruckWorkSummaryResponse {
 // Моточасы per driver shift, for the admin ТТН (waybill) page. One row per shift, over the
 // same shift work window the engine-hours series uses, so both screens agree.
 message ShiftEngineHoursRequest {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
   optional uint64 driver_id = 3 [json_name = "driver_id"];
   optional uint64 truck_id = 4 [json_name = "truck_id"];
@@ -252,7 +252,7 @@ message ShiftEngineHoursResponse {
 }
 
 message ShiftUsageRequest {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
   optional uint64 driver_id = 3 [json_name = "driver_id"];
   optional uint64 truck_id = 4 [json_name = "truck_id"];
@@ -279,7 +279,7 @@ message ShiftUsageResponse {
 }
 
 message TruckLatestReadingsRequest {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   // Empty means every truck of the organization.
   repeated uint64 truck_ids = 2 [json_name = "truck_ids"];
   // Organizations to aggregate over, with their descendants. owner_organization_id is added and
@@ -300,7 +300,7 @@ message TruckLatestReadingsResponse {
 }
 
 message RouteDetailsRequest {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
   optional uint64 driver_id = 3 [json_name = "driver_id"];
   optional uint64 truck_id = 4 [json_name = "truck_id"];
@@ -329,7 +329,7 @@ message RouteDetailsResponse {
 }
 
 message UnfulfilledJobsRequest {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
   optional uint64 driver_id = 3 [json_name = "driver_id"];
   optional JobCategory job_category = 4 [json_name = "job_category"];
