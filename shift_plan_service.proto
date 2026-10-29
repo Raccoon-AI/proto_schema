@@ -14,7 +14,7 @@ message ShiftPlanDeleteRequest {
 }
 
 message ShiftScheduleRequest {
-  optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   required uint32 year = 2 [json_name = "year"];
   required uint32 month = 3 [json_name = "month"]; // 1-12
   // Paginates DRIVERS (schedule rows), never cells: a page always holds complete rows.
