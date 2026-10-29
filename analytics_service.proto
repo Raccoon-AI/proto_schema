@@ -29,7 +29,8 @@ message JobMetricSeriesRequest {
   optional uint64 driver_id = 5 [json_name = "driver_id"];
   optional JobCategory job_category = 6 [json_name = "job_category"];
   optional uint64 service_receiver_id = 7 [json_name = "service_receiver_id"];
-  // Organizations to aggregate over, each checked; owner_organization_id is added to them.
+  // Organizations to aggregate over, with their descendants. owner_organization_id is added and
+  // duplicates dropped; one organization the caller can't view rejects the whole request.
   repeated uint64 owner_organization_ids = 8 [json_name = "owner_organization_ids"];
 }
 
@@ -44,7 +45,8 @@ message DriversSummaryRequest {
   optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
   optional uint64 driver_id = 3 [json_name = "driver_id"];
-  // Organizations to aggregate over, each checked; owner_organization_id is added to them.
+  // Organizations to aggregate over, with their descendants. owner_organization_id is added and
+  // duplicates dropped; one organization the caller can't view rejects the whole request.
   repeated uint64 owner_organization_ids = 4 [json_name = "owner_organization_ids"];
 }
 
@@ -63,7 +65,8 @@ message DriversSummaryResponse {
 message JobDetailsRequest {
   optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
-  // Organizations to aggregate over, each checked; owner_organization_id is added to them.
+  // Organizations to aggregate over, with their descendants. owner_organization_id is added and
+  // duplicates dropped; one organization the caller can't view rejects the whole request.
   repeated uint64 owner_organization_ids = 3 [json_name = "owner_organization_ids"];
 }
 
@@ -90,7 +93,8 @@ message JobDetailsResponse {
 // 6. service_provider_stats — point-in-time snapshot (reuses ServiceProviderStats).
 message ServiceProviderStatsRequest {
   optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
-  // Organizations to aggregate over, each checked; owner_organization_id is added to them.
+  // Organizations to aggregate over, with their descendants. owner_organization_id is added and
+  // duplicates dropped; one organization the caller can't view rejects the whole request.
   repeated uint64 owner_organization_ids = 2 [json_name = "owner_organization_ids"];
 }
 
@@ -127,7 +131,8 @@ message DriverActivitySeriesRequest {
   required DriverMetric metric = 3 [json_name = "metric"];
   optional uint64 driver_id = 4 [json_name = "driver_id"];
   optional RouteCategory route_category = 5 [json_name = "route_category"];
-  // Organizations to aggregate over, each checked; owner_organization_id is added to them.
+  // Organizations to aggregate over, with their descendants. owner_organization_id is added and
+  // duplicates dropped; one organization the caller can't view rejects the whole request.
   repeated uint64 owner_organization_ids = 6 [json_name = "owner_organization_ids"];
 }
 
@@ -140,7 +145,8 @@ message RouteCategorySeriesRequest {
   optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
   optional uint64 driver_id = 3 [json_name = "driver_id"];
-  // Organizations to aggregate over, each checked; owner_organization_id is added to them.
+  // Organizations to aggregate over, with their descendants. owner_organization_id is added and
+  // duplicates dropped; one organization the caller can't view rejects the whole request.
   repeated uint64 owner_organization_ids = 4 [json_name = "owner_organization_ids"];
 }
 
@@ -159,7 +165,8 @@ message FuelConsumptionSeriesRequest {
   optional DateFilter period = 2 [json_name = "period"];
   optional uint64 driver_id = 3 [json_name = "driver_id"];
   optional uint64 truck_id = 4 [json_name = "truck_id"];
-  // Organizations to aggregate over, each checked; owner_organization_id is added to them.
+  // Organizations to aggregate over, with their descendants. owner_organization_id is added and
+  // duplicates dropped; one organization the caller can't view rejects the whole request.
   repeated uint64 owner_organization_ids = 5 [json_name = "owner_organization_ids"];
 }
 
@@ -178,7 +185,8 @@ message EngineHoursSeriesRequest {
   optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
   optional uint64 driver_id = 3 [json_name = "driver_id"];
-  // Organizations to aggregate over, each checked; owner_organization_id is added to them.
+  // Organizations to aggregate over, with their descendants. owner_organization_id is added and
+  // duplicates dropped; one organization the caller can't view rejects the whole request.
   repeated uint64 owner_organization_ids = 4 [json_name = "owner_organization_ids"];
 }
 
@@ -192,7 +200,8 @@ message TruckWorkSummaryRequest {
   optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   optional DateFilter period = 2 [json_name = "period"];
   optional uint64 truck_id = 3 [json_name = "truck_id"];
-  // Organizations to aggregate over, each checked; owner_organization_id is added to them.
+  // Organizations to aggregate over, with their descendants. owner_organization_id is added and
+  // duplicates dropped; one organization the caller can't view rejects the whole request.
   repeated uint64 owner_organization_ids = 4 [json_name = "owner_organization_ids"];
 }
 
@@ -219,7 +228,8 @@ message ShiftEngineHoursRequest {
   optional DateFilter period = 2 [json_name = "period"];
   optional uint64 driver_id = 3 [json_name = "driver_id"];
   optional uint64 truck_id = 4 [json_name = "truck_id"];
-  // Organizations to aggregate over, each checked; owner_organization_id is added to them.
+  // Organizations to aggregate over, with their descendants. owner_organization_id is added and
+  // duplicates dropped; one organization the caller can't view rejects the whole request.
   repeated uint64 owner_organization_ids = 5 [json_name = "owner_organization_ids"];
 }
 
@@ -246,7 +256,8 @@ message ShiftUsageRequest {
   optional DateFilter period = 2 [json_name = "period"];
   optional uint64 driver_id = 3 [json_name = "driver_id"];
   optional uint64 truck_id = 4 [json_name = "truck_id"];
-  // Organizations to aggregate over, each checked; owner_organization_id is added to them.
+  // Organizations to aggregate over, with their descendants. owner_organization_id is added and
+  // duplicates dropped; one organization the caller can't view rejects the whole request.
   repeated uint64 owner_organization_ids = 5 [json_name = "owner_organization_ids"];
 }
 
@@ -271,7 +282,8 @@ message TruckLatestReadingsRequest {
   optional uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   // Empty means every truck of the organization.
   repeated uint64 truck_ids = 2 [json_name = "truck_ids"];
-  // Organizations to aggregate over, each checked; owner_organization_id is added to them.
+  // Organizations to aggregate over, with their descendants. owner_organization_id is added and
+  // duplicates dropped; one organization the caller can't view rejects the whole request.
   repeated uint64 owner_organization_ids = 3 [json_name = "owner_organization_ids"];
 }
 
@@ -293,7 +305,8 @@ message RouteDetailsRequest {
   optional uint64 driver_id = 3 [json_name = "driver_id"];
   optional uint64 truck_id = 4 [json_name = "truck_id"];
   optional RouteCategory route_category = 5 [json_name = "route_category"];
-  // Organizations to aggregate over, each checked; owner_organization_id is added to them.
+  // Organizations to aggregate over, with their descendants. owner_organization_id is added and
+  // duplicates dropped; one organization the caller can't view rejects the whole request.
   repeated uint64 owner_organization_ids = 6 [json_name = "owner_organization_ids"];
 }
 
@@ -320,7 +333,8 @@ message UnfulfilledJobsRequest {
   optional DateFilter period = 2 [json_name = "period"];
   optional uint64 driver_id = 3 [json_name = "driver_id"];
   optional JobCategory job_category = 4 [json_name = "job_category"];
-  // Organizations to aggregate over, each checked; owner_organization_id is added to them.
+  // Organizations to aggregate over, with their descendants. owner_organization_id is added and
+  // duplicates dropped; one organization the caller can't view rejects the whole request.
   repeated uint64 owner_organization_ids = 5 [json_name = "owner_organization_ids"];
 }
 
