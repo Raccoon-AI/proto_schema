@@ -166,6 +166,7 @@
   "ERROR_CODE_DRIVER_PRICE_LIST_ALREADY_PRICED": "The price list for {{month}} is already priced. Stand {{stand}}",
   "ERROR_CODE_DRIVER_PRICE_LIST_PRICE_OUT_OF_RANGE": "The derived price {{price}} KZT is out of range (max {{max}}) — check the rate and night premium",
   "ERROR_CODE_RESOURCE_ACCESS_GRANT_ROLE_NOT_APPLICABLE": "Access level {{access_level}} is not available for {{resource}} on a {{organization_type}} organization",
+  "ERROR_CODE_WHATSAPP_REPLY_WINDOW_CLOSED": "The client hasn't written for over 24 hours: WhatsApp doesn't allow sending them a message",
   "ERROR_CODE_COMPANY_NOT_SELECTED": "Company is not selected",
   "ERROR_CODE_ROUTE_OWNER_NOT_IN_ZONE": "The route's organization is not in the responsible zone of job {{id}}",
   "ERROR_CODE_JOB_SERVICE_PROVIDER_NOT_IN_ZONE": "{{service_provider}} is not in the responsible zone of job {{id}}",

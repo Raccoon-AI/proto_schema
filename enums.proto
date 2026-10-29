@@ -354,6 +354,9 @@ enum UserRole {
   // RaccoonAI's own dispatcher, dispatching on behalf of service-provider
   // companies that outsource dispatching to us (DaaS). Internal role.
   USER_ROLE_DAAS_DISPATCHER = 18;
+  // Technical user of a service provider's accounting system (1C). May call
+  // Integration1CService only; its owner organization must be a service provider.
+  USER_ROLE_INTEGRATION_1C = 19;
 }
 
 enum UserStatus {
@@ -421,6 +424,17 @@ enum PickupLocationPriority {
   PICKUP_LOCATION_PRIORITY_LOW = 1;
   PICKUP_LOCATION_PRIORITY_MEDIUM = 2;
   PICKUP_LOCATION_PRIORITY_HIGH = 3;
+}
+
+// *****************************************************
+// CONTAINER_TYPE ENUMS
+// *****************************************************
+
+enum ContainerTypeStatus {
+  CONTAINER_TYPE_STATUS_UNDEFINED = 0;
+  // Hidden from pickers for new container groups/containers; existing ones keep it.
+  CONTAINER_TYPE_STATUS_INACTIVE = 1;
+  CONTAINER_TYPE_STATUS_ACTIVE = 2;
 }
 
 // *****************************************************
@@ -511,4 +525,23 @@ enum EngineHoursSource {
   ENGINE_HOURS_SOURCE_CAN_COUNTER = 2;
   // The shift has a window but no usable engine telemetry in it.
   ENGINE_HOURS_SOURCE_NONE = 3;
+}
+
+// What a WhatsApp history message carries. Only text for now; polls, button
+// messages and other kinds come as new values.
+enum WhatsappMessageKind {
+  WHATSAPP_MESSAGE_KIND_UNDEFINED = 0;
+  WHATSAPP_MESSAGE_KIND_TEXT = 1;
+}
+
+// Delivery of a dispatcher's message, from the send and Meta's status webhooks.
+// Numbered in delivery order: a message only moves forward. Unset on inbound
+// and bot messages.
+enum WhatsappMessageStatus {
+  WHATSAPP_MESSAGE_STATUS_UNDEFINED = 0;
+  WHATSAPP_MESSAGE_STATUS_SENT = 1;
+  WHATSAPP_MESSAGE_STATUS_DELIVERED = 2;
+  WHATSAPP_MESSAGE_STATUS_READ = 3;
+  // Refused at send time or failed later (e.g. outside the 24h window).
+  WHATSAPP_MESSAGE_STATUS_FAILED = 4;
 }

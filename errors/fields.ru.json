@@ -89,5 +89,7 @@
   "pickup_location_type_id": "Тип площадки",
   "customer_type_id": "Тип заказчика",
   "reason": "Причина",
-  "explanation": "Пояснение"
+  "explanation": "Пояснение",
+  "body": "Текст сообщения",
+  "client_message_id": "Идентификатор сообщения"
 }

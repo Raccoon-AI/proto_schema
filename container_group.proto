@@ -25,6 +25,7 @@ message ContainerType {
   optional float weight_kg = 5 [json_name = "weight_kg"];
   // Set only where the caller preloads it (GovDashService.GovListContainerTypes).
   optional Organization owner_organization = 6 [json_name = "owner_organization"];
+  optional ContainerTypeStatus status = 7 [json_name = "status"];
 
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -43,6 +44,7 @@ message ContainerTypeUpdate {
   optional string name = 3 [json_name = "name"];
   optional float volume = 4 [json_name = "volume"];
   optional float weight_kg = 5 [json_name = "weight_kg"];
+  optional ContainerTypeStatus status = 6 [json_name = "status"];
 }
 
 message ContainerTypeList {

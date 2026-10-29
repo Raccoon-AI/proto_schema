@@ -16,6 +16,8 @@ message ContainerTypeRequest {
 message ContainerTypeListRequest {
   repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
   optional ListFilter list_filter = 2 [json_name = "list_filter"];
+  // Empty matches every status.
+  repeated ContainerTypeStatus statuses = 3 [json_name = "statuses"];
 }
 
 message ContainerGroupRequest {
