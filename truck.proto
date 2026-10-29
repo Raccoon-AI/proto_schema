@@ -112,6 +112,9 @@ message CustomTruckType {
   optional TruckStandard euro_type = 12 [json_name = "euro_type"];
   optional uint32 truck_count = 13 [json_name = "truck_count"];
   optional TruckEngineType engine_type = 14 [json_name = "engine_type"];
+  // The company that made the type. Set only where the caller preloads it (ListTruckTypes, whose list spans the
+  // holding).
+  optional Organization owner_organization = 15 [json_name = "owner_organization"];
 
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
