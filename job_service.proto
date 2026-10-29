@@ -42,6 +42,8 @@ message JobListRequest {
   optional bool one_per_order = 18 [json_name = "one_per_order"];
   // Only the jobs of these orders, e.g. every attempt at an order the caller opened.
   repeated string order_numbers = 19 [json_name = "order_numbers"];
+  // service_provider_ids name the executors only, without jobs the callers' responsible zones show.
+  optional bool executed_only = 20 [json_name = "executed_only"];
 }
 
 message JobRequest {
