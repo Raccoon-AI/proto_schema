@@ -40,7 +40,8 @@ message ScaleRecordListRequest {
   optional ListFilter list_filter = 8 [json_name = "list_filter"];
   // Empty means every status.
   repeated ScaleRecordStatus statuses = 9 [json_name = "statuses"];
-  // Organizations whose records to list, each checked; empty means the caller's own.
+  // Organizations whose records to list, each checked; empty means the caller's own. ANDed with
+  // the other filters, so owner_organization_id (the disposal site's owner) only narrows it.
   repeated uint64 organization_ids = 10 [json_name = "organization_ids"];
 }
 
@@ -57,7 +58,8 @@ message RawScaleRecordListRequest {
   optional string truck_number = 5 [json_name = "truck_number"];
   optional google.protobuf.Timestamp brutto_scale_ts_from = 6 [json_name = "brutto_scale_ts_from"];
   optional google.protobuf.Timestamp brutto_scale_ts_to = 7 [json_name = "brutto_scale_ts_to"];
-  // Organizations whose records to list, each checked; empty means the caller's own.
+  // Organizations whose records to list, each checked; empty means the caller's own. ANDed with
+  // the other filters, so owner_organization_id (the disposal site's owner) only narrows it.
   repeated uint64 organization_ids = 8 [json_name = "organization_ids"];
 }
 
