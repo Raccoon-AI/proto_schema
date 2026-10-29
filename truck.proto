@@ -9,6 +9,17 @@ import "organization.proto";
 
 option go_package = "./pb";
 
+message TruckPositionList {
+  message TruckPosition {
+    required uint64 truck_id = 1 [json_name = "truck_id"];
+    required double latitude = 2 [json_name = "latitude"];
+    required double longitude = 3 [json_name = "longitude"];
+    optional uint32 angle = 4 [json_name = "angle"];
+  }
+  // map of truck_id to TruckPosition
+  map<uint64, TruckPosition> truck_positions = 1 [json_name = "truck_positions"];
+}
+
 message Truck {
   required uint64 id = 1 [json_name = "id"];
   optional TruckType type = 3 [json_name = "type"]; // To be deprecated in favor of truck_type.type
@@ -25,6 +36,9 @@ message Truck {
   optional string tech_passport = 14 [json_name = "tech_passport"];
   optional Organization owner_organization = 15 [json_name = "owner_organization"];
   optional EmissionRecord last_emission_record = 16 [json_name = "last_emission_record"];
+  // Latest GPS point of the truck. Filled only by RPCs that say so
+  // (DriverService.MyPlannedShifts); absent when the truck has no GPS data.
+  optional TruckPositionList.TruckPosition latest_position = 17 [json_name = "latest_position"];
 
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
