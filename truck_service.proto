@@ -95,17 +95,6 @@ message TruckGpsStopsRequest {
   optional bool include_unmatched = 4 [json_name = "include_unmatched"];
 }
 
-message TruckPositionList {
-  message TruckPosition {
-    required uint64 truck_id = 1 [json_name = "truck_id"];
-    required double latitude = 2 [json_name = "latitude"];
-    required double longitude = 3 [json_name = "longitude"];
-    optional uint32 angle = 4 [json_name = "angle"];
-  }
-  // map of truck_id to TruckPosition
-  map<uint64, TruckPosition> truck_positions = 1 [json_name = "truck_positions"];
-}
-
 message DeviceMappingListRequest {
   // Matches external_mapping.external_source (e.g. "wialon_ips").
   required string external_source = 1 [json_name = "external_source"];

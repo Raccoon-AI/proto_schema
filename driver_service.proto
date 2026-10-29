@@ -89,6 +89,17 @@ service DriverService {
   // Start shift. Changes driver status to ACTIVE.
   rpc StartShift(EmptyMessageRequest) returns (DriverOnShift) {}
 
+  // The calling driver's planned shifts (NOT_APPROVED or IDLE) whose window
+  // has not ended yet, oldest first, each with its truck and the truck's
+  // latest GPS position (truck.latest_position).
+  rpc MyPlannedShifts(EmptyMessageRequest) returns (DriverOnShiftList) {}
+  // Activate one of the calling driver's planned shifts without a dispatcher's
+  // approval: NOT_APPROVED or IDLE -> ACTIVE. Rejected when the shift's window
+  // has ended, the truck is not ACTIVE or is busy on another shift, or the
+  // driver is already on another shift. Whether tw_start_at has been reached
+  // is left to the client.
+  rpc ActivatePlannedShift(IdRequest) returns (DriverOnShift) {}
+
   // Choose route from the list of assigned routes
   // Changes route status to IN_PROGRESS
   rpc ChooseRoute(IdRequest) returns (Route) {}
