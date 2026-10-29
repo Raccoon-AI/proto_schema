@@ -279,6 +279,12 @@ enum ErrorCode {
   // whatsapp
   ERROR_CODE_WHATSAPP_REPLY_WINDOW_CLOSED = 2201;
 
+  // holding shared types: container and truck types are owned by the company that made them, used across its holding
+  ERROR_CODE_TYPE_OUTSIDE_HOLDING = 2301;
+  ERROR_CODE_TYPE_NOT_OWNED = 2302;
+  ERROR_CODE_TYPE_DUPLICATE_IN_HOLDING = 2303;
+  ERROR_CODE_TRUCK_TYPE_IN_USE = 2304;
+
   // Client-side conditions. The backend never sends these; they live here so a
   // client has one registry of every error it can show. Expect them in the
   // go-backend reachability report as permanently unreachable.
