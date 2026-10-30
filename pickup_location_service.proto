@@ -110,17 +110,17 @@ message PreviewPickupLocationGroupJobsRequest {
 
 // The group's work for `date`, in step_idx order, then window order. Read-only.
 message PickupLocationGroupJobsPreview {
-  // What bulk create accepts, ready to send back:
+  // What CreateRoutesFromStops accepts, ready to send back:
   // - one container group stop per schedule window the daily generator plans
   //   (schedule covers the day, contract prices the job type); `job` is set
-  //   when an unrouted job of this group already covers the window, which bulk
-  //   create reuses;
+  //   when an unrouted job of this group already covers the window, which it
+  //   reuses;
   // - one job_id stop (with `job`) per other unrouted job of the group's links
   //   that day: manual jobs, or more jobs than windows.
   repeated JobStop stops = 1 [json_name = "stops"];
-  // Windows and jobs bulk create would refuse, with `job` set: the job is on a
-  // route or past CREATED, or the window's job belongs to another group. Same
-  // forms as stops.
+  // Windows and jobs CreateRoutesFromStops would refuse, with `job` set: the
+  // job is on a route or past CREATED, or the window's job belongs to another
+  // group. Same forms as stops.
   repeated JobStop taken = 2 [json_name = "taken"];
 }
 
