@@ -79,18 +79,26 @@ message DriverShiftSchedule {
   required uint32 month_total = 3 [json_name = "month_total"];
 }
 
-// Response of DriverService.MyPlannedShifts. Field 1 matches DriverOnShiftList,
-// which this RPC used to return, so existing clients keep decoding it; 2 is
-// skipped because DriverOnShiftList uses it for list_info.
+// One planned shift with the work planned on it.
+message PlannedShift {
+  // The shift, with its truck and the truck's latest GPS position
+  // (truck.latest_position).
+  required DriverOnShift driver_on_shift = 1 [json_name = "driver_on_shift"];
+  // The shift's not-finished routes, oldest plan_start_at first, with
+  // source/destination coordinates and their jobs; each job carries its
+  // pickup_location (lat, lon, address), container type and container group.
+  // route.driver_on_shift is left out: it is the shift above.
+  repeated Route routes = 2 [json_name = "routes"];
+}
+
+// Response of DriverService.MyPlannedShifts.
 message PlannedShiftList {
-  // Planned shifts, oldest tw_start_at first, each with its truck and the
-  // truck's latest GPS position (truck.latest_position).
-  repeated DriverOnShift driver_on_shifts = 1 [json_name = "driver_on_shifts"];
-  // Not-finished routes of those shifts (linked by driver_on_shift_id), oldest
-  // plan_start_at first, with source/destination coordinates and their jobs;
-  // each job carries its pickup_location (lat, lon, address), container type
-  // and container group.
-  repeated Route routes = 3 [json_name = "routes"];
+  // driver_on_shifts and routes were flat lists linked by driver_on_shift_id;
+  // each route now sits under its shift.
+  reserved 1, 3;
+  reserved "driver_on_shifts", "routes";
+  // Oldest tw_start_at first.
+  repeated PlannedShift planned_shifts = 2 [json_name = "planned_shifts"];
 }
 
 service DriverService {
