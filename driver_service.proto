@@ -79,6 +79,20 @@ message DriverShiftSchedule {
   required uint32 month_total = 3 [json_name = "month_total"];
 }
 
+// Response of DriverService.MyPlannedShifts. Field 1 matches DriverOnShiftList,
+// which this RPC used to return, so existing clients keep decoding it; 2 is
+// skipped because DriverOnShiftList uses it for list_info.
+message PlannedShiftList {
+  // Planned shifts, oldest tw_start_at first, each with its truck and the
+  // truck's latest GPS position (truck.latest_position).
+  repeated DriverOnShift driver_on_shifts = 1 [json_name = "driver_on_shifts"];
+  // Not-finished routes of those shifts (linked by driver_on_shift_id), oldest
+  // plan_start_at first, with source/destination coordinates and their jobs;
+  // each job carries its pickup_location (lat, lon, address), container type
+  // and container group.
+  repeated Route routes = 3 [json_name = "routes"];
+}
+
 service DriverService {
   rpc MyShift(EmptyMessageRequest) returns (DriverOnShift) {}
   rpc MyShiftSchedule(MyShiftScheduleRequest) returns (DriverShiftSchedule) {}
@@ -90,9 +104,10 @@ service DriverService {
   rpc StartShift(EmptyMessageRequest) returns (DriverOnShift) {}
 
   // The calling driver's planned shifts (NOT_APPROVED or IDLE) whose window
-  // has not ended yet, oldest first, each with its truck and the truck's
-  // latest GPS position (truck.latest_position).
-  rpc MyPlannedShifts(EmptyMessageRequest) returns (DriverOnShiftList) {}
+  // has not ended yet, with their routes and jobs. Fails with
+  // ERROR_CODE_DRIVER_ON_SHIFT_DRIVER_BUSY while the driver already has a
+  // running (ACTIVE, ENROUTE or ON_SERVICE) shift.
+  rpc MyPlannedShifts(EmptyMessageRequest) returns (PlannedShiftList) {}
   // Activate one of the calling driver's planned shifts without a dispatcher's
   // approval: NOT_APPROVED or IDLE -> ACTIVE. Rejected when the shift's window
   // has ended, the truck is not ACTIVE or is busy on another shift, or the
