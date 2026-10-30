@@ -93,12 +93,8 @@ message PlannedShift {
 
 // Response of DriverService.MyPlannedShifts.
 message PlannedShiftList {
-  // driver_on_shifts and routes were flat lists linked by driver_on_shift_id;
-  // each route now sits under its shift.
-  reserved 1, 3;
-  reserved "driver_on_shifts", "routes";
   // Oldest tw_start_at first.
-  repeated PlannedShift planned_shifts = 2 [json_name = "planned_shifts"];
+  repeated PlannedShift planned_shifts = 1 [json_name = "planned_shifts"];
 }
 
 service DriverService {
