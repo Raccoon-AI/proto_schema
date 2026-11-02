@@ -28,6 +28,9 @@ message Contact {
   // pickup location's card covers all of its own organization's groups on that
   // location, so this is normally the whole set rather than one entry.
   repeated uint64 container_group_ids = 9 [json_name = "container_group_ids"];
+  // Gate for automatic notifications to this person, and to their platform
+  // user if one matches. Off by default; unset reads as false.
+  optional bool notifications_enabled = 10 [json_name = "notifications_enabled"];
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
 }
 
@@ -57,6 +60,9 @@ message ContactCreate {
   // Expanded to the whole site, see the message comment.
   optional uint64 container_group_id = 7 [json_name = "container_group_id"];
   repeated uint64 container_group_ids = 9 [json_name = "container_group_ids"];
+  // Gate for automatic notifications to this person, and to their platform
+  // user if one matches. Off by default.
+  optional bool notifications_enabled = 10 [json_name = "notifications_enabled"];
 }
 
 message ContactUpdate {
@@ -75,6 +81,9 @@ message ContactUpdate {
   // field - whether a contact belongs to a site or to the organization as a
   // whole is decided when it is created.
   repeated uint64 container_group_ids = 9 [json_name = "container_group_ids"];
+  // Gate for automatic notifications to this person, and to their platform
+  // user if one matches. Unset leaves the current value unchanged.
+  optional bool notifications_enabled = 10 [json_name = "notifications_enabled"];
 }
 
 message ContactList {
