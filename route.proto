@@ -236,33 +236,42 @@ message CreateRouteFromPickupLocationGroupRequest {
 
 // One route. Unset source/destination fall back to the truck's depot, as in
 // the daily generator. The route category comes from the first stop.
-message PickupLocationGroupTrip {
+message RouteTrip {
   optional uint64 source_location_id = 1 [json_name = "source_location_id"];
   optional uint64 destination_location_id = 2 [json_name = "destination_location_id"]; // unloading depot
-  // In visit order; step_idx = index + 1. A container group stop must be a
-  // link of this group; the live job of its window is reused, otherwise one is
-  // created like the daily generator does. A window whose job is already
-  // routed or belongs to another group fails with
-  // ERROR_CODE_JOB_ALREADY_ASSIGNED, unless the request allows duplicates.
+  // In visit order; step_idx = index + 1. What a container group stop becomes
+  // is up to the request carrying the trip.
   repeated JobStop stops = 3 [json_name = "stops"];
 }
 
-// Manual run of the daily generator for one group and day, with the stop list
-// the dispatcher settled on. One transaction: jobs, shift, routes (CREATED).
-message BulkCreateRoutesFromPickupLocationGroupRequest {
+// Routes from the stop list the dispatcher settled on. One transaction: jobs,
+// shift, routes (CREATED). Schedules only pick windows, never reject:
+// a container group stop takes its schedule window (JobStop.tw_start_at) and
+// that window's job, else the whole day and the owner's unrouted job of the
+// day. A new job is executed by the owner, whose route takes it.
+message CreateRoutesFromStopsRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
-  required uint64 pickup_location_group_id = 2 [json_name = "pickup_location_group_id"];
-  required google.protobuf.Timestamp date = 3 [json_name = "date"]; // service day, Asia/Almaty
+  required google.protobuf.Timestamp date = 2 [json_name = "date"]; // service day, Asia/Almaty
   // Shift to attach the routes to. Unset: the truck's shift for the day, or a
   // new NOT_APPROVED shift without a driver.
-  optional uint64 driver_on_shift_id = 4 [json_name = "driver_on_shift_id"];
-  // Used only when driver_on_shift_id is unset. Unset: the group's default truck.
-  optional uint64 truck_id = 5 [json_name = "truck_id"];
-  repeated PickupLocationGroupTrip trips = 6 [json_name = "trips"];
-  // The dispatcher confirmed duplicates: a container group stop whose window
-  // job is routed, past CREATED or another group's gets a new job instead of
-  // ERROR_CODE_JOB_ALREADY_ASSIGNED. The window's own unrouted job is still
-  // reused. The daily generator never duplicates.
+  optional uint64 driver_on_shift_id = 3 [json_name = "driver_on_shift_id"];
+  // Ignored when driver_on_shift_id is set. Unset: the group's default truck.
+  // Without a shift and without a truck (none given, no group or no default
+  // truck): ERROR_CODE_REQUIRED_FIELD_MISSING /
+  // ERROR_CODE_PICKUP_LOCATION_GROUP_NO_DEFAULT_TRUCK.
+  optional uint64 truck_id = 4 [json_name = "truck_id"];
+  // At least one, each with at least one stop
+  // (ERROR_CODE_REQUIRED_FIELD_MISSING). A job_id stop must be a CREATED,
+  // unrouted job of the owner (ERROR_CODE_NOT_FOUND); one job twice among the
+  // stops fails with ERROR_CODE_ROUTE_STOP_DUPLICATE_JOB.
+  repeated RouteTrip trips = 5 [json_name = "trips"];
+  // The group the stops come from: container group stops must be its links,
+  // new jobs carry it, and only its jobs are reused (a window job of another
+  // group fails with ERROR_CODE_JOB_ALREADY_ASSIGNED).
+  optional uint64 pickup_location_group_id = 6 [json_name = "pickup_location_group_id"];
+  // The dispatcher confirmed duplicates: a window whose job is routed, past
+  // CREATED or another group's gets a new job instead of
+  // ERROR_CODE_JOB_ALREADY_ASSIGNED.
   optional bool allow_duplicates = 7 [json_name = "allow_duplicates"];
 }
 

@@ -177,8 +177,8 @@ message JobStop {
   optional JobType job_type = 2 [json_name = "job_type"];
   optional uint64 job_id = 3 [json_name = "job_id"];
   // Container group stop: tw_start_at picks the schedule window that day
-  // (unset: the first one); the server sets both from the schedule.
-  // Ignored on job_id stops.
+  // (unset: the first one); none matching, or no window that day, means the
+  // whole day. Schedules never reject a stop. Ignored on job_id stops.
   optional google.protobuf.Timestamp tw_start_at = 4 [json_name = "tw_start_at"];
   optional google.protobuf.Timestamp tw_end_at = 5 [json_name = "tw_end_at"];
   // Output only (preview): the existing job this stop resolves to. Ignored in
