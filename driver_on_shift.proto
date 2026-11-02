@@ -50,6 +50,10 @@ message DriverOnShift {
   // Set only by ForceCompleteDriverOnShift: the incident that ended the shift
   // ahead of its work (a shift-level type, with the dispatcher's explanation).
   optional DriverIncident force_complete_incident = 31 [json_name = "force_complete_incident"];
+  // Output only: the organizations of the truck and of the driver when they were put on the shift; either may be
+  // another provider of the zone's (owner_organization_id) holding.
+  optional uint64 truck_owner_organization_id = 32 [json_name = "truck_owner_organization_id"];
+  optional uint64 driver_employer_organization_id = 33 [json_name = "driver_employer_organization_id"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
