@@ -100,7 +100,8 @@ message Integration1CJob {
   required google.protobuf.Timestamp created_at = 17 [json_name = "created_at"];
   // Changes after a job was billed are detected through this field.
   required google.protobuf.Timestamp updated_at = 18 [json_name = "updated_at"];
-  // 20-29: billing state reported back by 1C (act, invoice, payment).
+  // 20-29: billing state, for a later release. Today 1C reads it through
+  // ListAccountingDocuments with job_ids.
   reserved 20 to 29;
 }
 
@@ -139,8 +140,9 @@ message Integration1CCounterparty {
   // Always set; optional only because it is computed, not stored.
   optional ContractStatus contract_status = 10 [json_name = "contract_status"];
   required google.protobuf.Timestamp updated_at = 11 [json_name = "updated_at"];
-  // 20-29: the 1C reference once linked.
-  reserved 20 to 29;
+  // The 1C reference set through SetEntityLinks; absent until linked.
+  optional string external_ref = 20 [json_name = "external_ref"];
+  reserved 21 to 29;
 }
 
 message Integration1CCounterpartyListRequest {
@@ -173,8 +175,9 @@ message Integration1CContract {
   // CONTRACT_TYPE_BY_NORM only: flat monthly charge, tenge.
   optional uint64 monthly_fee = 11 [json_name = "monthly_fee"];
   required google.protobuf.Timestamp updated_at = 13 [json_name = "updated_at"];
-  // 20-29: the 1C reference once linked.
-  reserved 20 to 29;
+  // The 1C reference set through SetEntityLinks; absent until linked.
+  optional string external_ref = 20 [json_name = "external_ref"];
+  reserved 21 to 29;
 }
 
 message Integration1CContractListRequest {
@@ -185,5 +188,115 @@ message Integration1CContractListRequest {
 
 message Integration1CContractList {
   repeated Integration1CContract items = 1 [json_name = "items"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
+}
+
+// ---- Phase 2: what 1C reports back. Pushed by the extension's own scheduled
+// job, idempotent on the 1C reference (external_ref). ----
+
+message Integration1CEntityLink {
+  required IntegrationEntityType entity_type = 1 [json_name = "entity_type"];
+  // Raccoon id of the organization or contract.
+  required uint64 entity_id = 2 [json_name = "entity_id"];
+  // The 1C reference (GUID or code).
+  required string external_ref = 3 [json_name = "external_ref"];
+  optional string external_name = 4 [json_name = "external_name"];
+}
+
+message Integration1CSetEntityLinksRequest {
+  repeated Integration1CEntityLink links = 1 [json_name = "links"];
+}
+
+message Integration1CEntityLinkList {
+  repeated Integration1CEntityLink items = 1 [json_name = "items"];
+}
+
+message Integration1CAccountingDocumentJob {
+  required uint64 job_id = 1 [json_name = "job_id"];
+  // The document line for this job, tenge.
+  optional double amount = 2 [json_name = "amount"];
+}
+
+// An accounting document mirrored from 1C: the realization, the act, the
+// electronic invoice or the payment request issued for a counterparty.
+message Integration1CAccountingDocument {
+  // Raccoon id. Read-only; ignored on upsert, where external_ref is the key.
+  optional uint64 id = 1 [json_name = "id"];
+  required string external_ref = 2 [json_name = "external_ref"];
+  required AccountingDocumentKind kind = 3 [json_name = "kind"];
+  required AccountingDocumentStatus status = 4 [json_name = "status"];
+  optional string number = 5 [json_name = "number"];
+  required google.protobuf.Timestamp document_date = 6 [json_name = "document_date"];
+  required uint64 counterparty_organization_id = 7 [json_name = "counterparty_organization_id"];
+  optional uint64 contract_id = 8 [json_name = "contract_id"];
+  optional google.protobuf.Timestamp period_from = 9 [json_name = "period_from"];
+  optional google.protobuf.Timestamp period_to = 10 [json_name = "period_to"];
+  // Tenge, two decimals.
+  required double amount = 11 [json_name = "amount"];
+  optional string comment = 12 [json_name = "comment"];
+  // Jobs the document covers. On upsert this set replaces the stored one.
+  repeated Integration1CAccountingDocumentJob jobs = 13 [json_name = "jobs"];
+  // Sum of the payments linked to the document. Read-only.
+  optional double paid_amount = 14 [json_name = "paid_amount"];
+  optional google.protobuf.Timestamp created_at = 15 [json_name = "created_at"];
+  optional google.protobuf.Timestamp updated_at = 16 [json_name = "updated_at"];
+}
+
+message Integration1CUpsertAccountingDocumentsRequest {
+  repeated Integration1CAccountingDocument documents = 1 [json_name = "documents"];
+}
+
+message Integration1CAccountingDocumentListRequest {
+  // Range on document_date.
+  optional Integration1CPeriod period = 1 [json_name = "period"];
+  repeated uint64 counterparty_organization_ids = 2 [json_name = "counterparty_organization_ids"];
+  optional AccountingDocumentKind kind = 3 [json_name = "kind"];
+  optional AccountingDocumentStatus status = 4 [json_name = "status"];
+  // Documents covering any of these jobs.
+  repeated uint64 job_ids = 5 [json_name = "job_ids"];
+  optional google.protobuf.Timestamp updated_since = 6 [json_name = "updated_since"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
+}
+
+message Integration1CAccountingDocumentList {
+  repeated Integration1CAccountingDocument items = 1 [json_name = "items"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
+}
+
+// A payment received from a counterparty, mirrored from 1C.
+message Integration1CPayment {
+  // Raccoon id. Read-only; ignored on upsert, where external_ref is the key.
+  optional uint64 id = 1 [json_name = "id"];
+  required string external_ref = 2 [json_name = "external_ref"];
+  optional string number = 3 [json_name = "number"];
+  required google.protobuf.Timestamp paid_at = 4 [json_name = "paid_at"];
+  // Tenge, two decimals.
+  required double amount = 5 [json_name = "amount"];
+  required uint64 counterparty_organization_id = 6 [json_name = "counterparty_organization_id"];
+  optional uint64 contract_id = 7 [json_name = "contract_id"];
+  // The document the payment settles, by its 1C reference. Absent for an advance.
+  optional string document_external_ref = 8 [json_name = "document_external_ref"];
+  // Raccoon id of that document. Read-only.
+  optional uint64 accounting_document_id = 9 [json_name = "accounting_document_id"];
+  optional string comment = 10 [json_name = "comment"];
+  optional google.protobuf.Timestamp created_at = 11 [json_name = "created_at"];
+  optional google.protobuf.Timestamp updated_at = 12 [json_name = "updated_at"];
+}
+
+message Integration1CUpsertPaymentsRequest {
+  repeated Integration1CPayment payments = 1 [json_name = "payments"];
+}
+
+message Integration1CPaymentListRequest {
+  // Range on paid_at.
+  optional Integration1CPeriod period = 1 [json_name = "period"];
+  repeated uint64 counterparty_organization_ids = 2 [json_name = "counterparty_organization_ids"];
+  repeated uint64 accounting_document_ids = 3 [json_name = "accounting_document_ids"];
+  optional google.protobuf.Timestamp updated_since = 4 [json_name = "updated_since"];
+  optional ListFilter list_filter = 10 [json_name = "list_filter"];
+}
+
+message Integration1CPaymentList {
+  repeated Integration1CPayment items = 1 [json_name = "items"];
   optional ListInfo list_info = 2 [json_name = "list_info"];
 }
