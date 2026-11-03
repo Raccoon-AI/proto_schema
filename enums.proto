@@ -532,6 +532,11 @@ enum EngineHoursSource {
 enum WhatsappMessageKind {
   WHATSAPP_MESSAGE_KIND_UNDEFINED = 0;
   WHATSAPP_MESSAGE_KIND_TEXT = 1;
+  WHATSAPP_MESSAGE_KIND_IMAGE = 2;
+  WHATSAPP_MESSAGE_KIND_VIDEO = 3;
+  WHATSAPP_MESSAGE_KIND_AUDIO = 4;
+  WHATSAPP_MESSAGE_KIND_DOCUMENT = 5;
+  WHATSAPP_MESSAGE_KIND_STICKER = 6;
 }
 
 // Delivery of a dispatcher's message, from the send and Meta's status webhooks.
