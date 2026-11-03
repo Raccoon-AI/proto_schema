@@ -19,6 +19,10 @@ message TruckListRequest {
   repeated JobType job_types = 4 [json_name = "job_types"]; // filter by job types
   repeated uint64 container_type_ids = 5 [json_name = "container_type_ids"]; // filter by container types (for trucks with specific container compatibility)
   repeated TruckStatus statuses = 6 [json_name = "statuses"]; // filter by truck status
+  // shift_zone_ids: trucks those organizations own or that carry a shift of theirs (its zone), starting within
+  // shift_datetime_filter, or running now without it. Each id needs driver_on_shift view.
+  repeated uint64 shift_zone_ids = 7 [json_name = "shift_zone_ids"];
+  optional DateTimeFilter shift_datetime_filter = 8 [json_name = "shift_datetime_filter"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 

@@ -7,4 +7,6 @@ option go_package = "./pb";
 
 service DriverIncidentService {
   rpc ListDriverIncidents(DriverIncidentListRequest) returns (DriverIncidentList) {}
+  // A dispatcher records why a job was not carried out; the job's newest incident is its reason.
+  rpc CreateJobIncident(JobIncidentCreateRequest) returns (DriverIncident) {}
 }

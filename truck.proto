@@ -15,6 +15,8 @@ message TruckPositionList {
     required double latitude = 2 [json_name = "latitude"];
     required double longitude = 3 [json_name = "longitude"];
     optional uint32 angle = 4 [json_name = "angle"];
+    // When the tracker reported this point.
+    optional google.protobuf.Timestamp timestamp = 5 [json_name = "timestamp"];
   }
   // map of truck_id to TruckPosition
   map<uint64, TruckPosition> truck_positions = 1 [json_name = "truck_positions"];

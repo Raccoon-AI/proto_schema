@@ -63,6 +63,8 @@ message LocationRequest {
 // pickup-location area.
 message ListDisposalSitesRequest {
   optional bool nearby_only = 1 [json_name = "nearby_only"];
+  // Organizations whose pickup locations bound nearby_only, each checked; empty means the caller's own.
+  repeated uint64 organization_ids = 2 [json_name = "organization_ids"];
 }
 
 message LocationListRequest {
