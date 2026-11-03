@@ -91,5 +91,6 @@
   "reason": "Reason",
   "explanation": "Explanation",
   "body": "Message text",
-  "client_message_id": "Message ID"
+  "client_message_id": "Message ID",
+  "fact_end_at": "Actual end time"
 }
