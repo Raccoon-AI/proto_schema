@@ -21,6 +21,8 @@ message User {
   optional string fcm_token = 10 [json_name = "fcm_token"];
   optional Organization owner_organization = 11 [json_name = "owner_organization"];
   // A machine account: an integration calling the API with a static token, not a person.
+  // Authoritative over the role: static tokens are minted for flagged users only, whatever
+  // their role. Only an admin sets or clears it; clearing it revokes the user's static tokens.
   optional bool is_service_account = 12 [json_name = "is_service_account"];
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
