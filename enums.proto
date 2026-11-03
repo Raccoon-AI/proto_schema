@@ -527,8 +527,8 @@ enum EngineHoursSource {
   ENGINE_HOURS_SOURCE_NONE = 3;
 }
 
-// What a WhatsApp history message carries. Only text for now; polls, button
-// messages and other kinds come as new values.
+// What a WhatsApp history message carries: text, or a file of one of the
+// media kinds. Polls, button messages and other kinds come as new values.
 enum WhatsappMessageKind {
   WHATSAPP_MESSAGE_KIND_UNDEFINED = 0;
   WHATSAPP_MESSAGE_KIND_TEXT = 1;
