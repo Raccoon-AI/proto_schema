@@ -20,10 +20,6 @@ message User {
   optional string driver_license_number = 9 [json_name = "driver_license_number"];
   optional string fcm_token = 10 [json_name = "fcm_token"];
   optional Organization owner_organization = 11 [json_name = "owner_organization"];
-  // A machine account: an integration calling the API with a static token, not a person.
-  // Authoritative over the role: static tokens are minted for flagged users only, whatever
-  // their role. Only an admin sets or clears it; clearing it revokes the user's static tokens.
-  optional bool is_service_account = 12 [json_name = "is_service_account"];
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
 }
@@ -39,7 +35,6 @@ message UserCreate {
   optional string driver_license_number = 8 [json_name = "driver_license_number"];
   optional string fcm_token = 9 [json_name = "fcm_token"];
   optional string registration_token = 10 [json_name = "registration_token"];
-  optional bool is_service_account = 11 [json_name = "is_service_account"];
 }
 
 message UserUpdate {
@@ -53,7 +48,6 @@ message UserUpdate {
   optional string driver_license_number = 8 [json_name = "driver_license_number"];
   optional string fcm_token = 9 [json_name = "fcm_token"];
   optional UserRole role = 10 [json_name = "role"];
-  optional bool is_service_account = 11 [json_name = "is_service_account"];
 }
 
 message UserUpdateRole {
@@ -99,7 +93,6 @@ message UserListRequest {
   repeated UserRole roles = 1 [json_name = "roles"];
   repeated UserStatus statuses = 2 [json_name = "statuses"];
   repeated uint64 owner_organization_ids = 3 [json_name = "owner_organization_ids"];
-  optional bool is_service_account = 4 [json_name = "is_service_account"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 

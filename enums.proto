@@ -357,6 +357,11 @@ enum UserRole {
   // Technical user of a service provider's accounting system (1C). May call
   // Integration1CService only; its owner organization must be a service provider.
   USER_ROLE_INTEGRATION_1C = 19;
+  // Service accounts: machine users calling the API with static tokens, not people.
+  // Only these roles can hold a static token; only an admin creates them.
+  USER_ROLE_SA_1C = 20; // accounting system (1C); same access as USER_ROLE_INTEGRATION_1C
+  USER_ROLE_SA_SCALE = 21; // disposal-site scale posting to ScaleIntegrationService
+  USER_ROLE_SA_GPS = 22; // GPS ingest; same access as USER_ROLE_GPS_INNER_SERVICE
 }
 
 enum UserStatus {
