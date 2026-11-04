@@ -1,0 +1,64 @@
+syntax = "proto2";
+package raccoonai;
+
+import "enums.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "location.proto";
+import "truck.proto";
+
+option go_package = "./pb";
+
+message JobTrackingRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+}
+
+message JobTrackingLiveRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+  // Time of the last track point the client has, i.e. the last entry of
+  // track.properties.timestamps. Exclusive at whole seconds: points in a later
+  // second come back. Unset returns the track from the route start.
+  optional google.protobuf.Timestamp since = 2 [json_name = "since"];
+}
+
+// The route serving a job, as its client sees it. Route fields stay unset until
+// the job is on a route; track and latest_position stay unset until the route
+// starts and stop at its fact_end_at.
+message JobTracking {
+  optional uint64 route_id = 1 [json_name = "route_id"];
+  optional RouteStatus route_status = 2 [json_name = "route_status"];
+  optional google.protobuf.Timestamp fact_start_at = 3 [json_name = "fact_start_at"];
+  optional google.protobuf.Timestamp fact_end_at = 4 [json_name = "fact_end_at"];
+  // Only id, plate_number, status, owner_organization_id and truck_type are set.
+  optional Truck truck = 5 [json_name = "truck"];
+  optional Location source_location = 6 [json_name = "source_location"];
+  optional Location destination_location = 7 [json_name = "destination_location"];
+  // GeoJSON Feature (LineString), same shape as TruckTravelPathResponse.geojson_feature.
+  optional google.protobuf.Struct track = 8 [json_name = "track"];
+  optional TruckPositionList.TruckPosition latest_position = 9 [json_name = "latest_position"];
+}
+
+// The polled part of JobTracking. Stop polling once fact_end_at is set.
+message JobTrackingLive {
+  optional RouteStatus route_status = 1 [json_name = "route_status"];
+  optional google.protobuf.Timestamp fact_start_at = 2 [json_name = "fact_start_at"];
+  optional google.protobuf.Timestamp fact_end_at = 3 [json_name = "fact_end_at"];
+  // Track points after since, same shape as JobTracking.track.
+  optional google.protobuf.Struct track = 4 [json_name = "track"];
+  optional TruckPositionList.TruckPosition latest_position = 5 [json_name = "latest_position"];
+  // When either differs from GetJobTracking's (job moved to another route,
+  // truck swapped), drop the local track and fetch GetJobTracking again.
+  optional uint64 route_id = 6 [json_name = "route_id"];
+  optional uint64 truck_id = 7 [json_name = "truck_id"];
+}
+
+// What client-app calls on behalf of a client (SERVICE_RECEIVER organization)
+// user. Gated by organization type, not Permify: every query is scoped to the
+// caller's organization, so a job of another organization is NotFound.
+service ClientService {
+  // The route serving one of the caller's jobs: window, truck, locations and
+  // the track so far. Fetch once, and again when the job status changes.
+  rpc GetJobTracking(JobTrackingRequest) returns (JobTracking) {}
+  // The cheap part of GetJobTracking, for polling while the route runs.
+  rpc GetJobTrackingLive(JobTrackingLiveRequest) returns (JobTrackingLive) {}
+}
