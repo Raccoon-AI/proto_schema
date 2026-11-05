@@ -1,0 +1,25 @@
+syntax = "proto2";
+package raccoonai;
+
+import "client_service.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+message SharedTrackingRequest {
+  // From ClientService.CreateJobShareLink.
+  required string token = 1 [json_name = "token"];
+}
+
+message SharedTrackingLiveRequest {
+  required string token = 1 [json_name = "token"];
+  // Same as JobTrackingLiveRequest.since.
+  optional google.protobuf.Timestamp since = 2 [json_name = "since"];
+}
+
+// The share page of a job: no login, the token is the access. Responses match
+// ClientService. An invalid, tampered or expired token is NotFound.
+service PublicTrackingService {
+  rpc GetSharedTracking(SharedTrackingRequest) returns (JobTracking) {}
+  rpc GetSharedTrackingLive(SharedTrackingLiveRequest) returns (JobTrackingLive) {}
+}

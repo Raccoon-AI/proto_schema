@@ -5,6 +5,7 @@ import "enums.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "location.proto";
+import "pickup_location.proto";
 import "truck.proto";
 
 option go_package = "./pb";
@@ -36,6 +37,8 @@ message JobTracking {
   // GeoJSON Feature (LineString), same shape as TruckTravelPathResponse.geojson_feature.
   optional google.protobuf.Struct track = 8 [json_name = "track"];
   optional TruckPositionList.TruckPosition latest_position = 9 [json_name = "latest_position"];
+  // The job's pickup point. Only id, name, lon, lat, address and geometry are set.
+  optional PickupLocation pickup_location = 10 [json_name = "pickup_location"];
 }
 
 // The polled part of JobTracking. Stop polling once fact_end_at is set.
@@ -52,6 +55,18 @@ message JobTrackingLive {
   optional uint64 truck_id = 7 [json_name = "truck_id"];
 }
 
+message JobShareLinkRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+}
+
+// A link anyone can open without logging in, for one job, until expires_at.
+message JobShareLink {
+  // Opaque. Put it in the share URL's fragment (after #), never in the path
+  // or query, so it stays out of server logs and the Referer header.
+  required string token = 1 [json_name = "token"];
+  required google.protobuf.Timestamp expires_at = 2 [json_name = "expires_at"];
+}
+
 // What client-app calls on behalf of a client (SERVICE_RECEIVER organization)
 // user. Gated by organization type, not Permify: every query is scoped to the
 // caller's organization, so a job of another organization is NotFound.
@@ -61,4 +76,8 @@ service ClientService {
   rpc GetJobTracking(JobTrackingRequest) returns (JobTracking) {}
   // The cheap part of GetJobTracking, for polling while the route runs.
   rpc GetJobTrackingLive(JobTrackingLiveRequest) returns (JobTrackingLive) {}
+  // A token for PublicTrackingService that shows this job's tracking to anyone
+  // holding it. It works for 72 hours and stops 2 hours after the route ends.
+  // Each call returns a new token; earlier ones keep working until they expire.
+  rpc CreateJobShareLink(JobShareLinkRequest) returns (JobShareLink) {}
 }
