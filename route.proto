@@ -7,6 +7,7 @@ import "general.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "job.proto";
+import "location.proto";
 import "organization.proto";
 import "truck.proto";
 import "user.proto";
@@ -53,6 +54,7 @@ message Route {
   optional double mileage = 30 [json_name = "mileage"];
   optional double weight_kg = 31 [json_name = "weight_kg"];
   optional double volume = 32 [json_name = "volume"];
+  optional Location destination_location = 33 [json_name = "destination_location"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
