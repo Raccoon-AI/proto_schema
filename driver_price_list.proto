@@ -77,7 +77,7 @@ message DriverPriceListCell {
   optional DriverPriceListCellAudit audit = 4 [json_name = "audit"];
   // Standard time the price is derived from, for every role.
   required uint64 std_seconds = 5 [json_name = "std_seconds"];
-}
+  optional uint64 std_seconds = 5 [json_name = "std_seconds"];
 
 // One stand of the grid: its day and night cell. One cell per shift — should
 // several anchors ever be listed for a stand, the newest cell wins.
