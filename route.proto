@@ -53,6 +53,9 @@ message Route {
   optional double mileage = 30 [json_name = "mileage"];
   optional double weight_kg = 31 [json_name = "weight_kg"];
   optional double volume = 32 [json_name = "volume"];
+  // Price-list quote for a CREATED route as if it started now. Set by
+  // DriverService.AssignedRoutes only, never stored; reward is what is paid.
+  optional uint64 expected_reward = 33 [json_name = "expected_reward"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
