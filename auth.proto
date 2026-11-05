@@ -71,4 +71,19 @@ message MeResponse {
 message TokenRequest {
   optional uint64 user_id = 1 [json_name = "user_id"];
   optional google.protobuf.Timestamp expiration_date = 2 [json_name = "expiration_date"];
+  // Free text telling a user's static tokens apart, e.g. "1C prod". Static tokens only.
+  optional string label = 3 [json_name = "label"];
+}
+
+// A static token as stored; the token string itself is never kept, so never returned.
+message StaticTokenInfo {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 user_id = 2 [json_name = "user_id"];
+  optional string label = 3 [json_name = "label"];
+  required google.protobuf.Timestamp created_at = 4 [json_name = "created_at"];
+  required google.protobuf.Timestamp expires_at = 5 [json_name = "expires_at"];
+}
+
+message StaticTokenInfoList {
+  repeated StaticTokenInfo tokens = 1 [json_name = "tokens"];
 }

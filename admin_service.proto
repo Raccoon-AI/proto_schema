@@ -18,6 +18,10 @@ service AdminService {
   rpc UpdateUser(UserUpdate) returns (User) {}
   rpc ImpersonateUser(IdRequest) returns (AuthResponse) {}
   rpc ListUsers(UserListRequest) returns (UserList) {}
+  // Static tokens of a user: id is the user id. Unexpired ones only.
+  rpc ListStaticTokens(IdRequest) returns (StaticTokenInfoList) {}
+  // Revokes one static token: id is StaticTokenInfo.id. Login sessions are not touched.
+  rpc RevokeStaticToken(IdRequest) returns (MessageResponse) {}
   // Related to permissions
   rpc PopulateDefaultPermissions(IdRequest) returns (MessageResponse) {}
   rpc SetDefaultRolesToAllOrganizationUsers(IdRequest) returns (MessageResponse) {}
