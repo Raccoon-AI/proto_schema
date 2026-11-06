@@ -19,4 +19,13 @@ service VoipService {
   rpc ResumeTenant(IdRequest) returns (VoipTenant) {}
   // Mints a new Provisioner key in the child account and revokes the old one.
   rpc RotateTenantKey(IdRequest) returns (VoipTenant) {}
+
+  // Operators: admins for any organization, provider owners for their own.
+  rpc ListOperators(VoipOperatorListRequest) returns (VoipOperatorList) {}
+  // Creates the Voximplant user and takes a seat; fails at the seat limit.
+  rpc LinkOperator(VoipOperatorLinkRequest) returns (VoipOperator) {}
+  // Blocks the Voximplant user and frees the seat. Takes the platform user id.
+  rpc UnlinkOperator(IdRequest) returns (MessageResponse) {}
+  // For the linked operator calling: the hash for loginWithOneTimeKey.
+  rpc GetLoginHash(VoipLoginHashRequest) returns (VoipLoginHash) {}
 }
