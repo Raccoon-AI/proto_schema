@@ -149,3 +149,34 @@ message VoipNumberListRequest {
 message VoipNumberList {
   repeated VoipNumber items = 1 [json_name = "items"];
 }
+
+// VoipUsage is one tenant's calls and talk time in one calendar month,
+// from the mirrored call log. Invoices are produced from it outside.
+message VoipUsage {
+  required uint64 voip_tenant_id = 1 [json_name = "voip_tenant_id"];
+  required string slug = 2 [json_name = "slug"];
+  // YYYY-MM, UTC.
+  required string month = 3 [json_name = "month"];
+  required uint64 calls_in = 4 [json_name = "calls_in"];
+  required uint64 calls_out = 5 [json_name = "calls_out"];
+  required uint64 seconds_in = 6 [json_name = "seconds_in"];
+  required uint64 seconds_out = 7 [json_name = "seconds_out"];
+}
+
+message VoipUsageRequest {
+  // Admins may name a tenant; owners get their own organization's.
+  optional uint64 voip_tenant_id = 1 [json_name = "voip_tenant_id"];
+  // Half-open window on call start; defaults to the current month.
+  optional google.protobuf.Timestamp from = 2 [json_name = "from"];
+  optional google.protobuf.Timestamp to = 3 [json_name = "to"];
+}
+
+message VoipUsageList {
+  repeated VoipUsage items = 1 [json_name = "items"];
+}
+
+message VoipTopUpRequest {
+  required uint64 voip_tenant_id = 1 [json_name = "voip_tenant_id"];
+  // Amount in the parent account's currency.
+  required double amount = 2 [json_name = "amount"];
+}
