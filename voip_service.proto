@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "daas.proto";
 import "general.proto";
 import "voip.proto";
 
@@ -35,4 +36,8 @@ service VoipService {
   // Deletes the SIP registration and the number.
   rpc RemoveNumber(IdRequest) returns (MessageResponse) {}
   rpc ListNumbers(VoipNumberListRequest) returns (VoipNumberList) {}
+
+  // Call history of the caller's tenant, read from the mirrored call log
+  // that scenario events fill; same filters as DaasService.ListCallLogs.
+  rpc ListCallLogs(CallLogRequest) returns (CallLogList) {}
 }
