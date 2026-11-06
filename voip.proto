@@ -68,3 +68,49 @@ message VoipTenantList {
   repeated VoipTenant items = 1 [json_name = "items"];
   optional int64 total_count = 2 [json_name = "total_count"];
 }
+
+// VoipOperator is a platform user linked to a Voximplant user of the
+// tenant application. One seat each.
+message VoipOperator {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 user_id = 2 [json_name = "user_id"];
+  optional string user_name = 3 [json_name = "user_name"];
+  required uint64 voip_tenant_id = 4 [json_name = "voip_tenant_id"];
+  // Fully qualified Voximplant login: op-<user_id>@<app>.<account>.voximplant.com
+  required string login = 5 [json_name = "login"];
+  optional string display_name = 6 [json_name = "display_name"];
+  // agent, supervisor or admin; copied into the Voximplant user's custom data.
+  required string role = 7 [json_name = "role"];
+  required bool active = 8 [json_name = "active"];
+  optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+}
+
+message VoipOperatorLinkRequest {
+  required uint64 user_id = 1 [json_name = "user_id"];
+  // Defaults to agent.
+  optional string role = 2 [json_name = "role"];
+}
+
+message VoipOperatorListRequest {
+  // Admins may name any organization; owners see their own.
+  optional uint64 organization_id = 1 [json_name = "organization_id"];
+}
+
+message VoipOperatorList {
+  repeated VoipOperator items = 1 [json_name = "items"];
+  required uint32 seat_limit = 2 [json_name = "seat_limit"];
+  required uint32 seats_used = 3 [json_name = "seats_used"];
+}
+
+message VoipLoginHashRequest {
+  // The key the Web SDK received from requestOneTimeLoginKey.
+  required string one_time_key = 1 [json_name = "one_time_key"];
+}
+
+// VoipLoginHash is what the Web SDK passes to loginWithOneTimeKey.
+message VoipLoginHash {
+  required string login = 1 [json_name = "login"];
+  required string hash = 2 [json_name = "hash"];
+  required string account_name = 3 [json_name = "account_name"];
+  required string application_name = 4 [json_name = "application_name"];
+}
