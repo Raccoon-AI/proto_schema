@@ -55,6 +55,12 @@ message Route {
   optional double weight_kg = 31 [json_name = "weight_kg"];
   optional double volume = 32 [json_name = "volume"];
   optional Location destination_location = 33 [json_name = "destination_location"];
+  // Estimated price-list reward for a CREATED route as if it started now.
+  // An estimate only: the paid reward may differ when the route starts in
+  // another shift or month. Set by DriverService.AssignedRoutes, never
+  // stored. Unset when the route is not CREATED or no price-list cell matches
+  // the stand and shift; clients hide the badge rather than show 0.
+  optional uint64 expected_reward = 34 [json_name = "expected_reward"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
