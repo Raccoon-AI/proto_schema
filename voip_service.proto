@@ -1,0 +1,51 @@
+syntax = "proto2";
+package raccoonai;
+
+import "daas.proto";
+import "general.proto";
+import "voip.proto";
+
+option go_package = "./pb";
+
+// VoipService provisions and runs Voximplant tenants. Gated per procedure by
+// VoipInterceptor: tenant administration is admin-only.
+service VoipService {
+  // Creates the tenant and runs every provisioning step; call again to
+  // resume after a failed step.
+  rpc OnboardTenant(VoipTenantOnboardRequest) returns (VoipTenant) {}
+  rpc GetTenant(IdRequest) returns (VoipTenant) {}
+  rpc ListTenants(VoipTenantListRequest) returns (VoipTenantList) {}
+  // Stops outbound calls and blocks every operator until resumed.
+  rpc SuspendTenant(IdRequest) returns (VoipTenant) {}
+  rpc ResumeTenant(IdRequest) returns (VoipTenant) {}
+  // Mints a new Provisioner key in the child account and revokes the old one.
+  rpc RotateTenantKey(IdRequest) returns (VoipTenant) {}
+  // Blocks operators, unbinds numbers, deactivates the child account and
+  // revokes the key. Records are kept. Refused while events are pending.
+  rpc OffboardTenant(IdRequest) returns (VoipTenant) {}
+
+  // Operators: admins for any organization, provider owners for their own.
+  rpc ListOperators(VoipOperatorListRequest) returns (VoipOperatorList) {}
+  // Creates the Voximplant user and takes a seat; fails at the seat limit.
+  rpc LinkOperator(VoipOperatorLinkRequest) returns (VoipOperator) {}
+  // Blocks the Voximplant user and frees the seat. Takes the platform user id.
+  rpc UnlinkOperator(IdRequest) returns (MessageResponse) {}
+  // For the linked operator calling: the hash for loginWithOneTimeKey.
+  rpc GetLoginHash(VoipLoginHashRequest) returns (VoipLoginHash) {}
+
+  // Numbers: admin-only. A number added to an active tenant is registered
+  // at once; on a provisioning tenant it waits for the numbers step.
+  rpc AddNumber(VoipNumberAddRequest) returns (VoipNumber) {}
+  // Deletes the SIP registration and the number.
+  rpc RemoveNumber(IdRequest) returns (MessageResponse) {}
+  rpc ListNumbers(VoipNumberListRequest) returns (VoipNumberList) {}
+
+  // Call history of the caller's tenant, read from the mirrored call log
+  // that scenario events fill; same filters as DaasService.ListCallLogs.
+  rpc ListCallLogs(CallLogRequest) returns (CallLogList) {}
+
+  // Billing: usage per month from the call log; top-ups from the parent.
+  rpc ListUsage(VoipUsageRequest) returns (VoipUsageList) {}
+  // Transfers money from the parent account and refreshes the balance.
+  rpc TopUpTenant(VoipTopUpRequest) returns (VoipTenant) {}
+}

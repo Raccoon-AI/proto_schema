@@ -175,6 +175,8 @@
   "ERROR_CODE_TYPE_NOT_OWNED": "Изменять тип «{{name}}» может только {{owner}}, которая его завела",
   "ERROR_CODE_TYPE_DUPLICATE_IN_HOLDING": "В холдинге уже есть тип «{{name}}» ({{owner}}) — используйте его",
   "ERROR_CODE_TRUCK_TYPE_IN_USE": "Тип ТС «{{name}}» используют машины ({{count}}), его нельзя удалить",
+  "ERROR_CODE_VOIP_TENANT_INACTIVE": "Телефония не активна для этой организации",
+  "ERROR_CODE_VOIP_SEAT_LIMIT": "Все {{limit}} мест телефонии этой организации заняты",
   "ERROR_CODE_COMPANY_NOT_SELECTED": "Компания не выбрана",
   "ERROR_CODE_ROUTE_OWNER_NOT_IN_ZONE": "Организация маршрута не входит в зону ответственности задания {{id}}",
   "ERROR_CODE_JOB_SERVICE_PROVIDER_NOT_IN_ZONE": "{{service_provider}} не входит в зону ответственности задания {{id}}",
