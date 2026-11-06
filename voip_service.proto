@@ -20,6 +20,9 @@ service VoipService {
   rpc ResumeTenant(IdRequest) returns (VoipTenant) {}
   // Mints a new Provisioner key in the child account and revokes the old one.
   rpc RotateTenantKey(IdRequest) returns (VoipTenant) {}
+  // Blocks operators, unbinds numbers, deactivates the child account and
+  // revokes the key. Records are kept. Refused while events are pending.
+  rpc OffboardTenant(IdRequest) returns (VoipTenant) {}
 
   // Operators: admins for any organization, provider owners for their own.
   rpc ListOperators(VoipOperatorListRequest) returns (VoipOperatorList) {}
