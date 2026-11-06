@@ -1,0 +1,22 @@
+syntax = "proto2";
+package raccoonai;
+
+import "general.proto";
+import "voip.proto";
+
+option go_package = "./pb";
+
+// VoipService provisions and runs Voximplant tenants. Gated per procedure by
+// VoipInterceptor: tenant administration is admin-only.
+service VoipService {
+  // Creates the tenant and runs every provisioning step; call again to
+  // resume after a failed step.
+  rpc OnboardTenant(VoipTenantOnboardRequest) returns (VoipTenant) {}
+  rpc GetTenant(IdRequest) returns (VoipTenant) {}
+  rpc ListTenants(VoipTenantListRequest) returns (VoipTenantList) {}
+  // Stops outbound calls and blocks every operator until resumed.
+  rpc SuspendTenant(IdRequest) returns (VoipTenant) {}
+  rpc ResumeTenant(IdRequest) returns (VoipTenant) {}
+  // Mints a new Provisioner key in the child account and revokes the old one.
+  rpc RotateTenantKey(IdRequest) returns (VoipTenant) {}
+}

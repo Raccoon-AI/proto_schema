@@ -175,6 +175,8 @@
   "ERROR_CODE_TYPE_NOT_OWNED": "Only {{owner}}, which created type “{{name}}”, can change it",
   "ERROR_CODE_TYPE_DUPLICATE_IN_HOLDING": "Your holding already has type “{{name}}” ({{owner}}) — use it",
   "ERROR_CODE_TRUCK_TYPE_IN_USE": "Truck type “{{name}}” is used by {{count}} trucks and can't be deleted",
+  "ERROR_CODE_VOIP_TENANT_INACTIVE": "Telephony is not active for this organization",
+  "ERROR_CODE_VOIP_SEAT_LIMIT": "All {{limit}} telephony seats of this organization are taken",
   "ERROR_CODE_COMPANY_NOT_SELECTED": "Company is not selected",
   "ERROR_CODE_ROUTE_OWNER_NOT_IN_ZONE": "The route's organization is not in the responsible zone of job {{id}}",
   "ERROR_CODE_JOB_SERVICE_PROVIDER_NOT_IN_ZONE": "{{service_provider}} is not in the responsible zone of job {{id}}",
