@@ -114,3 +114,38 @@ message VoipLoginHash {
   required string account_name = 3 [json_name = "account_name"];
   required string application_name = 4 [json_name = "application_name"];
 }
+
+// VoipNumber is a SIP number bought by hand and bound to the tenant
+// application through a SIP registration. SIP credentials never leave the
+// backend.
+message VoipNumber {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 voip_tenant_id = 2 [json_name = "voip_tenant_id"];
+  // E.164 without spaces, e.g. +77011234567.
+  required string number = 3 [json_name = "number"];
+  required string sip_username = 4 [json_name = "sip_username"];
+  required string sip_proxy = 5 [json_name = "sip_proxy"];
+  optional uint64 sip_registration_id = 6 [json_name = "sip_registration_id"];
+  // pending (not registered yet), bound, unbound.
+  required string status = 7 [json_name = "status"];
+  optional string last_error = 8 [json_name = "last_error"];
+  optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+}
+
+message VoipNumberAddRequest {
+  required uint64 voip_tenant_id = 1 [json_name = "voip_tenant_id"];
+  required string number = 2 [json_name = "number"];
+  required string sip_username = 3 [json_name = "sip_username"];
+  required string sip_proxy = 4 [json_name = "sip_proxy"];
+  // Defaults to sip_username.
+  optional string sip_auth_user = 5 [json_name = "sip_auth_user"];
+  required string sip_password = 6 [json_name = "sip_password"];
+}
+
+message VoipNumberListRequest {
+  required uint64 voip_tenant_id = 1 [json_name = "voip_tenant_id"];
+}
+
+message VoipNumberList {
+  repeated VoipNumber items = 1 [json_name = "items"];
+}
