@@ -79,6 +79,11 @@ enum AuditLogType {
   AUDIT_LOG_TYPE_SUSPICIOUS_LOCATION_ARCHIVED = 351;
   AUDIT_LOG_TYPE_SUSPICIOUS_LOCATION_UNARCHIVED = 352;
 
+  // 360 - 370 Contract related events
+  // Written by the notification poller; fields.reminder ("30d" / "7d") and
+  // fields.end_at (YYYY-MM-DD) make the row the "already sent" marker.
+  AUDIT_LOG_TYPE_CONTRACT_EXPIRING = 361;
+
   // 400 - 500 AI related events
   AUDIT_LOG_TYPE_AI_ROUTE_ASSIGNED = 401;
 }
