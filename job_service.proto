@@ -46,6 +46,8 @@ message JobListRequest {
   // show are left out. Unset or false keeps the zone-visible list; without service_provider_ids it has
   // no effect. Servers before this field ignore it.
   optional bool executed_only = 20 [json_name = "executed_only"];
+  // Only jobs of these container groups, ANDed with the other filters; empty = no filter. Servers before this field ignore it.
+  repeated uint64 container_group_ids = 21 [json_name = "container_group_ids"];
 }
 
 message JobRequest {

@@ -19,11 +19,6 @@ message Contact {
   optional string phone = 5 [json_name = "phone"];
   optional string email = 6 [json_name = "email"];
   optional string position = 7 [json_name = "position"];
-  // Deprecated: the first entry of container_group_ids, kept for clients that
-  // predate the many-to-many link. Read container_group_ids instead - a
-  // customer often has several container groups on one pickup location, and
-  // this field can only name one of them.
-  optional uint64 container_group_id = 8 [json_name = "container_group_id"];
   // Every container group this contact answers for. A contact added from a
   // pickup location's card covers all of its own organization's groups on that
   // location, so this is normally the whole set rather than one entry.
@@ -31,6 +26,8 @@ message Contact {
   // Gate for automatic notifications to this person, and to their platform
   // user if one matches. Off by default; unset reads as false.
   optional bool notifications_enabled = 10 [json_name = "notifications_enabled"];
+  // The platform user this contact logs in as. Linked to groups, the user sees only those groups.
+  optional uint64 user_id = 11 [json_name = "user_id"];
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
 }
 
@@ -41,9 +38,6 @@ message Contact {
 //   container_group_ids  exactly those groups, no expansion;
 //   pickup_location_id   every container group of owner_organization_id on that
 //                        pickup location;
-//   container_group_id   the same expansion, taking the location from that one
-//                        group - so a client that can only name a single group
-//                        still gets the whole site;
 //   none of them         an organization-level contact with no group links.
 //
 // Groups belonging to another organization are never linked, whichever field
@@ -57,12 +51,12 @@ message ContactCreate {
   optional string phone = 4 [json_name = "phone"];
   optional string email = 5 [json_name = "email"];
   optional string position = 6 [json_name = "position"];
-  // Expanded to the whole site, see the message comment.
-  optional uint64 container_group_id = 7 [json_name = "container_group_id"];
   repeated uint64 container_group_ids = 9 [json_name = "container_group_ids"];
   // Gate for automatic notifications to this person, and to their platform
   // user if one matches. Off by default.
   optional bool notifications_enabled = 10 [json_name = "notifications_enabled"];
+  // A user of owner_organization_id, linked to no other contact; otherwise INVALID_REQUEST_STATE. 0 = none.
+  optional uint64 user_id = 11 [json_name = "user_id"];
 }
 
 message ContactUpdate {
@@ -73,9 +67,6 @@ message ContactUpdate {
   optional string email = 5 [json_name = "email"];
   optional string position = 6 [json_name = "position"];
   optional uint64 pickup_location_id = 7 [json_name = "pickup_location_id"]; //to be deprecated
-  // Deprecated: replaces the whole set with this single group. Send
-  // container_group_ids instead.
-  optional uint64 container_group_id = 8 [json_name = "container_group_id"];
   // Replaces the contact's groups outright when non-empty. An empty list means
   // "leave the links alone", because proto2 cannot tell it apart from an unset
   // field - whether a contact belongs to a site or to the organization as a
@@ -84,6 +75,8 @@ message ContactUpdate {
   // Gate for automatic notifications to this person, and to their platform
   // user if one matches. Unset leaves the current value unchanged.
   optional bool notifications_enabled = 10 [json_name = "notifications_enabled"];
+  // Unset leaves the link unchanged; 0 unlinks.
+  optional uint64 user_id = 11 [json_name = "user_id"];
 }
 
 message ContactList {
