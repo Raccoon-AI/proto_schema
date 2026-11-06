@@ -362,6 +362,9 @@ enum UserRole {
   USER_ROLE_SA_1C = 20; // accounting system (1C); same access as USER_ROLE_INTEGRATION_1C
   USER_ROLE_SA_SCALE = 21; // disposal-site scale posting to ScaleIntegrationService
   USER_ROLE_SA_GPS = 22; // GPS ingest; same access as USER_ROLE_GPS_INNER_SERVICE
+  // Writes without a request user: bot pod, cron jobs, notification pollers.
+  // Audit rows carry it with a NULL user_id. Never a login role.
+  USER_ROLE_SYSTEM = 23;
 }
 
 enum UserStatus {
