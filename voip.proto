@@ -1,0 +1,70 @@
+syntax = "proto2";
+package raccoonai;
+
+import "general.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+// Lifecycle of a tenant's Voximplant child account.
+enum VoipTenantStatus {
+  VOIP_TENANT_STATUS_UNDEFINED = 0;
+  VOIP_TENANT_STATUS_PROVISIONING = 1;
+  VOIP_TENANT_STATUS_ACTIVE = 2;
+  VOIP_TENANT_STATUS_SUSPENDED = 3;
+  VOIP_TENANT_STATUS_OFFBOARDED = 4;
+}
+
+// VoipTenant is one organization's Voximplant child account. Credentials and
+// secrets never leave the backend.
+message VoipTenant {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 organization_id = 2 [json_name = "organization_id"];
+  // Immutable tenant name: raccoon-dispatch, client-<slug>.
+  required string slug = 3 [json_name = "slug"];
+  optional uint64 vox_account_id = 4 [json_name = "vox_account_id"];
+  optional string vox_account_name = 5 [json_name = "vox_account_name"];
+  required string vox_app_name = 6 [json_name = "vox_app_name"];
+  required VoipTenantStatus status = 7 [json_name = "status"];
+  // Last provisioning step that completed; "done" once active.
+  optional string provision_step = 8 [json_name = "provision_step"];
+  // Error of the last failed step, cleared on the next successful run.
+  optional string last_error = 9 [json_name = "last_error"];
+  required uint32 seat_limit = 10 [json_name = "seat_limit"];
+  optional double balance = 11 [json_name = "balance"];
+  optional string balance_currency = 12 [json_name = "balance_currency"];
+  optional google.protobuf.Timestamp balance_checked_at = 13 [json_name = "balance_checked_at"];
+  optional double low_balance_threshold = 14 [json_name = "low_balance_threshold"];
+  required bool outbound_suspended = 15 [json_name = "outbound_suspended"];
+  // JSON passed to scenarios through tenant_config: queues, working hours,
+  // concurrent-call cap.
+  optional string config = 16 [json_name = "config"];
+  optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+  optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
+}
+
+message VoipTenantOnboardRequest {
+  required uint64 organization_id = 1 [json_name = "organization_id"];
+  required string slug = 2 [json_name = "slug"];
+  // Defaults to "comms".
+  optional string vox_app_name = 3 [json_name = "vox_app_name"];
+  // The child account created for this tenant. Required on the first call
+  // while child account creation is not automated.
+  optional uint64 vox_account_id = 4 [json_name = "vox_account_id"];
+  // A service-account key of the child account, used once to mint the
+  // Provisioner's own key and then discarded. Required on the first call.
+  optional string bootstrap_credentials_json = 5 [json_name = "bootstrap_credentials_json"];
+  optional uint32 seat_limit = 6 [json_name = "seat_limit"];
+  optional double low_balance_threshold = 7 [json_name = "low_balance_threshold"];
+  optional string config = 8 [json_name = "config"];
+}
+
+message VoipTenantListRequest {
+  optional VoipTenantStatus status = 1 [json_name = "status"];
+  optional ListFilter list_filter = 2 [json_name = "list_filter"];
+}
+
+message VoipTenantList {
+  repeated VoipTenant items = 1 [json_name = "items"];
+  optional int64 total_count = 2 [json_name = "total_count"];
+}

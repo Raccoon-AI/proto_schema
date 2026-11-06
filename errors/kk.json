@@ -175,6 +175,8 @@
   "ERROR_CODE_TYPE_NOT_OWNED": "«{{name}}» түрін тек оны құрған {{owner}} өзгерте алады",
   "ERROR_CODE_TYPE_DUPLICATE_IN_HOLDING": "Холдингте «{{name}}» түрі бар ({{owner}}) — соны пайдаланыңыз",
   "ERROR_CODE_TRUCK_TYPE_IN_USE": "«{{name}}» КҚ түрін көліктер пайдаланады ({{count}}), оны жою мүмкін емес",
+  "ERROR_CODE_VOIP_TENANT_INACTIVE": "Бұл ұйым үшін телефония белсенді емес",
+  "ERROR_CODE_VOIP_SEAT_LIMIT": "Бұл ұйымның барлық {{limit}} телефония орны бос емес",
   "ERROR_CODE_COMPANY_NOT_SELECTED": "Компания таңдалмады",
   "ERROR_CODE_ROUTE_OWNER_NOT_IN_ZONE": "Бағыт ұйымы {{id}} тапсырмасының жауапкершілік аймағына кірмейді",
   "ERROR_CODE_JOB_SERVICE_PROVIDER_NOT_IN_ZONE": "{{service_provider}} {{id}} тапсырмасының жауапкершілік аймағына кірмейді",
