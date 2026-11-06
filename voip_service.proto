@@ -28,4 +28,11 @@ service VoipService {
   rpc UnlinkOperator(IdRequest) returns (MessageResponse) {}
   // For the linked operator calling: the hash for loginWithOneTimeKey.
   rpc GetLoginHash(VoipLoginHashRequest) returns (VoipLoginHash) {}
+
+  // Numbers: admin-only. A number added to an active tenant is registered
+  // at once; on a provisioning tenant it waits for the numbers step.
+  rpc AddNumber(VoipNumberAddRequest) returns (VoipNumber) {}
+  // Deletes the SIP registration and the number.
+  rpc RemoveNumber(IdRequest) returns (MessageResponse) {}
+  rpc ListNumbers(VoipNumberListRequest) returns (VoipNumberList) {}
 }
