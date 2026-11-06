@@ -37,6 +37,7 @@ message ContainerGroupListRequest {
   optional JobType job_type = 6 [json_name = "job_type"];
   // Only container groups whose responsible zone holds one of these service providers.
   repeated uint64 service_provider_ids = 7 [json_name = "service_provider_ids"];
+  repeated uint64 ids = 8 [json_name = "ids"];
 }
 
 // The schedule is authorized through its container group's contract, so requests carry no organization.
