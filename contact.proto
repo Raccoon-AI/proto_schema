@@ -55,7 +55,7 @@ message ContactCreate {
   // Gate for automatic notifications to this person, and to their platform
   // user if one matches. Off by default.
   optional bool notifications_enabled = 10 [json_name = "notifications_enabled"];
-  // A user of owner_organization_id, linked to no other contact.
+  // A user of owner_organization_id, linked to no other contact; otherwise INVALID_REQUEST_STATE. 0 = none.
   optional uint64 user_id = 11 [json_name = "user_id"];
 }
 
