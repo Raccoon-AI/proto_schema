@@ -1,0 +1,26 @@
+syntax = "proto2";
+package raccoonai;
+
+import "google/protobuf/timestamp.proto";
+import "job.proto";
+import "route.proto";
+import "truck_service.proto";
+
+option go_package = "./pb";
+
+message SharedJobRequest {
+  required string token = 1 [json_name = "token"];
+}
+
+message SharedJobTravelPathRequest {
+  required string token = 1 [json_name = "token"];
+  optional google.protobuf.Timestamp since = 2 [json_name = "since"];
+}
+
+// No login. ClientService responses minus prices, contract, schedule, driver comment,
+// photos and the scale record; primary_contact is public on purpose.
+service PublicTrackingService {
+  rpc GetSharedJob(SharedJobRequest) returns (Job) {}
+  rpc GetSharedJobRoute(SharedJobRequest) returns (Route) {}
+  rpc GetSharedJobTravelPath(SharedJobTravelPathRequest) returns (TruckTravelPathResponse) {}
+}

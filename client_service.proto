@@ -1,0 +1,72 @@
+syntax = "proto2";
+package raccoonai;
+
+import "contact.proto";
+import "contact_service.proto";
+import "container_group.proto";
+import "container_service.proto";
+import "file_upload.proto";
+import "google/protobuf/timestamp.proto";
+import "job.proto";
+import "job_service.proto";
+import "route.proto";
+import "truck_service.proto";
+
+option go_package = "./pb";
+
+message ClientJobRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+}
+
+message ClientJobTravelPathRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+  // Exclusive at whole seconds: GPS timestamps have no fraction.
+  optional google.protobuf.Timestamp since = 2 [json_name = "since"];
+}
+
+message ClientJobInstructionsRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+  repeated File files = 2 [json_name = "files"];
+}
+
+message ClientContactRequest {
+  required uint64 id = 1 [json_name = "id"];
+}
+
+message JobShareLinkRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+}
+
+message JobShareLink {
+  // Keep it in the URL fragment (after #): servers and Referer never see it.
+  required string token = 1 [json_name = "token"];
+  required google.protobuf.Timestamp expires_at = 2 [json_name = "expires_at"];
+}
+
+// Scoped by the caller's org instead of Permify: a truck grant would open every provider truck.
+// A user whose contact covers container groups reaches only those groups; otherwise the whole org.
+service ClientService {
+  // Allowlisted: the provider has no legal or bank details.
+  rpc GetJob(ClientJobRequest) returns (Job) {}
+  // service_receiver_ids is overwritten with the caller's org; always paginated (default 50, max 100).
+  rpc ListJobs(JobListRequest) returns (JobList) {}
+  // jobs stays empty: a route carries other clients' jobs. A finished route
+  // without a recorded end reports its GPS end, else its shift end (AIS ETL routes).
+  rpc GetJobRoute(ClientJobRequest) returns (Route) {}
+  // No coordinates before the route starts; the last point is the truck's position.
+  rpc GetJobTravelPath(ClientJobTravelPathRequest) returns (TruckTravelPathResponse) {}
+  // Stateless, so not revocable: it ends at 72h or 2h after the route ends.
+  rpc CreateJobShareLink(JobShareLinkRequest) returns (JobShareLink) {}
+  // service_receiver_id is the caller's org; the container group must be in the caller's scope.
+  rpc CreateJob(JobCreate) returns (Job) {}
+  rpc CancelJob(ClientJobRequest) returns (Job) {}
+  rpc AttachJobInstructions(ClientJobInstructionsRequest) returns (Job) {}
+  // owner_organization_ids is overwritten with the caller's org.
+  rpc ListContainerGroups(ContainerGroupListRequest) returns (ContainerGroupList) {}
+  // The org-level contacts plus those of the groups in scope.
+  rpc ListContacts(ContactListRequest) returns (ContactList) {}
+  rpc GetContact(ClientContactRequest) returns (Contact) {}
+  // A group-scoped user names groups in scope and cannot set user_id.
+  rpc CreateContact(ContactCreate) returns (Contact) {}
+  rpc UpdateContact(ContactUpdate) returns (Contact) {}
+}
