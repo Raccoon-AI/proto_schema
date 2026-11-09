@@ -58,7 +58,7 @@ message Job {
   optional google.protobuf.Timestamp gps_start_at = 33 [json_name = "gps_start_at"];
   optional google.protobuf.Timestamp gps_end_at = 34 [json_name = "gps_end_at"];
   optional bool is_created_by_client = 35 [json_name = "is_created_by_client"];
-  optional uint64 scale_record_id = 36 [json_name = "scale_record_id"];
+  optional uint64 scale_record_id = 36 [json_name = "scale_record_id"]; // Deprecated, no longer written: read route.scale_records
   optional User author = 37 [json_name = "author"];
   repeated FileUpload file_reports = 38 [json_name = "file_reports"];
   optional bool visible_to_ai = 39 [json_name = "visible_to_ai"];

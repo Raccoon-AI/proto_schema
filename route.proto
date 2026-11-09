@@ -43,12 +43,15 @@ message Route {
   optional uint64 current_step_idx = 20 [json_name = "current_step_idx"];
   optional google.protobuf.Timestamp gps_start_at = 21 [json_name = "gps_start_at"];
   optional google.protobuf.Timestamp gps_end_at = 22 [json_name = "gps_end_at"];
+  // Deprecated in favor of scale_records: the earliest weighing of the route, kept for
+  // clients that still read one.
   optional uint64 scale_record_id = 23 [json_name = "scale_record_id"];
   required RouteCategory route_category = 24 [json_name = "route_category"];
   repeated Job jobs = 25 [json_name = "jobs"];
   optional DriverOnShift driver_on_shift = 26 [json_name = "driver_on_shift"];
   optional uint64 reward = 27 [json_name = "reward"];
   optional double design_duration = 28 [json_name = "design_duration"];
+  // Deprecated in favor of scale_records: the earliest weighing of the route.
   optional ScaleRecord scale_record = 29 [json_name = "scale_record"];
   // Declared consignment-note facts, written only by ConsignmentNoteService.
   optional double mileage = 30 [json_name = "mileage"];
@@ -61,6 +64,8 @@ message Route {
   // stored. Unset when the route is not CREATED or no price-list cell matches
   // the stand and shift; clients hide the badge rather than show 0.
   optional uint64 expected_reward = 34 [json_name = "expected_reward"];
+  // Every weighing of the route, earliest first. A route can be weighed more than once.
+  repeated ScaleRecord scale_records = 35 [json_name = "scale_records"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
