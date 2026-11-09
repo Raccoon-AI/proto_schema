@@ -13,9 +13,11 @@ message CustomGroup {
   required string name = 2 [json_name = "name"];
   required uint64 owner_organization_id = 3 [json_name = "owner_organization_id"];
   optional Organization owner_organization = 4 [json_name = "owner_organization"];
+  // for a deleted group: the members RestoreCustomGroup brings back
   optional uint64 group_membership_count = 5 [json_name = "group_membership_count"];
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   required google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
+  optional google.protobuf.Timestamp deleted_at = 103 [json_name = "deleted_at"];
 }
 
 message CustomGroupCreate {
@@ -32,6 +34,8 @@ message CustomGroupListRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   // also the groups of every descendant organization; owner_organization tells them apart
   optional bool include_descendants = 2 [json_name = "include_descendants"];
+  // only the soft-deleted groups, the ones RestoreCustomGroup can bring back
+  optional bool deleted = 3 [json_name = "deleted"];
 }
 
 message CustomGroupList {

@@ -354,6 +354,14 @@ enum UserRole {
   // RaccoonAI's own dispatcher, dispatching on behalf of service-provider
   // companies that outsource dispatching to us (DaaS). Internal role.
   USER_ROLE_DAAS_DISPATCHER = 18;
+  // Technical user of a service provider's accounting system (1C). May call
+  // Integration1CService only; its owner organization must be a service provider.
+  USER_ROLE_INTEGRATION_1C = 19;
+  // Service accounts: machine users calling the API with static tokens, not people.
+  // Only these roles can hold a static token; only an admin creates them.
+  USER_ROLE_SA_1C = 20; // accounting system (1C); same access as USER_ROLE_INTEGRATION_1C
+  USER_ROLE_SA_SCALE = 21; // disposal-site scale posting to ScaleIntegrationService
+  USER_ROLE_SA_GPS = 22; // GPS ingest; same access as USER_ROLE_GPS_INNER_SERVICE
 }
 
 enum UserStatus {
@@ -522,4 +530,55 @@ enum EngineHoursSource {
   ENGINE_HOURS_SOURCE_CAN_COUNTER = 2;
   // The shift has a window but no usable engine telemetry in it.
   ENGINE_HOURS_SOURCE_NONE = 3;
+}
+
+// What a WhatsApp history message carries. Only text for now; polls, button
+// messages and other kinds come as new values.
+enum WhatsappMessageKind {
+  WHATSAPP_MESSAGE_KIND_UNDEFINED = 0;
+  WHATSAPP_MESSAGE_KIND_TEXT = 1;
+}
+
+// Delivery of a dispatcher's message, from the send and Meta's status webhooks.
+// Numbered in delivery order: a message only moves forward. Unset on inbound
+// and bot messages.
+enum WhatsappMessageStatus {
+  WHATSAPP_MESSAGE_STATUS_UNDEFINED = 0;
+  WHATSAPP_MESSAGE_STATUS_SENT = 1;
+  WHATSAPP_MESSAGE_STATUS_DELIVERED = 2;
+  WHATSAPP_MESSAGE_STATUS_READ = 3;
+  // Refused at send time or failed later (e.g. outside the 24h window).
+  WHATSAPP_MESSAGE_STATUS_FAILED = 4;
+}
+
+// Kind of an accounting document a provider's accounting system (1C) reports
+// back for the jobs it billed.
+enum AccountingDocumentKind {
+  ACCOUNTING_DOCUMENT_KIND_UNDEFINED = 0;
+  // «Реализация ТМЗ и услуг»: the sales document the act and the invoice are printed from.
+  ACCOUNTING_DOCUMENT_KIND_REALIZATION = 1;
+  // АВР: act of completed works.
+  ACCOUNTING_DOCUMENT_KIND_ACT = 2;
+  // ЭСФ: electronic tax invoice (ИС ЭСФ).
+  ACCOUNTING_DOCUMENT_KIND_ESF = 3;
+  // Счёт на оплату: payment request.
+  ACCOUNTING_DOCUMENT_KIND_INVOICE = 4;
+}
+
+// Lifecycle of an accounting document as the accounting system reports it.
+enum AccountingDocumentStatus {
+  ACCOUNTING_DOCUMENT_STATUS_UNDEFINED = 0;
+  ACCOUNTING_DOCUMENT_STATUS_DRAFT = 1; // created, not posted
+  ACCOUNTING_DOCUMENT_STATUS_POSTED = 2; // проведён
+  ACCOUNTING_DOCUMENT_STATUS_SENT = 3; // sent to the counterparty or to ИС ЭСФ
+  ACCOUNTING_DOCUMENT_STATUS_SIGNED = 4; // accepted by the counterparty
+  ACCOUNTING_DOCUMENT_STATUS_REJECTED = 5;
+  ACCOUNTING_DOCUMENT_STATUS_CANCELLED = 6;
+}
+
+// Platform entity an external system keeps its own reference for.
+enum IntegrationEntityType {
+  INTEGRATION_ENTITY_TYPE_UNDEFINED = 0;
+  INTEGRATION_ENTITY_TYPE_ORGANIZATION = 1;
+  INTEGRATION_ENTITY_TYPE_CONTRACT = 2;
 }

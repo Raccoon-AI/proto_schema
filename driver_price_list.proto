@@ -75,6 +75,8 @@ message DriverPriceListCell {
   required string month = 3 [json_name = "month"];
   // Set for platform admins only.
   optional DriverPriceListCellAudit audit = 4 [json_name = "audit"];
+  // Standard time the price is derived from, for every role.
+  optional uint64 std_seconds = 5 [json_name = "std_seconds"];
 }
 
 // One stand of the grid: its day and night cell, the pooled price (no

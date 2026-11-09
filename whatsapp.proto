@@ -2,6 +2,8 @@ syntax = "proto2";
 package raccoonai;
 
 import "contact.proto";
+import "enums.proto";
+import "general.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
@@ -13,8 +15,19 @@ message WhatsappMessage {
   optional string button_id = 4 [json_name = "button_id"];
   optional Contact contact = 5 [json_name = "contact"];
   optional google.protobuf.Timestamp created_at = 6 [json_name = "created_at"];
+  optional WhatsappMessageKind kind = 7 [json_name = "kind"];
+  // Set on a dispatcher's message only.
+  optional WhatsappMessageStatus status = 8 [json_name = "status"];
+  // The dispatcher who wrote it; unset for the bot's and the client's messages.
+  optional UserRef author = 9 [json_name = "author"];
+  // The sender's idempotency key of a dispatcher's message.
+  optional string client_message_id = 11 [json_name = "client_message_id"];
 }
 
 message WhatsappMessageList {
   repeated WhatsappMessage messages = 1 [json_name = "messages"];
+  // For a job's dialogue: when WhatsApp's 24-hour customer-service window closes
+  // (the client's last message + 24h). Unset when a reply cannot be sent: the window
+  // has closed or the job has no dialogue.
+  optional google.protobuf.Timestamp reply_window_ends_at = 2 [json_name = "reply_window_ends_at"];
 }

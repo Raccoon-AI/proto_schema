@@ -1,0 +1,45 @@
+syntax = "proto2";
+package raccoonai;
+
+import "google/protobuf/timestamp.proto";
+import "job.proto";
+import "job_service.proto";
+import "route.proto";
+import "truck_service.proto";
+
+option go_package = "./pb";
+
+message ClientJobRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+}
+
+message ClientJobTravelPathRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+  // Exclusive at whole seconds: GPS timestamps have no fraction.
+  optional google.protobuf.Timestamp since = 2 [json_name = "since"];
+}
+
+message JobShareLinkRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+}
+
+message JobShareLink {
+  // Keep it in the URL fragment (after #): servers and Referer never see it.
+  required string token = 1 [json_name = "token"];
+  required google.protobuf.Timestamp expires_at = 2 [json_name = "expires_at"];
+}
+
+// Scoped by the caller's org instead of Permify: a truck grant would open every provider truck.
+service ClientService {
+  // Allowlisted: the provider has no legal or bank details.
+  rpc GetJob(ClientJobRequest) returns (Job) {}
+  // service_receiver_ids is overwritten with the caller's org; always paginated (default 50, max 100).
+  rpc ListJobs(JobListRequest) returns (JobList) {}
+  // jobs stays empty: a route carries other clients' jobs. A finished route
+  // without a recorded end reports its GPS end, else its shift end (AIS ETL routes).
+  rpc GetJobRoute(ClientJobRequest) returns (Route) {}
+  // No coordinates before the route starts; the last point is the truck's position.
+  rpc GetJobTravelPath(ClientJobTravelPathRequest) returns (TruckTravelPathResponse) {}
+  // Stateless, so not revocable: it ends at 72h or 2h after the route ends.
+  rpc CreateJobShareLink(JobShareLinkRequest) returns (JobShareLink) {}
+}

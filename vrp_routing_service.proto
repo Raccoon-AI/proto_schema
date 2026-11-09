@@ -51,8 +51,8 @@ message SolveSingleVehicleRequest {
   // Leaving early only adds waiting, so the default leans early.
   optional google.protobuf.Timestamp departure_at = 5 [json_name = "departure_at"];
   // Jobs to plan, including ones not created yet (container_group_id +
-  // job_type). go-backend fills each container group stop's window from its
-  // schedule on date; job_id stops use the job's window.
+  // job_type). go-backend fills each container group stop's window as
+  // CreateRoutesFromStops picks it; job_id stops use the job's window.
   repeated JobStop stops = 6 [json_name = "stops"];
   // Plan without a shift (stops only, not job_ids): depot from the truck's
   // organization, no shift window. Ignored when driver_on_shift_id is set.

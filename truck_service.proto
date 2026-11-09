@@ -19,6 +19,10 @@ message TruckListRequest {
   repeated JobType job_types = 4 [json_name = "job_types"]; // filter by job types
   repeated uint64 container_type_ids = 5 [json_name = "container_type_ids"]; // filter by container types (for trucks with specific container compatibility)
   repeated TruckStatus statuses = 6 [json_name = "statuses"]; // filter by truck status
+  // shift_zone_ids: trucks those organizations own or that carry a shift of theirs (its zone), starting within
+  // shift_datetime_filter, or running now without it. Each id needs driver_on_shift view.
+  repeated uint64 shift_zone_ids = 7 [json_name = "shift_zone_ids"];
+  optional DateTimeFilter shift_datetime_filter = 8 [json_name = "shift_datetime_filter"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
@@ -93,17 +97,6 @@ message TruckGpsStopsRequest {
   // are opt-in. Verification screens set this to surface "stopped near, but not
   // at, the container".
   optional bool include_unmatched = 4 [json_name = "include_unmatched"];
-}
-
-message TruckPositionList {
-  message TruckPosition {
-    required uint64 truck_id = 1 [json_name = "truck_id"];
-    required double latitude = 2 [json_name = "latitude"];
-    required double longitude = 3 [json_name = "longitude"];
-    optional uint32 angle = 4 [json_name = "angle"];
-  }
-  // map of truck_id to TruckPosition
-  map<uint64, TruckPosition> truck_positions = 1 [json_name = "truck_positions"];
 }
 
 message DeviceMappingListRequest {

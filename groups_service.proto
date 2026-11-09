@@ -14,6 +14,8 @@ service CustomGroupService {
   rpc UpdateCustomGroup(CustomGroupUpdate) returns (CustomGroup);
   rpc ListOrgGroups(CustomGroupListRequest) returns (CustomGroupList);
   rpc DeleteCustomGroup(IdRequest) returns (EmptyMessageResponse);
+  // revives the group with the members and grants its deletion removed
+  rpc RestoreCustomGroup(IdRequest) returns (CustomGroup);
 }
 
 // --- Group Membership Service ---

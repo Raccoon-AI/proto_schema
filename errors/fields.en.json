@@ -84,11 +84,13 @@
   "valid_from": "Valid from",
   "valid_to": "Valid until",
   "rules": "Schedule",
-  "job_type": "Job type",
   "schedule": "Schedule",
   "status": "Status",
   "pickup_location_type_id": "Pickup location type",
   "customer_type_id": "Customer type",
   "reason": "Reason",
-  "explanation": "Explanation"
+  "explanation": "Explanation",
+  "body": "Message text",
+  "client_message_id": "Message ID",
+  "type": "Type"
 }
