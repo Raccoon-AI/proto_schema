@@ -40,6 +40,11 @@ message ReportIncidentRequest {
   // is rejected rather than silently replaced. Omit to let the backend use the
   // driver's current job. Ignored by ReportShiftIncident.
   optional uint64 job_id = 3 [json_name = "job_id"];
+  // ReportJobIncident only. Time of the action by the device clock. The
+  // x-client-sent-at header carries the time of this send attempt; the backend
+  // uses it to correct clock skew.
+  // Omitted: the time the request is received.
+  optional google.protobuf.Timestamp occurred_at = 101 [json_name = "occurred_at"];
 }
 
 message ChoosePickupLocationRequest {
@@ -54,6 +59,44 @@ message ChoosePickupLocationRequest {
 
 message CompleteCurrentJobRequest {
   optional uint64 job_id = 1 [json_name = "job_id"];
+  // Time of the action by the device clock. The x-client-sent-at header carries
+  // the time of this send attempt; the backend uses it to correct clock skew.
+  // Omitted: the time the request is received.
+  optional google.protobuf.Timestamp occurred_at = 101 [json_name = "occurred_at"];
+}
+
+// Wire- and JSON-compatible with the IdRequest it replaces.
+message ChooseRouteRequest {
+  required uint64 id = 1 [json_name = "id"];
+  // Time of the action by the device clock. The x-client-sent-at header carries
+  // the time of this send attempt; the backend uses it to correct clock skew.
+  // Omitted: the time the request is received.
+  optional google.protobuf.Timestamp occurred_at = 101 [json_name = "occurred_at"];
+}
+
+// Wire- and JSON-compatible with the IdRequest it replaces.
+message StartServiceCurrentJobRequest {
+  required uint64 id = 1 [json_name = "id"];
+  // Time of the action by the device clock. The x-client-sent-at header carries
+  // the time of this send attempt; the backend uses it to correct clock skew.
+  // Omitted: the time the request is received.
+  optional google.protobuf.Timestamp occurred_at = 101 [json_name = "occurred_at"];
+}
+
+// Wire- and JSON-compatible with the EmptyMessageRequest it replaces.
+message ReturnToDepotRequest {
+  // Time of the action by the device clock. The x-client-sent-at header carries
+  // the time of this send attempt; the backend uses it to correct clock skew.
+  // Omitted: the time the request is received.
+  optional google.protobuf.Timestamp occurred_at = 101 [json_name = "occurred_at"];
+}
+
+// Wire- and JSON-compatible with the EmptyMessageRequest it replaces.
+message CompleteCurrentRouteRequest {
+  // Time of the action by the device clock. The x-client-sent-at header carries
+  // the time of this send attempt; the backend uses it to correct clock skew.
+  // Omitted: the time the request is received.
+  optional google.protobuf.Timestamp occurred_at = 101 [json_name = "occurred_at"];
 }
 
 message FirebaseNotificationsRequest {
@@ -122,7 +165,7 @@ service DriverService {
 
   // Choose route from the list of assigned routes
   // Changes route status to IN_PROGRESS
-  rpc ChooseRoute(IdRequest) returns (Route) {}
+  rpc ChooseRoute(ChooseRouteRequest) returns (Route) {}
 
   // Choose jobs of the active route the driver is heading to: they become
   // ENROUTE. Jobs already ENROUTE or ON_SERVICE elsewhere keep their status, so
@@ -149,7 +192,7 @@ service DriverService {
   // When arrived to pickup location and start performing service
   // (e.g., start cleaning container, or start disinfection).
   // Changes job status to ON_SERVICE
-  rpc StartServiceCurrentJob(IdRequest) returns (Job) {}
+  rpc StartServiceCurrentJob(StartServiceCurrentJobRequest) returns (Job) {}
 
   // When finished performing service at pickup location and ready to leave.
   // Changes job status to COMPLETED, and if it's the last job in the route,
@@ -159,11 +202,11 @@ service DriverService {
   // When driver is en-route back to the depot. Changes route status to RETURNING.
   // Any unfinished jobs in the route will be marked as NOT_COMPLETED and
   // recreated with same order number.
-  rpc ReturnToDepot(EmptyMessageRequest) returns (Route) {}
+  rpc ReturnToDepot(ReturnToDepotRequest) returns (Route) {}
 
   // When driver has arrived at the depot and completes the route. Changes route
   // status to COMPLETED
-  rpc CompleteCurrentRoute(EmptyMessageRequest) returns (Route) {}
+  rpc CompleteCurrentRoute(CompleteCurrentRouteRequest) returns (Route) {}
 
   // Upload job-related file (e.g., photo evidence)
   rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
