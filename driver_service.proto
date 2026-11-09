@@ -43,6 +43,8 @@ message ReportIncidentRequest {
   // ReportJobIncident only. Time of the action by the device clock. The
   // x-client-sent-at header carries the time of this send attempt; the backend
   // uses it to correct clock skew.
+  // Without the header occurred_at is taken as is. Capped at the time the
+  // request is received and never before the previous action of the route.
   // Omitted: the time the request is received.
   optional google.protobuf.Timestamp occurred_at = 101 [json_name = "occurred_at"];
 }
@@ -61,6 +63,8 @@ message CompleteCurrentJobRequest {
   optional uint64 job_id = 1 [json_name = "job_id"];
   // Time of the action by the device clock. The x-client-sent-at header carries
   // the time of this send attempt; the backend uses it to correct clock skew.
+  // Without the header occurred_at is taken as is. Capped at the time the
+  // request is received and never before the previous action of the route.
   // Omitted: the time the request is received.
   optional google.protobuf.Timestamp occurred_at = 101 [json_name = "occurred_at"];
 }
@@ -70,6 +74,8 @@ message ChooseRouteRequest {
   required uint64 id = 1 [json_name = "id"];
   // Time of the action by the device clock. The x-client-sent-at header carries
   // the time of this send attempt; the backend uses it to correct clock skew.
+  // Without the header occurred_at is taken as is. Capped at the time the
+  // request is received and never before the previous action of the route.
   // Omitted: the time the request is received.
   optional google.protobuf.Timestamp occurred_at = 101 [json_name = "occurred_at"];
 }
@@ -79,6 +85,8 @@ message StartServiceCurrentJobRequest {
   required uint64 id = 1 [json_name = "id"];
   // Time of the action by the device clock. The x-client-sent-at header carries
   // the time of this send attempt; the backend uses it to correct clock skew.
+  // Without the header occurred_at is taken as is. Capped at the time the
+  // request is received and never before the previous action of the route.
   // Omitted: the time the request is received.
   optional google.protobuf.Timestamp occurred_at = 101 [json_name = "occurred_at"];
 }
@@ -87,6 +95,8 @@ message StartServiceCurrentJobRequest {
 message ReturnToDepotRequest {
   // Time of the action by the device clock. The x-client-sent-at header carries
   // the time of this send attempt; the backend uses it to correct clock skew.
+  // Without the header occurred_at is taken as is. Capped at the time the
+  // request is received and never before the previous action of the route.
   // Omitted: the time the request is received.
   optional google.protobuf.Timestamp occurred_at = 101 [json_name = "occurred_at"];
 }
@@ -95,6 +105,8 @@ message ReturnToDepotRequest {
 message CompleteCurrentRouteRequest {
   // Time of the action by the device clock. The x-client-sent-at header carries
   // the time of this send attempt; the backend uses it to correct clock skew.
+  // Without the header occurred_at is taken as is. Capped at the time the
+  // request is received and never before the previous action of the route.
   // Omitted: the time the request is received.
   optional google.protobuf.Timestamp occurred_at = 101 [json_name = "occurred_at"];
 }
