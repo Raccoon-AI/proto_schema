@@ -97,4 +97,5 @@ message OrganizationSubtreeRequest {
 message AccessibleOrganizationListRequest {
   required string resource = 1 [json_name = "resource"]; // e.g. "truck", "job"
   optional string action = 2 [json_name = "action"]; // can_view (default), can_edit, can_manage
+  optional uint64 holding_of = 3 [json_name = "holding_of"]; // only this organization's holding, e.g. a container group zone's choices
 }
