@@ -180,7 +180,7 @@
   "ERROR_CODE_JOB_SERVICE_PROVIDER_NOT_IN_ZONE": "{{service_provider}} is not in the responsible zone of job {{id}}",
   "ERROR_CODE_JOB_SERVICE_PROVIDER_NOT_CHANGEABLE": "The responsible depot of job {{id}} can be changed only while it is created and not on a route",
   "ERROR_CODE_CONTAINER_GROUP_SERVICE_PROVIDER_IN_USE": "{{service_provider}} has a schedule in container group {{id}} and cannot leave its zone",
-  "ERROR_CODE_CONTAINER_GROUP_SERVICE_PROVIDER_OUTSIDE_HOLDING": "{{service_provider}} is outside the organization of the container group's contract",
+  "ERROR_CODE_CONTAINER_GROUP_SERVICE_PROVIDER_OUTSIDE_HOLDING": "{{service_provider}} is outside the holding of the container group's provider",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_OVERLAP": "On {{date}} this schedule overlaps schedule {{schedule}}",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_RULES": "Invalid schedule rules",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_PERIOD": "The schedule must start on or before it ends",

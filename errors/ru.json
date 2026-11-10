@@ -180,7 +180,7 @@
   "ERROR_CODE_JOB_SERVICE_PROVIDER_NOT_IN_ZONE": "{{service_provider}} не входит в зону ответственности задания {{id}}",
   "ERROR_CODE_JOB_SERVICE_PROVIDER_NOT_CHANGEABLE": "Ответственное депо задания {{id}} можно сменить, только пока оно создано и не в маршруте",
   "ERROR_CODE_CONTAINER_GROUP_SERVICE_PROVIDER_IN_USE": "У {{service_provider}} есть график в группе контейнеров {{id}}, её нельзя убрать из зоны",
-  "ERROR_CODE_CONTAINER_GROUP_SERVICE_PROVIDER_OUTSIDE_HOLDING": "{{service_provider}} вне организации договора группы контейнеров",
+  "ERROR_CODE_CONTAINER_GROUP_SERVICE_PROVIDER_OUTSIDE_HOLDING": "{{service_provider}} вне холдинга перевозчика группы контейнеров",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_OVERLAP": "{{date}} этот график пересекается с графиком {{schedule}}",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_RULES": "Некорректные правила графика",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_PERIOD": "Начало графика должно быть не позже его окончания",

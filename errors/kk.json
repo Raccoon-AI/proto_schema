@@ -180,7 +180,7 @@
   "ERROR_CODE_JOB_SERVICE_PROVIDER_NOT_IN_ZONE": "{{service_provider}} {{id}} тапсырмасының жауапкершілік аймағына кірмейді",
   "ERROR_CODE_JOB_SERVICE_PROVIDER_NOT_CHANGEABLE": "{{id}} тапсырмасының жауапты деподы тек құрылған және бағытқа қосылмаған кезде ауыстырылады",
   "ERROR_CODE_CONTAINER_GROUP_SERVICE_PROVIDER_IN_USE": "{{service_provider}} {{id}} контейнерлер тобында кестесі бар, оны аймақтан алып тастауға болмайды",
-  "ERROR_CODE_CONTAINER_GROUP_SERVICE_PROVIDER_OUTSIDE_HOLDING": "{{service_provider}} контейнерлер тобы шартының ұйымынан тыс",
+  "ERROR_CODE_CONTAINER_GROUP_SERVICE_PROVIDER_OUTSIDE_HOLDING": "{{service_provider}} контейнерлер тобына қызмет көрсететін ұйымның холдингінен тыс",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_OVERLAP": "{{date}} бұл кесте {{schedule}} кестесімен қиылысады",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_RULES": "Кесте ережелері қате",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_PERIOD": "Кестенің басталуы аяқталуынан кеш болмауы керек",
