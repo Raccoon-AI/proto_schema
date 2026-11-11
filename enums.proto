@@ -551,6 +551,15 @@ enum WhatsappMessageStatus {
   WHATSAPP_MESSAGE_STATUS_FAILED = 4;
 }
 
+// A dispatcher's tag on a call or a chat.
+enum CallCenterTag {
+  CALL_CENTER_TAG_UNDEFINED = 0;
+  CALL_CENTER_TAG_ROUTE = 1;
+  CALL_CENTER_TAG_COMPLAINT = 2;
+  CALL_CENTER_TAG_EQUIPMENT = 3; // Техника
+  CALL_CENTER_TAG_CONTRACT = 4;
+}
+
 // Kind of an accounting document a provider's accounting system (1C) reports
 // back for the jobs it billed.
 enum AccountingDocumentKind {
