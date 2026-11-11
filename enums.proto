@@ -551,6 +551,13 @@ enum WhatsappMessageStatus {
   WHATSAPP_MESSAGE_STATUS_FAILED = 4;
 }
 
+// Open while the client's last message in the dialogue is under 24 hours old.
+enum WhatsappDialogueStatus {
+  WHATSAPP_DIALOGUE_STATUS_UNDEFINED = 0;
+  WHATSAPP_DIALOGUE_STATUS_OPEN = 1;
+  WHATSAPP_DIALOGUE_STATUS_CLOSED = 2;
+}
+
 // A dispatcher's tag on a call or a chat.
 enum CallCenterTag {
   CALL_CENTER_TAG_UNDEFINED = 0;
