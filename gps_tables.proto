@@ -47,3 +47,26 @@ message GpsRoute {
   required google.protobuf.Timestamp gps_end_at = 7 [json_name = "gps_end_at"];
   required uint64 truck_id = 8 [json_name = "truck_id"];
 }
+
+// A refuel (litres > 0) or drain (litres < 0) detected on a truck's fuel-level
+// trace: one gps_event row of kind "fuel", written by vrp_solver's gps-events
+// cron (docs/superpowers/specs/2026-10-15-gps-events-fuel-producer-design.md).
+message FuelEvent {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 truck_id = 2 [json_name = "truck_id"];
+  // The level's last extreme before the jump: where the refuel begins.
+  required google.protobuf.Timestamp gps_time = 3 [json_name = "gps_time"];
+  // The plateau after the jump: where the level stopped moving.
+  optional google.protobuf.Timestamp end_gps_time = 4 [json_name = "end_gps_time"];
+  // Signed litres, level_after - level_before.
+  required double litres = 5 [json_name = "litres"];
+  optional double level_before = 6 [json_name = "level_before"];
+  optional double level_after = 7 [json_name = "level_after"];
+  required double lat = 8 [json_name = "lat"];
+  required double lon = 9 [json_name = "lon"];
+  required google.protobuf.Timestamp created_at = 10 [json_name = "created_at"];
+}
+
+message FuelEventList {
+  repeated FuelEvent fuel_events = 1 [json_name = "fuel_events"];
+}

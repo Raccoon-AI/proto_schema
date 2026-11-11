@@ -99,6 +99,12 @@ message TruckGpsStopsRequest {
   optional bool include_unmatched = 4 [json_name = "include_unmatched"];
 }
 
+message TruckFuelEventsRequest {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required DateTimeFilter from_to = 3 [json_name = "from_to"];
+}
+
 message DeviceMappingListRequest {
   // Matches external_mapping.external_source (e.g. "wialon_ips").
   required string external_source = 1 [json_name = "external_source"];
@@ -139,6 +145,9 @@ service TruckService {
   // Aggregated dwell events derived from the raw GPS stream, for overlaying on
   // top of the GetTruckTravelPath line.
   rpc GetTruckGpsStops(TruckGpsStopsRequest) returns (GpsStopList) {}
+  // Refuels and drains detected on the truck's fuel-level trace (gps_event
+  // kind "fuel"), ordered by gps_time.
+  rpc GetTruckFuelEvents(TruckFuelEventsRequest) returns (FuelEventList) {}
   rpc GetTruckListLatestPositions(TruckListRequest) returns (TruckPositionList) {}
 
   // Cross-organization device -> truck resolution for system callers (e.g. GPSDataService's
