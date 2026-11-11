@@ -1,8 +1,10 @@
 syntax = "proto2";
 package raccoonai;
 
+import "contact.proto";
 import "general.proto";
 import "google/protobuf/timestamp.proto";
+import "user.proto";
 
 option go_package = "./pb";
 
@@ -27,6 +29,10 @@ message CallLogRequest {
   // IN or OUT. Voximplant cannot filter on it, so it is applied to the
   // returned page; total_count stays unfiltered.
   optional string direction = 5 [json_name = "direction"];
+  // Only calls with this platform user's phone number, e.g. a driver.
+  // Setting it together with contact_id is INVALID_ARGUMENT. A user (or
+  // contact) without a usable phone yields an empty page.
+  optional uint64 remote_user_id = 6 [json_name = "remote_user_id"];
 }
 
 message CallLogEntry {
@@ -39,12 +45,13 @@ message CallLogEntry {
   optional string direction = 5 [json_name = "direction"];
   optional bool successful = 6 [json_name = "successful"];
   optional string record_url = 7 [json_name = "record_url"];
-  // Platform user of the dispatcher on the call, when the Voximplant user is linked.
-  optional uint64 user_id = 8 [json_name = "user_id"];
-  optional string user_name = 9 [json_name = "user_name"];
+  // Dispatcher on the call, when the Voximplant user is linked.
+  optional User user = 8 [json_name = "user"];
   // Contact whose phone matches remote_number, when exactly one does.
-  optional uint64 contact_id = 10 [json_name = "contact_id"];
-  optional string contact_name = 11 [json_name = "contact_name"];
+  optional Contact contact = 9 [json_name = "contact"];
+  // Platform user (driver, dispatcher, ...) whose phone matches remote_number,
+  // when exactly one does.
+  optional User remote_user = 10 [json_name = "remote_user"];
   optional string local_number = 12 [json_name = "local_number"];
   // Voximplant's finish reason, e.g. "Normal termination".
   optional string finish_reason = 13 [json_name = "finish_reason"];
