@@ -24,15 +24,6 @@ enum ContainerTrackingEvent {
   CONTAINER_TRACKING_EVENT_COLLECTED = 2;
 }
 
-// How a container came into the inventory.
-enum ContainerCreatedFrom {
-  CONTAINER_CREATED_FROM_UNDEFINED = 0;
-  // Added in container management, or predates the field.
-  CONTAINER_CREATED_FROM_MANUAL = 1;
-  // A photo or report named an unknown number.
-  CONTAINER_CREATED_FROM_REPORT = 2;
-}
-
 // Where a container event came from.
 enum ContainerEventSource {
   CONTAINER_EVENT_SOURCE_UNDEFINED = 0;
@@ -92,9 +83,12 @@ message Container {
   optional Job last_job = 13 [json_name = "last_job"];
   // pickup_location_id preloaded, so a list does not need a call per location.
   optional PickupLocation pickup_location = 14 [json_name = "pickup_location"];
-  // A container created from a report is removed once it has no live event
-  // and no container group: the admin warns before a correction or void does that.
-  optional ContainerCreatedFrom created_from = 15 [json_name = "created_from"];
+  // Unset: not confirmed. A driver's photo or report naming an unknown number
+  // creates an unconfirmed container; one is removed once it has no live event
+  // and no container group. Confirmed by CreateContainer, a dispatcher's number
+  // correction naming it, or ContainerUpdate.confirmed.
+  optional google.protobuf.Timestamp confirmed_at = 15 [json_name = "confirmed_at"];
+  optional uint64 confirmed_by_id = 16 [json_name = "confirmed_by_id"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   required google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -122,6 +116,8 @@ message ContainerUpdate {
   optional ContainerTrackingEvent last_event = 8 [json_name = "last_event"];
   optional google.protobuf.Timestamp last_event_at = 9 [json_name = "last_event_at"];
   optional uint64 container_group_id = 10 [json_name = "container_group_id"];
+  // true confirms the container (see Container.confirmed_at); false is ignored.
+  optional bool confirmed = 11 [json_name = "confirmed"];
 }
 
 message ContainerStatusUpdate {
