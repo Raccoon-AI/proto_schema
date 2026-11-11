@@ -70,6 +70,17 @@ message DetachJobInstructionsRequest {
   repeated uint64 file_ids = 3 [json_name = "file_ids"];
 }
 
+// Corrects the container number on one before/after photo of a job. The
+// container events the photo recorded move from the container it named to the
+// one it names now, and both containers are recomputed. Needs can_edit on the job.
+message CorrectPhotoContainerNameRequest {
+  required uint64 job_id = 1 [json_name = "job_id"];
+  required uint64 file_upload_id = 2 [json_name = "file_upload_id"];
+  // Empty: the photo shows no container, its events are voided.
+  required string container_name = 3 [json_name = "container_name"];
+  optional string reason = 4 [json_name = "reason"];
+}
+
 service JobService {
   rpc CreateJob(JobCreate) returns (Job) {}
   rpc GetJobById(JobRequest) returns (Job) {}
@@ -87,4 +98,5 @@ service JobService {
   // COMPLETED or FORCE_COMPLETED job, when the driver could not. Needs can_edit
   // on the job.
   rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
+  rpc CorrectPhotoContainerName(CorrectPhotoContainerNameRequest) returns (MessageResponse) {}
 }
