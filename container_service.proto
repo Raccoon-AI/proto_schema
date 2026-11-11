@@ -144,6 +144,20 @@ message ContainerListRequest {
   repeated uint64 driver_ids = 9 [json_name = "driver_ids"];
 }
 
+// A container's history, newest first, voided events included.
+message ContainerEventListRequest {
+  required uint64 container_id = 1 [json_name = "container_id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+}
+
+// Voids one event of a container, e.g. a photo that shows no container, and
+// recomputes the container's state from the events left.
+message ContainerEventVoidRequest {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  optional string reason = 3 [json_name = "reason"];
+}
+
 service ContainerService {
   // Container Type operations
   rpc CreateContainerType(ContainerTypeCreate) returns (ContainerType) {}
@@ -173,4 +187,8 @@ service ContainerService {
   rpc ListContainers(ContainerListRequest) returns (ContainerList) {}
   rpc DeleteContainer(ContainerRequest) returns (MessageResponse) {}
   rpc UpdateContainerLocation(ContainerStatusUpdate) returns (MessageResponse) {}
+
+  // Container history
+  rpc ListContainerEvents(ContainerEventListRequest) returns (ContainerEventList) {}
+  rpc VoidContainerEvent(ContainerEventVoidRequest) returns (MessageResponse) {}
 }

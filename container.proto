@@ -24,6 +24,47 @@ enum ContainerTrackingEvent {
   CONTAINER_TRACKING_EVENT_COLLECTED = 2;
 }
 
+// Where a container event came from.
+enum ContainerEventSource {
+  CONTAINER_EVENT_SOURCE_UNDEFINED = 0;
+  // A driver's job photo, or a driver's UpdateContainerLocation report.
+  CONTAINER_EVENT_SOURCE_DRIVER = 1;
+  // The office: a photo added post factum, or a container number corrected on a photo.
+  CONTAINER_EVENT_SOURCE_DISPATCHER = 2;
+  // Set by hand in container management.
+  CONTAINER_EVENT_SOURCE_MANUAL = 3;
+  // Restored from the photos and container state that predate the event log.
+  CONTAINER_EVENT_SOURCE_BACKFILL = 4;
+}
+
+// One entry of a container's history. A container's pickup_location_id,
+// last_event, last_event_at and last_job_id are those of its latest event that
+// is not voided, by occurred_at. A voided event stays in the history.
+message ContainerEvent {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 container_id = 2 [json_name = "container_id"];
+  required ContainerTrackingEvent event = 3 [json_name = "event"];
+  optional uint64 pickup_location_id = 4 [json_name = "pickup_location_id"];
+  optional string pickup_location_name = 5 [json_name = "pickup_location_name"];
+  optional uint64 job_id = 6 [json_name = "job_id"];
+  // The photo the event was read from.
+  optional uint64 file_upload_id = 7 [json_name = "file_upload_id"];
+  optional string photo_url = 8 [json_name = "photo_url"];
+  // When it happened: the time the photo was taken, else the time it was reported.
+  required google.protobuf.Timestamp occurred_at = 9 [json_name = "occurred_at"];
+  required ContainerEventSource source = 10 [json_name = "source"];
+  optional UserRef created_by = 11 [json_name = "created_by"];
+  optional google.protobuf.Timestamp voided_at = 12 [json_name = "voided_at"];
+  optional UserRef voided_by = 13 [json_name = "voided_by"];
+  optional string void_reason = 14 [json_name = "void_reason"];
+
+  required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+}
+
+message ContainerEventList {
+  repeated ContainerEvent events = 1 [json_name = "events"];
+}
+
 message Container {
   required uint64 id = 1 [json_name = "id"];
   required string name = 2 [json_name = "name"];
@@ -42,6 +83,12 @@ message Container {
   optional Job last_job = 13 [json_name = "last_job"];
   // pickup_location_id preloaded, so a list does not need a call per location.
   optional PickupLocation pickup_location = 14 [json_name = "pickup_location"];
+  // Unset: not confirmed. A driver's photo or report naming an unknown number
+  // creates an unconfirmed container; one is removed once it has no live event
+  // and no container group. Confirmed by CreateContainer, a dispatcher's number
+  // correction naming it, or ContainerUpdate.confirmed.
+  optional google.protobuf.Timestamp confirmed_at = 15 [json_name = "confirmed_at"];
+  optional uint64 confirmed_by_id = 16 [json_name = "confirmed_by_id"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   required google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -69,6 +116,8 @@ message ContainerUpdate {
   optional ContainerTrackingEvent last_event = 8 [json_name = "last_event"];
   optional google.protobuf.Timestamp last_event_at = 9 [json_name = "last_event_at"];
   optional uint64 container_group_id = 10 [json_name = "container_group_id"];
+  // true confirms the container (see Container.confirmed_at); false is ignored.
+  optional bool confirmed = 11 [json_name = "confirmed"];
 }
 
 message ContainerStatusUpdate {
