@@ -30,7 +30,8 @@ message CallLogRequest {
   // returned page; total_count stays unfiltered.
   optional string direction = 5 [json_name = "direction"];
   // Only calls with this platform user's phone number, e.g. a driver.
-  // Mutually exclusive with contact_id.
+  // Setting it together with contact_id is INVALID_ARGUMENT. A user (or
+  // contact) without a usable phone yields an empty page.
   optional uint64 remote_user_id = 6 [json_name = "remote_user_id"];
 }
 
