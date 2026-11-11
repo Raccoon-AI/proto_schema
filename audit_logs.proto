@@ -79,11 +79,16 @@ enum AuditLogType {
   AUDIT_LOG_TYPE_SUSPICIOUS_LOCATION_ARCHIVED = 351;
   AUDIT_LOG_TYPE_SUSPICIOUS_LOCATION_UNARCHIVED = 352;
 
-  // 360 - 370 Container related events
+  // 360 - 370 Contract related events
+  // Written by the notification poller; fields.reminder ("30d" / "7d") and
+  // fields.end_at (YYYY-MM-DD) make the row the "already sent" marker.
+  AUDIT_LOG_TYPE_CONTRACT_EXPIRING = 361;
+
+  // 370 - 380 Container related events
   // The office changed the container number on a job photo.
-  AUDIT_LOG_TYPE_CONTAINER_NUMBER_CORRECTED = 361;
+  AUDIT_LOG_TYPE_CONTAINER_NUMBER_CORRECTED = 371;
   // The office voided an event of a container's history.
-  AUDIT_LOG_TYPE_CONTAINER_EVENT_VOIDED = 362;
+  AUDIT_LOG_TYPE_CONTAINER_EVENT_VOIDED = 372;
 
   // 400 - 500 AI related events
   AUDIT_LOG_TYPE_AI_ROUTE_ASSIGNED = 401;
