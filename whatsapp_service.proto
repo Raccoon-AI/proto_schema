@@ -16,6 +16,8 @@ message ListWhatsappDialoguesRequest {
   repeated WhatsappDialogueStatus statuses = 4 [json_name = "statuses"];
   optional string search = 5 [json_name = "search"]; // phone, person or customer
   repeated CallCenterTag tags = 6 [json_name = "tags"]; // any of
+  repeated uint64 customer_ids = 7 [json_name = "customer_ids"]; // the contact's organization
+  optional bool has_job = 8 [json_name = "has_job"]; // unset: both
   // sort_by: created_at, job_id, customer, contact, phone, author, status.
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
