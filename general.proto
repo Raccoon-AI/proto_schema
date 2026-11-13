@@ -417,6 +417,12 @@ message OrganizationLabelUpdate {
   optional LocationStatus status = 4 [json_name = "status"];
 }
 
+// One label of its owner organization (the owner is what access is checked on).
+message OrganizationLabelRequest {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+}
+
 message OrganizationLabelListRequest {
   repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
   repeated LocationStatus statuses = 2 [json_name = "statuses"];

@@ -24,8 +24,9 @@ message Contract {
   optional google.protobuf.Timestamp paid_at = 11 [json_name = "paid_at"];
   optional string contract_file_key = 12 [json_name = "contract_file_key"];
   optional ContractStatus status = 13 [json_name = "status"];
-  optional uint64 tariff = 14 [json_name = "tariff"]; // to be deprecated in favor of tariff_rate_by_job_type
   optional uint64 rent_cost = 15 [json_name = "rent_cost"];
+  // Read only: job type → amount, derived from tariffs on every save. Kept for the
+  // AI dispatcher (reads the column) and screens not yet moved to tariffs.
   optional google.protobuf.Struct tariff_rate_by_job_type = 16 [json_name = "tariff_rate_by_job_type"];
   optional Organization service_provider = 17 [json_name = "service_provider"];
   repeated FileUpload file_uploads = 18 [json_name = "file_uploads"];
@@ -34,6 +35,24 @@ message Contract {
   optional Organization target_organization = 19 [json_name = "target_organization"];
   // BY_NORM only: flat monthly charge. Not rent_cost, which is container rental.
   optional uint64 monthly_fee = 20 [json_name = "monthly_fee"];
+  // One row per priced job type: the contract's prices.
+  repeated ContractTariff tariffs = 21 [json_name = "tariffs"];
+  // The RENT tariff card rent_cost was copied from; unset when typed in or no rent.
+  optional uint64 rent_tariff_card_id = 22 [json_name = "rent_tariff_card_id"];
+}
+
+// A contract's price for one job type: a snapshot of a tariff card or a custom price.
+message ContractTariff {
+  required string job_type = 1 [json_name = "job_type"]; // a JobType name, as in tariff_rate_by_job_type
+  // тенге per unit. Both required on a custom row; a card row takes the card's.
+  optional uint64 amount = 2 [json_name = "amount"];
+  optional BillingUnit unit = 3 [json_name = "unit"];
+  optional uint64 tariff_card_id = 4 [json_name = "tariff_card_id"]; // unset = «Произвольный тариф»
+}
+
+// Wrapper so an update can tell "keep" (unset) from "clear" (set, no items).
+message ContractTariffs {
+  repeated ContractTariff items = 1 [json_name = "items"];
 }
 
 message ContractCreate {
@@ -47,12 +66,14 @@ message ContractCreate {
   optional google.protobuf.Timestamp signed_at = 8 [json_name = "signed_at"];
   optional google.protobuf.Timestamp paid_at = 9 [json_name = "paid_at"];
   optional string contract_file_key = 10 [json_name = "contract_file_key"]; // to be deprecated
-  optional uint64 tariff = 11 [json_name = "tariff"]; // to be deprecated in favor of tariff_rate_by_job_type
   optional uint64 rent_cost = 12 [json_name = "rent_cost"];
   optional ContractStatus status = 13 [json_name = "status"];
-  optional google.protobuf.Struct tariff_rate_by_job_type = 14 [json_name = "tariff_rate_by_job_type"];
   optional File file = 15 [json_name = "file"];
   optional uint64 monthly_fee = 16 [json_name = "monthly_fee"]; // BY_NORM only
+  // When set, replaces the contract's tariffs (tariff_rate_by_job_type is derived).
+  optional ContractTariffs tariffs = 17 [json_name = "tariffs"];
+  // A RENT tariff card of the same provider; rent_cost is copied from it. 0 clears rent.
+  optional uint64 rent_tariff_card_id = 18 [json_name = "rent_tariff_card_id"];
 }
 
 message ContractUpdate {
@@ -67,11 +88,13 @@ message ContractUpdate {
   optional google.protobuf.Timestamp paid_at = 9 [json_name = "paid_at"];
   optional string contract_file_key = 10 [json_name = "contract_file_key"]; // to be deprecated
   optional ContractStatus status = 11 [json_name = "status"];
-  optional uint64 tariff = 12 [json_name = "tariff"]; // to be deprecated in favor of tariff_rate_by_job_type
   optional uint64 rent_cost = 13 [json_name = "rent_cost"];
-  optional google.protobuf.Struct tariff_rate_by_job_type = 14 [json_name = "tariff_rate_by_job_type"];
   optional File file = 15 [json_name = "file"];
   optional uint64 monthly_fee = 16 [json_name = "monthly_fee"]; // BY_NORM only
+  // When set, replaces the contract's tariffs (tariff_rate_by_job_type is derived).
+  optional ContractTariffs tariffs = 17 [json_name = "tariffs"];
+  // A RENT tariff card of the same provider; rent_cost is copied from it. 0 clears rent.
+  optional uint64 rent_tariff_card_id = 18 [json_name = "rent_tariff_card_id"];
 }
 
 message ContractList {

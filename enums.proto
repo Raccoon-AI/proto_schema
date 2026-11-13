@@ -585,3 +585,18 @@ enum IntegrationEntityType {
   INTEGRATION_ENTITY_TYPE_ORGANIZATION = 1;
   INTEGRATION_ENTITY_TYPE_CONTRACT = 2;
 }
+
+// What a price is charged per (contract tariffs, tariff cards, jobs).
+enum BillingUnit {
+  BILLING_UNIT_UNDEFINED = 0;
+  BILLING_UNIT_CUBIC_METER = 1; // за м³: the volume taken
+  BILLING_UNIT_TON = 2; // за тонну: the weight taken
+  BILLING_UNIT_JOB_COMPLETED = 3; // за факт вывоза: once per completed job
+}
+
+// What a tariff card prices.
+enum TariffCardKind {
+  TARIFF_CARD_KIND_UNDEFINED = 0;
+  TARIFF_CARD_KIND_JOB = 1; // a job type, per billing unit
+  TARIFF_CARD_KIND_RENT = 2; // bunker rent, per bunker; no job type, no unit
+}
