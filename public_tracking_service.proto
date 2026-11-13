@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "cost_provider.proto";
 import "google/protobuf/timestamp.proto";
 import "job.proto";
 import "route.proto";
@@ -10,6 +11,11 @@ option go_package = "./pb";
 
 message SharedJobRequest {
   required string token = 1 [json_name = "token"];
+}
+
+message SharedRouteWaypointsRequest {
+  required string token = 1 [json_name = "token"];
+  repeated Point waypoints = 2 [json_name = "waypoints"];
 }
 
 message SharedJobTravelPathRequest {
@@ -23,4 +29,6 @@ service PublicTrackingService {
   rpc GetSharedJob(SharedJobRequest) returns (Job) {}
   rpc GetSharedJobRoute(SharedJobRequest) returns (Route) {}
   rpc GetSharedJobTravelPath(SharedJobTravelPathRequest) returns (TruckTravelPathResponse) {}
+  // A valid link gates it; the points are free-form, as in ClientService.CalculateRouteWaypoints.
+  rpc CalculateSharedRouteWaypoints(SharedRouteWaypointsRequest) returns (RouteWaypointsOut) {}
 }
