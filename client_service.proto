@@ -5,6 +5,7 @@ import "contact.proto";
 import "contact_service.proto";
 import "container_group.proto";
 import "container_service.proto";
+import "cost_provider.proto";
 import "file_upload.proto";
 import "google/protobuf/timestamp.proto";
 import "job.proto";
@@ -69,4 +70,6 @@ service ClientService {
   // A group-scoped user names groups in scope and cannot set user_id.
   rpc CreateContact(ContactCreate) returns (Contact) {}
   rpc UpdateContact(ContactUpdate) returns (Contact) {}
+  // No entity to scope: road legs between the given points, straight legs when routing fails.
+  rpc CalculateRouteWaypoints(RouteWaypointsIn) returns (RouteWaypointsOut) {}
 }
