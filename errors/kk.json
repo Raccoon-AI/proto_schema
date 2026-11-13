@@ -141,6 +141,7 @@
   "ERROR_CODE_TRUCK_ENGINE_TYPE_ALREADY_SET": "Қозғалтқыш түрі әлдеқашан көрсетілген",
   "ERROR_CODE_TRUCK_ENGINE_TYPE_NOT_SET": "Алдымен көліктің қозғалтқыш түрін көрсетіңіз",
   "ERROR_CODE_TRUCK_NOT_ACTIVE": "{{truck}} көлігі жұмыста емес: күйі {{status}}",
+  "ERROR_CODE_TRUCK_LENT_NO_SHIFT": "{{truck}} көлігі басқа компанияға тиесілі: осы күнге оған өз компанияңыздың ауысымын таңдаңыз немесе жоспарлаңыз",
   "ERROR_CODE_CONTAINER_GROUP_NOT_BOUND": "{{id}} контейнерлер тобы {{job_type}} жұмыс түрі бойынша {{pickup_location_group}} тобына байланбаған",
   "ERROR_CODE_CONTRACT_PARTIES_MISMATCH": "Шарт өтінімнің қызмет көрсетушісі мен алушысына сәйкес келмейді. Контейнерлер тобы {{container_group}}",
   "ERROR_CODE_CONTAINER_GROUP_NO_SCHEDULE": "{{id}} контейнерлер тобында {{job_type}} жұмыс түріне кесте жоқ",

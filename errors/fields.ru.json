@@ -19,6 +19,7 @@
   "contract_id": "Договор",
   "date": "Дата",
   "disabled_job_types": "Типы работ",
+  "depot_id": "База",
   "disposal_site_id": "Полигон",
   "driver_id": "Водитель",
   "driver_incident": "Инцидент водителя",

@@ -141,6 +141,7 @@
   "ERROR_CODE_TRUCK_ENGINE_TYPE_ALREADY_SET": "Тип двигателя уже указан",
   "ERROR_CODE_TRUCK_ENGINE_TYPE_NOT_SET": "Сначала укажите тип двигателя машины",
   "ERROR_CODE_TRUCK_NOT_ACTIVE": "Машина {{truck}} не на линии: статус {{status}}",
+  "ERROR_CODE_TRUCK_LENT_NO_SHIFT": "Машина {{truck}} принадлежит другой компании: выберите или запланируйте на неё смену своей компании на эту дату",
   "ERROR_CODE_CONTAINER_GROUP_NOT_BOUND": "Группа контейнеров {{id}} не привязана к группе точек вывоза {{pickup_location_group}} для типа работ {{job_type}}",
   "ERROR_CODE_CONTRACT_PARTIES_MISMATCH": "Договор не соответствует поставщику и получателю услуг заявки. Группа контейнеров {{container_group}}",
   "ERROR_CODE_CONTAINER_GROUP_NO_SCHEDULE": "У группы контейнеров {{id}} нет расписания для типа работ {{job_type}}",
