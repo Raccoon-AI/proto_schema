@@ -41,6 +41,8 @@ message Truck {
   // Latest GPS point of the truck. Filled only by RPCs that say so
   // (DriverService.MyPlannedShifts); absent when the truck has no GPS data.
   optional TruckPositionList.TruckPosition latest_position = 17 [json_name = "latest_position"];
+  // Base the truck leaves from: a location owned by the truck's owner or one of its ancestors.
+  optional uint64 depot_id = 18 [json_name = "depot_id"];
 
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -57,6 +59,8 @@ message TruckCreate {
   optional string color = 8 [json_name = "color"];
   optional uint64 truck_type_id = 9 [json_name = "truck_type_id"]; // To be required
   optional string tech_passport = 10 [json_name = "tech_passport"];
+  // Unset: the owner's default depot when it fits. Must be owned by the owner or one of its ancestors.
+  optional uint64 depot_id = 11 [json_name = "depot_id"];
 }
 
 message TruckUpdate {
@@ -72,6 +76,9 @@ message TruckUpdate {
   optional string color = 10 [json_name = "color"]; // To be deprecated
   optional uint64 truck_type_id = 11 [json_name = "truck_type_id"];
   optional string tech_passport = 12 [json_name = "tech_passport"];
+  // Unset keeps the depot (an owner move swaps a misfit for the new owner's default); 0 clears it. Must be owned
+  // by the truck's owner or one of its ancestors.
+  optional uint64 depot_id = 13 [json_name = "depot_id"];
 }
 
 message TruckStatusUpdate {

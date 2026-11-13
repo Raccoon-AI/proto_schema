@@ -19,6 +19,7 @@
   "contract_id": "Contract",
   "date": "Date",
   "disabled_job_types": "Job types",
+  "depot_id": "Depot",
   "disposal_site_id": "Disposal site",
   "driver_id": "Driver",
   "driver_incident": "Driver incident",

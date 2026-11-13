@@ -8,9 +8,11 @@ import "general.proto";
 
 option go_package = "./pb";
 
+// Without owner_organization_id the interceptor checks organization 0, which only an admin passes: it reads a type
+// of any holding.
 message ContainerTypeRequest {
   required uint64 id = 1 [json_name = "id"];
-  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
 }
 
 message ContainerTypeListRequest {
@@ -42,15 +44,17 @@ message ContainerGroupListRequest {
 }
 
 // The schedule is authorized through its container group's contract, so requests carry no organization.
+// job_type, valid_from and rules are required, checked by the service so a missing one is a labelled error, not a
+// decoding failure.
 message ContainerGroupScheduleCreate {
   required uint64 container_group_id = 1 [json_name = "container_group_id"];
-  required JobType job_type = 2 [json_name = "job_type"];
+  optional JobType job_type = 2 [json_name = "job_type"];
   optional uint64 service_provider_id = 3 [json_name = "service_provider_id"];
-  required string valid_from = 4 [json_name = "valid_from"]; // anchors every-N-days rules
+  optional string valid_from = 4 [json_name = "valid_from"]; // anchors every-N-days rules
   optional string valid_to = 5 [json_name = "valid_to"];
   reserved 6;
   reserved "schedule_type";
-  required ScheduleRules rules = 7 [json_name = "rules"];
+  optional ScheduleRules rules = 7 [json_name = "rules"];
 }
 
 // The container group and the job type of a schedule do not change; create another schedule instead.

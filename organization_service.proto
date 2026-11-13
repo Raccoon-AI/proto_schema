@@ -102,10 +102,10 @@ service OrganizationService {
   rpc CreateGuestOrganization(CreateGuestOrganizationRequest) returns (CreateGuestOrganizationResponse) {}
 
   // organization settings related requests
-  rpc GetSetting(EmptyMessageRequest) returns (OrganizationSettings) {}
+  rpc GetSetting(OrganizationSettingsRequest) returns (OrganizationSettings) {}
   rpc UpdateSetting(OrganizationSettingsUpdate) returns (OrganizationSettings) {}
-  // Replaces the caller organization's disabled job types.
-  rpc UpdateDisabledJobTypes(DisabledJobTypes) returns (OrganizationSettings) {}
+  // Replaces the organization's disabled job types.
+  rpc UpdateDisabledJobTypes(DisabledJobTypesUpdate) returns (OrganizationSettings) {}
 
   // can be used by service providers
   rpc ListServiceReceivers(ServiceReceiverListRequest) returns (OrganizationList) {}
