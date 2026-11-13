@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "cost_provider.proto";
 import "route.proto";
 import "truck.proto";
 
@@ -33,4 +34,5 @@ service RouteService {
   rpc MoveJobsBetweenRoutes(MoveJobsBetweenRoutesRequest) returns (RouteList) {}
   rpc ChangeRouteDriverOnShift(ChangeRouteDriverOnShiftRequest) returns (Route) {}
   rpc ListActiveTrucksWithRoutes(ActiveTruckListWithRoutesRequest) returns (ActiveTruckListWithRoutes) {}
+  rpc CalculateRouteWaypoints(RouteWaypointsIn) returns (RouteWaypointsOut) {}
 }
