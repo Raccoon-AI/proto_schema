@@ -68,6 +68,16 @@ enum ErrorCode {
   // The session behind the token no longer exists: logged out, revoked, or
   // killed after refresh-token reuse was detected. Client must re-login.
   ERROR_CODE_SESSION_REVOKED = 119;
+  // PIN login: no active driver of the device's organization tree holds this
+  // PIN. The tablet counts these and locks itself; the server keeps no counter.
+  ERROR_CODE_PIN_INVALID = 120;
+  // The device token is unknown or its device was revoked. The tablet must
+  // forget the token and fall back to the password login.
+  ERROR_CODE_DEVICE_REVOKED = 121;
+  // The binding code is unknown, expired, or already used.
+  ERROR_CODE_BINDING_CODE_INVALID = 122;
+  // The device is already bound (or revoked), so it takes no new binding code.
+  ERROR_CODE_DEVICE_NOT_PENDING = 123;
 
   // Permission/Authorization errors
   ERROR_CODE_PERMISSION_DENIED = 201;

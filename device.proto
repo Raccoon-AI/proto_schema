@@ -1,0 +1,92 @@
+syntax = "proto2";
+package raccoonai;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+// A company tablet that drivers log into with a PIN. It is bound to one
+// organization and accepts the drivers of that organization and of every
+// company below it.
+enum DeviceStatus {
+  DEVICE_STATUS_UNDEFINED = 0;
+  // Created in admin, waiting for the tablet to scan its binding code.
+  DEVICE_STATUS_PENDING = 1;
+  // Bound: holds a device token and accepts PIN logins.
+  DEVICE_STATUS_ACTIVE = 2;
+  // Revoked by an admin; its sessions are closed and its token is dead.
+  DEVICE_STATUS_REVOKED = 3;
+}
+
+message Device {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required string name = 3 [json_name = "name"];
+  required DeviceStatus status = 4 [json_name = "status"];
+  // Reported by the tablet at activation and on every PIN login.
+  optional string phone_model = 5 [json_name = "phone_model"];
+  optional string app_version = 6 [json_name = "app_version"];
+  optional google.protobuf.Timestamp last_seen_at = 7 [json_name = "last_seen_at"];
+  // The driver of the latest PIN login on this device.
+  optional uint64 last_user_id = 8 [json_name = "last_user_id"];
+  // Until when the current binding code works; PENDING devices only.
+  optional google.protobuf.Timestamp binding_expires_at = 9 [json_name = "binding_expires_at"];
+  optional google.protobuf.Timestamp revoked_at = 10 [json_name = "revoked_at"];
+
+  required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+}
+
+message DeviceCreate {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required string name = 2 [json_name = "name"];
+}
+
+// A device with its one-time binding code, for the admin to show as a QR.
+// The code is returned only here and is never readable again.
+message DeviceBinding {
+  required Device device = 1 [json_name = "device"];
+  required string binding_code = 2 [json_name = "binding_code"];
+}
+
+message DeviceListRequest {
+  // Devices bound to these organizations, to organizations below them, and to
+  // their ancestors inside the holding (a company sees its holding's tablets).
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
+}
+
+message DeviceList {
+  repeated Device devices = 1 [json_name = "devices"];
+}
+
+// Sent by the tablet with the code from the QR. Needs no session.
+message DeviceActivateRequest {
+  required string binding_code = 1 [json_name = "binding_code"];
+  optional string phone_model = 2 [json_name = "phone_model"];
+  optional string app_version = 3 [json_name = "app_version"];
+}
+
+// The device token is returned once; the tablet keeps it in secure storage.
+message DeviceActivateResponse {
+  required string device_token = 1 [json_name = "device_token"];
+  required Device device = 2 [json_name = "device"];
+  required string organization_name = 3 [json_name = "organization_name"];
+}
+
+// Sent by a bound tablet. Needs no session; the device token and PIN are the
+// credentials. Answers like Login.
+message PinLoginRequest {
+  required string device_token = 1 [json_name = "device_token"];
+  required string pin = 2 [json_name = "pin"];
+  optional string app_version = 3 [json_name = "app_version"];
+}
+
+message DriverPinIssueRequest {
+  required uint64 id = 1 [json_name = "id"]; // the driver's user id
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+}
+
+// The PIN is returned once and is never readable again. Issuing a new one
+// kills the old PIN and the driver's PIN sessions at once.
+message DriverPinIssueResponse {
+  required string pin = 1 [json_name = "pin"];
+}
