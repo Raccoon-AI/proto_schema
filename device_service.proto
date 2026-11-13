@@ -1,0 +1,19 @@
+syntax = "proto2";
+package raccoonai;
+
+import "device.proto";
+import "general.proto";
+
+option go_package = "./pb";
+
+// Admin side of company tablets. Authorized by the user resource: whoever
+// manages an organization's employees manages its tablets.
+service DeviceService {
+  // Creates a PENDING device and its binding code, valid 15 minutes.
+  rpc CreateDevice(DeviceCreate) returns (DeviceBinding) {}
+  // A new binding code for a PENDING device; the previous code stops working.
+  rpc RenewBindingCode(IdRequest) returns (DeviceBinding) {}
+  rpc ListDevices(DeviceListRequest) returns (DeviceList) {}
+  // Revokes the device and closes every session opened from it.
+  rpc RevokeDevice(IdRequest) returns (Device) {}
+}

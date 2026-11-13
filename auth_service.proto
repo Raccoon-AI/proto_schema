@@ -3,6 +3,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "auth.proto";
+import "device.proto";
 import "general.proto";
 import "user.proto";
 
@@ -33,4 +34,9 @@ service AuthService {
   // Registers the caller's device for push. One token per user; a new token
   // replaces the old one. Drivers keep using DriverService.FirebaseNotifications.
   rpc UpdateFcmToken(FcmTokenUpdate) returns (MessageResponse) {}
+  // Binds a company tablet with the code from its QR. Public: the code is the credential.
+  rpc ActivateDevice(DeviceActivateRequest) returns (DeviceActivateResponse) {}
+  // Logs a driver in on a bound tablet with their PIN. Public: the device token
+  // and the PIN are the credentials. The session is a normal one, tagged with the device.
+  rpc LoginWithPin(PinLoginRequest) returns (AuthResponse) {}
 }
