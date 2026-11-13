@@ -83,7 +83,8 @@ message Integration1CJob {
   required JobType type = 3 [json_name = "type"];
   required JobCategory job_category = 4 [json_name = "job_category"];
   optional google.protobuf.Timestamp fact_end_at = 5 [json_name = "fact_end_at"];
-  // Tenge, fixed when the job was done. Absent: job without a tariff.
+  // Tenge billed for the job: job_tariff_rate times the job's quantity of
+  // job_tariff_unit, or the rate itself without a unit. Absent: no tariff.
   optional uint64 job_tariff = 6 [json_name = "job_tariff"];
   optional string order_number = 7 [json_name = "order_number"];
   required uint64 service_receiver_id = 8 [json_name = "service_receiver_id"];
@@ -100,6 +101,9 @@ message Integration1CJob {
   required google.protobuf.Timestamp created_at = 17 [json_name = "created_at"];
   // Changes after a job was billed are detected through this field.
   required google.protobuf.Timestamp updated_at = 18 [json_name = "updated_at"];
+  // The contract price job_tariff comes from: tenge per job_tariff_unit.
+  optional uint64 job_tariff_rate = 19 [json_name = "job_tariff_rate"];
+  optional BillingUnit job_tariff_unit = 30 [json_name = "job_tariff_unit"];
   // 20-29: billing state, for a later release. Today 1C reads it through
   // ListAccountingDocuments with job_ids.
   reserved 20 to 29;
@@ -169,8 +173,8 @@ message Integration1CContract {
   required google.protobuf.Timestamp start_at = 7 [json_name = "start_at"];
   required google.protobuf.Timestamp end_at = 8 [json_name = "end_at"];
   optional google.protobuf.Timestamp signed_at = 9 [json_name = "signed_at"];
-  // Job type name -> tenge per job. Reference only; the job's own job_tariff
-  // is the billed amount.
+  // Job type name -> tenge per its contract unit. Reference only; the job's own
+  // job_tariff is the billed amount.
   optional google.protobuf.Struct tariff_rate_by_job_type = 10 [json_name = "tariff_rate_by_job_type"];
   // CONTRACT_TYPE_BY_NORM only: flat monthly charge, tenge.
   optional uint64 monthly_fee = 11 [json_name = "monthly_fee"];

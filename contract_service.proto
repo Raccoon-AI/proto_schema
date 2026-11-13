@@ -4,6 +4,7 @@ package raccoonai;
 import "contract.proto";
 import "file_upload.proto";
 import "general.proto";
+import "tariff_card.proto";
 
 option go_package = "./pb";
 
@@ -44,4 +45,18 @@ service ContractService {
   rpc ArchiveContract(ContractRequest) returns (Contract);
   rpc DeleteContractFiles(DeleteContractFilesRequest) returns (MessageResponse);
   rpc UploadContractFiles(UploadContractFilesRequest) returns (Contract);
+
+  // Names a service provider's contracts are picked from, kept like customer
+  // types: the contract stores the name itself. Archive / restore with Update(status);
+  // Delete removes a template for good, and its name can be added again.
+  rpc CreateContractNameTemplate(OrganizationLabelCreate) returns (OrganizationLabel);
+  rpc UpdateContractNameTemplate(OrganizationLabelUpdate) returns (OrganizationLabel);
+  rpc ListContractNameTemplates(OrganizationLabelListRequest) returns (OrganizationLabelList);
+  rpc DeleteContractNameTemplate(OrganizationLabelRequest) returns (MessageResponse);
+
+  // Reusable prices a provider's contracts are filled from. Archive / restore
+  // with Update(status); contracts keep the price they copied.
+  rpc CreateTariffCard(TariffCardCreate) returns (TariffCard);
+  rpc UpdateTariffCard(TariffCardUpdate) returns (TariffCard);
+  rpc ListTariffCards(TariffCardListRequest) returns (TariffCardList);
 }

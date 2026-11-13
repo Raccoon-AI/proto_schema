@@ -1,0 +1,57 @@
+syntax = "proto2";
+package raccoonai;
+
+import "enums.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+// A service provider's reusable price, kept like OrganizationLabel (owner, name
+// unique per owner, status INACTIVE is the archive) plus the price. A contract
+// copies amount and unit when the card is picked, so editing or archiving a
+// card never changes a contract.
+message TariffCard {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required string name = 3 [json_name = "name"];
+  required LocationStatus status = 4 [json_name = "status"];
+  required TariffCardKind kind = 5 [json_name = "kind"];
+  optional string job_type = 6 [json_name = "job_type"]; // JOB only: a JobType name
+  required uint64 amount = 7 [json_name = "amount"]; // тенге per unit; RENT: per bunker
+  optional BillingUnit unit = 8 [json_name = "unit"]; // JOB only
+
+  required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+  optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
+}
+
+message TariffCardCreate {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required string name = 2 [json_name = "name"];
+  required TariffCardKind kind = 3 [json_name = "kind"];
+  optional string job_type = 4 [json_name = "job_type"]; // required for JOB, rejected for RENT
+  required uint64 amount = 5 [json_name = "amount"];
+  optional BillingUnit unit = 6 [json_name = "unit"]; // required for JOB, rejected for RENT
+}
+
+// Kind never changes; unset fields are kept. status INACTIVE archives, ACTIVE restores.
+message TariffCardUpdate {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  optional string name = 3 [json_name = "name"];
+  optional LocationStatus status = 4 [json_name = "status"];
+  optional string job_type = 5 [json_name = "job_type"]; // JOB only
+  optional uint64 amount = 6 [json_name = "amount"];
+  optional BillingUnit unit = 7 [json_name = "unit"]; // JOB only
+}
+
+// Cards of the owners, oldest first; unset filters match all.
+message TariffCardListRequest {
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
+  repeated LocationStatus statuses = 2 [json_name = "statuses"];
+  optional TariffCardKind kind = 3 [json_name = "kind"];
+  optional string job_type = 4 [json_name = "job_type"];
+}
+
+message TariffCardList {
+  repeated TariffCard tariff_cards = 1 [json_name = "tariff_cards"];
+}

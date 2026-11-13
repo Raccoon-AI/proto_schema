@@ -53,6 +53,9 @@ message Job {
   optional double service_end_photo_lat = 28 [json_name = "service_end_photo_lat"]; // To be deprecated in favor of file_reports with type SERVICE_END_PHOTO
   optional double service_end_photo_lon = 29 [json_name = "service_end_photo_lon"]; // To be deprecated in favor of file_reports with type SERVICE_END_PHOTO
   optional uint64 job_tariff = 31 [json_name = "job_tariff"];
+  // What job_tariff is charged per, copied from the contract when the job was
+  // priced from it. Unset: job_tariff is the job's whole price (jobs before units).
+  optional BillingUnit job_tariff_unit = 61 [json_name = "job_tariff_unit"];
   optional bool is_pseudo = 32 [json_name = "is_pseudo"];
   optional google.protobuf.Timestamp gps_start_at = 33 [json_name = "gps_start_at"];
   optional google.protobuf.Timestamp gps_end_at = 34 [json_name = "gps_end_at"];
