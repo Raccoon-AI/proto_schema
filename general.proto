@@ -163,7 +163,7 @@ enum ErrorCode {
   // entity: 1000 route, 1100 job, 1200 driver_on_shift, 1300 truck,
   // 1400 contract, 1500 pickup_location, 1600 organization, 1700 user/driver,
   // 1800 shift_plan, 1900 contact, 2000 driver_price_list,
-  // 2100 resource_access_grant. 9000+ is client-side only.
+  // 2100 resource_access_grant, 2500 voip. 9000+ is client-side only.
   // Append-only: never rename an entry, never reuse a number.
 
   // route
@@ -290,6 +290,10 @@ enum ErrorCode {
   ERROR_CODE_TYPE_NOT_OWNED = 2402;
   ERROR_CODE_TYPE_DUPLICATE_IN_HOLDING = 2403;
   ERROR_CODE_TRUCK_TYPE_IN_USE = 2404;
+
+  // voip: Voximplant tenants and operators
+  ERROR_CODE_VOIP_TENANT_INACTIVE = 2501;
+  ERROR_CODE_VOIP_SEAT_LIMIT = 2502;
 
   // Client-side conditions. The backend never sends these; they live here so a
   // client has one registry of every error it can show. Expect them in the
