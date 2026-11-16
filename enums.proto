@@ -557,9 +557,13 @@ enum WhatsappMessageStatus {
 // A dispatcher's tag on a call or a chat.
 enum CallCenterTag {
   CALL_CENTER_TAG_UNDEFINED = 0;
+  // Маршрут
   CALL_CENTER_TAG_ROUTE = 1;
+  // Жалоба
   CALL_CENTER_TAG_COMPLAINT = 2;
-  CALL_CENTER_TAG_EQUIPMENT = 3; // Техника
+  // Техника
+  CALL_CENTER_TAG_EQUIPMENT = 3;
+  // Договор
   CALL_CENTER_TAG_CONTRACT = 4;
 }
 
