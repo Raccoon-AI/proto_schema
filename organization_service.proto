@@ -106,6 +106,8 @@ service OrganizationService {
   rpc UpdateSetting(OrganizationSettingsUpdate) returns (OrganizationSettings) {}
   // Replaces the caller organization's disabled job types.
   rpc UpdateDisabledJobTypes(DisabledJobTypes) returns (OrganizationSettings) {}
+  // Replaces the caller organization's contract name templates (trimmed, unique).
+  rpc UpdateContractNameTemplates(ContractNameTemplates) returns (OrganizationSettings) {}
 
   // can be used by service providers
   rpc ListServiceReceivers(ServiceReceiverListRequest) returns (OrganizationList) {}
