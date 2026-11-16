@@ -562,7 +562,7 @@ enum CallCenterTag {
   // Жалоба
   CALL_CENTER_TAG_COMPLAINT = 2;
   // Техника
-  CALL_CENTER_TAG_EQUIPMENT = 3;
+  CALL_CENTER_TAG_TRUCK = 3;
   // Договор
   CALL_CENTER_TAG_CONTRACT = 4;
 }
