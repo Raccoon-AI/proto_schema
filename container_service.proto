@@ -152,8 +152,9 @@ message ContainerEventListRequest {
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
 }
 
-// Voids one event of a container, e.g. a photo that shows no container, and
-// recomputes the container's state from the events left.
+// Voids one report or manual event of a container and recomputes the
+// container's state from the events left. A job photo's event is changed only
+// through JobService.CorrectPhotoContainerName.
 message ContainerEventVoidRequest {
   required uint64 id = 1 [json_name = "id"];
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
@@ -189,6 +190,9 @@ service ContainerService {
   rpc ListContainers(ContainerListRequest) returns (ContainerList) {}
   rpc DeleteContainer(ContainerRequest) returns (MessageResponse) {}
   rpc UpdateContainerLocation(ContainerStatusUpdate) returns (MessageResponse) {}
+  // Marks the container confirmed (Container.confirmed_at). Confirming a
+  // confirmed container changes nothing.
+  rpc ConfirmContainer(ContainerRequest) returns (Container) {}
 
   // Container history
   rpc ListContainerEvents(ContainerEventListRequest) returns (ContainerEventList) {}

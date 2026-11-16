@@ -78,8 +78,8 @@ message DetachJobInstructionsRequest {
 message CorrectPhotoContainerNameRequest {
   required uint64 job_id = 1 [json_name = "job_id"];
   required uint64 file_upload_id = 2 [json_name = "file_upload_id"];
-  // Empty: the photo shows no container, its events are voided.
-  required string container_name = 3 [json_name = "container_name"];
+  // Unset or empty: the photo shows no container, its events are voided.
+  optional string container_name = 3 [json_name = "container_name"];
   optional string reason = 4 [json_name = "reason"];
 }
 
