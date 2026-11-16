@@ -100,5 +100,7 @@ service JobService {
   // COMPLETED or FORCE_COMPLETED job, when the driver could not. Needs can_edit
   // on the job.
   rpc UploadJobFile(JobFileUploadRequest) returns (MessageResponse) {}
+  // Changes the container number on a job photo; no number voids the photo's
+  // events. Needs can_edit on the job.
   rpc CorrectPhotoContainerName(CorrectPhotoContainerNameRequest) returns (MessageResponse) {}
 }
