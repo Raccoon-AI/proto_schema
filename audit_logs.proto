@@ -78,6 +78,8 @@ enum AuditLogType {
 
   AUDIT_LOG_TYPE_SUSPICIOUS_LOCATION_ARCHIVED = 351;
   AUDIT_LOG_TYPE_SUSPICIOUS_LOCATION_UNARCHIVED = 352;
+  // Written by the notification poller, one per gps_stop at a suspicious location.
+  AUDIT_LOG_TYPE_SUSPICIOUS_STOP_DETECTED = 353;
 
   // 360 - 370 Contract related events
   // Written by the notification poller; fields.reminder ("30d" / "7d") and

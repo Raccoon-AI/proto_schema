@@ -3,6 +3,8 @@ syntax = "proto2";
 package raccoonai;
 
 import "ai_verification.proto";
+import "audit_logs.proto";
+import "audit_logs_service.proto";
 import "container_group.proto";
 import "contract.proto";
 import "daily_summary.proto";
@@ -276,6 +278,16 @@ message AnomalieRouteResponse {
   repeated GpsStop gps_stops = 3 [json_name = "gps_stops"];
 }
 
+// Notification audit rows of the caller's districts, newest first. log_types
+// narrows the list of types gov users may see; empty means all of them.
+// time_filter applies to the row's created_at.
+message GovNotificationListRequest {
+  required GovOrganizationRequest filter = 1 [json_name = "filter"];
+  optional DateTimeFilter time_filter = 2 [json_name = "time_filter"];
+  repeated AuditLogType log_types = 3 [json_name = "log_types"];
+  required ListFilter list_filter = 10 [json_name = "list_filter"];
+}
+
 message GovRawScaleAnalyticsRequest {
   required DateTimeFilter from_to = 1 [json_name = "from_to"];
   optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
@@ -478,6 +490,7 @@ service GovDashService {
   rpc GetGovSuspiciousLocationAnalytics(GovSuspiciousLocationAnalyticsRequest) returns (GovSuspiciousLocationAnalyticsResponse) {}
   rpc AnomaliesList(GovDashboardAnalyticsRequest) returns (GpsStopList) {}
   rpc AnomalieRoute(IdRequest) returns (AnomalieRouteResponse) {}
+  rpc Notifications(GovNotificationListRequest) returns (AuditLogList) {}
 
   rpc GetGovAnalyticsDisposalVisitsForAll(GovDashboardAnalyticsRequest) returns (GovAnalyticsDisposalVisitsForAll) {}
   rpc GetGovAnalyticsLocationVisitsForAll(GovDashboardAnalyticsRequest) returns (GovAnalyticsLocationVisitsForAll) {}
