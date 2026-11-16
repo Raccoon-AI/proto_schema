@@ -92,5 +92,7 @@
   "explanation": "Explanation",
   "body": "Message text",
   "client_message_id": "Message ID",
+  "dialogue_id": "Dialogue",
+  "note": "Note",
   "type": "Type"
 }

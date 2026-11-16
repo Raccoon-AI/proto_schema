@@ -554,7 +554,8 @@ enum WhatsappMessageStatus {
   WHATSAPP_MESSAGE_STATUS_FAILED = 4;
 }
 
-// Open while the client's last message in the dialogue is under 24 hours old.
+// Open while the client's last message in the dialogue is under 24 hours old;
+// computed when read, never stored.
 enum WhatsappDialogueStatus {
   WHATSAPP_DIALOGUE_STATUS_UNDEFINED = 0;
   WHATSAPP_DIALOGUE_STATUS_OPEN = 1;
