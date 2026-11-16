@@ -60,13 +60,6 @@ message DisabledJobTypes {
   repeated JobType types = 1 [json_name = "types"];
 }
 
-// Names the service provider's contracts are picked from. A contract stores the
-// name itself, so removing one renames nothing. Read via GetSetting, written via
-// OrganizationService.UpdateContractNameTemplates.
-message ContractNameTemplates {
-  repeated string names = 1 [json_name = "names"];
-}
-
 message OrganizationSettings {
   required uint64 id = 1 [json_name = "id"];
   optional string shift_departure_text = 3 [json_name = "shift_departure_text"];
@@ -84,7 +77,6 @@ message OrganizationSettings {
   optional DisposalSiteOrgIds disposal_site_org_ids = 16 [json_name = "disposal_site_org_ids"];
   optional DisabledJobTypes disabled_job_types = 17 [json_name = "disabled_job_types"];
   optional bool responsible_zone_enabled = 18 [json_name = "responsible_zone_enabled"]; // responsible zones apply to the organization and its subtree
-  optional ContractNameTemplates contract_name_templates = 19 [json_name = "contract_name_templates"];
 }
 
 message OrganizationSettingsCreate {

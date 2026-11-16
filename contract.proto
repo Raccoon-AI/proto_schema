@@ -39,9 +39,13 @@ message Contract {
   repeated ContractTariff tariffs = 21 [json_name = "tariffs"];
   // The RENT tariff card rent_cost was copied from; unset when typed in or no rent.
   optional uint64 rent_tariff_card_id = 22 [json_name = "rent_tariff_card_id"];
+  // Its name is offered as a contract name template (ListContractNameTemplates).
+  optional bool is_template_name = 23 [json_name = "is_template_name"];
 }
 
 // A contract's price for one job type: a snapshot of a tariff card or a custom price.
+// One row per job type. A card row sends job_type + tariff_card_id; any amount or
+// unit it carries is ignored and the card's are copied.
 message ContractTariff {
   required string job_type = 1 [json_name = "job_type"]; // a JobType name, as in tariff_rate_by_job_type
   // тенге per unit. Both required on a custom row; a card row takes the card's.
@@ -74,6 +78,8 @@ message ContractCreate {
   optional ContractTariffs tariffs = 17 [json_name = "tariffs"];
   // A RENT tariff card of the same provider; rent_cost is copied from it. 0 clears rent.
   optional uint64 rent_tariff_card_id = 18 [json_name = "rent_tariff_card_id"];
+  // Offer this contract's name as a template; unset: false.
+  optional bool is_template_name = 19 [json_name = "is_template_name"];
 }
 
 message ContractUpdate {
@@ -95,9 +101,27 @@ message ContractUpdate {
   optional ContractTariffs tariffs = 17 [json_name = "tariffs"];
   // A RENT tariff card of the same provider; rent_cost is copied from it. 0 clears rent.
   optional uint64 rent_tariff_card_id = 18 [json_name = "rent_tariff_card_id"];
+  // Offer (true) or stop offering (false) this contract's name as a template.
+  optional bool is_template_name = 19 [json_name = "is_template_name"];
 }
 
 message ContractList {
   repeated Contract contracts = 1 [json_name = "contracts"];
   optional ListInfo list_info = 2 [json_name = "list_info"];
+}
+
+// Contract name templates are the distinct names of a provider's contracts marked
+// is_template_name: no storage of their own.
+message ContractNameTemplateListRequest {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+}
+
+message ContractNameTemplateList {
+  repeated string names = 1 [json_name = "names"]; // sorted
+}
+
+// Stops offering name: clears is_template_name on the provider's contracts with it.
+message ContractNameTemplateRequest {
+  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  required string name = 2 [json_name = "name"];
 }

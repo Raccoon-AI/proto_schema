@@ -46,6 +46,11 @@ service ContractService {
   rpc DeleteContractFiles(DeleteContractFilesRequest) returns (MessageResponse);
   rpc UploadContractFiles(UploadContractFilesRequest) returns (Contract);
 
+  // The names of the provider's contracts marked is_template_name, and removing
+  // one (clears the mark; contracts keep their name).
+  rpc ListContractNameTemplates(ContractNameTemplateListRequest) returns (ContractNameTemplateList);
+  rpc DeleteContractNameTemplate(ContractNameTemplateRequest) returns (MessageResponse);
+
   // Reusable prices a provider's contracts are filled from. Archive / restore
   // with Update(status); contracts keep the price they copied.
   rpc CreateTariffCard(TariffCardCreate) returns (TariffCard);
