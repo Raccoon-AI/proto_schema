@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "cost_provider.proto";
 import "driver_incident.proto";
 import "driver_on_shift.proto";
 import "enums.proto";
@@ -40,6 +41,10 @@ message ForceCompleteDriverOnShiftRequest {
   optional string explanation = 4 [json_name = "explanation"];
 }
 
+message DepartInfoRequest {
+  required uint64 driver_on_shift_id = 1 [json_name = "driver_on_shift_id"];
+}
+
 service DriverOnShiftService {
   rpc ListDriverOnShift(DriverOnShiftListRequest) returns (DriverOnShiftList) {}
   rpc ListTruckDriverOnShifts(TruckDriverOnShiftListRequest) returns (TruckDriverOnShiftList) {}
@@ -53,4 +58,5 @@ service DriverOnShiftService {
   rpc ApproveDriverOnShift(DriverOnShiftRequest) returns (DriverOnShift) {}
   rpc DriverOnShiftExists(DriverOnShiftExistsRequest) returns (DriverOnShiftList) {}
   rpc AddDriverToShift(AddDriverToShiftRequest) returns (DriverOnShift) {}
+  rpc GetDepartInfo(DepartInfoRequest) returns (DepartInfo) {}
 }
