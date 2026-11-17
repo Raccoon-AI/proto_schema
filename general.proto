@@ -74,10 +74,8 @@ enum ErrorCode {
   // The device token is unknown or its device was revoked. The tablet must
   // forget the token and fall back to the password login.
   ERROR_CODE_DEVICE_REVOKED = 121;
-  // The binding code is unknown, expired, or already used.
-  ERROR_CODE_BINDING_CODE_INVALID = 122;
-  // The device is already bound (or revoked), so it takes no new binding code.
-  ERROR_CODE_DEVICE_NOT_PENDING = 123;
+  // The enrollment code is unknown or was reset.
+  ERROR_CODE_ENROLLMENT_CODE_INVALID = 122;
 
   // Permission/Authorization errors
   ERROR_CODE_PERMISSION_DENIED = 201;
