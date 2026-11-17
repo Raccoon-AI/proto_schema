@@ -22,6 +22,7 @@
   "ERROR_CODE_PIN_INVALID": "Wrong PIN",
   "ERROR_CODE_DEVICE_REVOKED": "This tablet was disconnected. Log in with your phone number and password",
   "ERROR_CODE_ENROLLMENT_CODE_INVALID": "This QR code is no longer valid. Ask your dispatcher for the current one",
+  "ERROR_CODE_PIN_TAKEN": "This PIN is already taken. Choose another one",
   "ERROR_CODE_PERMISSION_DENIED": "Permission denied. \"{{required_action}}\" is required on \"{{resource}}\"",
   "ERROR_CODE_NO_ACCESS": "You don't have access to this resource. \"{{required_action}}\" is required on \"{{resource}}\"",
   "ERROR_CODE_INVALID_PERMISSION_REQUEST": "Invalid permission request",

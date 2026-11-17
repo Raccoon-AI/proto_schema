@@ -81,6 +81,9 @@ message PinLoginRequest {
 message DriverPinIssueRequest {
   required uint64 id = 1 [json_name = "id"]; // the driver's user id
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  // The PIN the admin chose: 4 to 6 digits, free among the holding's active
+  // users (else ERROR_CODE_PIN_TAKEN). Empty: the server generates 6 digits.
+  optional string pin = 3 [json_name = "pin"];
 }
 
 // The PIN is returned once and is never readable again. Issuing a new one

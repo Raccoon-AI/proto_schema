@@ -76,6 +76,8 @@ enum ErrorCode {
   ERROR_CODE_DEVICE_REVOKED = 121;
   // The enrollment code is unknown or was reset.
   ERROR_CODE_ENROLLMENT_CODE_INVALID = 122;
+  // Another active user of the holding already has this PIN.
+  ERROR_CODE_PIN_TAKEN = 123;
 
   // Permission/Authorization errors
   ERROR_CODE_PERMISSION_DENIED = 201;
