@@ -1,0 +1,90 @@
+syntax = "proto2";
+package raccoonai;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./pb";
+
+// A company tablet that drivers log into with a PIN. It is created when the
+// tablet scans its organization's enrollment QR, and accepts the PIN of any
+// active user of the organization's holding.
+enum DeviceStatus {
+  DEVICE_STATUS_UNDEFINED = 0;
+  // Holds a device token and accepts PIN logins.
+  DEVICE_STATUS_ACTIVE = 1;
+  // Revoked by an admin; its sessions are closed and its token is dead.
+  DEVICE_STATUS_REVOKED = 2;
+}
+
+message Device {
+  required uint64 id = 1 [json_name = "id"];
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  required string name = 3 [json_name = "name"];
+  required DeviceStatus status = 4 [json_name = "status"];
+  // Reported by the tablet at activation and on every PIN login.
+  optional string phone_model = 5 [json_name = "phone_model"];
+  optional string app_version = 6 [json_name = "app_version"];
+  optional google.protobuf.Timestamp last_seen_at = 7 [json_name = "last_seen_at"];
+  // The driver of the latest PIN login on this device.
+  optional uint64 last_user_id = 8 [json_name = "last_user_id"];
+  optional google.protobuf.Timestamp revoked_at = 9 [json_name = "revoked_at"];
+
+  required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
+}
+
+// The organization's enrollment code. Render qr_payload as a QR code; every
+// tablet that scans it becomes a device of the organization. The code stays
+// the same until an admin resets it.
+message DeviceEnrollmentCode {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+  required string code = 2 [json_name = "code"];
+  // What the QR encodes: raccoonai://enroll-device?code=<code>
+  required string qr_payload = 3 [json_name = "qr_payload"];
+}
+
+message DeviceEnrollmentCodeRequest {
+  required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
+}
+
+message DeviceListRequest {
+  // Devices bound to these organizations, to organizations below them, and to
+  // their ancestors inside the holding (a company sees its holding's tablets).
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
+}
+
+message DeviceList {
+  repeated Device devices = 1 [json_name = "devices"];
+}
+
+// Sent by the tablet with the code from the QR. Needs no session. Creates the device.
+message DeviceActivateRequest {
+  required string enrollment_code = 1 [json_name = "enrollment_code"];
+  optional string phone_model = 2 [json_name = "phone_model"];
+  optional string app_version = 3 [json_name = "app_version"];
+}
+
+// The device token is returned once; the tablet keeps it in secure storage.
+message DeviceActivateResponse {
+  required string device_token = 1 [json_name = "device_token"];
+  required Device device = 2 [json_name = "device"];
+  required string organization_name = 3 [json_name = "organization_name"];
+}
+
+// Sent by an enrolled tablet. Needs no session; the device token and PIN are the
+// credentials. Answers like Login.
+message PinLoginRequest {
+  required string device_token = 1 [json_name = "device_token"];
+  required string pin = 2 [json_name = "pin"];
+  optional string app_version = 3 [json_name = "app_version"];
+}
+
+message DriverPinIssueRequest {
+  required uint64 id = 1 [json_name = "id"]; // the driver's user id
+  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+}
+
+// The PIN is returned once and is never readable again. Issuing a new one
+// kills the old PIN and the driver's PIN sessions at once.
+message DriverPinIssueResponse {
+  required string pin = 1 [json_name = "pin"];
+}

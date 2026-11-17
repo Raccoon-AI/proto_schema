@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "device.proto";
 import "user.proto";
 
 option go_package = "./pb";
@@ -17,4 +18,6 @@ service UserService {
   rpc ListUsers(UserListRequest) returns (UserList) {}
   rpc InviteUser(InviteUserRequest) returns (InviteUserResponse) {}
   rpc SetUserPassword(UserPasswordSet) returns (User) {}
+  // Generates a driver's tablet PIN, unique within the holding, and returns it once.
+  rpc IssueDriverPin(DriverPinIssueRequest) returns (DriverPinIssueResponse) {}
 }
