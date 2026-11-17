@@ -113,6 +113,9 @@ message TruckDriverOnShiftListRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   required DateTimeFilter datetime_filter = 2 [json_name = "datetime_filter"];
   repeated TruckType truck_types = 3 [json_name = "truck_types"]; // filter by truck type; empty = all trucks
+  // The zones whose trucks and shifts are listed. When set, owner_organization_id is not listed, only checked;
+  // when empty, owner_organization_id alone is listed. The caller needs the permission on every id in both fields.
+  repeated uint64 owner_organization_ids = 4 [json_name = "owner_organization_ids"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 

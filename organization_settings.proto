@@ -60,6 +60,18 @@ message DisabledJobTypes {
   repeated JobType types = 1 [json_name = "types"];
 }
 
+// organization_id picks another organization's settings, e.g. the company an admin works in;
+// absent = the caller's own.
+message OrganizationSettingsRequest {
+  optional uint64 organization_id = 1 [json_name = "organization_id"];
+}
+
+// DisabledJobTypes for one organization: absent organization_id = the caller's own.
+message DisabledJobTypesUpdate {
+  repeated JobType types = 1 [json_name = "types"];
+  optional uint64 organization_id = 2 [json_name = "organization_id"];
+}
+
 message OrganizationSettings {
   required uint64 id = 1 [json_name = "id"];
   optional string shift_departure_text = 3 [json_name = "shift_departure_text"];
