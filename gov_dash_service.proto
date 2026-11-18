@@ -17,6 +17,7 @@ import "gov_geo_access.proto";
 import "gps_tables.proto";
 import "job.proto";
 import "location.proto";
+import "notification_service.proto";
 import "organization.proto";
 import "pickup_location.proto";
 import "route.proto";
@@ -491,6 +492,9 @@ service GovDashService {
   rpc AnomaliesList(GovDashboardAnalyticsRequest) returns (GpsStopList) {}
   rpc AnomalieRoute(IdRequest) returns (AnomalieRouteResponse) {}
   rpc Notifications(GovNotificationListRequest) returns (AuditLogList) {}
+  // The caller's own notification preferences (gov events only); mute is per user.
+  rpc NotificationPreferences(EmptyMessageRequest) returns (NotificationPreferenceList) {}
+  rpc UpdateNotificationPreference(NotificationPreferenceUpdate) returns (NotificationPreference) {}
 
   rpc GetGovAnalyticsDisposalVisitsForAll(GovDashboardAnalyticsRequest) returns (GovAnalyticsDisposalVisitsForAll) {}
   rpc GetGovAnalyticsLocationVisitsForAll(GovDashboardAnalyticsRequest) returns (GovAnalyticsLocationVisitsForAll) {}

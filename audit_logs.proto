@@ -80,6 +80,9 @@ enum AuditLogType {
   AUDIT_LOG_TYPE_SUSPICIOUS_LOCATION_UNARCHIVED = 352;
   // Written by the notification poller, one per gps_stop at a suspicious location.
   AUDIT_LOG_TYPE_SUSPICIOUS_STOP_DETECTED = 353;
+  // Written by the notification poller, one per notified gov org per tick;
+  // fields.gps_stop_ids lists the new stops. Feeds the push, not the GovDash list.
+  AUDIT_LOG_TYPE_SUSPICIOUS_STOPS_NOTIFIED = 354;
 
   // 360 - 370 Contract related events
   // Written by the notification poller; fields.reminder ("30d" / "7d") and
