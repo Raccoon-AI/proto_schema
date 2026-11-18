@@ -18,6 +18,7 @@
   "contract": "Договор",
   "contract_id": "Договор",
   "date": "Дата",
+  "depot_id": "База",
   "disabled_job_types": "Типы работ",
   "disposal_site_id": "Полигон",
   "driver_id": "Водитель",
@@ -92,5 +93,6 @@
   "explanation": "Пояснение",
   "body": "Текст сообщения",
   "client_message_id": "Идентификатор сообщения",
-  "type": "Тип"
+  "type": "Тип",
+  "pin": "PIN-код"
 }

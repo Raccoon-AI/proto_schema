@@ -167,6 +167,12 @@ message JobFileUploadRequest {
   optional uint64 job_id = 3 [json_name = "job_id"];
   optional string container_name = 4 [json_name = "container_name"];
   repeated double container_coefficients = 5 [json_name = "container_coefficients"];
+  // DriverService only. Time the photo was taken by the device clock. The
+  // x-client-sent-at header carries the time of this send attempt; the backend
+  // uses it to correct clock skew. Capped at the time the request is received.
+  // Omitted: the time the request is received. Orders the container events the
+  // photo records.
+  optional google.protobuf.Timestamp occurred_at = 101 [json_name = "occurred_at"];
 }
 
 // A job to plan: an existing one, or the one a container group gets for a job

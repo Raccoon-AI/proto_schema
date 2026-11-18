@@ -18,6 +18,7 @@
   "contract": "Шарт",
   "contract_id": "Шарт",
   "date": "Күні",
+  "depot_id": "База",
   "disabled_job_types": "Жұмыс түрлері",
   "disposal_site_id": "Полигон",
   "driver_id": "Жүргізуші",
@@ -92,5 +93,6 @@
   "explanation": "Түсіндірме",
   "body": "Хабарлама мәтіні",
   "client_message_id": "Хабарлама идентификаторы",
-  "type": "Түрі"
+  "type": "Түрі",
+  "pin": "PIN-код"
 }

@@ -35,6 +35,10 @@ message FileUpload {
   optional uint64 author_id = 10 [json_name = "author_id"];
   optional string name = 11 [json_name = "name"];
   optional string container_name = 12 [json_name = "container_name"];
+  // GetJobById only: the container the photo's live event records, and whether
+  // it is confirmed. Unset when the photo records no event.
+  optional uint64 container_id = 13 [json_name = "container_id"];
+  optional bool container_confirmed = 14 [json_name = "container_confirmed"];
 }
 
 message FileUploadCreate {
