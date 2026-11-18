@@ -122,8 +122,10 @@ message TruckDriverOnShiftListRequest {
 message TruckDriverOnShift { // endpoint for shift for truck for day
   required Truck truck = 1 [json_name = "truck"];
   repeated DriverOnShift driver_on_shifts = 2 [json_name = "driver_on_shifts"];
-  // Zones outside the requested ones that hold this truck with an open shift starting in the window. Set only on a
-  // truck one of the requested zones owns: the owner learns its truck is taken, not the shift, crew or route.
+  // Zones outside the requested ones that hold this truck with an open shift starting in the request's
+  // datetime_filter window. Set only on a truck one of the requested zones owns: the owner learns its truck is taken,
+  // not the shift, crew or route. Empty on such a truck means no other zone holds it; on a truck the requested zones
+  // do not own it is never computed, and says nothing.
   repeated uint64 busy_zone_ids = 3 [json_name = "busy_zone_ids"];
 }
 
