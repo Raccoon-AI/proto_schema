@@ -595,8 +595,8 @@ enum BillingUnit {
 }
 
 // What a tariff card prices.
-enum TariffCardKind {
-  TARIFF_CARD_KIND_UNDEFINED = 0;
-  TARIFF_CARD_KIND_JOB = 1; // a job type, per billing unit
-  TARIFF_CARD_KIND_RENT = 2; // bunker rent, per bunker; no job type, no unit
+enum TariffCardType {
+  TARIFF_CARD_TYPE_UNDEFINED = 0;
+  TARIFF_CARD_TYPE_JOB = 1; // a job type, per billing unit
+  TARIFF_CARD_TYPE_RENT = 2; // bunker rent, per bunker; no job type, no unit
 }

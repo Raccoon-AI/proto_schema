@@ -15,7 +15,7 @@ message TariffCard {
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
   required string name = 3 [json_name = "name"];
   required LocationStatus status = 4 [json_name = "status"];
-  required TariffCardKind kind = 5 [json_name = "kind"];
+  required TariffCardType type = 5 [json_name = "type"];
   optional string job_type = 6 [json_name = "job_type"]; // JOB only: a JobType name
   required uint64 amount = 7 [json_name = "amount"]; // тенге per unit; RENT: per bunker
   optional BillingUnit unit = 8 [json_name = "unit"]; // JOB only
@@ -27,13 +27,13 @@ message TariffCard {
 message TariffCardCreate {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   required string name = 2 [json_name = "name"];
-  required TariffCardKind kind = 3 [json_name = "kind"];
+  required TariffCardType type = 3 [json_name = "type"];
   optional string job_type = 4 [json_name = "job_type"]; // required for JOB, rejected for RENT
   required uint64 amount = 5 [json_name = "amount"];
   optional BillingUnit unit = 6 [json_name = "unit"]; // required for JOB, rejected for RENT
 }
 
-// Kind never changes; unset fields are kept. status INACTIVE archives, ACTIVE restores.
+// Type never changes; unset fields are kept. status INACTIVE archives, ACTIVE restores.
 message TariffCardUpdate {
   required uint64 id = 1 [json_name = "id"];
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
@@ -48,7 +48,7 @@ message TariffCardUpdate {
 message TariffCardListRequest {
   repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
   repeated LocationStatus statuses = 2 [json_name = "statuses"];
-  optional TariffCardKind kind = 3 [json_name = "kind"];
+  optional TariffCardType type = 3 [json_name = "type"];
   optional string job_type = 4 [json_name = "job_type"];
 }
 

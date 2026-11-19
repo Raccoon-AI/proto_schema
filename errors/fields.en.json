@@ -1,5 +1,6 @@
 {
   "access": "Access",
+  "amount": "Amount",
   "analytics": "Analytics",
   "audit_log": "Audit log",
   "assigned_driver": "assigned driver",
@@ -34,7 +35,6 @@
   "job_id": "Job",
   "job_ids": "Jobs",
   "job_type": "Job type",
-  "kind": "Tariff kind",
   "limit": "Limit",
   "location": "Location",
   "manager_id": "Client manager",
