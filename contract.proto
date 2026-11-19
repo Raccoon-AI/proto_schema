@@ -110,14 +110,14 @@ message ContractList {
   optional ListInfo list_info = 2 [json_name = "list_info"];
 }
 
-// Contract name templates are the distinct names of a provider's contracts marked
-// is_template_name: no storage of their own.
+// Contract name templates are the distinct names of the providers' contracts
+// marked is_template_name: no storage of their own.
 message ContractNameTemplateListRequest {
-  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  repeated uint64 service_provider_ids = 1 [json_name = "service_provider_ids"];
 }
 
 message ContractNameTemplateList {
-  repeated string names = 1 [json_name = "names"]; // sorted
+  repeated string names = 1 [json_name = "names"]; // sorted, each once
 }
 
 // Stops offering name: clears is_template_name on the provider's contracts with it.

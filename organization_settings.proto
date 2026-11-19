@@ -60,6 +60,29 @@ message DisabledJobTypes {
   repeated JobType types = 1 [json_name = "types"];
 }
 
+// organization_id picks another organization's settings, e.g. the company an admin works in;
+// absent = the caller's own.
+message OrganizationSettingsRequest {
+  optional uint64 organization_id = 1 [json_name = "organization_id"];
+}
+
+// DisabledJobTypes for one organization: absent organization_id = the caller's own.
+message DisabledJobTypesUpdate {
+  repeated JobType types = 1 [json_name = "types"];
+  optional uint64 organization_id = 2 [json_name = "organization_id"];
+}
+
+// Platform features an admin turns on per organization.
+enum FeatureFlag {
+  FEATURE_FLAG_UNDEFINED = 0;
+  FEATURE_FLAG_JOB_MAP = 1; // «Карта заданий» on the jobs page
+}
+
+// Wrapped so an empty list stays present on update: absent = keep, empty = all off.
+message FeatureFlags {
+  repeated FeatureFlag flags = 1 [json_name = "flags"];
+}
+
 message OrganizationSettings {
   required uint64 id = 1 [json_name = "id"];
   optional string shift_departure_text = 3 [json_name = "shift_departure_text"];
@@ -77,6 +100,7 @@ message OrganizationSettings {
   optional DisposalSiteOrgIds disposal_site_org_ids = 16 [json_name = "disposal_site_org_ids"];
   optional DisabledJobTypes disabled_job_types = 17 [json_name = "disabled_job_types"];
   optional bool responsible_zone_enabled = 18 [json_name = "responsible_zone_enabled"]; // responsible zones apply to the organization and its subtree
+  optional FeatureFlags feature_flags = 19 [json_name = "feature_flags"];
 }
 
 message OrganizationSettingsCreate {
@@ -109,4 +133,5 @@ message OrganizationSettingsUpdate {
   optional uint64 default_depot_id = 12 [json_name = "default_depot_id"];
   optional DisposalSiteOrgIds disposal_site_org_ids = 13 [json_name = "disposal_site_org_ids"];
   optional bool responsible_zone_enabled = 15 [json_name = "responsible_zone_enabled"]; // admin only
+  optional FeatureFlags feature_flags = 16 [json_name = "feature_flags"]; // admin only
 }
