@@ -17,7 +17,7 @@ import "gov_geo_access.proto";
 import "gps_tables.proto";
 import "job.proto";
 import "location.proto";
-import "notification_service.proto";
+import "notification_settings_service.proto";
 import "organization.proto";
 import "pickup_location.proto";
 import "route.proto";

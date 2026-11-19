@@ -1,0 +1,109 @@
+syntax = "proto2";
+package raccoonai;
+
+import "enums.proto";
+import "general.proto";
+import "notification.proto";
+
+option go_package = "./pb";
+
+// Where a setting is stored. A level stores only what it changes; everything
+// else follows the level above: USER -> ORGANIZATION -> ROLE -> DEFAULT.
+enum NotificationSettingLevel {
+  NOTIFICATION_SETTING_LEVEL_UNDEFINED = 0;
+  NOTIFICATION_SETTING_LEVEL_DEFAULT = 1; // built-in; only as a source, never a scope
+  NOTIFICATION_SETTING_LEVEL_ROLE = 2; // the provider's preferences for a role
+  NOTIFICATION_SETTING_LEVEL_ORGANIZATION = 3; // one customer of the provider
+  NOTIFICATION_SETTING_LEVEL_USER = 4; // one user of a customer
+}
+
+message NotificationSettingsScope {
+  required NotificationSettingLevel level = 1 [json_name = "level"];
+  optional UserRole role = 2 [json_name = "role"]; // ROLE scope
+  optional uint64 target_id = 3 [json_name = "target_id"]; // ORGANIZATION: customer org id; USER: user id
+  // Whose settings these are. Admin only; absent = the caller's organization.
+  optional uint64 organization_id = 4 [json_name = "organization_id"];
+}
+
+// Effective value of one (event, channel) at the requested scope.
+message NotificationSettingCell {
+  required NotificationEvent event = 1 [json_name = "event"];
+  required NotificationChannel channel = 2 [json_name = "channel"];
+  required bool enabled = 3 [json_name = "enabled"];
+  required NotificationSettingLevel enabled_source = 4 [json_name = "enabled_source"];
+  required bool opt_out_allowed = 5 [json_name = "opt_out_allowed"]; // users may mute the cell
+  required NotificationSettingLevel opt_out_source = 6 [json_name = "opt_out_source"];
+}
+
+// What the scope itself stores for one (event, channel). At least one value.
+message NotificationSettingCellUpdate {
+  required NotificationEvent event = 1 [json_name = "event"];
+  required NotificationChannel channel = 2 [json_name = "channel"];
+  optional bool enabled = 3 [json_name = "enabled"];
+  optional bool opt_out_allowed = 4 [json_name = "opt_out_allowed"];
+}
+
+message NotificationSettings {
+  required NotificationSettingsScope scope = 1 [json_name = "scope"];
+  // The scope's own switch. ORGANIZATION is off until switched on; ROLE and USER are on until switched off.
+  required bool scope_enabled = 2 [json_name = "scope_enabled"];
+  // The highest level, up to this scope, whose switch is off. Absent = nothing blocks.
+  optional NotificationSettingLevel blocked_by = 3 [json_name = "blocked_by"];
+  repeated NotificationSettingCell cells = 4 [json_name = "cells"]; // every (event, channel) of the role
+}
+
+message NotificationSettingsUpdate {
+  required NotificationSettingsScope scope = 1 [json_name = "scope"];
+  optional bool scope_enabled = 2 [json_name = "scope_enabled"]; // absent = keep
+  // Replaces the scope's cells: one left out is inherited again.
+  repeated NotificationSettingCellUpdate cells = 3 [json_name = "cells"];
+}
+
+message NotificationScopeSummary {
+  required uint64 target_id = 1 [json_name = "target_id"];
+  required bool scope_enabled = 2 [json_name = "scope_enabled"];
+  required uint32 overridden_cells = 3 [json_name = "overridden_cells"];
+}
+
+message NotificationScopeListRequest {
+  required NotificationSettingLevel level = 1 [json_name = "level"]; // ORGANIZATION or USER
+  // Whose settings these are. Admin only; absent = the caller's organization.
+  optional uint64 organization_id = 2 [json_name = "organization_id"];
+}
+
+message NotificationScopeList {
+  repeated NotificationScopeSummary scopes = 1 [json_name = "scopes"];
+}
+
+// The caller's own view of one (event, channel).
+message NotificationPreference {
+  required NotificationEvent event = 1 [json_name = "event"];
+  required NotificationChannel channel = 2 [json_name = "channel"];
+  required bool enabled = 3 [json_name = "enabled"]; // some provider sends it to the caller, mute aside
+  required bool opt_out_allowed = 4 [json_name = "opt_out_allowed"]; // false: muted cannot be set
+  required bool muted = 5 [json_name = "muted"];
+}
+
+message NotificationPreferenceList {
+  repeated NotificationPreference preferences = 1 [json_name = "preferences"];
+}
+
+message NotificationPreferenceUpdate {
+  required NotificationEvent event = 1 [json_name = "event"];
+  required NotificationChannel channel = 2 [json_name = "channel"];
+  required bool muted = 3 [json_name = "muted"];
+}
+
+service NotificationSettingsService {
+  // Settings of one scope, resolved through the levels above it. Dispatcher, owner, DaaS dispatcher, admin.
+  rpc GetNotificationSettings(NotificationSettingsScope) returns (NotificationSettings) {}
+  rpc UpdateNotificationSettings(NotificationSettingsUpdate) returns (NotificationSettings) {}
+  // Customers (ORGANIZATION) or users (USER) that have stored settings.
+  rpc ListNotificationScopes(NotificationScopeListRequest) returns (NotificationScopeList) {}
+
+  // Preferences of the authenticated caller: one entry per (event, channel) of their role.
+  rpc GetNotificationPreferences(EmptyMessageRequest) returns (NotificationPreferenceList) {}
+  // Mutes or unmutes one cell for the caller. permission_denied when opting
+  // out is not allowed; not_found when the caller's role does not get the event.
+  rpc UpdateNotificationPreference(NotificationPreferenceUpdate) returns (NotificationPreference) {}
+}
