@@ -94,11 +94,24 @@ message NotificationPreferenceUpdate {
   required bool muted = 3 [json_name = "muted"];
 }
 
+// The three settings RPCs are for a provider dispatcher, provider owner, DaaS
+// dispatcher or admin (others: permission_denied) who may view (Get, List) or
+// manage (Update) the settings of the organization the request names, else
+// their own. A government organization has ROLE scopes of its gov roles only.
 service NotificationSettingsService {
-  // Settings of one scope, resolved through the levels above it. Dispatcher, owner, DaaS dispatcher, admin.
+  // Settings of one scope, resolved through the levels above it.
+  // invalid_argument: level DEFAULT or UNDEFINED, a role with no notifications,
+  // a missing target_id. permission_denied: the ORGANIZATION target (or the
+  // USER target's organization) holds no active contract with the owner.
+  // failed_precondition: the USER target is not an active receiver user.
   rpc GetNotificationSettings(NotificationSettingsScope) returns (NotificationSettings) {}
+  // Replaces what the scope stores and returns it as Get does. Same errors as
+  // Get, plus invalid_argument for a cell with an event the role does not
+  // get, an undefined channel or neither value, and already_exists for a
+  // repeated (event, channel).
   rpc UpdateNotificationSettings(NotificationSettingsUpdate) returns (NotificationSettings) {}
   // Customers (ORGANIZATION) or users (USER) that have stored settings.
+  // invalid_argument for any other level.
   rpc ListNotificationScopes(NotificationScopeListRequest) returns (NotificationScopeList) {}
 
   // Preferences of the authenticated caller: one entry per (event, channel) of their role.

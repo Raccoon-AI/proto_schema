@@ -23,7 +23,6 @@ message Contact {
   // pickup location's card covers all of its own organization's groups on that
   // location, so this is normally the whole set rather than one entry.
   repeated uint64 container_group_ids = 9 [json_name = "container_group_ids"];
-  reserved 10; // notifications_enabled
   // The platform user this contact logs in as. Linked to groups, the user sees only those groups.
   optional uint64 user_id = 11 [json_name = "user_id"];
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
@@ -50,7 +49,6 @@ message ContactCreate {
   optional string email = 5 [json_name = "email"];
   optional string position = 6 [json_name = "position"];
   repeated uint64 container_group_ids = 9 [json_name = "container_group_ids"];
-  reserved 10; // notifications_enabled
   // A user of owner_organization_id, linked to no other contact; otherwise INVALID_REQUEST_STATE. 0 = none.
   optional uint64 user_id = 11 [json_name = "user_id"];
 }
@@ -68,7 +66,6 @@ message ContactUpdate {
   // field - whether a contact belongs to a site or to the organization as a
   // whole is decided when it is created.
   repeated uint64 container_group_ids = 9 [json_name = "container_group_ids"];
-  reserved 10; // notifications_enabled
   // Unset leaves the link unchanged; 0 unlinks.
   optional uint64 user_id = 11 [json_name = "user_id"];
 }
