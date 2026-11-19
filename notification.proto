@@ -34,6 +34,8 @@ enum NotificationEvent {
   NOTIFICATION_EVENT_JOB_SKIPPED = 10;
   // Customer: an invoice is past its due date. Dormant until invoices live in the platform.
   NOTIFICATION_EVENT_OVERDUE_PAYMENT = 11;
+  // Gov auditor: trucks stopped at suspicious locations (one stop in detail, several as a summary).
+  NOTIFICATION_EVENT_SUSPICIOUS_STOP = 12;
 }
 
 enum NotificationChannel {
