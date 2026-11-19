@@ -98,5 +98,7 @@
   "body": "Message text",
   "client_message_id": "Message ID",
   "type": "Type",
-  "pin": "PIN"
+  "pin": "PIN",
+  "level": "Level",
+  "target_id": "Customer or user"
 }
