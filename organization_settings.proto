@@ -8,7 +8,7 @@ import "google/protobuf/timestamp.proto";
 option go_package = "./pb";
 
 message NotificationConfig {
-  // rules: replaced by NotificationSettingsService. The admin settings page still sends it.
+  // Tag 2 and the name rules are retired: NotificationSettingsService replaces them.
   reserved 2;
   reserved "rules";
   // Audit-log view filter.
