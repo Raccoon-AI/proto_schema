@@ -52,11 +52,16 @@ message NotificationSettings {
   repeated NotificationSettingCell cells = 4 [json_name = "cells"]; // every (event, channel) of the role
 }
 
+// Wrapped so an empty list stays present on update.
+message NotificationSettingCellUpdates {
+  repeated NotificationSettingCellUpdate cells = 1 [json_name = "cells"];
+}
+
 message NotificationSettingsUpdate {
   required NotificationSettingsScope scope = 1 [json_name = "scope"];
   optional bool scope_enabled = 2 [json_name = "scope_enabled"]; // absent = keep
-  // Replaces the scope's cells: one left out is inherited again.
-  repeated NotificationSettingCellUpdate cells = 3 [json_name = "cells"];
+  // Absent = keep the scope's cells. Present = replace them: a cell left out is inherited again.
+  optional NotificationSettingCellUpdates cells = 3 [json_name = "cells"];
 }
 
 message NotificationScopeSummary {
@@ -105,7 +110,8 @@ service NotificationSettingsService {
   // USER target's organization) holds no active contract with the owner.
   // failed_precondition: the USER target is not an active receiver user.
   rpc GetNotificationSettings(NotificationSettingsScope) returns (NotificationSettings) {}
-  // Replaces what the scope stores and returns it as Get does. Same errors as
+  // Sets the scope's switch, replaces its cells, or both, and returns the
+  // scope as Get does. Same errors as
   // Get, plus invalid_argument for a cell with an event the role does not
   // get, an undefined channel or neither value, and already_exists for a
   // repeated (event, channel).
