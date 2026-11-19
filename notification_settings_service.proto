@@ -21,7 +21,7 @@ message NotificationSettingsScope {
   required NotificationSettingLevel level = 1 [json_name = "level"];
   optional UserRole role = 2 [json_name = "role"]; // ROLE scope
   optional uint64 target_id = 3 [json_name = "target_id"]; // ORGANIZATION: customer org id; USER: user id
-  // Whose settings these are. Admin only; absent = the caller's organization.
+  // Whose settings these are, e.g. the company an admin works in; absent = the caller's organization.
   optional uint64 organization_id = 4 [json_name = "organization_id"];
 }
 
@@ -67,7 +67,7 @@ message NotificationScopeSummary {
 
 message NotificationScopeListRequest {
   required NotificationSettingLevel level = 1 [json_name = "level"]; // ORGANIZATION or USER
-  // Whose settings these are. Admin only; absent = the caller's organization.
+  // Whose settings these are, e.g. the company an admin works in; absent = the caller's organization.
   optional uint64 organization_id = 2 [json_name = "organization_id"];
 }
 
