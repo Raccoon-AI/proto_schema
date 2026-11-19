@@ -535,11 +535,16 @@ enum EngineHoursSource {
   ENGINE_HOURS_SOURCE_NONE = 3;
 }
 
-// What a WhatsApp history message carries. Only text for now; polls, button
-// messages and other kinds come as new values.
+// What a WhatsApp history message carries: text, or a file of one of the
+// media kinds. Polls, button messages and other kinds come as new values.
 enum WhatsappMessageKind {
   WHATSAPP_MESSAGE_KIND_UNDEFINED = 0;
   WHATSAPP_MESSAGE_KIND_TEXT = 1;
+  WHATSAPP_MESSAGE_KIND_IMAGE = 2;
+  WHATSAPP_MESSAGE_KIND_VIDEO = 3;
+  WHATSAPP_MESSAGE_KIND_AUDIO = 4;
+  WHATSAPP_MESSAGE_KIND_DOCUMENT = 5;
+  WHATSAPP_MESSAGE_KIND_STICKER = 6;
 }
 
 // Delivery of a dispatcher's message, from the send and Meta's status webhooks.
