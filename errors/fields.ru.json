@@ -44,6 +44,7 @@
   "organization_id": "Организация",
   "organization_settings": "Настройки организации",
   "owner_organization_id": "Организация-владелец",
+  "new_owner_organization_id": "Новая организация-владелец",
   "owner_organization_ids": "Организации-владельцы",
   "pickup_location": "Точка вывоза",
   "pickup_location_group": "Группа точек вывоза",

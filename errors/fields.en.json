@@ -44,6 +44,7 @@
   "organization_id": "Organization",
   "organization_settings": "Organization settings",
   "owner_organization_id": "Owner organization",
+  "new_owner_organization_id": "New owner organization",
   "owner_organization_ids": "Owner organizations",
   "pickup_location": "Pickup location",
   "pickup_location_group": "Pickup location group",

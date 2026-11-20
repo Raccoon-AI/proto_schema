@@ -146,7 +146,11 @@ message PickupLocationGroupList {
 message PickupLocationGroupUpdate {
   required uint64 id = 1 [json_name = "id"];
   optional string group_name = 2 [json_name = "name"];
+  // The group's current owner: scopes the request, a mismatch is refused. Not a way to move the group.
   optional uint64 owner_organization_id = 4 [json_name = "owner_organization_id"];
   optional uint64 default_truck_id = 5 [json_name = "default_truck_id"];
   optional string auto_generate_time = 6 [json_name = "auto_generate_time"]; // "HH:MM"; "" turns it off
+  // Moves the group to another organization (a division, say); needs edit on route groups there too. Every bound
+  // container group's zone must hold it, and the default truck must be its own or its divisions' (0 clears it).
+  optional uint64 new_owner_organization_id = 7 [json_name = "new_owner_organization_id"];
 }
