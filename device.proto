@@ -1,6 +1,7 @@
 syntax = "proto2";
 package raccoonai;
 
+import "general.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "./pb";
@@ -28,6 +29,8 @@ message Device {
   // The driver of the latest PIN login on this device.
   optional uint64 last_user_id = 8 [json_name = "last_user_id"];
   optional google.protobuf.Timestamp revoked_at = 9 [json_name = "revoked_at"];
+  // The user behind last_user_id, so the admin panel needs no user lookup.
+  optional UserRef last_user = 10 [json_name = "last_user"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
 }
@@ -79,15 +82,31 @@ message PinLoginRequest {
 }
 
 message DriverPinIssueRequest {
-  required uint64 id = 1 [json_name = "id"]; // the driver's user id
+  // The user's id. Must be an active driver, else permission denied.
+  required uint64 id = 1 [json_name = "id"];
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
   // The PIN the admin chose: 4 to 6 digits, free among the holding's active
   // users (else ERROR_CODE_PIN_TAKEN). Empty: the server generates 6 digits.
   optional string pin = 3 [json_name = "pin"];
 }
 
-// The PIN is returned once and is never readable again. Issuing a new one
-// kills the old PIN and the driver's PIN sessions at once.
+// Issuing a new PIN kills the old one and the driver's PIN sessions at once.
+// The PIN stays readable through ListDriverPins.
 message DriverPinIssueResponse {
   required string pin = 1 [json_name = "pin"];
+}
+
+message DriverPinListRequest {
+  // Exactly these organizations: not the ones below them, not the holding.
+  repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
+}
+
+message DriverPin {
+  required uint64 user_id = 1 [json_name = "user_id"];
+  required string pin = 2 [json_name = "pin"];
+}
+
+// Only users that hold a PIN; a user missing here has none.
+message DriverPinList {
+  repeated DriverPin driver_pins = 1 [json_name = "driver_pins"];
 }
