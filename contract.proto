@@ -121,8 +121,9 @@ message ContractNameTemplateList {
   repeated string names = 1 [json_name = "names"]; // sorted, each once
 }
 
-// Stops offering name: clears is_template_name on the provider's contracts with it.
+// Stops offering name: clears is_template_name on the providers' contracts with
+// it. Send the same providers the list was asked for.
 message ContractNameTemplateRequest {
-  required uint64 service_provider_id = 1 [json_name = "service_provider_id"];
+  repeated uint64 service_provider_ids = 1 [json_name = "service_provider_ids"];
   required string name = 2 [json_name = "name"];
 }
