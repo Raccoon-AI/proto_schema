@@ -18,6 +18,9 @@ service UserService {
   rpc ListUsers(UserListRequest) returns (UserList) {}
   rpc InviteUser(InviteUserRequest) returns (InviteUserResponse) {}
   rpc SetUserPassword(UserPasswordSet) returns (User) {}
-  // Generates a driver's tablet PIN, unique within the holding, and returns it once.
+  // Sets or generates a driver's tablet PIN, unique within the holding.
   rpc IssueDriverPin(DriverPinIssueRequest) returns (DriverPinIssueResponse) {}
+  // The tablet PINs of the organizations' users. Requires manage-user on every
+  // requested organization, inside the caller's own organization tree.
+  rpc ListDriverPins(DriverPinListRequest) returns (DriverPinList) {}
 }
