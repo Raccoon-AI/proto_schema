@@ -63,12 +63,12 @@ service ClientService {
   rpc ListContainerGroups(ContainerGroupListRequest) returns (ContainerGroupList) {}
   // Any receiver role reads its own org's users.
   rpc ListUsers(UserListRequest) returns (UserList) {}
-  // The rest are owner only (PERMISSION_DENIED); the org is always the caller's.
-  // Receiver roles only (PERMISSION_DENIED); the org's own container groups (INVALID_ARGUMENT).
+  // Owner only (PERMISSION_DENIED), in the caller's org. Receiver roles only (PERMISSION_DENIED);
+  // the org's own container groups (INVALID_ARGUMENT).
   rpc CreateUser(UserCreate) returns (User) {}
-  // Receiver roles only. An invited operator or viewer reaches nothing until UpdateUser sets its groups.
+  // Owner only, receiver roles only. An invited operator or viewer reaches nothing until UpdateUser sets its groups.
   rpc InviteUser(InviteUserRequest) returns (InviteUserResponse) {}
-  // CreateUser rules. Another org's user: NOT_FOUND. The last active owner stays (FAILED_PRECONDITION).
+  // Owner only; CreateUser rules. Another org's user: NOT_FOUND. The last active owner stays (FAILED_PRECONDITION).
   rpc UpdateUser(UserUpdate) returns (User) {}
   // No entity to scope: road legs between the given points, straight legs when routing fails.
   rpc CalculateRouteWaypoints(RouteWaypointsIn) returns (RouteWaypointsOut) {}
