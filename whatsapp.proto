@@ -22,6 +22,11 @@ message WhatsappMessage {
   optional UserRef author = 9 [json_name = "author"];
   // The sender's idempotency key of a dispatcher's message.
   optional string client_message_id = 11 [json_name = "client_message_id"];
+  // On a media kind: our copy of the file. Unset when the download from Meta
+  // failed (the kind and the name still say what was sent).
+  optional string media_url = 12 [json_name = "media_url"];
+  // The file's name: a document's as the client named it, or as the dispatcher attached it.
+  optional string media_file_name = 13 [json_name = "media_file_name"];
 }
 
 message WhatsappMessageList {
