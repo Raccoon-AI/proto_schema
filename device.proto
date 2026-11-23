@@ -30,6 +30,7 @@ message Device {
   optional uint64 last_user_id = 8 [json_name = "last_user_id"];
   optional google.protobuf.Timestamp revoked_at = 9 [json_name = "revoked_at"];
   // The user behind last_user_id, so the admin panel needs no user lookup.
+  // Set whenever last_user_id is, unless that user was deleted.
   optional UserRef last_user = 10 [json_name = "last_user"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
