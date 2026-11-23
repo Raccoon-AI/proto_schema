@@ -334,7 +334,7 @@ enum OrganizationType {
 enum UserRole {
   USER_ROLE_UNDEFINED = 0;
   USER_ROLE_ADMIN = 1;
-  // Receiver operator: sees and acts on its linked container groups only.
+  // Receiver operator: its linked container groups only.
   USER_ROLE_RECEIVER_USER = 2;
   USER_ROLE_DRIVER = 3;
   USER_ROLE_PROVIDER_DISPATCHER = 4;
