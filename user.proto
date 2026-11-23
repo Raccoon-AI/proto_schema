@@ -120,9 +120,13 @@ message InviteUserRequest {
   required PreferredMethod preferred_method = 3 [json_name = "preferred_method"];
   required string recipient = 4 [json_name = "recipient"];
   required string lang = 5 [json_name = "lang"];
+  // Given to an invited receiver operator or viewer when it signs up; the org's own groups.
+  repeated uint64 container_group_ids = 6 [json_name = "container_group_ids"];
 }
 
 message InviteUserResponse {
   required ResponseStatus status = 1 [json_name = "status"];
   required string registration_token = 2 [json_name = "registration_token"];
+  // The link the invitee opens, for sharing it by hand (PREFERRED_METHOD_COPY).
+  optional string registration_link = 3 [json_name = "registration_link"];
 }
