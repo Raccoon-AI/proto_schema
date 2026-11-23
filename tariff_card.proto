@@ -16,7 +16,7 @@ message TariffCard {
   required string name = 3 [json_name = "name"];
   required LocationStatus status = 4 [json_name = "status"];
   required TariffCardType type = 5 [json_name = "type"];
-  optional string job_type = 6 [json_name = "job_type"]; // JOB only: a JobType name
+  optional JobType job_type = 6 [json_name = "job_type"]; // JOB only
   required uint64 amount = 7 [json_name = "amount"]; // тенге per unit; RENT: per bunker
   optional BillingUnit unit = 8 [json_name = "unit"]; // JOB only
 
@@ -28,7 +28,7 @@ message TariffCardCreate {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   required string name = 2 [json_name = "name"];
   required TariffCardType type = 3 [json_name = "type"];
-  optional string job_type = 4 [json_name = "job_type"]; // required for JOB, rejected for RENT
+  optional JobType job_type = 4 [json_name = "job_type"]; // required for JOB, rejected for RENT
   required uint64 amount = 5 [json_name = "amount"];
   optional BillingUnit unit = 6 [json_name = "unit"]; // required for JOB, rejected for RENT
 }
@@ -39,7 +39,7 @@ message TariffCardUpdate {
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
   optional string name = 3 [json_name = "name"];
   optional LocationStatus status = 4 [json_name = "status"];
-  optional string job_type = 5 [json_name = "job_type"]; // JOB only
+  optional JobType job_type = 5 [json_name = "job_type"]; // JOB only
   optional uint64 amount = 6 [json_name = "amount"];
   optional BillingUnit unit = 7 [json_name = "unit"]; // JOB only
 }
@@ -49,7 +49,7 @@ message TariffCardListRequest {
   repeated uint64 owner_organization_ids = 1 [json_name = "owner_organization_ids"];
   repeated LocationStatus statuses = 2 [json_name = "statuses"];
   optional TariffCardType type = 3 [json_name = "type"];
-  optional string job_type = 4 [json_name = "job_type"];
+  optional JobType job_type = 4 [json_name = "job_type"];
 }
 
 message TariffCardList {

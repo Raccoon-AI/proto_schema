@@ -25,8 +25,9 @@ message Contract {
   optional string contract_file_key = 12 [json_name = "contract_file_key"];
   optional ContractStatus status = 13 [json_name = "status"];
   optional uint64 rent_cost = 15 [json_name = "rent_cost"];
-  // Read only: job type → amount, derived from tariffs on every save. Kept for the
-  // AI dispatcher (reads the column) and screens not yet moved to tariffs.
+  // Read only: job type → amount, derived from tariffs on every save. Kept only for
+  // the admin screens not yet moved to tariffs (order creation, customer onboarding);
+  // the amount is per the row's unit, not always per m³. Drop once they read tariffs.
   optional google.protobuf.Struct tariff_rate_by_job_type = 16 [json_name = "tariff_rate_by_job_type"];
   optional Organization service_provider = 17 [json_name = "service_provider"];
   repeated FileUpload file_uploads = 18 [json_name = "file_uploads"];
@@ -47,7 +48,7 @@ message Contract {
 // One row per job type. A card row sends job_type + tariff_card_id; any amount or
 // unit it carries is ignored and the card's are copied.
 message ContractTariff {
-  required string job_type = 1 [json_name = "job_type"]; // a JobType name, as in tariff_rate_by_job_type
+  required JobType job_type = 1 [json_name = "job_type"];
   // тенге per unit. Both required on a custom row; a card row takes the card's.
   optional uint64 amount = 2 [json_name = "amount"];
   optional BillingUnit unit = 3 [json_name = "unit"];
