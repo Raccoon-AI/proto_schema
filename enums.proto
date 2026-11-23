@@ -334,6 +334,7 @@ enum OrganizationType {
 enum UserRole {
   USER_ROLE_UNDEFINED = 0;
   USER_ROLE_ADMIN = 1;
+  // Receiver operator: sees and acts on its linked container groups only.
   USER_ROLE_RECEIVER_USER = 2;
   USER_ROLE_DRIVER = 3;
   USER_ROLE_PROVIDER_DISPATCHER = 4;
@@ -365,6 +366,8 @@ enum UserRole {
   // Writes without a request user: bot pod, cron jobs, notification pollers.
   // Audit rows carry it with a NULL user_id. Never a login role.
   USER_ROLE_SYSTEM = 23;
+  USER_ROLE_RECEIVER_OWNER = 24; // whole receiver organization, every action
+  USER_ROLE_RECEIVER_VIEWER = 25; // linked container groups, read-only
 }
 
 enum UserStatus {
