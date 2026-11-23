@@ -1,8 +1,6 @@
 syntax = "proto2";
 package raccoonai;
 
-import "contact.proto";
-import "contact_service.proto";
 import "container_group.proto";
 import "container_service.proto";
 import "cost_provider.proto";
@@ -31,10 +29,6 @@ message ClientJobInstructionsRequest {
   repeated File files = 2 [json_name = "files"];
 }
 
-message ClientContactRequest {
-  required uint64 id = 1 [json_name = "id"];
-}
-
 message JobShareLinkRequest {
   required uint64 job_id = 1 [json_name = "job_id"];
 }
@@ -46,7 +40,7 @@ message JobShareLink {
 }
 
 // Scoped by the caller's org instead of Permify: a truck grant would open every provider truck.
-// A receiver owner reaches the whole org; an operator or viewer only its container groups.
+// Owner: whole org; operator/viewer: linked container groups.
 service ClientService {
   // Allowlisted: the provider has no legal or bank details.
   rpc GetJob(ClientJobRequest) returns (Job) {}
@@ -67,32 +61,11 @@ service ClientService {
   rpc AttachJobInstructions(ClientJobInstructionsRequest) returns (Job) {}
   // owner_organization_ids is overwritten with the caller's org.
   rpc ListContainerGroups(ContainerGroupListRequest) returns (ContainerGroupList) {}
-  // Deprecated: contacts become users; use ListUsers. The org-level contacts plus those of the groups in scope.
-  rpc ListContacts(ContactListRequest) returns (ContactList) {
-    option deprecated = true;
-  }
-  // Deprecated: contacts become users.
-  rpc GetContact(ClientContactRequest) returns (Contact) {
-    option deprecated = true;
-  }
-  // Deprecated: use CreateUser. owner_organization_id is overwritten with the caller's org (send 0).
-  // A group-scoped user names groups in scope and cannot set user_id (PERMISSION_DENIED).
-  rpc CreateContact(ContactCreate) returns (Contact) {
-    option deprecated = true;
-  }
-  // Deprecated: use UpdateUser. Same rules as CreateContact; owner_organization_id cannot move the contact.
-  rpc UpdateContact(ContactUpdate) returns (Contact) {
-    option deprecated = true;
-  }
-  // The user RPCs are the receiver owner's only (PERMISSION_DENIED otherwise).
-  // owner_organization_ids is overwritten with the caller's org.
+  // User RPCs: owner only (PERMISSION_DENIED); the org is always the caller's.
   rpc ListUsers(UserListRequest) returns (UserList) {}
-  // owner_organization_id is overwritten with the caller's org. The role must be a receiver role
-  // (PERMISSION_DENIED); container_group_ids must be the org's own groups (INVALID_ARGUMENT).
+  // Receiver roles only (PERMISSION_DENIED); the org's own container groups (INVALID_ARGUMENT).
   rpc CreateUser(UserCreate) returns (User) {}
-  // Same role and group rules as CreateUser. A user of another org is NOT_FOUND;
-  // owner_organization_id is ignored, so the user cannot move. The org's last active owner
-  // cannot be demoted or deactivated, the caller included (FAILED_PRECONDITION).
+  // CreateUser rules. Another org's user: NOT_FOUND. The last active owner stays (FAILED_PRECONDITION).
   rpc UpdateUser(UserUpdate) returns (User) {}
   // No entity to scope: road legs between the given points, straight legs when routing fails.
   rpc CalculateRouteWaypoints(RouteWaypointsIn) returns (RouteWaypointsOut) {}
