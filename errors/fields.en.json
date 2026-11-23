@@ -92,5 +92,7 @@
   "explanation": "Explanation",
   "body": "Message text",
   "client_message_id": "Message ID",
-  "type": "Type"
+  "type": "Type",
+  "call_session_history_id": "Call",
+  "note": "Note"
 }

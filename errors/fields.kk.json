@@ -92,5 +92,7 @@
   "explanation": "Түсіндірме",
   "body": "Хабарлама мәтіні",
   "client_message_id": "Хабарлама идентификаторы",
-  "type": "Түрі"
+  "type": "Түрі",
+  "call_session_history_id": "Қоңырау",
+  "note": "Жазба"
 }
