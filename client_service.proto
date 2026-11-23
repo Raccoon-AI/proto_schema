@@ -67,29 +67,32 @@ service ClientService {
   rpc AttachJobInstructions(ClientJobInstructionsRequest) returns (Job) {}
   // owner_organization_ids is overwritten with the caller's org.
   rpc ListContainerGroups(ContainerGroupListRequest) returns (ContainerGroupList) {}
-  // Deprecated: contacts become users; use the user RPCs below.
-  // The org-level contacts plus those of the groups in scope.
+  // Deprecated: contacts become users; use ListUsers. The org-level contacts plus those of the groups in scope.
   rpc ListContacts(ContactListRequest) returns (ContactList) {
     option deprecated = true;
   }
+  // Deprecated: contacts become users.
   rpc GetContact(ClientContactRequest) returns (Contact) {
     option deprecated = true;
   }
-  // owner_organization_id is overwritten with the caller's org (send 0). A group-scoped user
-  // names groups in scope and cannot set user_id (PERMISSION_DENIED).
+  // Deprecated: use CreateUser. owner_organization_id is overwritten with the caller's org (send 0).
+  // A group-scoped user names groups in scope and cannot set user_id (PERMISSION_DENIED).
   rpc CreateContact(ContactCreate) returns (Contact) {
     option deprecated = true;
   }
-  // Same rules as CreateContact; owner_organization_id cannot move the contact.
+  // Deprecated: use UpdateUser. Same rules as CreateContact; owner_organization_id cannot move the contact.
   rpc UpdateContact(ContactUpdate) returns (Contact) {
     option deprecated = true;
   }
   // The user RPCs are the receiver owner's only (PERMISSION_DENIED otherwise).
   // owner_organization_ids is overwritten with the caller's org.
   rpc ListUsers(UserListRequest) returns (UserList) {}
-  // owner_organization_id is overwritten with the caller's org; the role must be a receiver role.
+  // owner_organization_id is overwritten with the caller's org. The role must be a receiver role
+  // (PERMISSION_DENIED); container_group_ids must be the org's own groups (INVALID_ARGUMENT).
   rpc CreateUser(UserCreate) returns (User) {}
-  // A user of another org is NOT_FOUND; owner_organization_id is ignored, so the user cannot move.
+  // Same role and group rules as CreateUser. A user of another org is NOT_FOUND;
+  // owner_organization_id is ignored, so the user cannot move. The org's last active owner
+  // cannot be demoted or deactivated, the caller included (FAILED_PRECONDITION).
   rpc UpdateUser(UserUpdate) returns (User) {}
   // No entity to scope: road legs between the given points, straight legs when routing fails.
   rpc CalculateRouteWaypoints(RouteWaypointsIn) returns (RouteWaypointsOut) {}
