@@ -72,9 +72,11 @@ message TruckRequest {
   required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
 }
 
+// Without owner_organization_id the interceptor checks organization 0, which only an admin passes: it reads a type
+// of any holding.
 message TruckTypeRequest {
   required uint64 id = 1 [json_name = "id"];
-  required uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
+  optional uint64 owner_organization_id = 2 [json_name = "owner_organization_id"];
 }
 
 message TruckTravelPathRequest {

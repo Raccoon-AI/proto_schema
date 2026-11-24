@@ -20,6 +20,8 @@ message User {
   optional string driver_license_number = 9 [json_name = "driver_license_number"];
   optional string fcm_token = 10 [json_name = "fcm_token"];
   optional Organization owner_organization = 11 [json_name = "owner_organization"];
+  // Operator/viewer reach; empty for other roles.
+  repeated uint64 container_group_ids = 12 [json_name = "container_group_ids"];
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
 }
@@ -35,6 +37,8 @@ message UserCreate {
   optional string driver_license_number = 8 [json_name = "driver_license_number"];
   optional string fcm_token = 9 [json_name = "fcm_token"];
   optional string registration_token = 10 [json_name = "registration_token"];
+  // Required for operator/viewer; ignored otherwise.
+  repeated uint64 container_group_ids = 11 [json_name = "container_group_ids"];
 }
 
 message UserUpdate {
@@ -48,6 +52,8 @@ message UserUpdate {
   optional string driver_license_number = 8 [json_name = "driver_license_number"];
   optional string fcm_token = 9 [json_name = "fcm_token"];
   optional UserRole role = 10 [json_name = "role"];
+  // Non-empty replaces; empty = unchanged (proto2 can't tell it from unset).
+  repeated uint64 container_group_ids = 11 [json_name = "container_group_ids"];
 }
 
 message UserUpdateRole {
@@ -114,9 +120,13 @@ message InviteUserRequest {
   required PreferredMethod preferred_method = 3 [json_name = "preferred_method"];
   required string recipient = 4 [json_name = "recipient"];
   required string lang = 5 [json_name = "lang"];
+  // Given to an invited receiver operator or viewer when it signs up; the org's own groups.
+  repeated uint64 container_group_ids = 6 [json_name = "container_group_ids"];
 }
 
 message InviteUserResponse {
   required ResponseStatus status = 1 [json_name = "status"];
   required string registration_token = 2 [json_name = "registration_token"];
+  // The link the invitee opens, for sharing it by hand (PREFERRED_METHOD_COPY).
+  optional string registration_link = 3 [json_name = "registration_link"];
 }

@@ -97,4 +97,8 @@ message OrganizationSubtreeRequest {
 message AccessibleOrganizationListRequest {
   required string resource = 1 [json_name = "resource"]; // e.g. "truck", "job"
   optional string action = 2 [json_name = "action"]; // can_view (default), can_edit, can_manage
+  // Narrows the result to this organization's holding, e.g. a container group zone's choices. The id itself is not
+  // checked: the result is still only organizations where the caller holds action on resource, so a foreign holding
+  // gives an empty list.
+  optional uint64 holding_of = 3 [json_name = "holding_of"];
 }
