@@ -19,6 +19,10 @@
   "ERROR_CODE_REFRESH_TOKEN_INVALID": "Invalid refresh token. Please sign in again",
   "ERROR_CODE_REFRESH_TOKEN_EXPIRED": "Your session has expired. Please sign in again",
   "ERROR_CODE_SESSION_REVOKED": "Session has ended. Please sign in again",
+  "ERROR_CODE_PIN_INVALID": "Wrong PIN",
+  "ERROR_CODE_DEVICE_REVOKED": "This tablet was disconnected. Log in with your phone number and password",
+  "ERROR_CODE_ENROLLMENT_CODE_INVALID": "This QR code is no longer valid. Ask your dispatcher for the current one",
+  "ERROR_CODE_PIN_TAKEN": "This PIN is already taken. Choose another one",
   "ERROR_CODE_PERMISSION_DENIED": "Permission denied. \"{{required_action}}\" is required on \"{{resource}}\"",
   "ERROR_CODE_NO_ACCESS": "You don't have access to this resource. \"{{required_action}}\" is required on \"{{resource}}\"",
   "ERROR_CODE_INVALID_PERMISSION_REQUEST": "Invalid permission request",
@@ -141,6 +145,7 @@
   "ERROR_CODE_TRUCK_ENGINE_TYPE_ALREADY_SET": "Engine type is already set",
   "ERROR_CODE_TRUCK_ENGINE_TYPE_NOT_SET": "Set the truck's engine type first",
   "ERROR_CODE_TRUCK_NOT_ACTIVE": "Truck {{truck}} is not in service: status {{status}}",
+  "ERROR_CODE_TRUCK_LENT_NO_SHIFT": "Truck {{truck}} belongs to another company: pick or plan a shift of your company on it for this date",
   "ERROR_CODE_CONTAINER_GROUP_NOT_BOUND": "Container group {{id}} is not bound to pickup location group {{pickup_location_group}} for job type {{job_type}}",
   "ERROR_CODE_CONTRACT_PARTIES_MISMATCH": "The contract does not match the job's service provider and receiver. Container group {{container_group}}",
   "ERROR_CODE_CONTAINER_GROUP_NO_SCHEDULE": "Container group {{id}} has no schedule for job type {{job_type}}",
@@ -180,9 +185,10 @@
   "ERROR_CODE_JOB_SERVICE_PROVIDER_NOT_IN_ZONE": "{{service_provider}} is not in the responsible zone of job {{id}}",
   "ERROR_CODE_JOB_SERVICE_PROVIDER_NOT_CHANGEABLE": "The responsible depot of job {{id}} can be changed only while it is created and not on a route",
   "ERROR_CODE_CONTAINER_GROUP_SERVICE_PROVIDER_IN_USE": "{{service_provider}} has a schedule in container group {{id}} and cannot leave its zone",
-  "ERROR_CODE_CONTAINER_GROUP_SERVICE_PROVIDER_OUTSIDE_HOLDING": "{{service_provider}} is outside the organization of the container group's contract",
+  "ERROR_CODE_CONTAINER_GROUP_SERVICE_PROVIDER_OUTSIDE_HOLDING": "{{service_provider}} is outside the holding of the container group's provider",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_OVERLAP": "On {{date}} this schedule overlaps schedule {{schedule}}",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_RULES": "Invalid schedule rules",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_PERIOD": "The schedule must start on or before it ends",
-  "ERROR_CODE_CONTAINER_GROUP_ROUTE_GROUP_OUTSIDE_ZONE": "The route group's organization is not in the responsible zone of container group {{id}}"
+  "ERROR_CODE_CONTAINER_GROUP_ROUTE_GROUP_OUTSIDE_ZONE": "The route group's organization is not in the responsible zone of container group {{id}}",
+  "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_OVERNIGHT_OVERLAP": "The window past midnight on {{date}} runs into a window of {{next_date}}"
 }

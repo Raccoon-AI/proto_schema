@@ -2,6 +2,7 @@ syntax = "proto2";
 package raccoonai;
 
 import "contact.proto";
+import "enums.proto";
 import "general.proto";
 import "google/protobuf/timestamp.proto";
 import "user.proto";
@@ -55,6 +56,18 @@ message CallLogEntry {
   optional string local_number = 12 [json_name = "local_number"];
   // Voximplant's finish reason, e.g. "Normal termination".
   optional string finish_reason = 13 [json_name = "finish_reason"];
+  // A dispatcher's tags and note on the call, set with DaasService.UpdateCallLog.
+  repeated CallCenterTag tags = 14 [json_name = "tags"];
+  optional string note = 15 [json_name = "note"];
+}
+
+// A dispatcher's tags and note on a call: both replace what is stored, so the
+// client always sends both; no tags or no note clears them. The note is up to
+// 1000 characters.
+message UpdateCallLogRequest {
+  required string call_session_history_id = 1 [json_name = "call_session_history_id"];
+  repeated CallCenterTag tags = 2 [json_name = "tags"];
+  optional string note = 3 [json_name = "note"];
 }
 
 message CallLogList {

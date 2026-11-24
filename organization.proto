@@ -16,9 +16,11 @@ message Organization {
   required OrganizationStatus status = 4 [json_name = "status"];
   optional uint64 bank_details_id = 5 [json_name = "bank_details_id"];
   optional string bin = 6 [json_name = "bin"];
-  optional uint64 primary_contact_id = 7 [json_name = "primary_contact_id"]; // ID of primary org-level contact
+  // Deprecated: use primary_user_id; removed with the contact entity.
+  optional uint64 primary_contact_id = 7 [json_name = "primary_contact_id"];
   optional string jur_address = 8 [json_name = "jur_address"];
   optional string fact_address = 9 [json_name = "fact_address"];
+  // Deprecated: use primary_user.
   optional Contact primary_contact = 10 [json_name = "primary_contact"];
   optional string director_full_name = 11 [json_name = "director_full_name"];
   optional uint64 parent_id = 12 [json_name = "parent_id"];
@@ -26,6 +28,9 @@ message Organization {
   optional OrganizationSettings organization_settings = 14 [json_name = "organization_settings"];
   optional uint64 manager_id = 15 [json_name = "manager_id"];
   optional UserRef manager = 16 [json_name = "manager"];
+  // The org's main person: one of its own users.
+  optional uint64 primary_user_id = 17 [json_name = "primary_user_id"];
+  optional UserRef primary_user = 18 [json_name = "primary_user"];
 
   required google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
@@ -69,11 +74,14 @@ message OrganizationUpdate {
   optional OrganizationStatus status = 3 [json_name = "status"];
   optional uint64 bank_details_id = 4 [json_name = "bank_details_id"];
   optional string bin = 5 [json_name = "bin"];
+  // Deprecated: use primary_user_id.
   optional uint64 primary_contact_id = 6 [json_name = "primary_contact_id"];
   optional string jur_address = 7 [json_name = "jur_address"];
   optional string fact_address = 8 [json_name = "fact_address"];
   optional string director_full_name = 9 [json_name = "director_full_name"];
   optional uint64 manager_id = 10 [json_name = "manager_id"];
+  // A user of this org; 0 clears.
+  optional uint64 primary_user_id = 11 [json_name = "primary_user_id"];
 }
 
 message OrganizationListRequest {
@@ -97,4 +105,8 @@ message OrganizationSubtreeRequest {
 message AccessibleOrganizationListRequest {
   required string resource = 1 [json_name = "resource"]; // e.g. "truck", "job"
   optional string action = 2 [json_name = "action"]; // can_view (default), can_edit, can_manage
+  // Narrows the result to this organization's holding, e.g. a container group zone's choices. The id itself is not
+  // checked: the result is still only organizations where the caller holds action on resource, so a foreign holding
+  // gives an empty list.
+  optional uint64 holding_of = 3 [json_name = "holding_of"];
 }

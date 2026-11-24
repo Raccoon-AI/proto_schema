@@ -60,6 +60,11 @@ message SolveSingleVehicleRequest {
   // Service day, Asia/Almaty. Picks container group stop windows; required with
   // container group stops.
   optional google.protobuf.Timestamp date = 8 [json_name = "date"];
+  // Where the vehicle really is (live GPS, or the stop the driver just picked).
+  // Set both or neither; when set they win over start_location_id, which can
+  // only name a fixed Location row.
+  optional double start_lat = 9 [json_name = "start_lat"];
+  optional double start_lon = 10 [json_name = "start_lon"];
 }
 
 // One trip of the single vehicle, in visit order. Request with job_ids fills

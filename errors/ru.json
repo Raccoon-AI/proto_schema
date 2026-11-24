@@ -19,6 +19,10 @@
   "ERROR_CODE_REFRESH_TOKEN_INVALID": "Недействительный токен обновления. Войдите снова",
   "ERROR_CODE_REFRESH_TOKEN_EXPIRED": "Срок действия сессии истёк. Войдите снова",
   "ERROR_CODE_SESSION_REVOKED": "Сессия завершена. Войдите снова",
+  "ERROR_CODE_PIN_INVALID": "Неверный PIN-код",
+  "ERROR_CODE_DEVICE_REVOKED": "Планшет отключён. Войдите по номеру телефона и паролю",
+  "ERROR_CODE_ENROLLMENT_CODE_INVALID": "QR-код недействителен. Попросите у диспетчера актуальный",
+  "ERROR_CODE_PIN_TAKEN": "Этот PIN-код уже занят. Выберите другой",
   "ERROR_CODE_PERMISSION_DENIED": "Доступ запрещён. Требуется право «{{required_action}}» на объект «{{resource}}»",
   "ERROR_CODE_NO_ACCESS": "У вас нет доступа к этому ресурсу. Требуется право «{{required_action}}» на объект «{{resource}}»",
   "ERROR_CODE_INVALID_PERMISSION_REQUEST": "Некорректный запрос разрешения",
@@ -141,6 +145,7 @@
   "ERROR_CODE_TRUCK_ENGINE_TYPE_ALREADY_SET": "Тип двигателя уже указан",
   "ERROR_CODE_TRUCK_ENGINE_TYPE_NOT_SET": "Сначала укажите тип двигателя машины",
   "ERROR_CODE_TRUCK_NOT_ACTIVE": "Машина {{truck}} не на линии: статус {{status}}",
+  "ERROR_CODE_TRUCK_LENT_NO_SHIFT": "Машина {{truck}} принадлежит другой компании: выберите или запланируйте на неё смену своей компании на эту дату",
   "ERROR_CODE_CONTAINER_GROUP_NOT_BOUND": "Группа контейнеров {{id}} не привязана к группе точек вывоза {{pickup_location_group}} для типа работ {{job_type}}",
   "ERROR_CODE_CONTRACT_PARTIES_MISMATCH": "Договор не соответствует поставщику и получателю услуг заявки. Группа контейнеров {{container_group}}",
   "ERROR_CODE_CONTAINER_GROUP_NO_SCHEDULE": "У группы контейнеров {{id}} нет расписания для типа работ {{job_type}}",
@@ -180,9 +185,10 @@
   "ERROR_CODE_JOB_SERVICE_PROVIDER_NOT_IN_ZONE": "{{service_provider}} не входит в зону ответственности задания {{id}}",
   "ERROR_CODE_JOB_SERVICE_PROVIDER_NOT_CHANGEABLE": "Ответственное депо задания {{id}} можно сменить, только пока оно создано и не в маршруте",
   "ERROR_CODE_CONTAINER_GROUP_SERVICE_PROVIDER_IN_USE": "У {{service_provider}} есть график в группе контейнеров {{id}}, её нельзя убрать из зоны",
-  "ERROR_CODE_CONTAINER_GROUP_SERVICE_PROVIDER_OUTSIDE_HOLDING": "{{service_provider}} вне организации договора группы контейнеров",
+  "ERROR_CODE_CONTAINER_GROUP_SERVICE_PROVIDER_OUTSIDE_HOLDING": "{{service_provider}} вне холдинга перевозчика группы контейнеров",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_OVERLAP": "{{date}} этот график пересекается с графиком {{schedule}}",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_RULES": "Некорректные правила графика",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_PERIOD": "Начало графика должно быть не позже его окончания",
-  "ERROR_CODE_CONTAINER_GROUP_ROUTE_GROUP_OUTSIDE_ZONE": "Организация маршрутной группы не входит в зону ответственности группы контейнеров {{id}}"
+  "ERROR_CODE_CONTAINER_GROUP_ROUTE_GROUP_OUTSIDE_ZONE": "Организация маршрутной группы не входит в зону ответственности группы контейнеров {{id}}",
+  "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_OVERNIGHT_OVERLAP": "Окно после полуночи {{date}} заходит на окно {{next_date}}"
 }

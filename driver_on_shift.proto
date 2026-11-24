@@ -113,12 +113,20 @@ message TruckDriverOnShiftListRequest {
   required uint64 owner_organization_id = 1 [json_name = "owner_organization_id"];
   required DateTimeFilter datetime_filter = 2 [json_name = "datetime_filter"];
   repeated TruckType truck_types = 3 [json_name = "truck_types"]; // filter by truck type; empty = all trucks
+  // The zones whose trucks and shifts are listed. When set, owner_organization_id is not listed, only checked;
+  // when empty, owner_organization_id alone is listed. The caller needs the permission on every id in both fields.
+  repeated uint64 owner_organization_ids = 4 [json_name = "owner_organization_ids"];
   optional ListFilter list_filter = 10 [json_name = "list_filter"];
 }
 
 message TruckDriverOnShift { // endpoint for shift for truck for day
   required Truck truck = 1 [json_name = "truck"];
   repeated DriverOnShift driver_on_shifts = 2 [json_name = "driver_on_shifts"];
+  // Zones outside the requested ones that hold this truck with an open shift starting in the request's
+  // datetime_filter window. Set only on a truck one of the requested zones owns: the owner learns its truck is taken,
+  // not the shift, crew or route. Empty on such a truck means no other zone holds it; on a truck the requested zones
+  // do not own it is never computed, and says nothing.
+  repeated uint64 busy_zone_ids = 3 [json_name = "busy_zone_ids"];
 }
 
 message TruckDriverOnShiftList {
