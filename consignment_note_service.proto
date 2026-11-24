@@ -56,6 +56,8 @@ message JobConsignmentNote {
   repeated double container_coefficients = 4 [json_name = "container_coefficients"];
   // Overrides the derived volume.
   optional double fact_total_volume = 5 [json_name = "fact_total_volume"];
+  // true drops the declared weight_kg; the job gets its trip share again.
+  optional bool split_weight = 6 [json_name = "split_weight"];
 }
 
 // SetJobConsignmentNotesRequest writes a whole table of service acts at once —

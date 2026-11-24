@@ -95,6 +95,7 @@ message Job {
   // A job's container type is container_group.container_type; the number of the
   // container in a photo is file_reports[].container_name.
   optional uint64 container_group_id = 60 [json_name = "container_group_id"];
+  optional WeightSource weight_source = 62 [json_name = "weight_source"];
 }
 
 message JobCreate {
