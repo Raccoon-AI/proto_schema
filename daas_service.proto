@@ -14,4 +14,7 @@ service DaasService {
   // Call history of the whole Voximplant application the caller belongs to,
   // so every DaaS dispatcher sees every dispatcher's calls.
   rpc ListCallLogs(CallLogRequest) returns (CallLogList) {}
+  // Sets the tags and note of a call in the caller's Voximplant application;
+  // returns the updated entry.
+  rpc UpdateCallLog(UpdateCallLogRequest) returns (CallLogEntry) {}
 }
