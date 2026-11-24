@@ -351,6 +351,62 @@ message GovAnalyticsAnomalyPerProvider {
   required string organization_name = 2 [json_name = "organization_name"];
   required uint64 daily_disposal_fail = 3 [json_name = "daily_disposal_fail"];
   required uint64 anomaly_stop = 4 [json_name = "anomaly_stop"];
+  // Akimat-tracked trucks only, completed days only (today is always 0).
+  // Distinct trucks with at least one flagged day in the range.
+  optional uint64 no_gps = 5 [json_name = "no_gps"];
+  optional uint64 disposal_not_unloaded = 6 [json_name = "disposal_not_unloaded"];
+}
+
+enum TruckComplianceKind {
+  TRUCK_COMPLIANCE_KIND_UNDEFINED = 0;
+  // Did akimat jobs on the day but sent no GPS points.
+  TRUCK_COMPLIANCE_KIND_NO_GPS = 1;
+  // Carried waste 2+ calendar days without a disposal site visit or weighing.
+  TRUCK_COMPLIANCE_KIND_NOT_UNLOADED = 2;
+}
+
+message GovTruckComplianceRequest {
+  required GovOrganizationRequest filter = 1 [json_name = "filter"];
+  required DateTimeFilter from_to = 2 [json_name = "from_to"];
+  required TruckComplianceKind kind = 3 [json_name = "kind"];
+}
+
+// One no-GPS day: the truck did akimat jobs but sent no GPS points.
+message GovNoGpsDay {
+  required string date = 1 [json_name = "date"]; // YYYY-MM-DD, Almaty
+  required uint64 jobs = 2 [json_name = "jobs"];
+  // Last point before the day; unset if the truck never sent one.
+  optional google.protobuf.Timestamp last_gps_at = 3 [json_name = "last_gps_at"];
+}
+
+// One stretch of calendar days the truck carried waste without unloading.
+// Days and dates are the whole streak, also the part outside the range.
+message GovCarryStreak {
+  required string carried_since = 1 [json_name = "carried_since"]; // YYYY-MM-DD, Almaty
+  required string last_day = 2 [json_name = "last_day"];           // last day still carrying
+  required uint32 days = 3 [json_name = "days"];
+  required uint64 jobs = 4 [json_name = "jobs"];
+  // The unload that ended the streak; unset while it is still open.
+  optional google.protobuf.Timestamp unloaded_at = 5 [json_name = "unloaded_at"];
+  optional string unload_site_name = 6 [json_name = "unload_site_name"];
+}
+
+message GovTruckCompliance {
+  required uint64 truck_id = 1 [json_name = "truck_id"];
+  required string plate_number = 2 [json_name = "plate_number"];
+  required uint64 organization_id = 3 [json_name = "organization_id"];
+  required string organization_name = 4 [json_name = "organization_name"];
+  // Flagged days inside the range.
+  required uint32 flagged_days = 5 [json_name = "flagged_days"];
+  // NO_GPS only.
+  repeated GovNoGpsDay no_gps_days = 6 [json_name = "no_gps_days"];
+  // NOT_UNLOADED only: the longest streak, and every streak touching the range.
+  optional uint32 max_days_not_unloaded = 7 [json_name = "max_days_not_unloaded"];
+  repeated GovCarryStreak streaks = 8 [json_name = "streaks"];
+}
+
+message GovTruckComplianceList {
+  repeated GovTruckCompliance trucks = 1 [json_name = "trucks"];
 }
 
 message GovAnalyticsAnomaliesForAll {
@@ -500,6 +556,8 @@ service GovDashService {
   rpc GetGovAnalyticsLocationVisitsForAll(GovDashboardAnalyticsRequest) returns (GovAnalyticsLocationVisitsForAll) {}
   rpc GetGovAnalyticsAnomaliesForAll(GovDashboardAnalyticsRequest) returns (GovAnalyticsAnomaliesForAll) {}
   rpc GetGovDisposalVisits(GovDashboardAnalyticsRequest) returns (GovDisposalVisitList) {}
+  // Trucks behind GovAnalyticsAnomalyPerProvider.no_gps / disposal_not_unloaded.
+  rpc GetGovTruckComplianceDetails(GovTruckComplianceRequest) returns (GovTruckComplianceList) {}
 
   // AI verification verdicts of jobs (see ai_verification.proto). Read-only —
   // the rows are produced by batch checkers — and scoped by the caller's geo

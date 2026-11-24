@@ -36,6 +36,10 @@ enum NotificationEvent {
   NOTIFICATION_EVENT_OVERDUE_PAYMENT = 11;
   // Gov auditor: trucks stopped at suspicious locations (one stop in detail, several as a summary).
   NOTIFICATION_EVENT_SUSPICIOUS_STOP = 12;
+  // Gov auditor, daily: trucks that did akimat jobs yesterday but sent no GPS points.
+  NOTIFICATION_EVENT_TRUCKS_NO_GPS = 13;
+  // Gov auditor, daily: trucks carrying waste for 2+ calendar days without a disposal site visit.
+  NOTIFICATION_EVENT_TRUCKS_NOT_UNLOADED = 14;
 }
 
 enum NotificationChannel {

@@ -83,6 +83,16 @@ enum AuditLogType {
   // Written by the notification poller, one per notified gov org per tick;
   // fields.gps_stop_ids lists the new stops. Feeds the push, not the GovDash list.
   AUDIT_LOG_TYPE_SUSPICIOUS_STOPS_NOTIFIED = 354;
+  // Written by the notification poller, one per notified gov org per day;
+  // fields.report_date and fields.truck_ids list yesterday's no-GPS trucks.
+  AUDIT_LOG_TYPE_TRUCKS_NO_GPS_NOTIFIED = 355;
+  // Same, for trucks carrying waste 2+ calendar days without unloading.
+  AUDIT_LOG_TYPE_TRUCKS_NOT_UNLOADED_NOTIFIED = 356;
+  // Written by the notification poller, one per flagged truck-day, owned by
+  // the gov org that tracks the truck (its district when it has one). Feed
+  // the GovDash notifications list; never sent.
+  AUDIT_LOG_TYPE_TRUCK_NO_GPS_DETECTED = 357;
+  AUDIT_LOG_TYPE_TRUCK_NOT_UNLOADED_DETECTED = 358;
 
   // 360 - 370 Contract related events
   // Written by the notification poller; fields.reminder ("30d" / "7d") and
