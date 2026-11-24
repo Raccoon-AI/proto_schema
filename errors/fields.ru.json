@@ -98,6 +98,7 @@
   "explanation": "Пояснение",
   "body": "Текст сообщения",
   "client_message_id": "Идентификатор сообщения",
+  "dialogue_id": "Диалог",
   "type": "Тип",
   "call_session_history_id": "Звонок",
   "note": "Заметка",

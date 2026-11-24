@@ -98,6 +98,7 @@
   "explanation": "Explanation",
   "body": "Message text",
   "client_message_id": "Message ID",
+  "dialogue_id": "Dialogue",
   "type": "Type",
   "call_session_history_id": "Call",
   "note": "Note",
