@@ -67,13 +67,18 @@ message ContainerGroup {
   optional uint64 contract_id = 8 [json_name = "contract_id"]; //trunk check
   optional Contract contract = 9 [json_name = "contract"]; //trunk check
   optional string pickup_location_name = 10 [json_name = "pickup_location_name"];
+  // Deprecated: use primary_user_id; removed with the contact entity.
   optional uint64 primary_contact_id = 11 [json_name = "primary_contact_id"];
+  // Deprecated: use primary_user.
   optional Contact primary_contact = 12 [json_name = "primary_contact"];
   // Responsible zone: the service providers that serve the group, in order; the first is the default for a new job.
   repeated uint64 service_provider_ids = 13 [json_name = "service_provider_ids"];
   repeated Organization service_providers = 14 [json_name = "service_providers"];
   repeated ContainerGroupSchedule schedules = 15 [json_name = "schedules"]; // filled by GetContainerGroupById only
   repeated ContainerGroupRouteGroup route_groups = 16 [json_name = "route_groups"];
+  // The site's main person: a user of the group's org. An operator or viewer set here is linked to the group.
+  optional uint64 primary_user_id = 17 [json_name = "primary_user_id"];
+  optional UserRef primary_user = 18 [json_name = "primary_user"];
   optional google.protobuf.Timestamp created_at = 101 [json_name = "created_at"];
   optional google.protobuf.Timestamp updated_at = 102 [json_name = "updated_at"];
 }
@@ -93,8 +98,11 @@ message ContainerGroupCreate {
   required uint64 pickup_location_id = 4 [json_name = "pickup_location_id"];
   optional google.protobuf.Struct service_schedule_by_job_type = 5 [json_name = "service_schedule_by_job_type"];
   optional uint64 contract_id = 7 [json_name = "contract_id"];
+  // Deprecated: use primary_user_id.
   optional uint64 primary_contact_id = 8 [json_name = "primary_contact_id"];
   repeated uint64 service_provider_ids = 9 [json_name = "service_provider_ids"];
+  // A user of the group's org; an operator or viewer is linked to the group.
+  optional uint64 primary_user_id = 10 [json_name = "primary_user_id"];
 }
 
 message ContainerGroupUpdate {
@@ -105,8 +113,11 @@ message ContainerGroupUpdate {
   optional uint64 pickup_location_id = 5 [json_name = "pickup_location_id"];
   optional google.protobuf.Struct service_schedule_by_job_type = 6 [json_name = "service_schedule_by_job_type"];
   optional uint64 contract_id = 7 [json_name = "contract_id"];
+  // Deprecated: use primary_user_id.
   optional uint64 primary_contact_id = 8 [json_name = "primary_contact_id"];
   optional IdList service_provider_ids = 9 [json_name = "service_provider_ids"];
+  // A user of the group's org; an operator or viewer is linked to the group; 0 clears.
+  optional uint64 primary_user_id = 10 [json_name = "primary_user_id"];
 }
 
 message ContainerGroupList {
