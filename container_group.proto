@@ -128,9 +128,11 @@ message ContainerGroupList {
 // *****************************************************
 // CONTAINER GROUP SCHEDULE
 // *****************************************************
+// A time window of a served day. A "to" not after "from" runs past midnight ("18:00"-"03:00" ends at 03:00 of the
+// next day); the window still belongs to the day it starts on. "from" equal to "to" is empty and refused.
 message ScheduleWindow {
   required string from = 1 [json_name = "from"]; // "HH:MM"
-  required string to = 2 [json_name = "to"];
+  required string to = 2 [json_name = "to"]; // "HH:MM"
 }
 
 message WeeklyRule {
