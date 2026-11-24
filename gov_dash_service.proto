@@ -383,7 +383,7 @@ message GovNoGpsDay {
 // Days and dates are the whole streak, also the part outside the range.
 message GovCarryStreak {
   required string carried_since = 1 [json_name = "carried_since"]; // YYYY-MM-DD, Almaty
-  required string last_day = 2 [json_name = "last_day"];           // last day still carrying
+  required string last_day = 2 [json_name = "last_day"]; // last day still carrying
   required uint32 days = 3 [json_name = "days"];
   required uint64 jobs = 4 [json_name = "jobs"];
   // The unload that ended the streak; unset while it is still open.
