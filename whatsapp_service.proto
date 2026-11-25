@@ -1,35 +1,9 @@
 syntax = "proto2";
 package raccoonai;
 
-import "enums.proto";
-import "general.proto";
 import "whatsapp.proto";
 
 option go_package = "./pb";
-
-// The order dialogues the client wrote in, newest first by default.
-message ListWhatsappDialoguesRequest {
-  // Required (the server refuses an empty list), with descendants: a dialogue's
-  // order provider, else its contact's organization.
-  repeated uint64 service_provider_ids = 1 [json_name = "service_provider_ids"];
-  optional DateTimeFilter time_filter = 2 [json_name = "time_filter"]; // on created_at
-  repeated uint64 author_ids = 3 [json_name = "author_ids"];
-  repeated WhatsappDialogueStatus statuses = 4 [json_name = "statuses"];
-  optional string search = 5 [json_name = "search"]; // phone, person or customer
-  repeated CallCenterTag tags = 6 [json_name = "tags"]; // any of
-  repeated uint64 customer_ids = 7 [json_name = "customer_ids"]; // the contact's organization
-  optional bool has_job = 8 [json_name = "has_job"]; // unset: both
-  // sort_by: created_at, job_id, customer, contact, phone, author, status.
-  optional ListFilter list_filter = 9 [json_name = "list_filter"];
-}
-
-// A dispatcher's tags and note on a dialogue: both replace what is stored, so the
-// client always sends both; no tags or no note clears them.
-message UpdateWhatsappDialogueRequest {
-  required uint64 id = 1 [json_name = "id"];
-  repeated CallCenterTag tags = 2 [json_name = "tags"];
-  optional string note = 3 [json_name = "note"];
-}
 
 message WhatsappMessagesRequest {
   optional uint64 job_id = 1 [json_name = "job_id"];
@@ -52,6 +26,4 @@ service WhatsappService {
   // Sends inside WhatsApp's 24-hour window only; puts the dialogue in operator
   // mode, so the client's replies reach the dispatcher instead of the bot.
   rpc SendWhatsappMessage(SendWhatsappMessageRequest) returns (WhatsappMessage) {}
-  rpc ListWhatsappDialogues(ListWhatsappDialoguesRequest) returns (WhatsappDialogueList) {}
-  rpc UpdateWhatsappDialogue(UpdateWhatsappDialogueRequest) returns (WhatsappDialogue) {}
 }
