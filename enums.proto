@@ -610,6 +610,13 @@ enum IntegrationEntityType {
   INTEGRATION_ENTITY_TYPE_CONTRACT = 2;
 }
 
+// Where a job's weight_kg came from.
+enum WeightSource {
+  WEIGHT_SOURCE_UNDEFINED = 0;
+  WEIGHT_SOURCE_DECLARED = 1; // typed on the TTN; never overwritten by the split
+  WEIGHT_SOURCE_SPLIT = 2; // the job's share of its trip weight
+}
+
 // What a price is charged per (contract tariffs, tariff cards, jobs).
 enum BillingUnit {
   BILLING_UNIT_UNDEFINED = 0;
