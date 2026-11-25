@@ -31,3 +31,20 @@ message WhatsappMessageList {
   // has closed or the job has no dialogue.
   optional google.protobuf.Timestamp reply_window_ends_at = 2 [json_name = "reply_window_ends_at"];
 }
+
+// A row of the call center's chat registry: one order dialogue (whatsapp_pending_order).
+message WhatsappDialogue {
+  required uint64 id = 1 [json_name = "id"];
+  optional google.protobuf.Timestamp created_at = 2 [json_name = "created_at"];
+  optional WhatsappDialogueStatus status = 3 [json_name = "status"];
+  optional Contact contact = 4 [json_name = "contact"];
+  optional UserRef author = 5 [json_name = "author"];
+  optional uint64 job_id = 6 [json_name = "job_id"];
+  repeated CallCenterTag tags = 7 [json_name = "tags"];
+  optional string note = 8 [json_name = "note"];
+}
+
+message WhatsappDialogueList {
+  repeated WhatsappDialogue dialogues = 1 [json_name = "dialogues"];
+  optional ListInfo list_info = 2 [json_name = "list_info"];
+}
