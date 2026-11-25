@@ -68,7 +68,7 @@ enum ErrorCode {
   // The session behind the token no longer exists: logged out, revoked, or
   // killed after refresh-token reuse was detected. Client must re-login.
   ERROR_CODE_SESSION_REVOKED = 119;
-  // PIN login: no active driver of the device's organization tree holds this
+  // PIN login: no active driver of the device's holding holds this
   // PIN. The tablet counts these and locks itself; the server keeps no counter.
   ERROR_CODE_PIN_INVALID = 120;
   // The device token is unknown or its device was revoked. The tablet must
@@ -251,6 +251,9 @@ enum ErrorCode {
   ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_RULES = 1408;
   ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_PERIOD = 1409;
   ERROR_CODE_CONTAINER_GROUP_ROUTE_GROUP_OUTSIDE_ZONE = 1410;
+  // A window past midnight on {{date}} runs into a window of the next served day ({{next_date}}) of the same
+  // schedule. Against another schedule of the container group and job type it is ERROR_CODE_CONTAINER_GROUP_SCHEDULE_OVERLAP.
+  ERROR_CODE_CONTAINER_GROUP_SCHEDULE_OVERNIGHT_OVERLAP = 1411;
 
   // pickup_location / pickup_location_group
   ERROR_CODE_PICKUP_LOCATION_NOT_IN_ROUTE = 1501;

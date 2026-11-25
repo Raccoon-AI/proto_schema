@@ -189,5 +189,6 @@
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_OVERLAP": "{{date}} бұл кесте {{schedule}} кестесімен қиылысады",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_RULES": "Кесте ережелері қате",
   "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_INVALID_PERIOD": "Кестенің басталуы аяқталуынан кеш болмауы керек",
-  "ERROR_CODE_CONTAINER_GROUP_ROUTE_GROUP_OUTSIDE_ZONE": "Бағыттық топ ұйымы {{id}} контейнерлер тобының жауапкершілік аймағына кірмейді"
+  "ERROR_CODE_CONTAINER_GROUP_ROUTE_GROUP_OUTSIDE_ZONE": "Бағыттық топ ұйымы {{id}} контейнерлер тобының жауапкершілік аймағына кірмейді",
+  "ERROR_CODE_CONTAINER_GROUP_SCHEDULE_OVERNIGHT_OVERLAP": "{{date}} түн ортасынан кейінгі терезе {{next_date}} терезесімен қиылысады"
 }

@@ -334,6 +334,7 @@ enum OrganizationType {
 enum UserRole {
   USER_ROLE_UNDEFINED = 0;
   USER_ROLE_ADMIN = 1;
+  // Receiver operator: its linked container groups only.
   USER_ROLE_RECEIVER_USER = 2;
   USER_ROLE_DRIVER = 3;
   USER_ROLE_PROVIDER_DISPATCHER = 4;
@@ -365,6 +366,8 @@ enum UserRole {
   // Writes without a request user: bot pod, cron jobs, notification pollers.
   // Audit rows carry it with a NULL user_id. Never a login role.
   USER_ROLE_SYSTEM = 23;
+  USER_ROLE_RECEIVER_OWNER = 24; // whole receiver organization, every action
+  USER_ROLE_RECEIVER_VIEWER = 25; // linked container groups, read-only
 }
 
 enum UserStatus {
@@ -554,6 +557,27 @@ enum WhatsappMessageStatus {
   WHATSAPP_MESSAGE_STATUS_FAILED = 4;
 }
 
+// Open while the client's last message in the dialogue is under 24 hours old;
+// computed when read, never stored.
+enum WhatsappDialogueStatus {
+  WHATSAPP_DIALOGUE_STATUS_UNDEFINED = 0;
+  WHATSAPP_DIALOGUE_STATUS_OPEN = 1;
+  WHATSAPP_DIALOGUE_STATUS_CLOSED = 2;
+}
+
+// A dispatcher's tag on a call or a chat.
+enum CallCenterTag {
+  CALL_CENTER_TAG_UNDEFINED = 0;
+  // Маршрут
+  CALL_CENTER_TAG_ROUTE = 1;
+  // Жалоба
+  CALL_CENTER_TAG_COMPLAINT = 2;
+  // Техника
+  CALL_CENTER_TAG_TRUCK = 3;
+  // Договор
+  CALL_CENTER_TAG_CONTRACT = 4;
+}
+
 // Kind of an accounting document a provider's accounting system (1C) reports
 // back for the jobs it billed.
 enum AccountingDocumentKind {
@@ -584,4 +608,19 @@ enum IntegrationEntityType {
   INTEGRATION_ENTITY_TYPE_UNDEFINED = 0;
   INTEGRATION_ENTITY_TYPE_ORGANIZATION = 1;
   INTEGRATION_ENTITY_TYPE_CONTRACT = 2;
+}
+
+// What a price is charged per (contract tariffs, tariff cards, jobs).
+enum BillingUnit {
+  BILLING_UNIT_UNDEFINED = 0;
+  BILLING_UNIT_CUBIC_METER = 1; // за м³: the volume taken
+  BILLING_UNIT_TON = 2; // за тонну: the weight taken
+  BILLING_UNIT_JOB_COMPLETED = 3; // за факт вывоза: once per completed job
+}
+
+// What a tariff card prices.
+enum TariffCardType {
+  TARIFF_CARD_TYPE_UNDEFINED = 0;
+  TARIFF_CARD_TYPE_JOB = 1; // a job type, per billing unit
+  TARIFF_CARD_TYPE_RENT = 2; // bunker rent, per bunker; no job type, no unit
 }
