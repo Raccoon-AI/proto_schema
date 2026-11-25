@@ -59,6 +59,9 @@ enum AuditLogType {
   AUDIT_LOG_TYPE_ROUTE_APPROVED = 257;
   // Jobs added to or removed from a route; ids in fields.added_job_ids / removed_job_ids.
   AUDIT_LOG_TYPE_ROUTE_JOBS_CHANGED = 258;
+  // Written by the notification poller, one per route with jobs past their planned end;
+  // fields.job_ids lists the overdue jobs. The row is the "already told" marker.
+  AUDIT_LOG_TYPE_ROUTE_JOBS_OVERDUE = 259;
 
   // addition and update events
   AUDIT_LOG_TYPE_CLIENT_ADDED = 301;
