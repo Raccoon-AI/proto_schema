@@ -52,4 +52,6 @@ service WhatsappService {
   // Sends inside WhatsApp's 24-hour window only; puts the dialogue in operator
   // mode, so the client's replies reach the dispatcher instead of the bot.
   rpc SendWhatsappMessage(SendWhatsappMessageRequest) returns (WhatsappMessage) {}
+  rpc ListWhatsappDialogues(ListWhatsappDialoguesRequest) returns (WhatsappDialogueList) {}
+  rpc UpdateWhatsappDialogue(UpdateWhatsappDialogueRequest) returns (WhatsappDialogue) {}
 }
