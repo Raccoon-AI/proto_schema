@@ -40,6 +40,8 @@ enum NotificationEvent {
   NOTIFICATION_EVENT_TRUCKS_NO_GPS = 13;
   // Gov auditor, daily: trucks carrying waste for 2+ calendar days without a disposal site visit.
   NOTIFICATION_EVENT_TRUCKS_NOT_UNLOADED = 14;
+  // Dispatcher: jobs on a route in progress are past their planned end.
+  NOTIFICATION_EVENT_ROUTE_JOBS_OVERDUE = 15;
 }
 
 enum NotificationChannel {
